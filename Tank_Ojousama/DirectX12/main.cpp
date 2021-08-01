@@ -1,0 +1,193 @@
+#include"Windows.h"
+#include"d3d12.h"
+#include"d3dx12.h"
+#include"dxgi1_6.h"
+#include"vector"
+#include"wrl.h"
+//imgui
+#include"imgui/imgui.h"
+#include"imgui/imgui_impl_win32.h"
+#include"imgui/imgui_impl_dx12.h"
+//FPS用
+#include<thread>
+#include<chrono>
+
+using namespace Microsoft::WRL;
+using namespace std;
+//数学ライブラリ
+#include"DirectXMath.h"
+using namespace DirectX;
+//シェーダー用
+#include"d3dcompiler.h"
+//DirectXTex
+#include"DirectXTex.h"
+//インプット
+#include"Input.h"
+//初期化
+#include"DirectXManager.h"
+//スプライト描画
+#include"TexLoader.h"
+#include"TexRenderer.h"
+//パーティクル
+#include"ParticleManager.h"
+//モデル
+#include"ModelLoader.h"//ロード用
+#include"ModelRenderer.h"
+//音
+#include"Sound.h"
+//ウィンドウ
+#include"Window.h"
+//カメラ
+#include"Camera.h"
+//シーン
+#include"SceneManager.h"
+unique_ptr<SceneManager>mScene;//このクラスだけが持つポインタ
+//パイプライン
+#include"PipeLine.h"
+
+#pragma comment(lib,"d3d12.lib")
+#pragma comment(lib,"dxgi.lib")
+#pragma comment(lib,"d3dcompiler.lib")
+#pragma comment(lib,"dinput8.lib")
+#pragma comment(lib,"dxguid.lib")
+//デバッグ
+ComPtr<ID3D12Debug> debugController;
+void Debug();//デバッグ
+//Main関数
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+{
+	//現在時刻をマイクロ秒で獲得
+	std::function<long long(void)>currentTimeMicro = []()
+	{
+		std::chrono::system_clock::duration d = std::chrono::system_clock::now().time_since_epoch();
+		return std::chrono::duration_cast<std::chrono::microseconds>(d).count();
+	};
+	int cnt = 0;
+	int fps = 60;//60fpsで動作させる
+	long long end = currentTimeMicro();//現在時間の獲得(1秒 = 1000000)
+	long long next = end + (1000 * 1000 / fps);//次の更新時間を計算
+	//ウィンドウクラス
+	Window* window = nullptr;
+	window = new Window();
+	window->CreateGameWindow();
+	Debug();//デバッグ用
+	//DXManager
+	DirectXManager::GetInstance()->Init(window);
+	//カメラ
+	Camera* camera = new Camera();
+
+	PipeLine* pipeLine = new PipeLine();//パイプライン生成
+	pipeLine->SetPipeline2D("unti2d");
+	pipeLine->SetPipeline3D("unti");
+	pipeLine->SetPipelineParticle("untiP");
+
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/hit.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/sougen.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/AIM64.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/TankAicn.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/TankUI.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/Deth.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/kisikun.png");
+
+
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
+	//ティラノサウルス
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/TLEX_A.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/TLEX_B.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/TLEX_asiL.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/TLEX_asiR.obj");
+	//Player
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTM.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKA.obj");//砲塔
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKB.obj");//砲身
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTMR.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKAR.obj");//砲塔
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKBR.obj");//砲身
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/kisikunTank.obj");
+	//Enemy
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyHou.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyDaiza.obj");
+	//Block
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/bill.obj");
+	//Bullet
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Bullet.obj");
+	//ステージ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/skydome.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ground.obj");
+	//いろいろ使えるプレーン
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Plane.obj");
+	//スプライト
+	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
+	
+	//パーティクル
+	shared_ptr<ParticleManager>paricle = make_shared<ParticleManager>(pipeLine);
+	
+	//モデル
+	shared_ptr<ModelRenderer>model = make_shared<ModelRenderer>(pipeLine);
+
+	
+	Input* input = new Input();//インプットインスタンス生成
+	input->Init(window->GetHWND());//インプット初期化
+	input->InitGamepad(window->GetHWND());
+
+	//シーン
+	mScene = std::make_unique<SceneManager>(sprite, model, paricle);
+
+	
+	while (true)
+	{
+
+		if (window->ProcesssMessage()) { break; }//メッセージ処理
+		DirectXManager::GetInstance()->PostEffctBegin();
+		//キー入力
+		input->Update();//input	
+		input->UpdateGamepad();//ゲームパッド
+		//描画
+		mScene->Update();
+		DirectXManager::GetInstance()->SetDrawComnd();
+		mScene->Draw();
+		DirectXManager::GetInstance()->PostEffctEnd();
+		DirectXManager::GetInstance()->Begin();
+		
+		DirectXManager::GetInstance()->PostEffctDraw();
+		DirectXManager::GetInstance()->End();
+#pragma region FPS処理
+		cnt++;//fps用
+		//重い処理があった時
+		std::this_thread::sleep_for(std::chrono::microseconds(5));
+		//できるだけ60fpsに保つ
+		end  = currentTimeMicro();
+		if (end < next)
+		{
+			//更新時間まで待機
+			std::this_thread::sleep_for(std::chrono::microseconds(next - end));
+			//次の更新時間を計算
+			next += (1000 * 1000 / fps);
+		}
+		else
+		{
+			next = end + (1000 * 1000 / fps);
+		}
+#pragma endregion
+		
+	}
+
+	window->DeleateGameWindow();//ゲームwindow破棄
+	pipeLine->Clear();
+	delete input;
+	delete camera;
+	delete pipeLine;
+	return 0;
+}
+
+
+void Debug()
+{
+	
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
+	{
+		debugController->EnableDebugLayer();
+	}
+}
