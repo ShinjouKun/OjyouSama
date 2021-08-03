@@ -18,8 +18,6 @@ Player::~Player()
 
 void Player::Shot()
 {
-	
-	bomSE->Play("Sound/endingse.wav");
 	objM->Add(new Bullet(Vector3(position.x, position.y-0.15f, position.z), Vector3(fireAngle,-atkAngle,0), objM, playerModel,playerParticle,objType,bulletStock));
 }
 
@@ -37,8 +35,6 @@ void Player::Init()
 	playerModel->SetAncPoint("TankPlayerB", Vector3(-2.0f, -2.0f, -2.0f));
 
 	playerModel->AddModel("AIM", "Resouse/Plane.obj", "Resouse/AIM64.png");
-	bomSE = new Sound();
-	
 	//playerModel->AddModel("TankKisi", "Resouse/kisikunTank.obj", "Resouse/kisikunTank.png");
 	//playerModel->SetAncPoint("TankKisi", Vector3(-2.0f, -2.0f, -1.5f));
 
@@ -167,7 +163,6 @@ void Player::Update()
 		{
 			if (Input::KeyState(DIK_SPACE) || Input::pad_data.rgbButtons[7])
 			{
-				bomSE->LoadSE("Sound/endingse.wav");//‚±‚ê’¼‚µ‚½‚¢
 				Shot();
 				bulletStock++;
 				shotFlag = true;
