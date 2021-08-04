@@ -6,7 +6,6 @@
 #include"TexRenderer.h"
 #include"ModelRenderer.h"
 #include"ParticleManager.h"
-#include"Sound.h"
 #include"CollisonManager.h"
 
 using namespace std;
@@ -47,7 +46,6 @@ private:
 	float atkAngle;//–C“ƒ—p//•`‰æ
 	float fireAngle;//–Cg
 	//ƒTƒEƒ“ƒh
-	Sound* bomSE;
 
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
 	virtual void OnCollison(const CollisonInfo & info) override;
