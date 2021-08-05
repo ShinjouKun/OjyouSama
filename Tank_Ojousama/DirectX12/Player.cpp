@@ -258,5 +258,4 @@ void Player::ImGuiDebug()
 	ImGui::SliderFloat("AtkAngle", &atkAngle, 0, 360);
 	ImGui::SliderFloat("FireAngle", &fireAngle, 0, 360);
 	ImGui::Checkbox("ShotFlag", &shotFlag);
-	
 }
