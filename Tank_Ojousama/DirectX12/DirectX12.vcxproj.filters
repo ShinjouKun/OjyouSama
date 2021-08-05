@@ -351,5 +351,8 @@
     <ClInclude Include="Math.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="TestEnemy.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
