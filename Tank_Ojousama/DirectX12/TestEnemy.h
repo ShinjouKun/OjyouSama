@@ -1,9 +1,13 @@
 #pragma once
 #include <memory>
-#include "BaseObject.h"//オブジェクトのひな型
-#include "ObjectManager.h"//オブジェクト管理者
-#include "ModelRenderer.h"//モデル貼り付け
-#include "TexRenderer.h"//ポリゴンの描画
+//#include "BaseObject.h"//オブジェクトのひな型
+//#include "ObjectManager.h"//オブジェクト管理者
+//#include "ModelRenderer.h"//モデル貼り付け
+//#include "TexRenderer.h"//ポリゴンの描画
+#include "Actor/BaseObject.h"
+#include "Actor/ObjectManager.h"
+#include "Render/ModelRenderer.h"
+#include "Render/TexRenderer.h"
 
 /// <summary>
 /// 扇形の視界

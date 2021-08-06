@@ -48,102 +48,6 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXManager.cpp">
-      <Filter>Device</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Device</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector3.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector4.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Matrix4.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Sound.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Device</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseObject.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Title.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePlay.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionPrimitive.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelLoader.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelRenderer.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="TexLoader.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="TexRenderer.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="PipeLine.cpp">
-      <Filter>Device</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleManager.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Easing.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
-    <ClCompile Include="TaihouEnemy.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
-    <ClCompile Include="T_REX.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyTank.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
-    <ClCompile Include="SpherCollider.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisonManager.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
@@ -162,171 +66,159 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiSimplified.cpp">
+    <ClCompile Include="Actor\BaseObject.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\BaseScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Block.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Bullet.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Camera.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\Collision.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\CollisionPrimitive.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\CollisonManager.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Device\DirectXManager.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Device\Input.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Easing.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Matrix4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\EnemyTank.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GamePlay.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\ModelLoader.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\ModelRenderer.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\ParticleManager.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\TexRenderer.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\TexLoader.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\ImGuiSimplified.cpp">
       <Filter>Utilty</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\ObjectManager.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
+    <ClCompile Include="Device\PipeLine.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Player.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneManager.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\Sound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\SpherCollider.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\T_REX.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\TaihouEnemy.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Title.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Device\Window.cpp">
+      <Filter>Device</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="SpritePixelShader.hlsl">
+    <FxCompile Include="Shader\BasicPixelShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="SpriteVertexShader.hlsl">
+    <FxCompile Include="Shader\BasicVertexShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="ModelVertexShader.hlsl">
+    <FxCompile Include="Shader\ParticleVertexShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="ModelPixelShader.hlsl">
+    <FxCompile Include="Shader\ParticlePixelShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="ParticleGeometryShader.hlsl">
+    <FxCompile Include="Shader\ParticleGeometryShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="ParticlePixelShader.hlsl">
+    <FxCompile Include="Shader\ModelVertexShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="ParticleVertexShader.hlsl">
+    <FxCompile Include="Shader\ModelPixelShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="BasicVertexShader.hlsl">
+    <FxCompile Include="Shader\PostEffectPixelShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="BasicPixelShader.hlsl">
+    <FxCompile Include="Shader\PostEffectVertexShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffectVertexShader.hlsl">
+    <FxCompile Include="Shader\SpritePixelShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffectPixelShader.hlsl">
+    <FxCompile Include="Shader\SpriteVertexShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SpliteShaderHeader.hlsli">
+    <None Include="Shader\BasicShader.hlsli">
       <Filter>Shader</Filter>
     </None>
-    <None Include="ModelShader.hlsli">
+    <None Include="Shader\ParticleShaderHeader.hlsli">
       <Filter>Shader</Filter>
     </None>
-    <None Include="ParticleShaderHeader.hlsli">
+    <None Include="Shader\ModelShader.hlsli">
       <Filter>Shader</Filter>
     </None>
-    <None Include="BasicShader.hlsli">
+    <None Include="Shader\PostEfeectShader.hlsli">
       <Filter>Shader</Filter>
     </None>
-    <None Include="PostEfeectShader.hlsli">
+    <None Include="Shader\SpliteShaderHeader.hlsli">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DirectXManager.h">
-      <Filter>Device</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Device</Filter>
-    </ClInclude>
-    <ClInclude Include="WCHAR_char.h">
-      <Filter>Utilty</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix4.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector4.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Device</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseObject.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Title.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlay.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionPrimitive.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelLoader.h">
-      <Filter>Render</Filter>
-    </ClInclude>
-    <ClInclude Include="TexLoader.h">
-      <Filter>Render</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelRenderer.h">
-      <Filter>Render</Filter>
-    </ClInclude>
-    <ClInclude Include="TexRenderer.h">
-      <Filter>Render</Filter>
-    </ClInclude>
-    <ClInclude Include="PipeLine.h">
-      <Filter>Device</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleManager.h">
-      <Filter>Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Easing.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
-    <ClInclude Include="TaihouEnemy.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
-    <ClInclude Include="T_REX.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyTank.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisonType.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCollider.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisonInfo.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="SpherCollider.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisonManager.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
@@ -351,11 +243,122 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Math.h">
+    <ClInclude Include="TestEnemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\BaseObject.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\BaseCollider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\BaseScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Block.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Bullet.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Camera.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\Collision.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\CollisionPrimitive.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\CollisonInfo.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\CollisonManager.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\CollisonType.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\DirectXManager.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\Input.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Easing.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiSimplified.h">
+    <ClInclude Include="Math\Math.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\EnemyTank.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GamePlay.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ModelLoader.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ModelRenderer.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ParticleManager.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\TexRenderer.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\TexLoader.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\ImGuiSimplified.h">
       <Filter>Utilty</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\ObjectManager.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\PipeLine.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Player.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneManager.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\Sound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\SpherCollider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\WCHAR_char.h">
+      <Filter>Utilty</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\T_REX.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\TaihouEnemy.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Title.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\Window.h">
+      <Filter>Device</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

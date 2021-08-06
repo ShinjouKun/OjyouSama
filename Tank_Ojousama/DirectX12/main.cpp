@@ -1,9 +1,10 @@
-#include"Windows.h"
+#include "Device/Window.h"
 #include"d3d12.h"
 #include"d3dx12.h"
 #include"dxgi1_6.h"
 #include"vector"
 #include"wrl.h"
+
 //imgui
 #include"imgui/imgui.h"
 #include"imgui/imgui_impl_win32.h"
@@ -22,28 +23,28 @@ using namespace DirectX;
 //DirectXTex
 #include"DirectXTex.h"
 //インプット
-#include"Input.h"
+#include "Device/Input.h"
 //初期化
-#include"DirectXManager.h"
+#include "Device/DirectXManager.h"
 //スプライト描画
-#include"TexLoader.h"
-#include"TexRenderer.h"
+#include "Render/TexLoader.h"
+#include "Render/TexRenderer.h"
 //パーティクル
-#include"ParticleManager.h"
+#include "Render/ParticleManager.h"
 //モデル
-#include"ModelLoader.h"//ロード用
-#include"ModelRenderer.h"
+#include "Render/ModelLoader.h"//ロード用
+#include "Render/TexRenderer.h"
 //音
-#include"Sound.h"
+#include"Sound/Sound.h"
 //ウィンドウ
-#include"Window.h"
+#include "Device/Window.h"
 //カメラ
-#include"Camera.h"
+#include "Render/Camera.h"
 //シーン
-#include"SceneManager.h"
+#include "Scene/SceneManager.h"
 unique_ptr<SceneManager>mScene;//このクラスだけが持つポインタ
 //パイプライン
-#include"PipeLine.h"
+#include "Device/PipeLine.h"
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")

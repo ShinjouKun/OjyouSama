@@ -151,49 +151,49 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseObject.cpp" />
-    <ClCompile Include="BaseScene.cpp" />
-    <ClCompile Include="Block.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="CollisionPrimitive.cpp" />
-    <ClCompile Include="CollisonManager.cpp" />
-    <ClCompile Include="DirectXManager.cpp" />
-    <ClCompile Include="Easing.cpp" />
-    <ClCompile Include="EnemyTank.cpp" />
-    <ClCompile Include="GamePlay.cpp" />
-    <ClCompile Include="ImGuiSimplified.cpp" />
+    <ClCompile Include="Actor\BaseObject.cpp" />
+    <ClCompile Include="Scene\BaseScene.cpp" />
+    <ClCompile Include="Actor\Block.cpp" />
+    <ClCompile Include="Actor\Bullet.cpp" />
+    <ClCompile Include="Render\Camera.cpp" />
+    <ClCompile Include="Collision\Collision.cpp" />
+    <ClCompile Include="Collision\CollisionPrimitive.cpp" />
+    <ClCompile Include="Collision\CollisonManager.cpp" />
+    <ClCompile Include="Device\DirectXManager.cpp" />
+    <ClCompile Include="Math\Easing.cpp" />
+    <ClCompile Include="Actor\EnemyTank.cpp" />
+    <ClCompile Include="Scene\GamePlay.cpp" />
+    <ClCompile Include="Utility\ImGuiSimplified.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_impl_dx12.cpp" />
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Matrix4.cpp" />
-    <ClCompile Include="ModelLoader.cpp" />
-    <ClCompile Include="ModelRenderer.cpp" />
-    <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="ParticleManager.cpp" />
-    <ClCompile Include="PipeLine.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Device\Input.cpp" />
+    <ClCompile Include="Math\Matrix4.cpp" />
+    <ClCompile Include="Render\ModelLoader.cpp" />
+    <ClCompile Include="Render\ModelRenderer.cpp" />
+    <ClCompile Include="Actor\ObjectManager.cpp" />
+    <ClCompile Include="Render\ParticleManager.cpp" />
+    <ClCompile Include="Device\PipeLine.cpp" />
+    <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="Scene\SceneManager.cpp" />
+    <ClCompile Include="Sound\Sound.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SpherCollider.cpp" />
-    <ClCompile Include="TaihouEnemy.cpp" />
-    <ClCompile Include="TexLoader.cpp" />
-    <ClCompile Include="TexRenderer.cpp" />
-    <ClCompile Include="Title.cpp" />
-    <ClCompile Include="T_REX.cpp" />
-    <ClCompile Include="Vector2.cpp" />
-    <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="Vector4.cpp" />
-    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Collision\SpherCollider.cpp" />
+    <ClCompile Include="Actor\TaihouEnemy.cpp" />
+    <ClCompile Include="Render\TexLoader.cpp" />
+    <ClCompile Include="Render\TexRenderer.cpp" />
+    <ClCompile Include="Scene\Title.cpp" />
+    <ClCompile Include="Actor\T_REX.cpp" />
+    <ClCompile Include="Math\Vector2.cpp" />
+    <ClCompile Include="Math\Vector3.cpp" />
+    <ClCompile Include="Math\Vector4.cpp" />
+    <ClCompile Include="Device\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="BasicPixelShader.hlsl">
+    <FxCompile Include="Shader\BasicPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -205,7 +205,7 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PSmain</EntryPointName>
     </FxCompile>
-    <FxCompile Include="BasicVertexShader.hlsl">
+    <FxCompile Include="Shader\BasicVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -217,7 +217,7 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VSmain</EntryPointName>
     </FxCompile>
-    <FxCompile Include="ParticleGeometryShader.hlsl">
+    <FxCompile Include="Shader\ParticleGeometryShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -227,7 +227,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="ParticlePixelShader.hlsl">
+    <FxCompile Include="Shader\ParticlePixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -241,7 +241,7 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PSmain</EntryPointName>
     </FxCompile>
-    <FxCompile Include="ParticleVertexShader.hlsl">
+    <FxCompile Include="Shader\ParticleVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
@@ -255,7 +255,7 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VSmain</EntryPointName>
     </FxCompile>
-    <FxCompile Include="ModelPixelShader.hlsl">
+    <FxCompile Include="Shader\ModelPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -267,7 +267,7 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PSmain</EntryPointName>
     </FxCompile>
-    <FxCompile Include="ModelVertexShader.hlsl">
+    <FxCompile Include="Shader\ModelVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -279,7 +279,7 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VSmain</EntryPointName>
     </FxCompile>
-    <FxCompile Include="PostEffectPixelShader.hlsl">
+    <FxCompile Include="Shader\PostEffectPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -291,7 +291,7 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PSmain</EntryPointName>
     </FxCompile>
-    <FxCompile Include="PostEffectVertexShader.hlsl">
+    <FxCompile Include="Shader\PostEffectVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -303,7 +303,7 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VSmain</EntryPointName>
     </FxCompile>
-    <FxCompile Include="SpritePixelShader.hlsl">
+    <FxCompile Include="Shader\SpritePixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -317,7 +317,7 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PSmain</EntryPointName>
     </FxCompile>
-    <FxCompile Include="SpriteVertexShader.hlsl">
+    <FxCompile Include="Shader\SpriteVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
@@ -333,11 +333,11 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BasicShader.hlsli" />
-    <None Include="ParticleShaderHeader.hlsli" />
-    <None Include="ModelShader.hlsli" />
-    <None Include="PostEfeectShader.hlsli" />
-    <None Include="SpliteShaderHeader.hlsli" />
+    <None Include="Shader\BasicShader.hlsli" />
+    <None Include="Shader\ParticleShaderHeader.hlsli" />
+    <None Include="Shader\ModelShader.hlsli" />
+    <None Include="Shader\PostEfeectShader.hlsli" />
+    <None Include="Shader\SpliteShaderHeader.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DirectXTex\DirectXTex_Desktop_2017_Win10.vcxproj">
@@ -345,22 +345,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseCollider.h" />
-    <ClInclude Include="BaseObject.h" />
-    <ClInclude Include="BaseScene.h" />
-    <ClInclude Include="Block.h" />
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="CollisionPrimitive.h" />
-    <ClInclude Include="CollisonInfo.h" />
-    <ClInclude Include="CollisonManager.h" />
-    <ClInclude Include="CollisonType.h" />
-    <ClInclude Include="DirectXManager.h" />
-    <ClInclude Include="Easing.h" />
-    <ClInclude Include="EnemyTank.h" />
-    <ClInclude Include="GamePlay.h" />
-    <ClInclude Include="ImGuiSimplified.h" />
+    <ClInclude Include="Collision\BaseCollider.h" />
+    <ClInclude Include="Actor\BaseObject.h" />
+    <ClInclude Include="Scene\BaseScene.h" />
+    <ClInclude Include="Actor\Block.h" />
+    <ClInclude Include="Actor\Bullet.h" />
+    <ClInclude Include="Render\Camera.h" />
+    <ClInclude Include="Collision\Collision.h" />
+    <ClInclude Include="Collision\CollisionPrimitive.h" />
+    <ClInclude Include="Collision\CollisonInfo.h" />
+    <ClInclude Include="Collision\CollisonManager.h" />
+    <ClInclude Include="Collision\CollisonType.h" />
+    <ClInclude Include="Device\DirectXManager.h" />
+    <ClInclude Include="Math\Easing.h" />
+    <ClInclude Include="Actor\EnemyTank.h" />
+    <ClInclude Include="Scene\GamePlay.h" />
+    <ClInclude Include="Utility\ImGuiSimplified.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx12.h" />
@@ -369,29 +369,29 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Math.h" />
-    <ClInclude Include="Matrix4.h" />
-    <ClInclude Include="ModelLoader.h" />
-    <ClInclude Include="ModelRenderer.h" />
-    <ClInclude Include="ObjectManager.h" />
-    <ClInclude Include="ParticleManager.h" />
-    <ClInclude Include="PipeLine.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Sound.h" />
-    <ClInclude Include="SpherCollider.h" />
-    <ClInclude Include="TaihouEnemy.h" />
+    <ClInclude Include="Device\Input.h" />
+    <ClInclude Include="Math\Math.h" />
+    <ClInclude Include="Math\Matrix4.h" />
+    <ClInclude Include="Render\ModelLoader.h" />
+    <ClInclude Include="Render\ModelRenderer.h" />
+    <ClInclude Include="Actor\ObjectManager.h" />
+    <ClInclude Include="Render\ParticleManager.h" />
+    <ClInclude Include="Device\PipeLine.h" />
+    <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="Sound\Sound.h" />
+    <ClInclude Include="Collision\SpherCollider.h" />
+    <ClInclude Include="Actor\TaihouEnemy.h" />
     <ClInclude Include="TestEnemy.h" />
-    <ClInclude Include="TexLoader.h" />
-    <ClInclude Include="TexRenderer.h" />
-    <ClInclude Include="Title.h" />
-    <ClInclude Include="T_REX.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="Vector4.h" />
-    <ClInclude Include="WCHAR_char.h" />
-    <ClInclude Include="Window.h" />
+    <ClInclude Include="Render\TexLoader.h" />
+    <ClInclude Include="Render\TexRenderer.h" />
+    <ClInclude Include="Scene\Title.h" />
+    <ClInclude Include="Actor\T_REX.h" />
+    <ClInclude Include="Math\Vector2.h" />
+    <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="Math\Vector4.h" />
+    <ClInclude Include="Utility\WCHAR_char.h" />
+    <ClInclude Include="Device\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
