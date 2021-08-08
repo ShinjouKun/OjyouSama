@@ -1,7 +1,6 @@
 #pragma once
 #include "BaseCollider.h"
 #include "CollisionPrimitive.h"
-//#include"Vector3.h"
 #include "../Math/Vector3.h"
 
 #include<cmath>

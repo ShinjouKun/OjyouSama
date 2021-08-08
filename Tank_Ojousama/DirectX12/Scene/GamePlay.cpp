@@ -43,7 +43,10 @@ void GamePlay::StartScene()
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.jpg");
 	//プレイヤーは最後に、又はUIクラスを作る
+	objM->Add(new PlayerUI(objM, BaseScene::mModel, BaseScene::mSprite));
 	objM->Add(new Player(Vector3(0.0f, 0.0f, -50.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	
+	
 }
 
 void GamePlay::UpdateScene()

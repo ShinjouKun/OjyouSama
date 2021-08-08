@@ -23,6 +23,46 @@ void Player::Shot()
 	objM->Add(new Bullet(Vector3(position.x, position.y-0.15f, position.z), Vector3(fireAngle,-atkAngle,0), objM, playerModel,playerParticle,objType,bulletStock));
 }
 
+void Player::AngleReset()
+{
+	//上限
+	if (angle.x >= 360.0f)
+	{
+		angle.x = 0.0f;
+	}
+	if (angle.y >= 360.0f)
+	{
+		angle.y = 0.0f;
+	}
+	if (angle.z >= 360.0f)
+	{
+		angle.z = 0.0f;
+	}
+
+	if (atkAngle >= 360.0f)
+	{
+		atkAngle = 0.0f;
+	}
+	//下限
+	if (angle.x <= -360.0f)
+	{
+		angle.x = 0.0f;
+	}
+	if (angle.y <= -360.0f)
+	{
+		angle.y = 0.0f;
+	}
+	if (angle.z <= -360.0f)
+	{
+		angle.z = 0.0f;
+	}
+
+	if (atkAngle <= -360.0f)
+	{
+		atkAngle = 0.0f;
+	}
+}
+
 
 void Player::Init()
 {
@@ -36,10 +76,6 @@ void Player::Init()
 	playerModel->AddModel("TankPlayerB", "Resouse/BoxTankBTM.obj", "Resouse/BoxTankBTM.png");
 	playerModel->SetAncPoint("TankPlayerB", Vector3(-2.0f, -2.0f, -2.0f));
 
-	playerModel->AddModel("AIM", "Resouse/Plane.obj", "Resouse/AIM64.png");
-	//playerModel->AddModel("TankKisi", "Resouse/kisikunTank.obj", "Resouse/kisikunTank.png");
-	//playerModel->SetAncPoint("TankKisi", Vector3(-2.0f, -2.0f, -1.5f));
-
 	playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
 	playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
 	playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
@@ -51,9 +87,6 @@ void Player::Init()
 	playerSprite->AddTexture("Life2","Resouse/TankAicn.png");
 	playerSprite->AddTexture("Life3","Resouse/TankAicn.png");
     playerSprite->AddTexture("HIT","Resouse/hit.png");
-	//playerSprite->AddTexture("AIM","Resouse/AIM64.png");
-	//playerSprite->SetAncPoint("AIM", Vector2(-32.0f, -32.0f));
-
 	death = false;
 	objType = ObjectType::PLAYER;
 	position = Vector3(100.0f, -3.0f, -50.0f);
@@ -84,7 +117,7 @@ void Player::Update()
 		BackMove = false;
 		CameraPos = Vector3(position.x, position.y+4.0f, position.z +15.0f);
 		ImGuiDebug();//デバッグ用
-
+		AngleReset();
 		
 		if (position.x <= 0)
 		{
@@ -189,8 +222,7 @@ void Player::Rend()
 	playerModel->Draw("TankPlayerA", Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 	playerModel->Draw("TankPlayerHou", Vector3(position.x, position.y, position.z), Vector3(fireAngle, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 	playerModel->Draw("TankPlayerB", Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
-	playerModel->Draw("AIM", Vector3(position.x, position.y+3.5f, position.z), Vector3(-90.0f, -atkAngle, 0), Vector3(0.5f, 0.5f, 0.5f));
-	//playerModel->Draw("TankKisi", Vector3(position.x, position.y+1.3f, position.z), Vector3(0, -angle.y,0), Vector3(0.5f, 0.5f, 0.5f));
+	
 	if (moveFlag)
 	{
 		playerParticleBox->EmitterUpdateUpGas("KemuriL", Vector3(position.x - 0.8f, position.y+0.5f, position.z + 1.8f), Vector3(angle.x, angle.y, angle.z));

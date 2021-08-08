@@ -1,6 +1,7 @@
 #include "Bullet.h"
 //#include"Matrix4.h"
 #include "../Math/Matrix4.h"
+#include "../Collision/SpherCollider.h"
 
 Bullet::Bullet(Vector3 pos, Vector3 ang, ObjectManager * obj, std::shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p,ObjectType t,int num)
 	:BulletModel(m),BulletParticle(p)
@@ -29,11 +30,16 @@ void Bullet::Init()
 	alive = 0;
 	death = false;
 	speed = 1.5f;
-	
+	//コライダーの情報をセット
+	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), 0.5f));
 }
 
 void Bullet::Update()
 {
+	//当たり判定更新
+	SphereCollider* spCol = dynamic_cast<SphereCollider*>(collider);
+	assert(spCol);
+
 	velocity = Vector3(0,0,-1);
 	velocity *= Matrix4::RotateX(angle.x);
 	velocity *= Matrix4::RotateY(angle.y);

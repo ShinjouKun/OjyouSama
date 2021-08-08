@@ -1,19 +1,9 @@
 #pragma once
 #include<memory>
 #include"BaseScene.h"
-//#include"Input.h"
-//#include"Player.h"
-//#include"EnemyTank.h"
-//#include"Block.h"
-//#include"T_REX.h"
-//#include"TaihouEnemy.h"
-//#include"ObjectManager.h"
-//#include"Camera.h"
-//#include"ModelRenderer.h"
-//#include"TexRenderer.h"
-//#include"ParticleManager.h"
 #include "../Device/Input.h"
 #include "../Actor/Player.h"
+#include "../Actor/PlayerUI.h"
 #include "../Actor/EnemyTank.h"
 #include "../Actor/Block.h"
 #include "../Actor/T_REX.h"
@@ -41,6 +31,7 @@ private:
 
 	ObjectManager* objM;
 	Player* player;//ÉvÉåÉCÉÑÅ[ÇÃé¿ëÃê∂ê¨
+	PlayerUI* playerUI;
 	EnemyTank* enemyTank;
 	T_REX* rex;
 	TaihouEnemy* taihou;

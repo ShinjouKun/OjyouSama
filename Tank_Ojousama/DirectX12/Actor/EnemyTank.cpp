@@ -73,6 +73,16 @@ void EnemyTank::Update()
 	//“–‚½‚è”»’è
 	SphereCollider* spCol = dynamic_cast<SphereCollider*>(collider);
 	assert(spCol);
+	ImGuiDebug();
+	if (HitFlag)
+	{
+		HitCount++;
+		if (HitCount >= 30)
+		{
+			HitCount = 0;
+			HitFlag = false;
+		}
+	}
 	if (HP <= 0)
 	{
 		death = true;
@@ -263,9 +273,10 @@ Vector3 EnemyTank::GetFriendPos(int id)
 
 void EnemyTank::OnCollison(const CollisonInfo & info)
 {
-	if (info.object->GetType() == ObjectType::BULLET)
+	if (!HitFlag&&info.object->GetType() == ObjectType::BULLET)
 	{
 		HP--;
+		HitFlag = true;
 	}
 
 	if (info.object->GetType() == ObjectType::BLOCK)
@@ -288,4 +299,5 @@ void EnemyTank::OnCollison(const CollisonInfo & info)
 
 void EnemyTank::ImGuiDebug()
 {
+	ImGui::SliderInt("EnemyHp", &HP, 0,HP);
 }

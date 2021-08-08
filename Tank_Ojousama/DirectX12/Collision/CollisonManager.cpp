@@ -39,6 +39,20 @@ void CollisonManager::CheckAllCollisons()
 				}
 
 			}
+			//‚Ç‚¿‚ç‚àAABB
+			if (colA->GetCollType() == AABB_COLLISON &&
+				colB->GetCollType() == AABB_COLLISON && colA != colB)
+			{
+				AABB* aabbA = dynamic_cast<AABB*>(colA);
+				AABB* aabbB = dynamic_cast<AABB*>(colB);
+				Vector3 inter;
+				if (Collision::AABBColl(*aabbA, *aabbB))
+				{
+					colA->OnCollison(CollisonInfo(colB->GetObject(), colB, inter));
+					colB->OnCollison(CollisonInfo(colA->GetObject(), colA, inter));
+				}
+
+			}
 		}
 	}
 }

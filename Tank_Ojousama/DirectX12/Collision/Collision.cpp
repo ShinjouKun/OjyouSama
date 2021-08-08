@@ -25,15 +25,6 @@ bool Collision::StoSColl(const Sphere & s1, const Sphere & s2,Vector3* inter)
 		return true;
 	}
 	return false;
-
-	////半径の中心点がモデルの原点に依存しているので注意せよ
-	//float length = Vector3((s1.center - s2.center)).Length();
-	//float radSam = s1.radius + s2.radius;
-	//if (length <= radSam)
-	//{
-	//	return true;
-	//}
-	//return false;
 }
 
 bool Collision::AABBColl(const AABB & box1, const AABB & box2)
