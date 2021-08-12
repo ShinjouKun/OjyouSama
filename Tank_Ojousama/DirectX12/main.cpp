@@ -34,8 +34,6 @@ using namespace DirectX;
 //モデル
 #include "Render/ModelLoader.h"//ロード用
 #include "Render/TexRenderer.h"
-//音
-#include"Sound/Sound.h"
 //ウィンドウ
 #include "Device/Window.h"
 //カメラ
@@ -45,6 +43,9 @@ using namespace DirectX;
 unique_ptr<SceneManager>mScene;//このクラスだけが持つポインタ
 //パイプライン
 #include "Device/PipeLine.h"
+
+//サウンド
+#include "Sound/SoundSystem.h"
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
@@ -133,6 +134,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	input->Init(window->GetHWND());//インプット初期化
 	input->InitGamepad(window->GetHWND());
 
+	//サウンドシステムの生成
+	auto& s = SoundSystem::instance();
+
 	//シーン
 	mScene = std::make_unique<SceneManager>(sprite, model, paricle);
 
@@ -147,6 +151,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		input->UpdateGamepad();//ゲームパッド
 		//描画
 		mScene->Update();
+		s.update();//各updateが終わった後に音の処理を入れる
 		DirectXManager::GetInstance()->SetDrawComnd();
 		mScene->Draw();
 		DirectXManager::GetInstance()->PostEffctEnd();
