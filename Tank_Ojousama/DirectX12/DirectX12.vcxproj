@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor\BaseObject.cpp" />
+    <ClCompile Include="Actor\TestItem.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
     <ClCompile Include="Actor\Bullet.cpp" />
@@ -363,6 +364,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\TestItem.h" />
     <ClInclude Include="Collision\BaseCollider.h" />
     <ClInclude Include="Actor\BaseObject.h" />
     <ClInclude Include="Scene\BaseScene.h" />
