@@ -1,5 +1,5 @@
 #include "T_REX.h"
-
+#include "../Collision/BaseCollider.h"
 T_REX::T_REX(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p)
 	:REXModel(m),REXParticle(p)
 {
@@ -61,7 +61,7 @@ void T_REX::Rend()
 }
 
 
-void T_REX::OnCollison(const CollisonInfo & info)
+void T_REX::OnCollison(BaseCollider* col)
 {
 }
 

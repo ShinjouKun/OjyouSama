@@ -46,11 +46,13 @@ private:
 	int bulletStock;//’e‚ğ‚¢‚Á‚Ï‚¢‚¾‚·‚½‚ß
 	float atkAngle;//–C“ƒ—p//•`‰æ
 	float fireAngle;//–Cg
+	float cameraSpeed;
 	//ƒTƒEƒ“ƒh
 
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
-	virtual void OnCollison(const CollisonInfo & info) override;
+	virtual void OnCollison(BaseCollider* col) override;
 
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
 	virtual void ImGuiDebug() override;
+	
 };

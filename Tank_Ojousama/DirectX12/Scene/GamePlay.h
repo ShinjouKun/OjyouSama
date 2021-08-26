@@ -3,7 +3,6 @@
 #include"BaseScene.h"
 #include "../Device/Input.h"
 #include "../Actor/Player.h"
-#include "../Actor/PlayerUI.h"
 #include "../Actor/EnemyTank.h"
 #include "../Actor/Block.h"
 #include "../Actor/T_REX.h"
@@ -31,7 +30,6 @@ private:
 
 	ObjectManager* objM;
 	Player* player;//ƒvƒŒƒCƒ„[‚ÌÀ‘Ì¶¬
-	PlayerUI* playerUI;
 	EnemyTank* enemyTank;
 	T_REX* rex;
 	TaihouEnemy* taihou;

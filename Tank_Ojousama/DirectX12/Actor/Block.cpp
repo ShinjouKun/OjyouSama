@@ -1,5 +1,5 @@
 #include "Block.h"
-
+#include "../Collision/BaseCollider.h"
 Block::Block(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int n)
 	:blockModel(m)
 {
@@ -24,6 +24,8 @@ void Block::Init()
 	
 	blockModel->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
 	blockModel->SetAncPoint(numName, Vector3(-1.0f,-2.0f, -3.0f));
+	//コライダーの情報をセット
+	SetCollidder(Vector3(position.x, position.y, position.z), 1.0f);
 }
 
 void Block::Update()
@@ -37,7 +39,7 @@ void Block::Rend()
 	blockModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), Vector3(2, 2, 2));
 }
 
-void Block::OnCollison(const CollisonInfo & info)
+void Block::OnCollison(BaseCollider* col)
 {
 }
 

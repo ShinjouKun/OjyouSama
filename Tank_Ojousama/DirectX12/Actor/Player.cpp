@@ -1,11 +1,8 @@
 #include "Player.h"
 #include"Bullet.h"
-//#include "Input.h"
 #include<sstream>
-//#include"SpherCollider.h"
 #include "../Device/Input.h"
-#include "../Collision/SpherCollider.h"
-
+#include "../Collision/BaseCollider.h"
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj,shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
 	:playerModel(m),playerParticle(p),playerSprite(s)
 {
@@ -76,9 +73,9 @@ void Player::Init()
 	playerModel->AddModel("TankPlayerB", "Resouse/BoxTankBTM.obj", "Resouse/BoxTankBTM.png");
 	playerModel->SetAncPoint("TankPlayerB", Vector3(-2.0f, -2.0f, -2.0f));
 
-	playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
-	playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
-	playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
+	//playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
+	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
+	//playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
 	//HP
 	HP = 3;
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
@@ -89,27 +86,25 @@ void Player::Init()
     playerSprite->AddTexture("HIT","Resouse/hit.png");
 	death = false;
 	objType = ObjectType::PLAYER;
-	position = Vector3(100.0f, -3.0f, -50.0f);
+	position = Vector3(100.0f, 0.0f, -50.0f);
 	
 	angle = Vector3(0.0f, 0.0f, 0.0f);//車体
 	atkAngle = 0.0f;//砲塔
 	fireAngle = 0.0f;
 	speed = 0.3f;	
+	cameraSpeed = 1.0f;
 	bulletStock = 0;
 	TargetPos = Vector3(position.x, position.y + 4.0f, position.z);
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 	//コライダーの情報をセット
-	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), 1.0f));
+	SetCollidder(Vector3(position.x, position.y, position.z), 1.0f);
+	//SetCollidder(Vector3(position.x, position.y, position.z), Vector3(position.x + 2.0f, position.y + 2.0f, position.z + 2.0f));
 }
 
 void Player::Update()
 {
-	//当たり判定更新
-	SphereCollider* spCol = dynamic_cast<SphereCollider*>(collider);
-	assert(spCol);
 	if (!GameOver)
 	{
-		
 		velocity = Vector3(0, 0, 0);
 		CamVelocity = Vector3(0, 0, 0);
 		moveFlag = false;
@@ -123,10 +118,10 @@ void Player::Update()
 		{
 			position.x= 0.1f;//バミューダ対策
 		}
-		if (position.y > -3.9f)
-		{
-			position.y -= 0.2f;//重力
-		}
+		//if (position.y > -3.9f)
+		//{
+		//	position.y -= 0.2f;//重力
+		//}
 		//テスト用
 		if (Input::KeyState(DIK_2))
 		{
@@ -175,11 +170,11 @@ void Player::Update()
 		}
 		if (Input::KeyState(DIK_RIGHT) || Input::pad_data.lZ > 0)
 		{
-			atkAngle += 1.0f;
+			atkAngle += cameraSpeed;
 		}
 		if (Input::KeyState(DIK_LEFT) || Input::pad_data.lZ < 0)
 		{
-			atkAngle -= 1.0f;
+			atkAngle -= cameraSpeed;
 		}
 		//カメラ更新
 		CamVelocity = RotateY(atkAngle - 90.0f)*8.0f;
@@ -223,11 +218,11 @@ void Player::Rend()
 	playerModel->Draw("TankPlayerHou", Vector3(position.x, position.y, position.z), Vector3(fireAngle, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 	playerModel->Draw("TankPlayerB", Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
 	
-	if (moveFlag)
-	{
-		playerParticleBox->EmitterUpdateUpGas("KemuriL", Vector3(position.x - 0.8f, position.y+0.5f, position.z + 1.8f), Vector3(angle.x, angle.y, angle.z));
-		playerParticleBox->EmitterUpdateUpGas("KemuriR", Vector3(position.x + 0.8f, position.y+0.5f, position.z + 1.8f), Vector3(angle.x, angle.y, angle.z));
-	}
+	//if (moveFlag)
+	//{
+	//	playerParticleBox->EmitterUpdateUpGas("KemuriL", Vector3(position.x - 0.8f, position.y+0.5f, position.z + 1.8f), Vector3(angle.x, angle.y, angle.z));
+	//	playerParticleBox->EmitterUpdateUpGas("KemuriR", Vector3(position.x + 0.8f, position.y+0.5f, position.z + 1.8f), Vector3(angle.x, angle.y, angle.z));
+	//}
 
 	DirectXManager::GetInstance()->SetData2D();
 	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
@@ -260,14 +255,14 @@ void Player::Rend()
 }
 
 
-void Player::OnCollison(const CollisonInfo & info)
+void Player::OnCollison(BaseCollider* col)
 {
-	if (info.object->GetType() == ObjectType::ENEMYBULLET)
+	if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET)
 	{
 		HP--;
 	}
 	
-	if (info.object->GetType() == ObjectType::BLOCK)
+	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
 	{
 		if (FrontMove)//いずれ修正
 		{

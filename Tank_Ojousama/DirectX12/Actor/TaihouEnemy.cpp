@@ -1,6 +1,6 @@
 #include "TaihouEnemy.h"
 #include"Bullet.h"
-
+#include"../Collision/BaseCollider.h"
 TaihouEnemy::TaihouEnemy(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p,int num)
 	:taihouModel(m),taihouParticle(p)
 {
@@ -110,13 +110,13 @@ void TaihouEnemy::Rend()
 }
 
 
-void TaihouEnemy::OnCollison(const CollisonInfo & info)
+void TaihouEnemy::OnCollison(BaseCollider* col)
 {
-	if (!HitFlag&& info.object->GetType() == ObjectType::BULLET)
-	{
-		HP -= 20;
-		HitFlag = true;//–³“GŽžŠÔ‚É“ü‚é
-	}
+	//if (!HitFlag&& info.object->GetType() == ObjectType::BULLET)
+	//{
+	//	HP -= 20;
+	//	HitFlag = true;//–³“GŽžŠÔ‚É“ü‚é
+	//}
 }
 
 void TaihouEnemy::ImGuiDebug()

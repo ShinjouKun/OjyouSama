@@ -29,7 +29,7 @@ private:
 	virtual void Rend() override;
 
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
-	virtual void OnCollison(const CollisonInfo & info) override;
+	virtual void OnCollison(BaseCollider* col) override;
 
 
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½

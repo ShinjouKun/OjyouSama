@@ -1,7 +1,6 @@
 #include "EnemyTank.h"
 #include"Bullet.h"
-//#include"SpherCollider.h"
-#include "../Collision/SpherCollider.h"
+#include"../Collision/BaseCollider.h"
 #define ToRad(deg)((deg)*(PI/180.0f))
 EnemyTank::EnemyTank(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, shared_ptr<TexRenderer>s, int n)
 	:tankModel(m),tankParticle(p),tankSprite(s)
@@ -50,7 +49,7 @@ void EnemyTank::Init()
 	tankParticleBox = make_shared<ParticleEmitterBox>(tankParticle);
 	tankParticleBox->LoadAndSet("KemuriL", "Resouse/tuti.jpg");
 	tankParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
-	HP = 10;
+	HP = 1;
 	death = false;
 	ShotFlag = false;
 	HitFlag = false;
@@ -65,14 +64,12 @@ void EnemyTank::Init()
 	bulletStock = number * 10;
 	speed = 0.2f;
 	batteleS = BatteleStatus::SAFE;
-	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z),1.0f));
+	SetCollidder(Vector3(position.x, position.y, position.z),1.0f);
+	//SetCollidder(Vector3(position.x, position.y, position.z), Vector3(position.x + 2.0f, position.y + 2.0f, position.z + 2.0f));
 }
 
 void EnemyTank::Update()
 {
-	//“–‚½‚è”»’è
-	SphereCollider* spCol = dynamic_cast<SphereCollider*>(collider);
-	assert(spCol);
 	ImGuiDebug();
 	if (HitFlag)
 	{
@@ -271,15 +268,16 @@ Vector3 EnemyTank::GetFriendPos(int id)
 	return Vector3(0, 0, 0);
 }
 
-void EnemyTank::OnCollison(const CollisonInfo & info)
+void EnemyTank::OnCollison(BaseCollider* col)
 {
-	if (!HitFlag&&info.object->GetType() == ObjectType::BULLET)
+	
+	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		HP--;
 		HitFlag = true;
 	}
 
-	if (info.object->GetType() == ObjectType::BLOCK)
+	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
 	{
 		if (FrontMove)//‚¢‚¸‚êC³
 		{
@@ -291,7 +289,7 @@ void EnemyTank::OnCollison(const CollisonInfo & info)
 		}
 
 	}
-	if (info.object->GetType() == ObjectType::PLAYER)
+	if (col->GetColObject()->GetType() == ObjectType::PLAYER)
 	{
 		batteleS = BatteleStatus::DANGER;
 	}
@@ -299,5 +297,5 @@ void EnemyTank::OnCollison(const CollisonInfo & info)
 
 void EnemyTank::ImGuiDebug()
 {
-	ImGui::SliderInt("EnemyHp", &HP, 0,HP);
+	//ImGui::SliderInt("EnemyHp", &HP, 0,HP);
 }

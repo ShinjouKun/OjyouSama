@@ -2,14 +2,12 @@
 #include "../Math/Vector2.h"
 #include "../Math/Vector3.h"
 #include "../Math/Vector4.h"
-//#include"Vector2.h"
-//#include"Vector3.h"
-//#include"Vector4.h"
 #include<cmath>
 //当たり判定系
-//#include"CollisonInfo.h"
 #include "../Collision/CollisonInfo.h"
 class BaseCollider;
+class SphereCollider;
+class AABBCollider;
 enum ObjectType//オブジェクトのタグ
 {
 	PLAYER,
@@ -34,12 +32,19 @@ public:
 	virtual Vector3 RotateY(float angle);
 	//当たり判定
 	void SetCollidder(BaseCollider* collider);
+	void SetCollidder(const Vector3& center,float rad);//円
+	//void SetCollidder(const Vector3& min,const Vector3& max);//AABB
 	//衝突時コールバック
-	virtual void OnCollison(const CollisonInfo& info) = 0;
+	virtual void OnCollison(BaseCollider* col) = 0;
 	//Get　Set
 	virtual ObjectType GetType() { return objType; }
 	virtual bool GetDeath() { return death; }
 	virtual Vector3 GetPosition() { return position; }
+	void SetNumber(int num);
+	int GetNumber();
+
+	//個体番号
+	int number;
 	//AI用
 	size_t GetID()const;
 	void SetID(size_t id);
@@ -55,5 +60,4 @@ protected:
 	const float PI = 3.1415926535897932384626433832795f;
 	//当たり判定
 	BaseCollider* collider = nullptr;
-	
 };
