@@ -11,6 +11,7 @@
 
 class MasteringVoice;
 class SoundPlayer;
+class Sound3DEmitter;
 
 //IXAudio2SourceVoice
 class SourceVoice : public IVoice
@@ -21,11 +22,20 @@ public:
 
 	virtual IXAudio2Voice* getXAudio2Voice() const override;
 	virtual const VoiceDetails& getVoiceDetails() const override;
+	virtual SoundVolume& getSoundVolume() const override;
+	virtual OutputVoices& getOutputVoices() const override;
+	virtual SoundEffect& getSoundEffect() const override;
 
 	void update();
 	IXAudio2SourceVoice* getXAudio2SourceVoice() const;
+	//サウンドデータを返す
 	SoundData& getSoundData() const;
+	//サウンド再生クラスを返す
 	SoundPlayer& getSoundPlayer()const;
+	//エミッターを返す
+	Sound3DEmitter& getEmitter() const;
+	//3D演算するかどうか
+	bool isCalculate3D() const;
 
 private:
 	SourceVoice(const SourceVoice&) = delete;
@@ -35,9 +45,9 @@ private:
 	IXAudio2SourceVoice* mXAudio2SourceVoice;
 	VoiceDetails mDetails;
 	std::unique_ptr<SoundData> mSoundData;
-	//std::unique_ptr<SoundVolume> mSoundVolume;
-	//std::unique_ptr<OutputVoices> mOutputVoices;
-	//std::unique_ptr<SoundEffect> mSoundEffect;
+	std::unique_ptr<SoundVolume> mSoundVolume;
+	std::unique_ptr<OutputVoices> mOutputVoices;
+	std::unique_ptr<SoundEffect> mSoundEffect;
 	std::unique_ptr<SoundPlayer> mSoundPlayer;
-	//std::unique_ptr<Sound3DEmitter> mEmitter;
+	std::unique_ptr<Sound3DEmitter> mEmitter;
 };

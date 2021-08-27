@@ -28,9 +28,9 @@ public:
 	void stop();
 	//再生が停止しているか
 	bool isStop() const;
-	//
+	//再生時間専門クラス
 	SoundPlayTimer& getPlayTimer() const;
-	//
+	//ループ専門クラス
 	SoundLoop& getLoop() const;
 
 private:

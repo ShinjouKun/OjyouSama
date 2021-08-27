@@ -1,32 +1,30 @@
 #pragma once
 
-#include "VoiceDetails.h"
+#include "SubmixVoiceInitParam.h"
 #include "IVoice.h"
 #include <xaudio2.h>
 #include <memory>
 
-//マスターボイス
-class MasteringVoice : public IVoice
+class MasteringVoice;
+
+class SubmixVoice : public IVoice
 {
 public:
-	MasteringVoice(IXAudio2MasteringVoice* XAudio2MasteringVoice);
-	~MasteringVoice();
+	SubmixVoice(IXAudio2SubmixVoice* XAudio2SubmixVoice, MasteringVoice& masteringVoice, const SubmixVoiceInitParam& param);
+	~SubmixVoice();
 
-	virtual IXAudio2Voice* getXAudio2Voice()const override;
+	virtual IXAudio2Voice* getXAudio2Voice() const override;
 	virtual const VoiceDetails& getVoiceDetails() const override;
 	virtual SoundVolume& getSoundVolume() const override;
 	virtual OutputVoices& getOutputVoices() const override;
 	virtual SoundEffect& getSoundEffect() const override;
 
-	//チャンネルマスクを返す
-	unsigned getChannelMask()const;
+private:
+	SubmixVoice(const SubmixVoice&) = delete;
+	SubmixVoice& operator=(const SubmixVoice&) = delete;
 
 private:
-	MasteringVoice(const MasteringVoice&) = delete;
-	MasteringVoice& operator=(const MasteringVoice&) = delete;
-
-private:
-	IXAudio2MasteringVoice* mXAudio2MasteringVoice;
+	IXAudio2SubmixVoice* mXAudio2SubmixVoice;
 	VoiceDetails mDetails;
 	std::unique_ptr<SoundVolume> mSoundVolume;
 	std::unique_ptr<OutputVoices> mOutputVoices;

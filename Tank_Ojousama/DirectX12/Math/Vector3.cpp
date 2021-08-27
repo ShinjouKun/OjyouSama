@@ -1,8 +1,18 @@
 #include "Vector3.h"
+#include "Math.h"
 #include<cmath>
 #include<iostream>
+
 const Vector3 Vector3::zero(0.0f, 0.0f, 0.0f);
 const Vector3 Vector3::one(1.0f, 1.0f, 1.0f);
+
+const Vector3 Vector3::right(1.0f, 0.0f, 0.0f);
+const Vector3 Vector3::up(0.0f, 1.0f, 0.0f);
+const Vector3 Vector3::forward(0.0f, 0.0f, 1.0f);
+const Vector3 Vector3::left(-1.0f, 0.0f, 0.0f);
+const Vector3 Vector3::down(0.0f, -1.0f, 0.0f);
+const Vector3 Vector3::back(0.0f, 0.0f, -1.0f);
+const Vector3 Vector3::Infinity(Math::infinity, Math::infinity, Math::infinity);
 
 Vector3::Vector3() :x(0), y(0), z(0)
 {

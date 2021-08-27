@@ -2,12 +2,14 @@
 
 #include "../Loader/ISoundLoader.h"
 #include "../Voice/SourceVoiceInitParam.h"
+#include "../Voice/SubmixVoiceInitParam.h"
 #include <xaudio2.h>
 #include <memory>
 #include <string>
 
 class SoundBase;
 class SourceVoice;
+class SubmixVoice;
 
 class SoundCreater
 {
@@ -16,6 +18,8 @@ public:
 	~SoundCreater();
 	//ソースボイス生成
 	std::shared_ptr<SourceVoice> createSourceVoice(const std::string& filePath, const SourceVoiceInitParam& param) const;
+	//サブミックスボイスの生成
+	std::shared_ptr<SubmixVoice> createSubmixVoice(const SubmixVoiceInitParam& param) const;
 
 private:
 	SoundCreater(const SoundCreater&) = delete;

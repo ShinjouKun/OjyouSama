@@ -29,6 +29,14 @@ public:
 
 	static const Vector3 zero;
 	static const Vector3 one;
+
+	static const Vector3 right;
+	static const Vector3 up;
+	static const Vector3 forward;
+	static const Vector3 left;
+	static const Vector3 down;
+	static const Vector3 back;
+	static const Vector3 Infinity;
 private:
 
 };

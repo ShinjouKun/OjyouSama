@@ -1,5 +1,8 @@
 #include "SoundPlayTimer.h"
 #include "SoundPlayer.h"
+#include "../Effects/SoundEffect.h"
+#include "../Effects/SoundEffectCollection.h"
+#include "../Effects/PlayerTimer/PlayTimerParam.h"
 #include "../Voice/SourceVoice.h"
 
 SoundPlayTimer::SoundPlayTimer(SourceVoice & sourceVoice, SoundPlayer & player):
@@ -12,22 +15,32 @@ SoundPlayTimer::~SoundPlayTimer() = default;
 
 void SoundPlayTimer::setPlayTime(float time)
 {
-	
+	PlayTimerParam param;
+	param.setTime = time;
+	mSourceVoice.getSoundEffect().setEffectParameters(SoundEffectCollection::PLAY_TIMER_ID, &param, sizeof(PlayTimerParam));
 }
 
 void SoundPlayTimer::setFrequency(float getFrequency)
 {
+	PlayTimerParam param;
+	param.setTime = getPlayTime();
+	param.frequencyRatio = getFrequency;
+	mSourceVoice.getSoundEffect().setEffectParameters(SoundEffectCollection::PLAY_TIMER_ID, &param, sizeof(PlayTimerParam));
 }
 
 float SoundPlayTimer::getPlayTime() const
 {
-	return 0.0f;
+	float out = 0.f;
+	mSourceVoice.getSoundEffect().getEffectParameters(SoundEffectCollection::PLAY_TIMER_ID, &out, sizeof(out));
+	return out;
 }
 
 void SoundPlayTimer::startTimer()
 {
+	mSourceVoice.getSoundEffect().enable(SoundEffectCollection::PLAY_TIMER_ID);
 }
 
 void SoundPlayTimer::stopTimer()
 {
+	mSourceVoice.getSoundEffect().disable(SoundEffectCollection::PLAY_TIMER_ID);
 }

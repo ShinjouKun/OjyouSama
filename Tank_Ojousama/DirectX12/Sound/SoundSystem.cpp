@@ -3,6 +3,7 @@
 #include "SoundManager.h"
 #include "Factory/SoundCreater.h"
 #include "Voice/SourceVoice.h"
+#include "Voice/SubmixVoice.h"
 
 SoundSystem::SoundSystem():
 	mBase(std::make_unique<SoundBase>()),
@@ -34,11 +35,23 @@ void SoundSystem::update()
 	mManager->update();
 }
 
+void SoundSystem::setListener(const std::shared_ptr<Sound3DListener>& listener)
+{
+	mManager->setListener(listener);
+}
+
 std::shared_ptr<SourceVoice> SoundSystem::createSourceVoice(const std::string & fileName, const SourceVoiceInitParam & param, const std::string & directoryPath) const
 {
 	auto sourceVoice = mCreater->createSourceVoice(directoryPath + fileName, param);
 	mManager->add(sourceVoice);
 	return sourceVoice;
+}
+
+std::shared_ptr<SubmixVoice> SoundSystem::createSubmixVoice(const SubmixVoiceInitParam & param) const
+{
+	auto submixVoice = mCreater->createSubmixVoice(param);
+	mManager->add(submixVoice);
+	return submixVoice;
 }
 
 const SoundBase & SoundSystem::getBase() const

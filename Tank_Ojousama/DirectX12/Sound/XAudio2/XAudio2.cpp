@@ -2,6 +2,7 @@
 #include "../Loader/WaveFormat.h"
 #include "../Voice/MasteringVoice.h"
 #include "../Voice/SourceVoice.h"
+#include "../Voice/SubmixVoice.h"
 #include <cassert>
 
 XAudio2::XAudio2(bool* successFlag) :
@@ -38,13 +39,28 @@ std::unique_ptr<SourceVoice> XAudio2::createSourceVoice(MasteringVoice& masterin
 	
 	auto res = mXAudio2->CreateSourceVoice(&sourceVoice, &format, param.flags.get(), param.maxFrequencyRatio, param.callback, param.sendList, param.effectChain);
 
-	if (FAILED(res)) {
+	if (FAILED(res))
+	{
 		//Debug::logError("Failed created source voice.");
 		return nullptr;
 	}
 	
 	WaveFormat fmt(format);
 	return std::make_unique<SourceVoice>(sourceVoice, masteringVoice, loader, fmt, param);
+}
+
+std::unique_ptr<SubmixVoice> XAudio2::createSubmixVoice(MasteringVoice & masteringVoice, const SubmixVoiceInitParam & param) const
+{
+	IXAudio2SubmixVoice* submixVoice = nullptr;
+	auto res = mXAudio2->CreateSubmixVoice(&submixVoice, param.channels, param.inputSampleRate, param.flags.get(), param.processingStage, param.sendList, param.effectChain);
+
+	if (FAILED(res))
+	{
+		//Debug::logError("Failed created submix voice.");
+		return nullptr;
+	}
+
+	return std::make_unique<SubmixVoice>(submixVoice, masteringVoice, param);
 }
 
 bool XAudio2::createXAudio2() 
