@@ -1,9 +1,5 @@
 #pragma once
 #include<memory>
-//#include"TexRenderer.h"//スプライト用
-//#include"ModelRenderer.h"//モデル用
-//#include"ParticleManager.h"//パーティクル
-//#include"DirectXManager.h"
 #include "../Render/TexRenderer.h"
 #include "../Render/ModelRenderer.h"
 #include "../Render/ParticleManager.h"

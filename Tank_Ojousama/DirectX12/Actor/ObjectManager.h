@@ -2,8 +2,6 @@
 #include<vector>
 #include<memory>
 #include"BaseObject.h"
-//#include"DirectXManager.h"
-//#include"Collision.h"
 #include "../Device/DirectXManager.h"
 #include "../Collision/Collision.h"
 

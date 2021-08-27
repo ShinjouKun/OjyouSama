@@ -1,17 +1,6 @@
 #pragma once
 #include<memory>
 #include"BaseScene.h"
-//#include"Input.h"
-//#include"Player.h"
-//#include"EnemyTank.h"
-//#include"Block.h"
-//#include"T_REX.h"
-//#include"TaihouEnemy.h"
-//#include"ObjectManager.h"
-//#include"Camera.h"
-//#include"ModelRenderer.h"
-//#include"TexRenderer.h"
-//#include"ParticleManager.h"
 #include "../Device/Input.h"
 #include "../Actor/Player.h"
 #include "../Actor/EnemyTank.h"

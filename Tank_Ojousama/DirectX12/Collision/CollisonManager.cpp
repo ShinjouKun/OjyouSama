@@ -1,44 +1,75 @@
 #include "CollisonManager.h"
 #include"BaseCollider.h"
 #include"Collision.h"
-//#include"Vector3.h"
 #include "../Math/Vector3.h"
+#include"../Collision/OctTreeManager.h"
+bool CollisonManager::OctTreeSet()
+{
+	//‹óŠÔì¬
+	 S8Tree = new OctTreeManager();
+	if (!S8Tree->Init(
+		2,//ŠK‘wƒŒƒxƒ‹
+		Vector3(-500, 0, -1000),
+		Vector3(1000, 10, 1000)))
+	{
+		return 0;
+	}
+}
 CollisonManager * CollisonManager::GetInstance()
 {
 	static CollisonManager instance;
 	return &instance;
 }
 
+OctTreeManager * CollisonManager::GetInstanceOct()
+{
+	return S8Tree;
+}
+
 void CollisonManager::CheckAllCollisons()
 {
-	forward_list<BaseCollider*>::iterator objectA;
-	forward_list<BaseCollider*>::iterator objectB;
+	vector<BaseCollider*> List;
+	S8Tree->GetAllCollisonList(List);
 
-	//‘S‚Ä‚Ì‘g‚İ‡‚í‚¹‚Å‘“–‚½‚è‚ğ‚·‚é
-	objectA = colliders.begin();
-	for (;objectA != colliders.end();++objectA)
+	for (int i = 0; i < List.size(); i +=2)
 	{
-		objectB = objectA;
-		++objectB;
-		for (;objectB != colliders.end();++objectB)
+		BaseCollider* colA = List[i];
+		BaseCollider* colB = List[i + 1];
+
+
+		//‚Ç‚¿‚ç‚à‹…‚Ìê‡
+		if (colA->GetCollType() == SPHERE_COLLISON &&
+			colB->GetCollType() == SPHERE_COLLISON && 
+			colA != colB)
 		{
-			BaseCollider* colA = *objectA;
-			BaseCollider* colB = *objectB;
-
-			//‚Ç‚¿‚ç‚à‹…‚Ìê‡
-			if (colA->GetCollType() == SPHERE_COLLISON &&
-				colB->GetCollType() == SPHERE_COLLISON&&colA != colB)
+			Sphere* spherA = dynamic_cast<Sphere*>(colA);
+			Sphere* spherB = dynamic_cast<Sphere*>(colB);
+			Vector3 inter;
+			
+			if (Collision::StoSColl(*spherA, *spherB, &inter))
 			{
-				Sphere* spherA = dynamic_cast<Sphere*>(colA);
-				Sphere* spherB = dynamic_cast<Sphere*>(colB);
-				Vector3 inter;
-				if (Collision::StoSColl(*spherA, *spherB, &inter))
-				{
-					colA->OnCollison(CollisonInfo(colB->GetObject(), colB, inter));
-					colB->OnCollison(CollisonInfo(colA->GetObject(), colA, inter));
-				}
-
+				colA->OnCollison(colB);
+				colB->OnCollison(colA);
 			}
+			
 		}
+
+		////‚Ç‚¿‚ç‚àAABB
+		//	if (colA->GetCollType() == AABB_COLLISON &&
+		//		colB->GetCollType() == AABB_COLLISON && colA != colB)
+		//	{
+		//		AABB* aabbA = dynamic_cast<AABB*>(colA);
+		//		AABB* aabbB = dynamic_cast<AABB*>(colB);
+		//		Vector3 inter;
+		//		if (Collision::AABBColl(*aabbA, *aabbB))
+		//		{
+		//			colA->OnCollison(CollisonInfo(colB->GetObject(), colB, inter));
+		//			colB->OnCollison(CollisonInfo(colA->GetObject(), colA, inter));
+		//		}
+
+		//	}
+		
+
 	}
+
 }

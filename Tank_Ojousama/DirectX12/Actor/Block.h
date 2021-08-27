@@ -32,7 +32,7 @@ private:
 	string num;//複数用ナンバー
 	string numName;
 	// BaseObject を介して継承されました
-	virtual void OnCollison(const CollisonInfo & info) override;
+	virtual void OnCollison(BaseCollider* col) override;
 
 	// BaseObject を介して継承されました
 	virtual void ImGuiDebug() override;

@@ -1,5 +1,5 @@
 #include "ObjectManager.h"
-
+#include"../Collision/CollisonManager.h"
 
 ObjectManager::ObjectManager()
 {
@@ -56,18 +56,14 @@ void ObjectManager::AddListUpdate()
 
 void ObjectManager::ObjectManagerUpdate()//å‚É“–‚½‚è”»’è‚È‚Ç
 {
+	
 	for (auto obj1:objectList)
 	{
 		if (obj1 == nullptr || obj1->GetDeath())continue;
 			obj1->Update();
-		for (auto obj2:objectList)
-		{
-			if (obj2 == nullptr || obj2->GetDeath())continue;
-			{
-				obj1->CollisonUpdate();
-			}
-		}
+			obj1->CollisonUpdate();
 	}
+	CollisonManager::GetInstance()->CheckAllCollisons();//ˆêŠ‡XV
 }
 
 void ObjectManager::RemoveListUpdate()

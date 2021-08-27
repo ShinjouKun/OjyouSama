@@ -2,11 +2,6 @@
 #include"ObjectManager.h"
 #include"BaseObject.h"
 #include<memory>
-//#include"Camera.h"
-//#include"TexRenderer.h"
-//#include"ModelRenderer.h"
-//#include"ParticleManager.h"
-//#include"CollisonManager.h"
 #include "../Render/Camera.h"
 #include "../Render/TexRenderer.h"
 #include "../Render/ModelRenderer.h"
@@ -21,6 +16,7 @@ public:
 	~Player();
 
 	void Shot();
+	void AngleReset();//数値のオーバーフロウを防ぎたい
 	// BaseObject を介して継承されました
 	virtual void Init() override;
 	virtual void Update() override;
@@ -50,11 +46,13 @@ private:
 	int bulletStock;//弾をいっぱいだすため
 	float atkAngle;//砲塔用//描画
 	float fireAngle;//砲身
+	float cameraSpeed;
 	//サウンド
 
 	// BaseObject を介して継承されました
-	virtual void OnCollison(const CollisonInfo & info) override;
+	virtual void OnCollison(BaseCollider* col) override;
 
 	// BaseObject を介して継承されました
 	virtual void ImGuiDebug() override;
+	
 };

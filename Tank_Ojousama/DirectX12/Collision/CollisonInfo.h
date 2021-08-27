@@ -1,6 +1,5 @@
 #pragma once
 #include<cmath>
-//#include"Vector3.h"
 #include "../Math/Vector3.h"
 
 class BaseObject;

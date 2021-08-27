@@ -4,7 +4,7 @@ enum CollisonTypes
 {
 	UNKNOWN,//ñ¢ê›íËÅAïsñæ
 	SPHERE_COLLISON,//ãÖ
-	BOX_COLLISON,//î†
+	AABB_COLLISON,//AABB
 	PLANE_COLLISON,//ïΩñ ÅAç‚Ç»Ç«
 	RAY_COLLISON,//ê¸
 };
