@@ -152,6 +152,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor\BaseObject.cpp" />
+    <ClCompile Include="Actor\TestItem.cpp" />
+    <ClCompile Include="Collision\AABBCollider.cpp" />
+    <ClCompile Include="Collision\CollisonTree.cpp" />
+    <ClCompile Include="Collision\OctTreeManager.cpp" />
+    <ClCompile Include="Collision\WorldSpace.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
     <ClCompile Include="Actor\Bullet.cpp" />
@@ -376,8 +381,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\TestItem.h" />
+    <ClInclude Include="Collision\AABBCollider.h" />
     <ClInclude Include="Collision\BaseCollider.h" />
     <ClInclude Include="Actor\BaseObject.h" />
+    <ClInclude Include="Collision\CollisonTree.h" />
+    <ClInclude Include="Collision\OctTreeManager.h" />
+    <ClInclude Include="Collision\WorldSpace.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />
     <ClInclude Include="Actor\Bullet.h" />
