@@ -1,5 +1,5 @@
 #include "Title.h"
-#include"GamePlay.h"
+#include"Select.h"
 //#include"Collision.h"
 #include "../Collision/Collision.h"
 
@@ -27,7 +27,7 @@ void Title::UpdateScene()
 {
 	if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 	{
-		NextScene(std::make_shared<GamePlay>());
+		NextScene(std::make_shared<Select>());
 	}
 }
 
