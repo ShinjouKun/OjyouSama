@@ -179,6 +179,7 @@
     <ClCompile Include="Sound\Effects\SoundEffectCollection.cpp" />
     <ClCompile Include="Sound\Factory\SoundCreater.cpp" />
     <ClCompile Include="Sound\Flag\Flag.cpp" />
+    <ClCompile Include="Sound\Listener.cpp" />
     <ClCompile Include="Sound\Loader\FrameHeader.cpp" />
     <ClCompile Include="Sound\Loader\MP3.cpp" />
     <ClCompile Include="Sound\Loader\SoundFormatConverter.cpp" />
@@ -423,6 +424,7 @@
     <ClInclude Include="Sound\Effects\SoundEffectUtility.h" />
     <ClInclude Include="Sound\Factory\SoundCreater.h" />
     <ClInclude Include="Sound\Flag\Flag.h" />
+    <ClInclude Include="Sound\Listener.h" />
     <ClInclude Include="Sound\Loader\FileSize.h" />
     <ClInclude Include="Sound\Loader\FrameHeader.h" />
     <ClInclude Include="Sound\Loader\ISoundLoader.h" />
