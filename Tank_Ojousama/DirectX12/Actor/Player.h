@@ -8,6 +8,7 @@
 #include "../Render/ParticleManager.h"
 #include "../Collision/CollisonManager.h"
 
+class Listener;
 using namespace std;
 class Player :public BaseObject
 {
@@ -27,6 +28,7 @@ private:
 	shared_ptr<ParticleManager>playerParticle;
 	shared_ptr<ParticleEmitterBox>playerParticleBox;
 	shared_ptr<TexRenderer>playerSprite;
+	shared_ptr<Listener> listener;
 	Camera* camera;
 	//ƒJƒƒ‰—p
 	Vector3 CameraPos;

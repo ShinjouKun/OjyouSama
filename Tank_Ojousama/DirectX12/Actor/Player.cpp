@@ -3,8 +3,10 @@
 #include<sstream>
 #include "../Device/Input.h"
 #include "../Collision/BaseCollider.h"
+#include "../Sound/Listener.h"
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj,shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
-	:playerModel(m),playerParticle(p),playerSprite(s)
+	:playerModel(m),playerParticle(p),playerSprite(s),
+	listener(std::make_shared<Listener>())
 {
 	position = pos;
 	angle = ang;
@@ -207,7 +209,8 @@ void Player::Update()
 	
 	}
 	
-	
+	//リスナーに自身の位置を更新
+	listener->setPos(position);
 }
 
 void Player::Rend()
