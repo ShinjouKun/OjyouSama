@@ -165,6 +165,9 @@
     <ClCompile Include="Device\Window.cpp">
       <Filter>Device</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\Select.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\BasicPixelShader.hlsl">
@@ -359,6 +362,9 @@
     </ClInclude>
     <ClInclude Include="Device\Window.h">
       <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Select.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -163,6 +163,7 @@
     <ClCompile Include="Math\Easing.cpp" />
     <ClCompile Include="Actor\EnemyTank.cpp" />
     <ClCompile Include="Scene\GamePlay.cpp" />
+    <ClCompile Include="Scene\Select.cpp" />
     <ClCompile Include="Utility\ImGuiSimplified.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -360,6 +361,7 @@
     <ClInclude Include="Math\Easing.h" />
     <ClInclude Include="Actor\EnemyTank.h" />
     <ClInclude Include="Scene\GamePlay.h" />
+    <ClInclude Include="Scene\Select.h" />
     <ClInclude Include="Utility\ImGuiSimplified.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
