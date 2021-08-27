@@ -8,7 +8,7 @@ using namespace std;
 class TestItem :public BaseObject
 {
 public:
-	TestItem(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int n);
+	TestItem(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int aliv, int n);
 	~TestItem();
 
 private:
@@ -24,6 +24,9 @@ private:
 	string name;
 	string num;
 	string numName;
+
+	//ê∂ë∂éûä‘éwíËóp
+	int alive;
 
 	virtual void OnCollison(const CollisonInfo & info) override;
 
