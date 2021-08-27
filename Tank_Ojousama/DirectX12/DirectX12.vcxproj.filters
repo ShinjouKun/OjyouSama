@@ -165,6 +165,15 @@
     <ClCompile Include="Device\Window.cpp">
       <Filter>Device</Filter>
     </ClCompile>
+    <ClCompile Include="Actor\TestEnemy.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\BreadCrumb.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\AttackArea.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\BasicPixelShader.hlsl">
@@ -242,9 +251,6 @@
     </ClInclude>
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="TestEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Actor\BaseObject.h">
       <Filter>Acter</Filter>
@@ -359,6 +365,15 @@
     </ClInclude>
     <ClInclude Include="Device\Window.h">
       <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\TestEnemy.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\BreadCrumb.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\AttackArea.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

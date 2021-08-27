@@ -90,6 +90,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -105,7 +106,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <SDLCheck>false</SDLCheck>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -124,6 +125,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -141,7 +143,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -151,7 +153,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\AttackArea.cpp" />
     <ClCompile Include="Actor\BaseObject.cpp" />
+    <ClCompile Include="Actor\BreadCrumb.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
     <ClCompile Include="Actor\Bullet.cpp" />
@@ -163,6 +167,7 @@
     <ClCompile Include="Math\Easing.cpp" />
     <ClCompile Include="Actor\EnemyTank.cpp" />
     <ClCompile Include="Scene\GamePlay.cpp" />
+    <ClCompile Include="Actor\TestEnemy.cpp" />
     <ClCompile Include="Utility\ImGuiSimplified.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -345,6 +350,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\AttackArea.h" />
+    <ClInclude Include="Actor\BreadCrumb.h" />
     <ClInclude Include="Collision\BaseCollider.h" />
     <ClInclude Include="Actor\BaseObject.h" />
     <ClInclude Include="Scene\BaseScene.h" />
@@ -360,6 +367,7 @@
     <ClInclude Include="Math\Easing.h" />
     <ClInclude Include="Actor\EnemyTank.h" />
     <ClInclude Include="Scene\GamePlay.h" />
+    <ClInclude Include="Actor\TestEnemy.h" />
     <ClInclude Include="Utility\ImGuiSimplified.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -382,7 +390,6 @@
     <ClInclude Include="Sound\Sound.h" />
     <ClInclude Include="Collision\SpherCollider.h" />
     <ClInclude Include="Actor\TaihouEnemy.h" />
-    <ClInclude Include="TestEnemy.h" />
     <ClInclude Include="Render\TexLoader.h" />
     <ClInclude Include="Render\TexRenderer.h" />
     <ClInclude Include="Scene\Title.h" />
