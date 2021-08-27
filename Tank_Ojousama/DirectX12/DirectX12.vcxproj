@@ -151,7 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\AttackArea.cpp" />
     <ClCompile Include="Actor\BaseObject.cpp" />
+    <ClCompile Include="Actor\BreadCrumb.cpp" />
+    <ClCompile Include="Actor\TestEnemy.cpp" />
     <ClCompile Include="Actor\TestItem.cpp" />
     <ClCompile Include="Collision\AABBCollider.cpp" />
     <ClCompile Include="Collision\CollisonTree.cpp" />
@@ -382,6 +385,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\AttackArea.h" />
+    <ClInclude Include="Actor\BreadCrumb.h" />
+    <ClInclude Include="Actor\TestEnemy.h" />
     <ClInclude Include="Actor\TestItem.h" />
     <ClInclude Include="Collision\AABBCollider.h" />
     <ClInclude Include="Collision\BaseCollider.h" />

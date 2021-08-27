@@ -17,6 +17,7 @@ enum ObjectType//オブジェクトのタグ
 	ENEMYBULLET,
 	BOSS,
 	BLOCK,
+	BREADCRUMB,
 	ITEM,
 };
 
