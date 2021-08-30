@@ -36,5 +36,9 @@ private:
 	Vector3 targetPos2;
 	Vector3 targetPos3;
 	Vector3 targetPos4;
+	Vector3 option;
+	Vector3 titleback;
+	Vector3 garege;
+	Vector3 syutu;
 
 };
