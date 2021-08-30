@@ -32,6 +32,8 @@ public:
 	virtual void ImGuiDebug() = 0;
 	virtual void CollisonUpdate();
 	virtual Vector3 RotateY(float angle);
+	int GetDamage() { return damage; }//ƒ_ƒ[ƒW
+	
 	//“–‚½‚è”»’è
 	void SetCollidder(BaseCollider* collider);
 	void SetCollidder(const Vector3& center,float rad);//‰~
@@ -57,6 +59,7 @@ protected:
 	Vector3 position;
 	Vector3 velocity;
     Vector3 angle;
+	int damage;
 	float speed;
 	//PI
 	const float PI = 3.1415926535897932384626433832795f;

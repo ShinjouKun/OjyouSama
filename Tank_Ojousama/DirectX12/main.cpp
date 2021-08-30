@@ -94,15 +94,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
-	//ƒeƒBƒ‰ƒmƒTƒEƒ‹ƒX
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/TLEX_A.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/TLEX_B.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/TLEX_asiL.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/TLEX_asiR.obj");
+
 	//Player
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTM.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKA.obj");//–C“ƒ
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKB.obj");//–Cg
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/body.obj");//ŽÔ‘Ì
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/head.obj");//–C“ƒ
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTMR.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKAR.obj");//–C“ƒ
@@ -115,6 +114,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/bill.obj");
 	//Bullet
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Bullet.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/mine.obj");
 	//ƒXƒe[ƒW
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/skydome.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ground.obj");

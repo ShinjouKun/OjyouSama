@@ -1,6 +1,6 @@
 #include "EnemyTank.h"
-#include"Bullet.h"
 #include"../Collision/BaseCollider.h"
+#include"../Weapons/NormalBullet.h"
 #define ToRad(deg)((deg)*(PI/180.0f))
 EnemyTank::EnemyTank(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, shared_ptr<TexRenderer>s, int n)
 	:tankModel(m),tankParticle(p),tankSprite(s)
@@ -16,7 +16,7 @@ EnemyTank::~EnemyTank()
 
 void EnemyTank::Shot()
 {
-	objM->Add(new Bullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, tankModel, tankParticle, objType, bulletStock));
+	objM->Add(new NormalBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, tankModel, tankParticle, objType, bulletStock));
 	ShotCount = 0;
 	ShotFlag = false;
 }
@@ -49,7 +49,7 @@ void EnemyTank::Init()
 	tankParticleBox = make_shared<ParticleEmitterBox>(tankParticle);
 	tankParticleBox->LoadAndSet("KemuriL", "Resouse/tuti.jpg");
 	tankParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
-	HP = 1;
+	HP = 10;
 	death = false;
 	ShotFlag = false;
 	HitFlag = false;
@@ -273,7 +273,7 @@ void EnemyTank::OnCollison(BaseCollider* col)
 	
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
-		HP--;
+		HP -= col->GetColObject()->GetDamage();
 		HitFlag = true;
 	}
 
@@ -297,5 +297,5 @@ void EnemyTank::OnCollison(BaseCollider* col)
 
 void EnemyTank::ImGuiDebug()
 {
-	//ImGui::SliderInt("EnemyHp", &HP, 0,HP);
+	ImGui::SliderInt("EnemyHp", &HP, 0,HP);
 }

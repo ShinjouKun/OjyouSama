@@ -1,9 +1,13 @@
 #include "Player.h"
-#include"Bullet.h"
+
 #include<sstream>
 #include "../Device/Input.h"
 #include "../Collision/BaseCollider.h"
 #include "../Sound/Listener.h"
+
+//武器たち
+#include"../Weapons/NormalBullet.h"
+#include"../Weapons/LandMine.h"
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj,shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
 	:playerModel(m),playerParticle(p),playerSprite(s),
 	listener(std::make_shared<Listener>())
@@ -17,9 +21,17 @@ Player::~Player()
 {
 }
 
-void Player::Shot()
+
+void Player::UseWeapon1()
 {
-	objM->Add(new Bullet(Vector3(position.x, position.y-0.15f, position.z), Vector3(fireAngle,-atkAngle,0), objM, playerModel,playerParticle,objType,bulletStock));
+	objM->Add(new NormalBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	shotFlag1 = true;
+}
+
+void Player::UseWeapon2()
+{
+	objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0,0,0), objM, playerModel, playerParticle, objType, bulletStock));
+	shotFlag2 = true;
 }
 
 void Player::AngleReset()
@@ -75,6 +87,7 @@ void Player::Init()
 	playerModel->AddModel("TankPlayerB", "Resouse/BoxTankBTM.obj", "Resouse/BoxTankBTM.png");
 	playerModel->SetAncPoint("TankPlayerB", Vector3(-2.0f, -2.0f, -2.0f));
 
+	
 	//playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
 	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
 	//playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
@@ -183,24 +196,43 @@ void Player::Update()
 		CameraPos = position + CamVelocity;
 		camera->SetEye(Vector3(CameraPos.x, CameraPos.y+4.0f, CameraPos.z));
 		camera->SetTarget(Vector3(position.x, position.y+4.0f, position.z));
-		if (shotFlag)
+		if (shotFlag1)
 		{
-			shotcnt++;
-			if (shotcnt >= 30)
+			int t = objM->GetReloadTime();
+			shotcnt1++;
+			if (shotcnt1 >= t)
 			{
-				shotFlag = false;
+				shotFlag1 = false;
 			}
 		}
 		else
 		{
-			if (Input::KeyState(DIK_SPACE) || Input::pad_data.rgbButtons[7])
+			if (Input::KeyState(DIK_SPACE) || Input::pad_data.rgbButtons[7])//Rトリガー
 			{
-				Shot();
+				UseWeapon1();
 				bulletStock++;
-				shotFlag = true;
-				shotcnt = 0;
+				shotcnt1 = 0;
 			}
 		}
+		if (shotFlag2)
+		{
+			int t = objM->GetReloadTime();
+			shotcnt2++;
+			if (shotcnt2 >= t)
+			{
+				shotFlag2 = false;
+			}
+		}
+		else
+		{
+			if (Input::KeyState(DIK_LSHIFT) || Input::pad_data.rgbButtons[1])//Yボタン
+			{
+				UseWeapon2();
+				bulletStock++;
+				shotcnt2 = 0;
+			}
+		}
+		
 		//球数上限を設け
 		if (bulletStock >= 50)
 		{
@@ -262,7 +294,7 @@ void Player::OnCollison(BaseCollider* col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET)
 	{
-		HP--;
+		HP -= col->GetColObject()->GetDamage();
 	}
 	
 	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
@@ -289,5 +321,8 @@ void Player::ImGuiDebug()
 	ImGui::SliderFloat3("BtmAngle", ang, 0, 360);
 	ImGui::SliderFloat("AtkAngle", &atkAngle, 0, 360);
 	ImGui::SliderFloat("FireAngle", &fireAngle, 0, 360);
-	ImGui::Checkbox("ShotFlag", &shotFlag);
+	ImGui::Checkbox("ShotFlag", &shotFlag1);
+	ImGui::Checkbox("ShotFlag", &shotFlag2);
+	ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
+	ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
 }

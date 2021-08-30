@@ -8,6 +8,7 @@
 #include "../Render/ParticleManager.h"
 #include "../Collision/CollisonManager.h"
 
+
 class Listener;
 using namespace std;
 class Player :public BaseObject
@@ -16,7 +17,8 @@ public:
 	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p,shared_ptr<TexRenderer>s);
 	~Player();
 
-	void Shot();
+	void UseWeapon1();
+	void UseWeapon2();
 	void AngleReset();//数値のオーバーフロウを防ぎたい
 	// BaseObject を介して継承されました
 	virtual void Init() override;
@@ -35,8 +37,10 @@ private:
 	Vector3 TargetPos;
 	Vector3 CamVelocity;//カメラの移動量
 	//制御用フラグ
-	bool shotFlag =false;
-	int shotcnt = 0;
+	bool shotFlag1 =false;
+	bool shotFlag2 = false;
+	int shotcnt1 = 0;
+	int shotcnt2 = 0;
 	bool hitFlag = false;
 	bool moveFlag;
 	bool FrontMove;

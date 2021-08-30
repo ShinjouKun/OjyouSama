@@ -1,10 +1,8 @@
-#include "Bullet.h"
-//#include"Matrix4.h"
-#include "../Math/Matrix4.h"
+#include "NormalBullet.h"
+#include"Weapon.h"
 #include "../Collision/SpherCollider.h"
 #include"../Collision/BaseCollider.h"
-
-Bullet::Bullet(Vector3 pos, Vector3 ang, ObjectManager * obj, std::shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p,ObjectType t,int num)
+NormalBullet::NormalBullet(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, ObjectType t, int num)
 	:BulletModel(m),BulletParticle(p)
 {
 	position = pos;
@@ -14,18 +12,19 @@ Bullet::Bullet(Vector3 pos, Vector3 ang, ObjectManager * obj, std::shared_ptr<Mo
 	number = num;
 }
 
-Bullet::~Bullet()
+NormalBullet::~NormalBullet()
 {
-	
 }
 
-void Bullet::Init()
+void NormalBullet::Init()
 {
 	SetBulletType();
-	name = "Bullet";
+	damage = 2;
+	objM->SetReloadTime(30);
+	name = "NormalBullet";
 	num = to_string(number);
 	numName = name + num;
-	BulletModel->AddModel(numName,"Resouse/Bullet.obj","Resouse/Bullet.png");
+	BulletModel->AddModel(numName, "Resouse/Bullet.obj", "Resouse/Bullet.png");
 	BulletParticleBox = make_shared<ParticleEmitterBox>(BulletParticle);
 	BulletParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
 	alive = 0;
@@ -35,15 +34,13 @@ void Bullet::Init()
 	SetCollidder(Vector3(position.x, position.y, position.z), 0.5f);
 }
 
-void Bullet::Update()
+void NormalBullet::Update()
 {
-	
-
-	velocity = Vector3(0,0,-1);
+	velocity = Vector3(0, 0, -1);
 	velocity *= Matrix4::RotateX(angle.x);
 	velocity *= Matrix4::RotateY(angle.y);
 	position += velocity * speed;
-	
+
 	alive++;
 	if (alive >= 150)
 	{
@@ -51,31 +48,18 @@ void Bullet::Update()
 	}
 }
 
-void Bullet::Rend()
+void NormalBullet::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	BulletModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(1, 1, 1));
 }
 
-void Bullet::SetBulletType()
+void NormalBullet::ImGuiDebug()
 {
-	switch (setType)
-	{
-	case PLAYER:
-		objType = ObjectType::BULLET;//プレイヤーの弾	
-		break;
-	case ENEMY:
-	case BOSS:
-		objType = ObjectType::ENEMYBULLET;//敵の弾
-		break;
-	default:
-		break;
-	}
 }
 
-void Bullet::OnCollison(BaseCollider* col)
+void NormalBullet::OnCollison(BaseCollider * col)
 {
-	
 	if (objType == BULLET && (col->GetColObject()->GetType() == ObjectType::ENEMY || col->GetColObject()->GetType() == ObjectType::BOSS || col->GetColObject()->GetType() == ObjectType::ENEMYBULLET || col->GetColObject()->GetType() == ObjectType::BLOCK))
 	{
 		BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
@@ -87,8 +71,4 @@ void Bullet::OnCollison(BaseCollider* col)
 		BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
 		death = true;
 	}
-}
-
-void Bullet::ImGuiDebug()
-{
 }
