@@ -1,4 +1,5 @@
 #include "TestItem.h"
+#include "../Collision/BaseCollider.h"
 
 TestItem::TestItem(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int aliv, int n):itemModel(m)
 {
@@ -45,14 +46,14 @@ void TestItem::Rend()
 	itemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(1, 1, 1));
 }
 
-void TestItem::OnCollison(BaseCollider* info)
+void TestItem::OnCollison(BaseCollider* col)
 {
-	/*
-	if (info.object->GetType() == ObjectType::PLAYER);
+	
+	if (col->GetColObject()->GetType() == ObjectType::PLAYER);
 	{
 		death = true;
 	}
-	*/
+	
 }
 
 void TestItem::ImGuiDebug()

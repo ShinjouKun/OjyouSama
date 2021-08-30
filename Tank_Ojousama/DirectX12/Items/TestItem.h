@@ -1,6 +1,6 @@
 #pragma once
-#include "ObjectManager.h"
-#include "BaseObject.h"
+#include "../Actor/ObjectManager.h"
+#include "../Actor/BaseObject.h"
 #include "../Render/ModelRenderer.h"
 
 using namespace std;
