@@ -75,9 +75,6 @@
     <ClCompile Include="Actor\Block.cpp">
       <Filter>Acter</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Bullet.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
     <ClCompile Include="Render\Camera.cpp">
       <Filter>Render</Filter>
     </ClCompile>
@@ -149,12 +146,6 @@
     </ClCompile>
     <ClCompile Include="Math\Vector4.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\T_REX.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\TaihouEnemy.cpp">
-      <Filter>Acter</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Title.cpp">
       <Filter>Scene</Filter>
@@ -285,6 +276,15 @@
     <ClCompile Include="Actor\BreadCrumb.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Weapons\LandMine.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapons\NormalBullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapons\Weapon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\BasicPixelShader.hlsl">
@@ -378,9 +378,6 @@
     <ClInclude Include="Actor\Block.h">
       <Filter>Acter</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Bullet.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
     <ClInclude Include="Render\Camera.h">
       <Filter>Render</Filter>
     </ClInclude>
@@ -464,12 +461,6 @@
     </ClInclude>
     <ClInclude Include="Math\Vector4.h">
       <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\T_REX.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\TaihouEnemy.h">
-      <Filter>Acter</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Title.h">
       <Filter>Scene</Filter>
@@ -655,6 +646,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Actor\BreadCrumb.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapons\LandMine.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapons\NormalBullet.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapons\Weapon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

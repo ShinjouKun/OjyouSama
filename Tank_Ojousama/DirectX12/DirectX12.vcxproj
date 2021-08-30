@@ -162,7 +162,6 @@
     <ClCompile Include="Collision\WorldSpace.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
-    <ClCompile Include="Actor\Bullet.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Collision\Collision.cpp" />
     <ClCompile Include="Collision\CollisionPrimitive.cpp" />
@@ -222,15 +221,16 @@
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Collision\SpherCollider.cpp" />
-    <ClCompile Include="Actor\TaihouEnemy.cpp" />
     <ClCompile Include="Render\TexLoader.cpp" />
     <ClCompile Include="Render\TexRenderer.cpp" />
     <ClCompile Include="Scene\Title.cpp" />
-    <ClCompile Include="Actor\T_REX.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Device\Window.cpp" />
+    <ClCompile Include="Weapons\LandMine.cpp" />
+    <ClCompile Include="Weapons\NormalBullet.cpp" />
+    <ClCompile Include="Weapons\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\BasicPixelShader.hlsl">
@@ -397,7 +397,6 @@
     <ClInclude Include="Collision\WorldSpace.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />
-    <ClInclude Include="Actor\Bullet.h" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Collision\Collision.h" />
     <ClInclude Include="Collision\CollisionPrimitive.h" />
@@ -480,17 +479,18 @@
     <ClInclude Include="Actor\Player.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Collision\SpherCollider.h" />
-    <ClInclude Include="Actor\TaihouEnemy.h" />
     <ClInclude Include="TestEnemy.h" />
     <ClInclude Include="Render\TexLoader.h" />
     <ClInclude Include="Render\TexRenderer.h" />
     <ClInclude Include="Scene\Title.h" />
-    <ClInclude Include="Actor\T_REX.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Utility\WCHAR_char.h" />
     <ClInclude Include="Device\Window.h" />
+    <ClInclude Include="Weapons\LandMine.h" />
+    <ClInclude Include="Weapons\NormalBullet.h" />
+    <ClInclude Include="Weapons\Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
