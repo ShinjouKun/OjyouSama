@@ -19,8 +19,8 @@ NormalBullet::~NormalBullet()
 void NormalBullet::Init()
 {
 	SetBulletType();
-	damage = 2;
-	objM->SetReloadTime(30);
+	damage = 5;
+	objM->SetReloadTime(20);
 	name = "NormalBullet";
 	num = to_string(number);
 	numName = name + num;

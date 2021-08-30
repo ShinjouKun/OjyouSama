@@ -90,6 +90,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/TankUI.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Deth.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/kisikun.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/syutugeki.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/garezi.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/opusyon.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/tatleback.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/select.png");
 
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
