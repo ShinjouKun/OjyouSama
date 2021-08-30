@@ -19,7 +19,7 @@ LandMine::~LandMine()
 void LandMine::Init()
 {
 	SetBulletType();
-	damage = 1;
+	damage = 10;
 	objM->SetReloadTime(100);
 	name = "Mine";
 	num = to_string(number);
