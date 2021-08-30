@@ -25,13 +25,21 @@ void Select::StartScene()
 	targetPos2 = Vector3(320, 540 - 64, 0.0f);
 	targetPos3 = Vector3(960, 180, 0.0f);
 	targetPos4 = Vector3(960, 540 - 64, 0.0f);
+	syutu = Vector3(32, 64 - 32, 0.0f);
+	garege = Vector3(32, 128 - 32, 0.0f);
+	option = Vector3(32, 192 - 32, 0.0f);
+	titleback = Vector3(32, 256 - 32, 0.0f);
 	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("AIM1", "Resouse/AIM64.png");
-	BaseScene::mSprite->AddTexture("target", "Resouse/AIM64.png");
-	BaseScene::mSprite->AddTexture("target2", "Resouse/AIM64.png");
-	BaseScene::mSprite->AddTexture("target3", "Resouse/AIM64.png");
-	BaseScene::mSprite->AddTexture("target4", "Resouse/AIM64.png");
+	BaseScene::mSprite->AddTexture("target", "Resouse/select.png");
+	BaseScene::mSprite->AddTexture("target2", "Resouse/select.png");
+	BaseScene::mSprite->AddTexture("target3", "Resouse/select.png");
+	BaseScene::mSprite->AddTexture("target4", "Resouse/select.png");
+	BaseScene::mSprite->AddTexture("Syutugeki", "Resouse/syutugeki.png");
+	BaseScene::mSprite->AddTexture("Garage", "Resouse/garezi.png");
+	BaseScene::mSprite->AddTexture("Option", "Resouse/opusyon.png");
+	BaseScene::mSprite->AddTexture("Titleback", "Resouse/tatleback.png");
 }
 
 void Select::UpdateScene()
@@ -151,13 +159,18 @@ void Select::DrawScene()
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora", Vector3(0, 0, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	DirectXManager::GetInstance()->SetData2D();
+	BaseScene::mSprite->Draw("target", targetPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("AIM", Vector3(position.x - 32, position.y - 32, 0), 0.0f, Vector2(5, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Titleback", titleback, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Option", option, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Syutugeki", syutu, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Garage", garege, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
 	if (selectFlag == false)
 	{
 		BaseScene::mSprite->Draw("AIM1", Vector3(selectposition.x - 32, selectposition.y - 32, 0), 0.0f, Vector2(3, 1), Vector4(1, 1, 1, 1));
 	}
-	BaseScene::mSprite->Draw("target", targetPos1, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
+
 }
