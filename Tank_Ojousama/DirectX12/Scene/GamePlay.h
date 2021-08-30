@@ -5,8 +5,6 @@
 #include "../Actor/Player.h"
 #include "../Actor/EnemyTank.h"
 #include "../Actor/Block.h"
-#include "../Actor/T_REX.h"
-#include "../Actor/TaihouEnemy.h"
 #include "../Actor/ObjectManager.h"
 #include "../Render/Camera.h"
 #include "../Render/ModelRenderer.h"
@@ -31,8 +29,6 @@ private:
 	ObjectManager* objM;
 	Player* player;//ƒvƒŒƒCƒ„[‚ÌÀ‘Ì¶¬
 	EnemyTank* enemyTank;
-	T_REX* rex;
-	TaihouEnemy* taihou;
 	Camera* camera;
 	float x, y, z;
 };
