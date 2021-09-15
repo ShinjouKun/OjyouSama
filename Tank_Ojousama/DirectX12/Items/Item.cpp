@@ -1,7 +1,7 @@
-#include "TestItem.h"
+#include "Item.h"
 #include "../Collision/BaseCollider.h"
 
-TestItem::TestItem(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int aliv, int n):itemModel(m)
+Item::Item(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int aliv, int n) :itemModel(m)
 {
 	position = pos;
 	angle = ang;
@@ -10,11 +10,11 @@ TestItem::TestItem(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<Mod
 	alive = aliv;
 }
 
-TestItem::~TestItem()
+Item::~Item()
 {
 }
 
-void TestItem::Init()
+void Item::Init()
 {
 	death = false;
 	objType = ObjectType::ITEM;
@@ -25,7 +25,7 @@ void TestItem::Init()
 
 }
 
-void TestItem::Update()
+void Item::Update()
 {
 	angle.x++;
 	alive--;
@@ -40,22 +40,22 @@ void TestItem::Update()
 	}
 }
 
-void TestItem::Rend()
+void Item::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	itemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(1, 1, 1));
 }
 
-void TestItem::OnCollison(BaseCollider* col)
+void Item::OnCollison(BaseCollider* col)
 {
-	
+
 	if (col->GetColObject()->GetType() == ObjectType::PLAYER);
 	{
 		death = true;
 	}
-	
+
 }
 
-void TestItem::ImGuiDebug()
+void Item::ImGuiDebug()
 {
 }

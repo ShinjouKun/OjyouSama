@@ -160,6 +160,7 @@
     <ClCompile Include="Collision\CollisonTree.cpp" />
     <ClCompile Include="Collision\OctTreeManager.cpp" />
     <ClCompile Include="Collision\WorldSpace.cpp" />
+    <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
@@ -395,6 +396,7 @@
     <ClInclude Include="Collision\CollisonTree.h" />
     <ClInclude Include="Collision\OctTreeManager.h" />
     <ClInclude Include="Collision\WorldSpace.h" />
+    <ClInclude Include="Items\Item.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />
     <ClInclude Include="Render\Camera.h" />

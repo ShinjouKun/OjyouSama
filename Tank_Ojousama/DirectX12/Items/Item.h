@@ -3,13 +3,13 @@
 #include "../Actor/BaseObject.h"
 #include "../Render/ModelRenderer.h"
 
-using namespace std;
+//アイテムのベースオブジェクト
 
-class TestItem :public BaseObject
+class Item :public BaseObject
 {
 public:
-	TestItem(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int aliv, int n);
-	~TestItem();
+	Item(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int aliv, int n);
+	~Item();
 
 private:
 
