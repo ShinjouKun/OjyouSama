@@ -95,6 +95,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/opusyon.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/tatleback.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/select.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/setuemei.png");
 
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");

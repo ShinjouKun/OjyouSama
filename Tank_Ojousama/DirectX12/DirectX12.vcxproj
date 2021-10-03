@@ -171,6 +171,8 @@
     <ClCompile Include="Math\Easing.cpp" />
     <ClCompile Include="Actor\EnemyTank.cpp" />
     <ClCompile Include="Scene\GamePlay.cpp" />
+    <ClCompile Include="Scene\Garage.cpp" />
+    <ClCompile Include="Scene\Option.cpp" />
     <ClCompile Include="Scene\Select.cpp" />
     <ClCompile Include="Sound\3D\Emitter\DspSetter.cpp" />
     <ClCompile Include="Sound\3D\Emitter\Sound3DEmitter.cpp" />
@@ -408,6 +410,8 @@
     <ClInclude Include="Math\Easing.h" />
     <ClInclude Include="Actor\EnemyTank.h" />
     <ClInclude Include="Scene\GamePlay.h" />
+    <ClInclude Include="Scene\Garage.h" />
+    <ClInclude Include="Scene\Option.h" />
     <ClInclude Include="Scene\Select.h" />
     <ClInclude Include="Sound\3D\DistanceCurve.h" />
     <ClInclude Include="Sound\3D\Emitter\DspSetter.h" />
