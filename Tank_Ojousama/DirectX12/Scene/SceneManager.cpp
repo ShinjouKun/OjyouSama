@@ -4,7 +4,7 @@
 
 SceneManager::SceneManager(shared_ptr<TexRenderer> sprite, shared_ptr<ModelRenderer> model, shared_ptr<ParticleManager>particle)
 	:mSprite(sprite), mModel(model), mParticle(particle),
-mNowScene(std::make_shared<GamePlay>())//最初はタイトル
+mNowScene(std::make_shared<Title>())//最初はタイトル
 {
 	SetSpriteToScene();
 	SetModelToScene();

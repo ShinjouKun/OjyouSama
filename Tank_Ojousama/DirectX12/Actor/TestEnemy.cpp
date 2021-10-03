@@ -320,7 +320,7 @@ void TestEnemy::SearchPlayer()
 	//センサーの情報をプレイヤー情報で更新
 	searchPoint.radius = 1.0f;
 
-	searchPoint.position = objManager->GetPlayer().GetPosition();
+	//searchPoint.position = objManager->GetPlayer().GetPosition();
 
 	//センサーを更新
 	hitSensor = IsHitFanToPoint(fanInfo, searchPoint.position, searchPoint.radius);

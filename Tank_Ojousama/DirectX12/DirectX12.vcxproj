@@ -158,7 +158,6 @@
     <ClCompile Include="Actor\BreadCrumb.cpp" />
     <ClCompile Include="Actor\SniperEnemy.cpp" />
     <ClCompile Include="Actor\TestEnemy.cpp" />
-    <ClCompile Include="Actor\TestItem.cpp" />
     <ClCompile Include="Actor\WayPoint.cpp" />
     <ClCompile Include="Collision\AABBCollider.cpp" />
     <ClCompile Include="Collision\CollisonTree.cpp" />

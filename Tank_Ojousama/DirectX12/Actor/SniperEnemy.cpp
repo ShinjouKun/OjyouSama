@@ -1,5 +1,5 @@
 #include "SniperEnemy.h"
-#include "Bullet.h"
+#include "../Weapons/NormalBullet.h"
 #include "../Collision/SpherCollider.h"
 #include "../ConstInfomation/Enemy/EnemyConstInfo.h"
 #include "../ConstInfomation/Enemy/SniperEnemyConstInfo.h"
@@ -176,7 +176,7 @@ void SniperEnemy::Attack()
 		Vector3 firePos = AngleToVectorY(fanInfo.rotate);
 
 		//’e‚ð”­ŽËII
-		objManager->Add(new Bullet(position + firePos, Vector3(0, -angle.y, 0), objManager, modelRender, effectManager, objType, bulletNumber));
+		objManager->Add(new NormalBullet(position + firePos, Vector3(0, -angle.y, 0), objManager, modelRender, effectManager, objType, bulletNumber));
 		bulletNumber++;
 		actionState = ActionState::WARNING;
 	}
