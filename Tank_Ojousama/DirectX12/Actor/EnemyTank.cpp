@@ -65,7 +65,6 @@ void EnemyTank::Init()
 	speed = 0.2f;
 	batteleS = BatteleStatus::SAFE;
 	SetCollidder(Vector3(position.x, position.y, position.z),1.0f);
-	//SetCollidder(Vector3(position.x, position.y, position.z), Vector3(position.x + 2.0f, position.y + 2.0f, position.z + 2.0f));
 }
 
 void EnemyTank::Update()

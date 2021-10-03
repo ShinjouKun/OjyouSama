@@ -8,6 +8,9 @@
 //ïêäÌÇΩÇø
 #include"../Weapons/NormalBullet.h"
 #include"../Weapons/LandMine.h"
+#include"../Weapons/ShotGunBullet.h"
+#include"../Weapons/MissileBullet.h"
+#include"../Weapons/MashinGun.h"
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj,shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
 	:playerModel(m),playerParticle(p),playerSprite(s),
 	listener(std::make_shared<Listener>())
@@ -30,8 +33,23 @@ void Player::UseWeapon1()
 
 void Player::UseWeapon2()
 {
-	objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0,0,0), objM, playerModel, playerParticle, objType, bulletStock));
+	objM->Add(new MashinGun(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	//objM->Add(new MissileBullet(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	//objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0,0,0), objM, playerModel, playerParticle, objType, bulletStock));
+	/*objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+1));
+	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock+2));
+	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle-10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+3));
+	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle-20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+4));*/
 	shotFlag2 = true;
+}
+
+void Player::UseULT()
+{
+}
+
+void Player::Item()
+{
 }
 
 void Player::AngleReset()
@@ -87,7 +105,8 @@ void Player::Init()
 	playerModel->AddModel("TankPlayerB", "Resouse/BoxTankBTM.obj", "Resouse/BoxTankBTM.png");
 	playerModel->SetAncPoint("TankPlayerB", Vector3(-2.0f, -2.0f, -2.0f));
 
-	
+	//playerModel->AddModel("TankPlayerA", "Resouse/head.obj", "Resouse/head2.png");
+	//playerModel->AddModel("TankPlayerB", "Resouse/body.obj", "Resouse/body2.png");
 	//playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
 	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
 	//playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
@@ -234,7 +253,7 @@ void Player::Update()
 		}
 		
 		//ãÖêîè„å¿Çê›ÇØ
-		if (bulletStock >= 50)
+		if (bulletStock >= 70)
 		{
 			bulletStock = 0;
 		}

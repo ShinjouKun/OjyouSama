@@ -1,12 +1,13 @@
 #pragma once
 #include"Weapon.h"
-
-class LandMine :public Weapon
+//ショットガンというより散弾の１ペレットとしてのクラス
+class ShotGunBullet :public Weapon
 {
 public:
-	LandMine(const Vector3& pos, const Vector3& ang, ObjectManager* obj,
+	ShotGunBullet(const Vector3& pos, const Vector3& ang, ObjectManager* obj,
 		shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num);
-	~LandMine();
+	~ShotGunBullet();
+
 private:
 	// Weapon を介して継承されました
 	virtual void Init() override;
@@ -19,6 +20,4 @@ private:
 	shared_ptr<ModelRenderer>Model;
 	shared_ptr<ParticleManager>Particle;
 	shared_ptr<ParticleEmitterBox>ParticleBox;
-	float bomSpace;
-	bool bomFlag;
 };

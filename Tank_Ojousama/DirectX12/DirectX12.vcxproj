@@ -159,6 +159,7 @@
     <ClCompile Include="Collision\AABBCollider.cpp" />
     <ClCompile Include="Collision\CollisonTree.cpp" />
     <ClCompile Include="Collision\OctTreeManager.cpp" />
+    <ClCompile Include="Collision\RayCollison.cpp" />
     <ClCompile Include="Collision\WorldSpace.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
@@ -229,7 +230,10 @@
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Device\Window.cpp" />
     <ClCompile Include="Weapons\LandMine.cpp" />
+    <ClCompile Include="Weapons\MashinGun.cpp" />
+    <ClCompile Include="Weapons\MissileBullet.cpp" />
     <ClCompile Include="Weapons\NormalBullet.cpp" />
+    <ClCompile Include="Weapons\ShotGunBullet.cpp" />
     <ClCompile Include="Weapons\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -394,6 +398,7 @@
     <ClInclude Include="Actor\BaseObject.h" />
     <ClInclude Include="Collision\CollisonTree.h" />
     <ClInclude Include="Collision\OctTreeManager.h" />
+    <ClInclude Include="Collision\RayCollison.h" />
     <ClInclude Include="Collision\WorldSpace.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />
@@ -489,7 +494,10 @@
     <ClInclude Include="Utility\WCHAR_char.h" />
     <ClInclude Include="Device\Window.h" />
     <ClInclude Include="Weapons\LandMine.h" />
+    <ClInclude Include="Weapons\MashinGun.h" />
+    <ClInclude Include="Weapons\MissileBullet.h" />
     <ClInclude Include="Weapons\NormalBullet.h" />
+    <ClInclude Include="Weapons\ShotGunBullet.h" />
     <ClInclude Include="Weapons\Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

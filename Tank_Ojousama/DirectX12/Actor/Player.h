@@ -17,8 +17,10 @@ public:
 	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p,shared_ptr<TexRenderer>s);
 	~Player();
 
-	void UseWeapon1();
-	void UseWeapon2();
+	void UseWeapon1();//兵装１
+	void UseWeapon2();//兵装２
+	void UseULT();//アルティメット
+	void Item();//サポートアイテム
 	void AngleReset();//数値のオーバーフロウを防ぎたい
 	// BaseObject を介して継承されました
 	virtual void Init() override;

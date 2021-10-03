@@ -1,12 +1,12 @@
 #pragma once
 #include"Weapon.h"
 
-class LandMine :public Weapon
+class MashinGun :public Weapon
 {
 public:
-	LandMine(const Vector3& pos, const Vector3& ang, ObjectManager* obj,
+	MashinGun(const Vector3& pos, const Vector3& ang, ObjectManager* obj,
 		shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num);
-	~LandMine();
+	~MashinGun();
 private:
 	// Weapon ÇâÓÇµÇƒåpè≥Ç≥ÇÍÇ‹ÇµÇΩ
 	virtual void Init() override;
@@ -19,6 +19,4 @@ private:
 	shared_ptr<ModelRenderer>Model;
 	shared_ptr<ParticleManager>Particle;
 	shared_ptr<ParticleEmitterBox>ParticleBox;
-	float bomSpace;
-	bool bomFlag;
 };

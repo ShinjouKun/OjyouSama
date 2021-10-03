@@ -1,9 +1,11 @@
-#include "LandMine.h"
+#include "MashinGun.h"
 #include"Weapon.h"
 #include "../Collision/SpherCollider.h"
 #include"../Collision/BaseCollider.h"
-LandMine::LandMine(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, ObjectType t, int num)
-	:Model(m),Particle(p)
+#include<random>
+MashinGun::MashinGun(const Vector3& pos, const Vector3& ang, ObjectManager* obj,
+	shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num)
+	:Model(m), Particle(p)
 {
 	position = pos;
 	objM = obj;
@@ -12,72 +14,69 @@ LandMine::LandMine(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj
 	number = num;
 }
 
-LandMine::~LandMine()
+MashinGun::~MashinGun()
 {
 }
 
-void LandMine::Init()
+void MashinGun::Init()
 {
 	SetBulletType();
-	damage = 10;
-	objM->SetReloadTime(100);
-	name = "Mine";
+	damage = 1;
+	objM->SetReloadTime(2);
+	name = "MashinGun";
 	num = to_string(number);
 	numName = name + num;
-	Model->AddModel(numName, "Resouse/mine.obj", "Resouse/mine.png");
+	Model->AddModel(numName, "Resouse/Bullet.obj", "Resouse/Bullet.png");
 	ParticleBox = make_shared<ParticleEmitterBox>(Particle);
 	ParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
 	alive = 0;
 	death = false;
-	bomFlag = false;
-	speed = 1.5f;
-	bomSpace = 1.0f;
+	speed = 3.5f;
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x-2.2f, position.y - 1.5f, position.z), bomSpace);
+	SetCollidder(Vector3(position.x, position.y, position.z), 0.4f);
+	random_device rnd;
+	default_random_engine eng(rnd());
+	uniform_int_distribution<int>dist(-2.0f, 2.0f);
+
+	angle.x += dist(eng);
+	angle.y += dist(eng);
 }
 
-void LandMine::Update()
+void MashinGun::Update()
 {
-	//おきっぱでもいいけど残ったままなのもあれなので
+	velocity = Vector3(0, 0, -1);
+	velocity *= Matrix4::RotateX(angle.x);
+	velocity *= Matrix4::RotateY(angle.y);
+	position += velocity * speed;
+
 	alive++;
-	
-	if (alive >= 1000)
-	{
-		death = true;
-	}
-	if (bomFlag)
-	{
-		bomSpace += 0.2f;
-	}
-	if (bomSpace >= 6.0f)
+	if (alive >= 80)
 	{
 		death = true;
 	}
 }
 
-void LandMine::Rend()
+void MashinGun::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	Model->Draw(numName, Vector3(position.x-2.2f, position.y - 1.5f, position.z), Vector3(angle.x, angle.y, 0), Vector3(1, 1, 1));
+	Model->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(0.4f, 0.4f, 0.4f));
 }
 
-void LandMine::ImGuiDebug()
+void MashinGun::ImGuiDebug()
 {
 }
 
-void LandMine::OnCollison(BaseCollider * col)
+void MashinGun::OnCollison(BaseCollider * col)
 {
 	if (objType == BULLET && (col->GetColObject()->GetType() == ObjectType::ENEMY || col->GetColObject()->GetType() == ObjectType::BOSS || col->GetColObject()->GetType() == ObjectType::ENEMYBULLET || col->GetColObject()->GetType() == ObjectType::BLOCK))
 	{
-		bomFlag = true;
 		ParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+		death = true;
 	}
 
 	if (objType == ENEMYBULLET && (col->GetColObject()->GetType() == ObjectType::PLAYER || col->GetColObject()->GetType() == ObjectType::BULLET || col->GetColObject()->GetType() == ObjectType::BLOCK))
 	{
-		bomFlag = true;
 		ParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+		death = true;
 	}
-
-	
 }

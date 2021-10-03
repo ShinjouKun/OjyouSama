@@ -1,6 +1,5 @@
 #include "Collision.h"
 #include<cmath>
-
 Collision::Collision()
 {
 }
@@ -55,6 +54,25 @@ bool Collision::StoPColl(const Sphere& sphere, const Plane& plane, Vector3 * int
 	{
 		*inter = -dist * plane.normal + sphere.center;
 	}
+	return true;
+}
+
+bool Collision::StoRColl(const Ray & ray, const Sphere & sphere, float *distance,Vector3 * inter)
+{
+	Vector3 m = ray.point - sphere.center;
+	float b = Vector3::dot(m, ray.dir);
+	float c = Vector3::dot(m, m);
+	c - (sphere.center.x+ sphere.center.y+sphere.center.z*sphere.radius);//‚±‚±‚ÌŒvŽZ—pŒ©’¼‚µ
+	if (c > 0.0f&&b > 0.0f)return false;
+
+	float discr = b * b - c;
+	if (discr < 0.0f) { return false; }
+
+	float t = -b - sqrtf(discr);
+
+	if (t < 0)t = 0.0f;
+	if (distance) { *distance = t; }
+	if (inter) { *inter = ray.point + t * ray.dir; }
 	return true;
 }
 

@@ -29,6 +29,12 @@ struct AABB
 	Vector3 max;//最大
 	Vector3 min;//最小（原点）
 };
+//線
+struct Ray
+{
+	Vector3 point = Vector3(0,0,0);//始点
+	Vector3 dir = Vector3(0,0,0);//方向(これで真っすぐのはず)
+};
 
 class CollisionPrimitive
 {
