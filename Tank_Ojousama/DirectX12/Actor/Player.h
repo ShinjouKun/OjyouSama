@@ -62,5 +62,19 @@ private:
 
 	// BaseObject を介して継承されました
 	virtual void ImGuiDebug() override;
+
+
+
+
+
+	//「1=Pキーで落とす」「2=距離で落とす」「3=時間で落とす」
+	void DropBreadCrumb(int status);
+	//パンくず距離測定用マップ
+	std::unordered_map<int, Vector3> measureMap;
+	//パンくずの識別番号
+	int breadNumber = 0;
+	//パンくずを落とす間隔
+	int intervalCount = 0;
+	int intervalTime = 1;
 	
 };

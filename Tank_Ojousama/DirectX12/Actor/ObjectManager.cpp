@@ -104,8 +104,91 @@ void ObjectManager::Draw()
 	}
 }
 
+//void ObjectManager::DropBreadCrumb(int status)
+//{
+//	//キー入力で落とす
+//	if (status == 1)
+//	{
+//		if (Input::KeyDown(DIK_P))
+//		{
+//			//新しい欠片を落とす。
+//			objM->Add(new BreadCrumb(BaseObject::getp, objM, playerModel, breadNumber));
+//			//落としたら番号を1つ進める
+//			breadNumber++;
+//		}
+//	}
+//	//距離で落とす
+//	else if (status == 2)
+//	{
+//		//パンくずを落とす。
+//		//移動中でなければ落とさない。
+//		if (!moveFlag) return;
+//
+//		//最初に欠片を落とす
+//		//リストの中身が空だったら1つ落とすみたいな
+//		if (measureMap.empty())
+//		{
+//			//新しい欠片を落とす。
+//			objM->Add(new BreadCrumb(position, objM, playerModel, breadNumber));
+//			//落としたらリストに代入
+//			measureMap[breadNumber] = position;
+//			breadNumber++;
+//		}
+//
+//		//前に落とした欠片の位置。
+//		//リストから持ってくる必要あり。
+//		//現在の番号を数えて、その番号-1の値を持ってくるみたいな
+//		Vector3 previousBread = measureMap[breadNumber - 1];
+//
+//		//前の欠片との距離を計算。
+//		float distance = (previousBread - position).Length();
+//
+//		//指定の数値
+//		float value = 10.0f;
+//
+//		//前に落とした欠片と、現在の位置が指定の数値以上離れたら
+//		if (distance > value)
+//		{
+//			//新しい欠片を落とす。
+//			objM->Add(new BreadCrumb(position, objM, playerModel, breadNumber));
+//			//落としたらリストに代入
+//			measureMap[breadNumber] = position;
+//			breadNumber++;
+//		}
+//	}
+//	//時間で落とす
+//	else if (status == 3)
+//	{
+//		intervalCount++;
+//
+//		if (intervalCount > intervalTime * 60)
+//		{
+//			intervalCount = 0;
+//
+//			//新しい欠片を落とす。
+//			objM->Add(new BreadCrumb(position, objM, playerModel, breadNumber));
+//			breadNumber++;
+//		}
+//	}
+//}
+
 std::vector<BaseObject*> ObjectManager::getUseList()
 {
 	return objectList;
+}
+
+BaseObject & ObjectManager::GetPlayer() const
+{
+	BaseObject* player = nullptr;
+
+	for (auto& type : objectList)
+	{
+		if (type->GetType() == ObjectType::PLAYER)
+		{
+			player = type;
+		}
+	}
+
+	return *player;
 }
 

@@ -25,35 +25,23 @@ void BreadCrumb::Init()
 #pragma endregion
 
 	//個体番号の登録
-	//SetNumber(keyNumber);
 	AiID = keyNumber;
 	objType = ObjectType::BREADCRUMB;
 	death = false;
+
 	scale = Vector3(1, 1, 1);
-	radius = 1.0f;
-	SetCollidder(new SphereCollider(position, radius));
 
 	lifeCount = 0;
 	lifeTime = 3 * 60;
 
-	//パンくずに寿命を付ける！
-	//二つくらいしかエリアに入らないようにする。
-	//間隔も付ける
+	radius = 1.0f;
+	SetCollidder(new SphereCollider(position, radius));
 }
 
 void BreadCrumb::Update()
 {
 	ImGuiDebug();
-
-	if (!death)
-	{
-		lifeCount++;
-		if (lifeCount > lifeTime)
-		{
-			lifeCount = 0;
-			death = true;
-		}
-	}
+	LifeCountDown(lifeTime);
 }
 
 void BreadCrumb::Rend()
@@ -77,4 +65,17 @@ void BreadCrumb::ImGuiDebug()
 	//ImGui::SliderFloat3("PointPosition", pos, -500.0f, 500.0f);
 	////扇と点が当たってたらチェックがつくよ。
 	//ImGui::Checkbox("IsDeath", &death);
+}
+
+void BreadCrumb::LifeCountDown(int count)
+{
+	if (!death)
+	{
+		lifeCount++;
+		if (lifeCount > count)
+		{
+			lifeCount = 0;
+			death = true;
+		}
+	}
 }

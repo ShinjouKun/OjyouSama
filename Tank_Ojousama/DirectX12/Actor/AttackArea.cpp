@@ -1,5 +1,5 @@
 #include "AttackArea.h"
-#include "../Collision/SpherCollider.h"
+//#include "../Collision/SpherCollider.h"
 
 AttackArea::AttackArea(Vector3 pos, Vector3 ang, ObjectManager * objM, shared_ptr<ModelRenderer> modelR, int num)
 	:modelRender(modelR)
@@ -14,15 +14,29 @@ AttackArea::~AttackArea()
 {
 }
 
+void AttackArea::DeathCountDown()
+{
+	//仮死亡フラグがtrueの時、カウントダウンをはじめ、カウントが0になったらほんとうにしぬ。
+	if (isDestroy)
+	{
+		destroyCount++;
+
+		if (destroyCount > destroyTime * 60)
+		{
+			death = true;
+		}
+	}
+}
+
+void AttackArea::SetDestroy(bool value, int time)
+{
+	isDestroy = value;
+	destroyTime = time;
+}
+
 void AttackArea::Init()
 {
-	death = false;
-	objType = ObjectType::ENEMYBULLET;
-
-	scale = Vector3(1, 1, 1);
-	radius = 1.0f;
-
-	isActive = false;
+#pragma region モデル初期化
 
 	name = "AttackArea";
 	key = to_string(number);
@@ -31,12 +45,30 @@ void AttackArea::Init()
 	modelRender->AddModel(keyname, "Resouse/bill.obj", "Resouse/bill.png");
 	modelRender->SetAncPoint(keyname, Vector3(-2.0f, -2.0f, -2.0f));
 
-	SetCollidder(new SphereCollider(position, radius));
+#pragma endregion
+
+	death = false;
+	objType = ObjectType::ENEMYBULLET;
+
+	destroyCount = 0;
+
+	radius = scale.x * 1.0f;
+
+	isActive = false;
+	isDestroy = false;
+
+	spehereCollider = new SphereCollider(position, 1);
+	spehereCollider->SetRadiuse(1.0f);
+	SetCollidder(spehereCollider);
+	//SetCollidder(new SphereCollider(position, 1));
 }
 
 void AttackArea::Update()
 {
 	if (!isActive) return;
+
+	//死亡のカウントダウン
+	DeathCountDown();
 
 	ImGuiDebug();
 }
@@ -46,7 +78,7 @@ void AttackArea::Rend()
 	if (!isActive) return;
 
 	DirectXManager::GetInstance()->SetData3D();
-	modelRender->Draw(keyname, position,Vector3(angle.x, -angle.y, angle.z) , Vector3(1, 1, 1));
+	modelRender->Draw(keyname, position,Vector3(angle.x, -angle.y, angle.z) , scale);
 }
 
 void AttackArea::OnCollison(BaseCollider* info)
@@ -56,27 +88,23 @@ void AttackArea::OnCollison(BaseCollider* info)
 
 void AttackArea::ImGuiDebug()
 {
-	float pos[3] = { position.x,position.y,position.z };
-	ImGui::SliderFloat3("---Position---", pos, -500.0f, 500.0f);
-	float ang[3] = { angle.x,angle.y,angle.z };
-	ImGui::SliderFloat3("---Angle---", ang, -500.0f, 500.0f);
+	if (!isActive) return;
+
+	//float pos[3] = { position.x,position.y,position.z };
+	//ImGui::SliderFloat3("---Position---", pos, -500.0f, 500.0f);
+	//float ang[3] = { angle.x,angle.y,angle.z };
+	//ImGui::SliderFloat3("---Angle---", ang, -500.0f, 500.0f);
 }
 
-void AttackArea::SetPosition(Vector3 pos)
-{
-	position = pos;
-}
-
-void AttackArea::SetActive(bool value, Vector3 pos, Vector3 ang)
+void AttackArea::SetActive(bool value, const Vector3& pos, const Vector3& ang, const Vector3& size)
 {
 	isActive = value;
 	position = pos;
 	angle = ang;
-}
-
-bool AttackArea::GetActive()
-{
-	return isActive;
+	scale = size;
+	//半径を再設定
+	spehereCollider->SetRadiuse(scale.x / 2);
+	
 }
 
 void AttackArea::SetDeath(bool value)

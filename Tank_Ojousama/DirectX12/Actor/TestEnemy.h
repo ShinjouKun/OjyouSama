@@ -72,16 +72,21 @@ private:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Rend() override;
-	virtual void OnCollison(BaseCollider* info) override;
+	virtual void OnCollison(BaseCollider* col) override;
 	virtual void ImGuiDebug() override;
 
+	/// <summary>
+	/// 扇の情報を再設定
+	/// </summary>
+	/// <param name="range">なす角の角度</param>
+	/// <param name="length">長さ</param>
 	void SetFanInfo(float range = 60.0f, float length = 30.0f);
 
 	/// <summary>
 	/// 移動
 	/// </summary>
 	/// <param name="otherPosition">移動対象</param>
-	void Move(Vector3 otherPosition);
+	void Move(const Vector3& otherPosition);
 
 	/// <summary>
 	/// 状態変更
@@ -98,6 +103,8 @@ private:
     /// </summary>
     /// <param name="player"></param>
 	void SearchPlayer(BaseObject* player);
+
+	void SearchPlayer();
 
 	/// <summary>
 	/// パンくず索敵
@@ -136,32 +143,18 @@ private:
 	void ChangeDirection();
 
 	/// <summary>
-	/// 度からラジアンへ
-	/// </summary>
-	/// <param name="degree">角度</param>
-	/// <returns>ラジアン角</returns>
-	float DegreeToRadian(float degree);
-
-	/// <summary>
-	/// ラジアンから度へ
-	/// </summary>
-	/// <param name="radian">ラジアン角</param>
-	/// <returns>角度</returns>
-	float RadianToDegree(float radian);
-
-	/// <summary>
 	/// Y軸固定角度をベクトルに変換する
 	/// </summary>
 	/// <param name="angle">角度</param>
 	/// <returns>角度の単位ベクトル</returns>
-	Vector3 AngleToVectorY(float angle);
+	Vector3& AngleToVectorY(float angle) const;
 
 	/// <summary>
 	/// Y軸固定でベクトルを角度に変換する
 	/// </summary>
 	/// <param name="vector"></param>
 	/// <returns></returns>
-	float VectorToAngleY(Vector3 vector);
+	float VectorToAngleY(const Vector3& vector) const;
 
 	/// <summary>
 	/// 扇と点の当たり判定
@@ -169,7 +162,7 @@ private:
 	/// <param name="fan">扇</param>
 	/// <param name="point">点</param>
 	/// <returns>当たっていたらtrue</returns>
-	bool IsHitFanToPoint(FanInfomation fan, Vector3 point, float radius = 0.0f);
+	bool IsHitFanToPoint(const FanInfomation& fan, const Vector3& point, float radius = 0.0f) const;
 
 	//変数用
 private:
@@ -207,9 +200,9 @@ private:
 	bool backMove;          //後ろに移動しているか
 	bool oneShot;           //オブジェクトを一度だけ生成する。
 
-	Vector3 scale;      //大きさ(1.5)
-	Vector3 lastBreadPos;
-	Vector3 previousPos;//前フレームの位置(角度変更用)
+	Vector3 scale;       //大きさ(1.5)
+	Vector3 lastBreadPos;//パンくずの最後の位置を保存用
+	Vector3 previousPos; //前フレームの位置(角度変更用)
 
 	string tankBarrel;//砲身の名前登録
 	string tankTurret;//砲塔の名前登録
