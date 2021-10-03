@@ -21,8 +21,10 @@ public:
 	void stop();
 	//音量の変更0～100
 	void setVol(float num);
-	//
+	//エミッターの位置をセット
 	void setPos(const Vector3& pos);
+	//聞こえる範囲の指定
+	void setCurveDistanceScaler(float num);
 
 private:
 	Sound(const Sound&) = delete;

@@ -50,3 +50,8 @@ void Sound::setPos(const Vector3 & pos)
 {
 	mSourceVoice->getEmitter().setPosition(pos);
 }
+
+void Sound::setCurveDistanceScaler(float num)
+{
+	mSourceVoice->getEmitter().setCurveDistanceScaler(num);
+}

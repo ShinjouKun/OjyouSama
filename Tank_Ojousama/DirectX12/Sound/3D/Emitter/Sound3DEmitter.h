@@ -34,6 +34,9 @@ public:
 	void setCalculateReverb(bool value);
 	bool isCalculateReverb() const;
 
+	//音の聞こえる範囲指定？
+	void setCurveDistanceScaler(float num);
+
 	//エミッターを返す
 	const Sound3DEmitterParam& getEmitter() const;
 
