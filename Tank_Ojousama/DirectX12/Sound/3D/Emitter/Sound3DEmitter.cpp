@@ -75,6 +75,11 @@ bool Sound3DEmitter::isCalculateReverb() const
 	 return mReverb->getSoundEffect().getEnabled(mReverbID);
 }
 
+void Sound3DEmitter::setCurveDistanceScaler(float num)
+{
+	mEmitter.curveDistanceScaler = num;
+}
+
 const Sound3DEmitterParam & Sound3DEmitter::getEmitter() const
 {
 	return mEmitter;
