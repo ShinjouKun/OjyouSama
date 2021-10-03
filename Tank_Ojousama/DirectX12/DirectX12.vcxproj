@@ -152,10 +152,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor\AttackArea.cpp" />
+    <ClCompile Include="Actor\BaseEnemy.cpp" />
     <ClCompile Include="Actor\BaseObject.cpp" />
+    <ClCompile Include="Actor\BlowEnemy.cpp" />
     <ClCompile Include="Actor\BreadCrumb.cpp" />
+    <ClCompile Include="Actor\SniperEnemy.cpp" />
     <ClCompile Include="Actor\TestEnemy.cpp" />
     <ClCompile Include="Actor\TestItem.cpp" />
+    <ClCompile Include="Actor\WayPoint.cpp" />
     <ClCompile Include="Collision\AABBCollider.cpp" />
     <ClCompile Include="Collision\CollisonTree.cpp" />
     <ClCompile Include="Collision\OctTreeManager.cpp" />
@@ -386,15 +390,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\AttackArea.h" />
+    <ClInclude Include="Actor\BaseEnemy.h" />
     <ClInclude Include="Actor\BreadCrumb.h" />
+    <ClInclude Include="Actor\SniperEnemy.h" />
     <ClInclude Include="Actor\TestEnemy.h" />
     <ClInclude Include="Actor\TestItem.h" />
+    <ClInclude Include="Actor\WayPoint.h" />
     <ClInclude Include="Collision\AABBCollider.h" />
     <ClInclude Include="Collision\BaseCollider.h" />
     <ClInclude Include="Actor\BaseObject.h" />
     <ClInclude Include="Collision\CollisonTree.h" />
     <ClInclude Include="Collision\OctTreeManager.h" />
     <ClInclude Include="Collision\WorldSpace.h" />
+    <ClInclude Include="ConstInfomation\Enemy\EnemyConstInfo.h" />
+    <ClInclude Include="Actor\BlowEnemy.h" />
+    <ClInclude Include="ConstInfomation\Enemy\BlowEnemyConstInfo.h" />
+    <ClInclude Include="ConstInfomation\Enemy\SniperEnemyConstInfo.h" />
+    <ClInclude Include="ConstInfomation\Enemy\TestEnemyInfo.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />
     <ClInclude Include="Actor\Bullet.h" />

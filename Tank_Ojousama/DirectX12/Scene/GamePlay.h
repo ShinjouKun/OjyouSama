@@ -12,6 +12,10 @@
 #include "../Render/ModelRenderer.h"
 #include "../Render/TexRenderer.h"
 #include "../Render/ParticleManager.h"
+
+#include "../Actor/SniperEnemy.h"
+#include "../Actor/BlowEnemy.h"
+
 class GamePlay:public BaseScene
 {
 public:

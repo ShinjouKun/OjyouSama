@@ -31,7 +31,7 @@ public:
 		return keyNumber;
 	}
 
-	void SetPosition(Vector3 pos)
+	void SetPosition(const Vector3& pos)
 	{
 		position = pos;
 	}
@@ -43,19 +43,24 @@ private:
 	virtual void OnCollison(BaseCollider* info) override;
 	virtual void ImGuiDebug() override;
 
+	/// <summary>
+	/// 生存時間をカウントダウンする
+	/// </summary>
+	/// <param name="count"></param>
+	void LifeCountDown(int count);
+
 private:
 	ObjectManager* objectManager;
 	shared_ptr<ModelRenderer> modelRender;
-	ObjectType objectType;
-	Vector3 scale;
 
-	int lifeCount;//生存カウント
-	int lifeTime; //生存時間
+	Vector3 scale;//大きさ
+
+	int keyNumber = 0;//識別番号
+	int lifeCount;    //生存カウント
+	int lifeTime;     //生存時間
 
 	float radius;//半径
 
-	//複数出すよう
-	int keyNumber = 0;
 	string key;    //識別番号
 	string name;   //モデル名
 	string keyName;//モデル名+番号

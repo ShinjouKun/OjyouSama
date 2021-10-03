@@ -2,7 +2,9 @@
 #include "ObjectManager.h"
 #include "BaseObject.h"
 #include "../Render/ModelRenderer.h"
+#include "../Collision/SpherCollider.h"
 
+//敵の攻撃判定クラス(パーティクル出せるようにしたい)
 class AttackArea : public BaseObject
 {
 public:
@@ -27,12 +29,30 @@ public:
 	/// </summary>
 	~AttackArea();
 
-	void SetPosition(Vector3 pos);
+	/// <summary>
+	/// 死亡するまでのカウントダウン
+	/// </summary>
+	void DeathCountDown();
 
-	void SetActive(bool value,Vector3 pos = Vector3(0,0,0),Vector3 ang = Vector3(0, 0, 0));
+	/// <summary>
+	/// 死亡するまでのカウントダウンを設定
+	/// </summary>
+	/// <param name="value">死亡させるか</param>
+	/// <param name="time">死亡するまでの時間</param>
+	void SetDestroy(bool value ,int time);
 
-	bool GetActive();
+	/// <summary>
+	/// 表示状態の変更(初期化)
+	/// </summary>
+	/// <param name="value">表示状態</param>
+	/// <param name="pos">位置</param>
+	/// <param name="ang">角度</param>
+	void SetActive(bool value, const Vector3& pos = Vector3().zero, const Vector3& ang = Vector3().zero, const Vector3& size = Vector3().one);
 
+	/// <summary>
+	/// 死亡状態の変更
+	/// </summary>
+	/// <param name="value">死亡しているか</param>
 	void SetDeath(bool value);
 
 private:
@@ -45,13 +65,19 @@ private:
 private:
 	ObjectManager* objManager;
 	shared_ptr<ModelRenderer> modelRender;
-	Vector3 scale;
 
-	int number = 0;
+	Vector3 scale;//大きさ
+
+	int number = 0;//識別番号
+	int destroyTime;//削除時間
+	int destroyCount;//削除カウント
 
 	float radius;//半径
 
 	bool isActive;//表示状態
+	bool isDestroy;//削除フラグ
+
+	SphereCollider* spehereCollider;
 
 	string name;   //モデル名
 	string key;	   //識別番号

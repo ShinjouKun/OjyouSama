@@ -29,23 +29,27 @@ void GamePlay::StartScene()
 	objM->Add(new Block(Vector3(130.0f, -4.0f, -160.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 11));
 */
 	//objM->Add(new T_REX(Vector3(60.0f, -4.0f, -250.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle));
-	int s = 0;
-	float x_dis = 10.0f;
-	float z_dis = 0.0f;
-	for (int i = 0; i <= 49; i++)
-	{
-		if (s >= 5)
-		{
-			z_dis += 50.0f;
-			x_dis = 0.0f;
-			s = 0;
-		}
-	  objM->Add(new EnemyTank(Vector3(90.0f+(s*x_dis), 0.0f, -800.0f + z_dis), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, i));
-	  x_dis = 10.0f;
-	  s++;
-	}
+	//int s = 0;
+	//float x_dis = 10.0f;
+	//float z_dis = 0.0f;
+	//for (int i = 0; i <= 49; i++)
+	//{
+	//	if (s >= 5)
+	//	{
+	//		z_dis += 50.0f;
+	//		x_dis = 0.0f;
+	//		s = 0;
+	//	}
+	//  //objM->Add(new EnemyTank(Vector3(90.0f+(s*x_dis), 0.0f, -800.0f + z_dis), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, i));
+	//  objM->Add(new TestEnemy(Vector3(90.0f + (s*x_dis), 0.0f, -800.0f + z_dis), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, i));
+	//  x_dis = 10.0f;
+	//  s++;
+	//}
 		
 	//objM->Add(new EnemyTank(Vector3(90.0f , 0.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, 0));
+	objM->Add(new BlowEnemy(Vector3(95.0f, 0.0f, -125.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
+	//objM->Add(new TestEnemy(Vector3(90.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, 1));
+	objM->Add(new SniperEnemy(Vector3(100.0f, 0.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 2));
 
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.jpg");

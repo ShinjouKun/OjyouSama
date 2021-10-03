@@ -3,6 +3,10 @@
 #include "../Collision/SpherCollider.h"
 #include "../Device/Input.h"
 
+#include "../ConstInfomation/Enemy/TestEnemyInfo.h"
+
+namespace TEI = TestEnemyInfo;
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -43,19 +47,19 @@ void TestEnemy::Init()
 {
 #pragma region 変数の初期化(多くなった)
 
-	HP = 2;
+	HP = TEI::MAX_HP;
 	mapCount = 0;
 	breadCount = 0;//シーン内のパンくずの数。
 	attackCount = 0;
-	attackTime = 1 * 60;
+	attackTime = TEI::ATTACK_TIME * 60;
 	invincibleCount = 0;
 
 	speed = 0.2f;
-	radius = 1.0f;
+	radius = TEI::RADIUS;
 	swingRange = 90.0f;
 	barrelAngle = 180.0f;
 	turretAngle = 0.0f;
-	attackLength = 5.0f;
+	attackLength = TEI::ATTACK_LENGTH;
 
 	death = false;
 	isInvincible = false;
@@ -67,10 +71,10 @@ void TestEnemy::Init()
 
 	angle = Vector3(0.0f, 180.0f, 0.0f);//車体の向き
 	lastBreadPos = Vector3(0, 0, 0);
-	scale = Vector3(1.5f, 1.5f, 1.5f);
+	scale = TEI::SCALE;
 
 	objType = ObjectType::ENEMY;
-	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), radius));
+	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), 1));
 
 	//プレイヤーの位置(仮)
 	searchPoint =
@@ -154,24 +158,21 @@ void TestEnemy::Rend()
 	modelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), scale);
 }
 
-void TestEnemy::OnCollison(BaseCollider* info)
+void TestEnemy::OnCollison(BaseCollider* col)
 {
-	/*
-	//衝突処理
-	if (info.object->GetType() == ObjectType::BULLET ||
-		info.object->GetType() == ObjectType::PLAYER)
+	if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
+	{
+		trackingBreadcrumb = false;
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::BULLET ||
+		col->GetColObject()->GetType() == ObjectType::PLAYER)
 	{
 		//無敵時間で無ければダメージ
 		if (isInvincible) return;
 		HP--;
 		isInvincible = true;
 	}
-
-	if (info.object->GetType() == ObjectType::BREADCRUMB)
-	{
-		//trackingBreadcrumb = false;
-	}
-	*/
 }
 
 void TestEnemy::ImGuiDebug()
@@ -202,16 +203,16 @@ void TestEnemy::SetFanInfo(float range, float length)
 	fanInfo.length = length;//長さ
 }
 
-void TestEnemy::Move(Vector3 otherPosition)
+void TestEnemy::Move(const Vector3& otherPosition)
 {
 	Vector3 distance = otherPosition - position;
-	//Vector3 len = position - otherPosition;
 	float length = distance.Length();
 	distance = distance.normal();//正規化忘れずに
 
 	float radian = atan2(distance.x, distance.z);
 	//回転を反映
-	angle.y = RadianToDegree(radian) + 180.0f;
+	angle.y = Math::toDegrees(radian) + 180.0f;
+
 	fanInfo.rotate = -angle.y - 90.0f;
 	barrelAngle = fanInfo.rotate + 90.0f;
 	//velocity = RotateY(angle.y + 90.0f) * speed;
@@ -258,11 +259,11 @@ void TestEnemy::SearchObject()
 	//シーン上のオブジェクトを全て検索して...
 	for (auto& type : objManager->getUseList())
 	{
-		//シーン上にプレイヤーが存在することを確認する
-		if (type->GetType() == ObjectType::PLAYER)
-		{
-			SearchPlayer(type);
-		}
+		////シーン上にプレイヤーが存在することを確認する
+		//if (type->GetType() == ObjectType::PLAYER)
+		//{
+		//	SearchPlayer(type);
+		//}
 
 		//プレイヤーとは別で、シーン上のパンくずの存在を確認...
 		if (type->GetType() == ObjectType::BREADCRUMB)
@@ -270,16 +271,59 @@ void TestEnemy::SearchObject()
 			SearchBreadCrumb(type);
 		}
 	}
+
+	SearchPlayer();
 }
 
-void TestEnemy::SearchPlayer(BaseObject * player)
+//void TestEnemy::SearchPlayer(BaseObject * player)
+//{
+//	//センサーの情報をプレイヤー情報で更新
+//	//searchPoint.position = player->GetPosition();
+//	searchPoint.radius = 1.0f;
+//
+//	searchPoint.position = objManager->GetPlayer().GetPosition();
+//
+//	//センサーを更新
+//	hitSensor = IsHitFanToPoint(fanInfo, searchPoint.position,searchPoint.radius);
+//
+//	if (actionState == ActionState::ATTACK) return;
+//
+//	//ここで初めて、プレイヤーと当たっていたらの処理に入る。
+//	if (hitSensor)
+//	{
+//		trackingPlayer = true;
+//		trackingBreadcrumb = false;
+//
+//		//追跡状態に移行
+//		actionState = ActionState::WARNING;
+//
+//		//移動
+//		Move(searchPoint.position);
+//
+//		Vector3 distance = fanInfo.position - searchPoint.position;
+//		float length = distance.Length();
+//
+//		//対象との距離が1.0以下になったら到着完了とする。
+//		if (length < attackLength)
+//		{
+//			actionState = ActionState::ATTACK;
+//		}
+//	}
+//	else
+//	{
+//		trackingPlayer = false;
+//	}
+//}
+
+void TestEnemy::SearchPlayer()
 {
 	//センサーの情報をプレイヤー情報で更新
-	searchPoint.position = player->GetPosition();
 	searchPoint.radius = 1.0f;
 
+	searchPoint.position = objManager->GetPlayer().GetPosition();
+
 	//センサーを更新
-	hitSensor = IsHitFanToPoint(fanInfo, searchPoint.position,searchPoint.radius);
+	hitSensor = IsHitFanToPoint(fanInfo, searchPoint.position, searchPoint.radius);
 
 	if (actionState == ActionState::ATTACK) return;
 
@@ -292,17 +336,17 @@ void TestEnemy::SearchPlayer(BaseObject * player)
 		//追跡状態に移行
 		actionState = ActionState::WARNING;
 
-		//移動
-		Move(searchPoint.position);
+		////移動
+		//Move(searchPoint.position);
 
-		Vector3 distance = fanInfo.position - searchPoint.position;
-		float length = distance.Length();
+		//Vector3 distance = fanInfo.position - searchPoint.position;
+		//float length = distance.Length();
 
-		//対象との距離が1.0以下になったら到着完了とする。
-		if (length < attackLength)
-		{
-			actionState = ActionState::ATTACK;
-		}
+		////対象との距離が1.0以下になったら到着完了とする。
+		//if (length < attackLength)
+		//{
+		//	actionState = ActionState::ATTACK;
+		//}
 	}
 	else
 	{
@@ -372,20 +416,22 @@ void TestEnemy::TrackingBreadcrumb()
 
 	if (trackingBreadcrumb)
 	{
-		//移動
-		Move(lastBreadPos);
-
 		//警戒状態に移行
 		actionState = ActionState::WARNING;
 
-		Vector3 distance = fanInfo.position - lastBreadPos;
-		float length = distance.Length();
+		////移動
+		//Move(lastBreadPos);
 
-		//対象との距離が1.0以下になったら到着完了とする。
-		if (length < 1.0f)
-		{
-			trackingBreadcrumb = false;
-		}
+
+
+		//Vector3 distance = fanInfo.position - lastBreadPos;
+		//float length = distance.Length();
+
+		////対象との距離が1.0以下になったら到着完了とする。
+		//if (length < 1.0f)
+		//{
+		//	trackingBreadcrumb = false;
+		//}
 	}
 }
 
@@ -429,6 +475,37 @@ void TestEnemy::Warning()
 
 	ImGui::Text("ActionState == WARNING");
 
+	if (trackingPlayer)
+	{
+		//移動
+		Move(searchPoint.position);
+
+		Vector3 distance = fanInfo.position - searchPoint.position;
+		float length = distance.Length();
+
+		//対象との距離が1.0以下になったら到着完了とする。
+		if (length < attackLength)
+		{
+			actionState = ActionState::ATTACK;
+		}
+	}
+	else
+	{
+		if (trackingBreadcrumb)
+		{
+			//移動
+			Move(lastBreadPos);
+
+			Vector3 distance = fanInfo.position - lastBreadPos;
+			float length = distance.Length();
+
+			//対象との距離が1.0以下になったら到着完了とする。
+			if (length < 1.0f)
+			{
+				trackingBreadcrumb = false;
+			}
+		}
+	}
 
 }
 
@@ -437,17 +514,17 @@ void TestEnemy::Attack()
 	SetFanInfo(120.0f);
 	ImGui::Text("ActionState == TRACKING");
 
-	Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
-	area->SetActive(true, position + areaPos, angle);
+	//Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
+	//area->SetActive(true, position + areaPos, angle);
 
-	attackCount++;
+	//attackCount++;
 
-	if (attackCount > attackTime)
-	{
-		attackCount = 0;
-		area->SetActive(false);
-		actionState = ActionState::WARNING;
-	}
+	//if (attackCount > attackTime)
+	//{
+	//	attackCount = 0;
+	//	area->SetActive(false);
+	//	actionState = ActionState::WARNING;
+	//}
 }
 
 void TestEnemy::Invincible(int time)
@@ -475,31 +552,15 @@ void TestEnemy::ChangeDirection()
 	diff.normalize();
 	float radian = atan2(diff.x, diff.z);
 	//回転を反映
-	angle.y = RadianToDegree(radian) + 180.0f;
+	angle.y = Math::toDegrees(radian) + 180.0f;
 }
 
-float TestEnemy::DegreeToRadian(float angle)
-{
-	float radian;
-	radian = angle * (PI / 180.0f);
-
-	return radian;
-}
-
-float TestEnemy::RadianToDegree(float radian)
-{
-	float degree;
-	degree = radian * (180.0f / PI);
-
-	return degree;
-}
-
-Vector3 TestEnemy::AngleToVectorY(float angle)
+Vector3& TestEnemy::AngleToVectorY(float angle) const
 {
 	Vector3 vector;
 
 	//角度をラジアン角に戻す
-	float radian = DegreeToRadian(angle);
+	float radian = Math::toRadians(angle);
 
 	float x = cosf(radian);
 	float z = sinf(radian);
@@ -511,16 +572,16 @@ Vector3 TestEnemy::AngleToVectorY(float angle)
 	return vector;
 }
 
-float TestEnemy::VectorToAngleY(Vector3 vector)
+float TestEnemy::VectorToAngleY(const Vector3 & vector) const
 {
 	float angle = atan2f(vector.x, vector.z);
 
-	RadianToDegree(angle);
+	angle = Math::toDegrees(angle);
 
 	return angle;
 }
 
-bool TestEnemy::IsHitFanToPoint(FanInfomation fan, Vector3 point, float radius)
+bool TestEnemy::IsHitFanToPoint(const FanInfomation& fan, const Vector3& point, float radius) const
 {
 	//①　点と扇中心点のベクトルを求める
 	Vector3 vectorFanToPoint =
@@ -544,10 +605,8 @@ bool TestEnemy::IsHitFanToPoint(FanInfomation fan, Vector3 point, float radius)
 		return false;
 	}
 
-
-
 	//④　円弧の方向ベクトルを求める
-	float rotateRadian = DegreeToRadian(fan.rotate);
+	float rotateRadian = Math::toRadians(fan.rotate);
 
 	//⑤　0度の扇の角度の単位ベクトル(arc = 円弧)
 	Vector3 arcDirection = Vector3(1, 0, 0);
@@ -575,7 +634,7 @@ bool TestEnemy::IsHitFanToPoint(FanInfomation fan, Vector3 point, float radius)
 		normalFanToPoint.z * rotateArcDirection.z;
 
 	//⑨　扇の範囲をcosの値にする
-	float fanCos = cosf(DegreeToRadian(fan.fanRange / 2.0f));
+	float fanCos = cosf(Math::toRadians(fan.fanRange / 2.0f));
 
 	//⑩　点が扇の範囲内にあるか比較をする
 	if (fanCos > dot)
