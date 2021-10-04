@@ -115,7 +115,7 @@ void BaseEnemy::SearchPlayer(ObjectManager* objManager)
 {
 	//センサーの情報をプレイヤー情報で更新
 	searchPoint.radius = 1.0f;
-	//searchPoint.position = objManager->GetPlayer().GetPosition();
+	searchPoint.position = objManager->GetPlayer().GetPosition();
 
 	//センサーを更新
 	hitSensor = IsHitFanToPoint(fanInfo, searchPoint.position, searchPoint.radius);
@@ -367,7 +367,7 @@ void BaseEnemy::DicideTurnAround(ObjectManager* objManager)
 	if (actionState != ActionState::SEARCH || !turnaroundMode) return;
 
 	//当たった位置と、現在の自分の向きを一時保存する。
-	//hitPos = objManager->GetPlayer().GetPosition();
+	hitPos = objManager->GetPlayer().GetPosition();
 	hitAngle = angle;
 	actionState = ActionState::WARNING;
 }

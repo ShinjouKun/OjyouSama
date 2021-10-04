@@ -31,7 +31,7 @@ namespace EnemyConstInfo
 	constexpr bool BRRADCRUMB_MODE = true;
 
 	/*自爆モード*/
-	constexpr bool DESTRUCT_MODE = true;
+	constexpr bool DESTRUCT_MODE = false;
 
 	/*振り返りモード*/
 	constexpr bool TURNAROUND_MODE = false;

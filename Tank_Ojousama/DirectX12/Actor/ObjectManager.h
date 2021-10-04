@@ -20,9 +20,13 @@ public:
 	void SetReloadTime(int time) { ReloadTime = time; }
 	void Draw();//•`‰æˆ—
 	std::vector<BaseObject*>getUseList();
+
+	BaseObject & GetPlayer() const;
+
 private:
 	std::vector<BaseObject*>objectList;//g‚¤‚à‚Ì
 	std::vector<BaseObject*>addObjectList;//’Ç‰Á‚µ‚½‚à‚Ì‚Ìˆê•Û‘¶—p
+	
 	int IdCount;
 	int ReloadTime;
 };
