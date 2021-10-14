@@ -1,5 +1,6 @@
 #include "ItemHolder.h"
 
+//初期化
 void ItemHolder::Init()
 {
 	count + 0;
@@ -13,11 +14,13 @@ void ItemHolder::Update()
 {
 }
 
+//リストを空に
 void ItemHolder::Reset()
 {
 	items.clear();
 }
 
+//使う時
 void ItemHolder::UseItem(ItemNames item)
 {
 	if (items.count(item) <= 0)
@@ -29,6 +32,7 @@ void ItemHolder::UseItem(ItemNames item)
 	items.insert_or_assign(item, count);
 }
 
+//アイテム取った時
 void ItemHolder::AddItem(ItemNames item)
 {
 	count = items.count(item)+1;
