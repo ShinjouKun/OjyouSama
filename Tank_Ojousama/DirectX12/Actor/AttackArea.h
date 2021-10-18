@@ -17,8 +17,8 @@ public:
 	/// <param name="modelR">ƒ‚ƒfƒ‹•`‰æ</param>
 	/// <param name="num">¯•Ê”Ô†</param>
 	AttackArea(
-		Vector3 pos,
-		Vector3 ang,
+		const Vector3& pos,
+		const Vector3& ang,
 		ObjectManager* objM,
 		shared_ptr<ModelRenderer>modelR,
 		int num

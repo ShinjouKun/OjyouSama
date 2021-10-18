@@ -8,8 +8,8 @@ namespace ECI = EnemyConstInfo;
 namespace SECI = SniperEnemyConstInfo;
 
 SniperEnemy::SniperEnemy(
-	Vector3 pos,
-	Vector3 ang,
+	const Vector3& pos,
+	const Vector3& ang,
 	ObjectManager * objM,
 	shared_ptr<ModelRenderer> modelRender,
 	shared_ptr<TexRenderer> texRender,
@@ -43,22 +43,14 @@ void SniperEnemy::EnemyInit()
 	attackLength = ECI::ATTACK_LENGTH * SECI::ATTACK_LENGTH;
 
 	death = false;
-	isInvincible = false;
-	hitSensor = false;
-	swingSensor = false;
 	trackingPlayer = false;
 	trackingBreadcrumb = false;
-	oneShot = false;
-	isDestruct = false;
 	breadcrumbMode = ECI::BRRADCRUMB_MODE;
 	destructMode = ECI::DESTRUCT_MODE;
 	turnaroundMode = ECI::TURNAROUND_MODE;
 
 	angle = Vector3(0.0f, 180.0f, 0.0f);//車体の向き
-	lastBreadPos = Vector3().zero;
 	scale = SECI::SCALE;
-	hitPos = Vector3().zero;
-	hitAngle = Vector3().zero;
 
 	objType = ObjectType::ENEMY;
 	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), radius));
@@ -113,11 +105,8 @@ void SniperEnemy::EnemyUpdate()
 	DestructMode(SECI::MAX_HP / 2, destructMode);//自爆機能
 	ChangeState();		              //状態変更
 	ImGuiDebug();		              //デバッグ表示
-	Invincible(SECI::INVINCIBLE_TIME);//無敵時間
+	Invincible(ECI::REPORT_INTERVAL);//無敵時間
 	SearchObject(objManager);         //オブジェクト検索
-
-	//落ちているパンくずを数える
-	mapCount = static_cast<int>(breadMap.size());
 }
 
 void SniperEnemy::EnemyRend()
@@ -136,21 +125,23 @@ void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 		trackingBreadcrumb = false;
 	}
 
-	if (col->GetColObject()->GetType() == ObjectType::BULLET ||
-		col->GetColObject()->GetType() == ObjectType::PLAYER)
+	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
-		Damage(1, objManager);
+		//ダメージを受ける
+		HP -= col->GetColObject()->GetDamage();
+
+		Report(objManager, modelRender);
 	}
 }
 
 void SniperEnemy::EnemyImGuiDebug()
 {
-	ImGui::SliderInt("HP", &destructCount, 0, 1000);
+	//ImGui::SliderInt("HP", &destructCount, 0, 1000);
 }
 
 void SniperEnemy::Search()
 {
-	ImGui::Text("ActionState == SEARCH");
+	//ImGui::Text("ActionState == SEARCH");
 
 	//首振り索敵型
 	SwingDirection(swingRange);
@@ -158,7 +149,7 @@ void SniperEnemy::Search()
 
 void SniperEnemy::Warning()
 {
-	ImGui::Text("ActionState == WARNING");
+	//ImGui::Text("ActionState == WARNING");
 
 	//追跡機能
 	TrackingObject();
@@ -166,7 +157,7 @@ void SniperEnemy::Warning()
 
 void SniperEnemy::Attack()
 {
-	ImGui::Text("ActionState == Attack");
+	//ImGui::Text("ActionState == Attack");
 
 	attackCount++;
 
@@ -184,7 +175,7 @@ void SniperEnemy::Attack()
 
 void SniperEnemy::Destruct()
 {
-	ImGui::Text("ActionState == DESTRUCT");
+	//ImGui::Text("ActionState == DESTRUCT");
 
-	DestructAction(objManager, modelRender);
+	//DestructAction(objManager, modelRender);
 }

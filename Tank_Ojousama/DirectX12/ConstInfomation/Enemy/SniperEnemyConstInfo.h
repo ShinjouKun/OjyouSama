@@ -19,7 +19,7 @@ namespace SniperEnemyConstInfo
 	constexpr int ATTACK_TIME = 1;
 
 	/*無敵時間(秒)*/
-	constexpr int INVINCIBLE_TIME = 2;
+	constexpr int INVINCIBLE_TIME = 5;
 
 	/*移動速度*/
 	constexpr float MOVE_SPEED = 0.2f;
@@ -43,11 +43,11 @@ namespace SniperEnemyConstInfo
 	const Vector3 SCALE = Vector3(1.5f, 1.5f, 1.5f);
 
 	/*砲身のモデル名*/
-	const string TANK_BARREL_NAME = "Barrel";
+	const string TANK_BARREL_NAME = "SniperBarrel";
 
 	/*砲塔のモデル名*/
-	const string TANK_TURRET_NAME = "Turret";
+	const string TANK_TURRET_NAME = "SniperTurret";
 
 	/*車体のモデル名*/
-	const string TANK_BODY_NAME = "Body";
+	const string TANK_BODY_NAME = "SniperBody";
 }

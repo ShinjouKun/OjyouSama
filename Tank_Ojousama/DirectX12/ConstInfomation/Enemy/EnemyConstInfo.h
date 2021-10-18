@@ -27,11 +27,14 @@ namespace EnemyConstInfo
 	/*首振り角度*/
 	constexpr float SWING_RANGE = 1.0f;
 
+	/*報告クールタイム*/
+	constexpr float REPORT_INTERVAL = 5.0f;
+
 	/*パンくず追跡モード*/
 	constexpr bool BRRADCRUMB_MODE = true;
 
 	/*自爆モード*/
-	constexpr bool DESTRUCT_MODE = true;
+	constexpr bool DESTRUCT_MODE = false;
 
 	/*振り返りモード*/
 	constexpr bool TURNAROUND_MODE = false;

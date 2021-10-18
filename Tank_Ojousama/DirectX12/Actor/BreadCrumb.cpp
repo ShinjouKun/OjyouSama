@@ -65,6 +65,8 @@ void BreadCrumb::ImGuiDebug()
 	//ImGui::SliderFloat3("PointPosition", pos, -500.0f, 500.0f);
 	////扇と点が当たってたらチェックがつくよ。
 	//ImGui::Checkbox("IsDeath", &death);
+
+	//ImGui::Text("BreadCrumb");
 }
 
 void BreadCrumb::LifeCountDown(int count)
