@@ -15,6 +15,9 @@
 #include "../Collision/CollisionPrimitive.h"
 #include "../Actor/Player.h"
 #include "../Actor/ObjectManager.h"
+
+class Sound;
+
 class Title:public BaseScene
 {
 public:
@@ -32,6 +35,7 @@ private:
 
 	Camera* camera;	
 	ObjectManager* objM;
-	Player* player;//ƒvƒŒƒCƒ„[‚ÌÀ‘Ì¶¬
+	std::shared_ptr<Sound> mSound;
+
 	
 };

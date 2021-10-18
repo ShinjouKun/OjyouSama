@@ -122,7 +122,8 @@ void Select::UpdateScene()
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				cameramoveFlag = true;
+				NextScene(std::make_shared<GamePlay>());
+				//cameramoveFlag = true;
 			}
 		}
 		if (position.x >= targetPos2.x && position.x <= targetPos2.x + 64 && position.y >= targetPos2.y  && position.y <= targetPos2.y + 64)

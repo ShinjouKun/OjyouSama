@@ -19,7 +19,7 @@ public:
 	void pause();
 	//停止
 	void stop();
-	//音量の変更0～100
+	//音量の変更0～1
 	void setVol(float num);
 	//エミッターの位置をセット
 	void setPos(const Vector3& pos);
