@@ -296,5 +296,5 @@ void EnemyTank::OnCollison(BaseCollider* col)
 
 void EnemyTank::ImGuiDebug()
 {
-	ImGui::SliderInt("EnemyHp", &HP, 0,HP);
+	//ImGui::SliderInt("EnemyHp", &HP, 0,HP);
 }

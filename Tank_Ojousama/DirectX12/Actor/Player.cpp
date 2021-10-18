@@ -11,8 +11,8 @@
 #include"../Weapons/ShotGunBullet.h"
 #include"../Weapons/MissileBullet.h"
 #include"../Weapons/MashinGun.h"
-Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj,shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
-	:playerModel(m),playerParticle(p),playerSprite(s),
+Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
+	:playerModel(m), playerParticle(p), playerSprite(s),
 	listener(std::make_shared<Listener>())
 {
 	position = pos;
@@ -96,17 +96,17 @@ void Player::AngleReset()
 void Player::Init()
 {
 	//model
-	playerModel->AddModel("TankPlayerA", "Resouse/BoxTankATKA.obj","Resouse/BoxTankATKA.png");
-	playerModel->SetAncPoint("TankPlayerA", Vector3(-2.0f, -2.0f, -2.0f));
+	/*playerModel->AddModel("TankPlayerA", "Resouse/BoxTankATKA.obj","Resouse/BoxTankATKA.png");
+	playerModel->SetAncPoint("TankPlayerA", Vector3(-2.0f, -2.0f, -2.0f));*/
+	/*
+		playerModel->AddModel("TankPlayerHou", "Resouse/BoxTankATKB.obj", "Resouse/BoxTankATKB.png");
+		playerModel->SetAncPoint("TankPlayerHou", Vector3(-2.0f,-2.0f, -2.0f));
 
-	playerModel->AddModel("TankPlayerHou", "Resouse/BoxTankATKB.obj", "Resouse/BoxTankATKB.png");
-	playerModel->SetAncPoint("TankPlayerHou", Vector3(-2.0f,-2.0f, -2.0f));
+		playerModel->AddModel("TankPlayerB", "Resouse/BoxTankBTM.obj", "Resouse/BoxTankBTM.png");
+		playerModel->SetAncPoint("TankPlayerB", Vector3(-2.0f, -2.0f, -2.0f));*/
 
-	playerModel->AddModel("TankPlayerB", "Resouse/BoxTankBTM.obj", "Resouse/BoxTankBTM.png");
-	playerModel->SetAncPoint("TankPlayerB", Vector3(-2.0f, -2.0f, -2.0f));
-
-	//playerModel->AddModel("TankPlayerA", "Resouse/head.obj", "Resouse/head2.png");
-	//playerModel->AddModel("TankPlayerB", "Resouse/body.obj", "Resouse/body2.png");
+	playerModel->AddModel("TankPlayerA", "Resouse/head.obj", "Resouse/sensha.png");
+	playerModel->AddModel("TankPlayerB", "Resouse/body.obj", "Resouse/sensha.png");
 	//playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
 	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
 	//playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
@@ -114,18 +114,21 @@ void Player::Init()
 	HP = 3;
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
-	playerSprite->AddTexture("Life1","Resouse/TankAicn.png");
-	playerSprite->AddTexture("Life2","Resouse/TankAicn.png");
-	playerSprite->AddTexture("Life3","Resouse/TankAicn.png");
-    playerSprite->AddTexture("HIT","Resouse/hit.png");
+	playerSprite->AddTexture("Life1", "Resouse/TankAicn.png");
+	playerSprite->AddTexture("Life2", "Resouse/TankAicn.png");
+	playerSprite->AddTexture("Life3", "Resouse/TankAicn.png");
+	playerSprite->AddTexture("HIT", "Resouse/hit.png");
 	death = false;
 	objType = ObjectType::PLAYER;
 	position = Vector3(100.0f, 0.0f, -50.0f);
-	
+
 	angle = Vector3(0.0f, 0.0f, 0.0f);//車体
 	atkAngle = 0.0f;//砲塔
 	fireAngle = 0.0f;
-	speed = 0.3f;	
+	speed = 0.0f;
+	maxSpeed = 0.3f;
+	speedTime = 0.0f;
+	speedLimitTime = 10.0f;
 	cameraSpeed = 1.0f;
 	bulletStock = 0;
 	TargetPos = Vector3(position.x, position.y + 4.0f, position.z);
@@ -139,44 +142,56 @@ void Player::Update()
 {
 	if (!GameOver)
 	{
+
 		velocity = Vector3(0, 0, 0);
+		speed = Easing::ease_inout_cubic(speedTime, 0, maxSpeed, 20.0f);
+		velocity = RotateY(angle.y + 90.0f)*speed;
+		
+
 		CamVelocity = Vector3(0, 0, 0);
 		moveFlag = false;
-		FrontMove = false;
-		BackMove = false;
-		CameraPos = Vector3(position.x, position.y+4.0f, position.z +15.0f);
+		CameraPos = Vector3(position.x, position.y + 4.0f, position.z + 15.0f);
 		ImGuiDebug();//デバッグ用
 		AngleReset();
-		
-		if (position.x <= 0)
+		if (FrontMove)
 		{
-			position.x= 0.1f;//バミューダ対策
+			position += velocity;
 		}
-		//if (position.y > -3.9f)
-		//{
-		//	position.y -= 0.2f;//重力
-		//}
-		//テスト用
-		if (Input::KeyState(DIK_2))
+		else if(BackMove)
 		{
-			position.y += 0.4f;
+			position -= velocity;
 		}
 		//キー押し処理
-		if (Input::KeyState(DIK_W)||Input::pad_data.lY<0)
+		if (Input::KeyState(DIK_W) || Input::pad_data.lY < 0)
 		{
-			velocity = RotateY(angle.y + 90.0f)*speed;
-			position += velocity;
+			speedTime++;
+			if (speedTime >= speedLimitTime)
+			{
+				speedTime = speedLimitTime;
+			}		
 			FrontMove = true;
+			BackMove = false;
 			moveFlag = true;
 		}
-
-		if (Input::KeyState(DIK_S) || Input::pad_data.lY > 0)
+		else if (Input::KeyState(DIK_S) || Input::pad_data.lY > 0)
 		{
-			velocity = RotateY(angle.y + 90.0f)*speed;
-			position -= velocity;
+			speedTime++;
+			if (speedTime >= speedLimitTime)
+			{
+				speedTime = speedLimitTime;
+			}
 			BackMove = true;
+			FrontMove = false;
 		}
-
+		else if(speedTime == speedLimitTime||speedTime < speedLimitTime)
+		{
+			speedTime--;
+			if (speedTime <= 0.0f)
+			{
+				speedTime = 0;
+			}
+			
+		}
 		if (Input::KeyState(DIK_D) || Input::pad_data.lX > 0)
 		{
 			angle.y += 1.0f;
@@ -186,7 +201,7 @@ void Player::Update()
 			angle.y -= 1.0f;
 		}
 		//砲塔
-		if (Input::KeyState(DIK_UP)|| Input::pad_data.lRz < 0)
+		if (Input::KeyState(DIK_UP) || Input::pad_data.lRz < 0)
 		{
 			fireAngle -= 1.0f;
 		}
@@ -213,8 +228,8 @@ void Player::Update()
 		//カメラ更新
 		CamVelocity = RotateY(atkAngle - 90.0f)*8.0f;
 		CameraPos = position + CamVelocity;
-		camera->SetEye(Vector3(CameraPos.x, CameraPos.y+4.0f, CameraPos.z));
-		camera->SetTarget(Vector3(position.x, position.y+4.0f, position.z));
+		camera->SetEye(Vector3(CameraPos.x, CameraPos.y + 4.0f, CameraPos.z));
+		camera->SetTarget(Vector3(position.x, position.y + 4.0f, position.z));
 		if (shotFlag1)
 		{
 			int t = objM->GetReloadTime();
@@ -251,27 +266,27 @@ void Player::Update()
 				shotcnt2 = 0;
 			}
 		}
-		
+
 		//球数上限を設け
 		if (bulletStock >= 70)
 		{
 			bulletStock = 0;
 		}
-	
+
 	}
-	
+
 	//リスナーに自身の位置を更新
 	listener->setPos(position);
 }
 
 void Player::Rend()
 {
-	
+
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	playerModel->Draw("TankPlayerA", Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
-	playerModel->Draw("TankPlayerHou", Vector3(position.x, position.y, position.z), Vector3(fireAngle, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
+	//playerModel->Draw("TankPlayerHou", Vector3(position.x, position.y, position.z), Vector3(fireAngle, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 	playerModel->Draw("TankPlayerB", Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
-	
+
 	//if (moveFlag)
 	//{
 	//	playerParticleBox->EmitterUpdateUpGas("KemuriL", Vector3(position.x - 0.8f, position.y+0.5f, position.z + 1.8f), Vector3(angle.x, angle.y, angle.z));
@@ -280,6 +295,7 @@ void Player::Rend()
 
 	DirectXManager::GetInstance()->SetData2D();
 	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+
 	switch (HP)
 	{
 	case 3:
@@ -305,7 +321,7 @@ void Player::Rend()
 		DirectXManager::GetInstance()->SetData2D();
 		playerSprite->Draw("DETH", Vector3(500, 200, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}
-	
+
 }
 
 
@@ -315,7 +331,7 @@ void Player::OnCollison(BaseCollider* col)
 	{
 		HP -= col->GetColObject()->GetDamage();
 	}
-	
+
 	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
 	{
 		if (FrontMove)//いずれ修正
@@ -333,7 +349,7 @@ void Player::OnCollison(BaseCollider* col)
 
 void Player::ImGuiDebug()
 {
-	
+
 	float pos[3] = { position.x,position.y,position.z };
 	ImGui::SliderFloat3("PlayerPosition", pos, 0, 10000.0f);
 	float ang[3] = { angle.x,angle.y,angle.z };
@@ -344,4 +360,6 @@ void Player::ImGuiDebug()
 	ImGui::Checkbox("ShotFlag", &shotFlag2);
 	ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
 	ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
+	ImGui::SliderFloat("SPEED", &speed, 0, 100);
+	ImGui::SliderInt("SPEEDTime", &speedTime, 0, 100);
 }

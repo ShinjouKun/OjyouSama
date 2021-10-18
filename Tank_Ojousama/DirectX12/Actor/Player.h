@@ -55,6 +55,9 @@ private:
 	float atkAngle;//–C“ƒ—p//•`‰æ
 	float fireAngle;//–Cg
 	float cameraSpeed;
+	int speedTime;
+	float maxSpeed;
+	float speedLimitTime;
 	//ƒTƒEƒ“ƒh
 
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½

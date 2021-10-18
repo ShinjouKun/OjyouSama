@@ -13,6 +13,7 @@
 
 #include "../Actor/SniperEnemy.h"
 #include "../Actor/BlowEnemy.h"
+#include"../Actor/GolemEnemy.h"
 
 class GamePlay:public BaseScene
 {

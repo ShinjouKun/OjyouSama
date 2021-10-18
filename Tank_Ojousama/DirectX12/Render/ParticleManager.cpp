@@ -25,19 +25,7 @@ void ParticleManager::Init()
 void ParticleManager::Update(const string& key)
 {
 	auto& d = particleDatas[key];
-	Matrix4 matBill = Matrix4::Identity;
-
-	Vector3 zAxis = Vector3::normalize(Camera::target - Camera::eye);
-	Vector3 xAxis = Vector3::normalize(Vector3::cross(Camera::up, zAxis));
-	Vector3 yAxis = Vector3::normalize(Vector3::cross(zAxis, xAxis));
-	float temp[4][4] =
-	{
-		{xAxis.x,xAxis.y,xAxis.z,0.0f},
-		{yAxis.x,yAxis.y,yAxis.z,0.0f},
-		{zAxis.x,zAxis.y,zAxis.z,0.0f},
-		{0.0f,0.0f,0.0f,1.0f}
-	};
-	matBill = Matrix4(temp);
+	
 	//寿命が尽きたパーティクルの削除
 	d.particles.remove_if([](ParticleStateus& x) {return x.frame >= x.numFrame; });
 	//全パーティクル更新
@@ -90,11 +78,23 @@ void ParticleManager::Update(const string& key)
 
 void ParticleManager::OllUpDate()
 {
+	 matBill = Matrix4::Identity;
+
+	Vector3 zAxis = Vector3::normalize(Camera::target - Camera::eye);
+	Vector3 xAxis = Vector3::normalize(Vector3::cross(Camera::up, zAxis));
+	Vector3 yAxis = Vector3::normalize(Vector3::cross(zAxis, xAxis));
+	float temp[4][4] =
+	{
+		{xAxis.x,xAxis.y,xAxis.z,0.0f},
+		{yAxis.x,yAxis.y,yAxis.z,0.0f},
+		{zAxis.x,zAxis.y,zAxis.z,0.0f},
+		{0.0f,0.0f,0.0f,1.0f}
+	};
+	matBill = Matrix4(temp);
 	for (auto itr = particleDatas.begin(); itr != particleDatas.end(); itr++)
 	{
 		Update(itr->first);
 	}
-
 }
 
 void ParticleManager::CreateBuff(const string & key)
@@ -236,7 +236,6 @@ void ParticleManager::OllDraw()
 	{
 		DrawParticleBill(itr->first);
 	}
-
 }
 
 void ParticleManager::Add(const string& key, int life, const Vector3 & pos, const Vector3 & vel, const Vector3 & acc, float sScale, float eScale, const Vector4 & color, const Vector3& angle)

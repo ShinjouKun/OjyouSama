@@ -116,6 +116,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//Enemy
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyHou.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyDaiza.obj");
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/GolemBody.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/GolemArm_L.obj");//–C“ƒ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/GolemArm_R.obj");//–Cg
 	//Block
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/bill.obj");
 	//Bullet

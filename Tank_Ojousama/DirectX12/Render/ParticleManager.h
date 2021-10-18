@@ -112,6 +112,7 @@ private:
 	map<string, ParticleData>particleDatas;//テクスチャのリスト
 	UINT texNum;//テクスチャ番号
 	int vertCount = 1024;
+	Matrix4 matBill;
 };
 class ParticleEmitterBox//パーティクルの発生源
 {
@@ -130,4 +131,5 @@ private:
 	Vector3 pos;
 	Vector3 angle;
 	shared_ptr<ParticleManager> particle;
+	
 };

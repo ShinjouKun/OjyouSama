@@ -156,6 +156,7 @@
     <ClCompile Include="Actor\BaseObject.cpp" />
     <ClCompile Include="Actor\BlowEnemy.cpp" />
     <ClCompile Include="Actor\BreadCrumb.cpp" />
+    <ClCompile Include="Actor\GolemEnemy.cpp" />
     <ClCompile Include="Actor\SniperEnemy.cpp" />
     <ClCompile Include="Actor\TestEnemy.cpp" />
     <ClCompile Include="Actor\WayPoint.cpp" />
@@ -397,6 +398,7 @@
     <ClInclude Include="Actor\AttackArea.h" />
     <ClInclude Include="Actor\BaseEnemy.h" />
     <ClInclude Include="Actor\BreadCrumb.h" />
+    <ClInclude Include="Actor\GolemEnemy.h" />
     <ClInclude Include="Actor\SniperEnemy.h" />
     <ClInclude Include="Actor\TestEnemy.h" />
     <ClInclude Include="Actor\TestItem.h" />
@@ -411,6 +413,7 @@
     <ClInclude Include="ConstInfomation\Enemy\EnemyConstInfo.h" />
     <ClInclude Include="Actor\BlowEnemy.h" />
     <ClInclude Include="ConstInfomation\Enemy\BlowEnemyConstInfo.h" />
+    <ClInclude Include="ConstInfomation\Enemy\GolemEnemyConstInfo.h" />
     <ClInclude Include="ConstInfomation\Enemy\SniperEnemyConstInfo.h" />
     <ClInclude Include="ConstInfomation\Enemy\TestEnemyInfo.h" />
     <ClInclude Include="Scene\BaseScene.h" />

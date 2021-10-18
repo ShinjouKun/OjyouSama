@@ -254,7 +254,7 @@ HRESULT PipeLine::SetPipeline2D(string shaderName)
 	//深度テスト
 	gpipeLine.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 	gpipeLine.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;//常に上書き
-
+	gpipeLine.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	//レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//標準
@@ -402,7 +402,7 @@ HRESULT PipeLine::SetPipelineParticle(string shaderName)
 	gpipeLine.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;//背面カリングしない
 	//深度テスト
 	gpipeLine.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
-	//gpipeLine.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;//常に上書き
+	gpipeLine.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
 	gpipeLine.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 	//レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};

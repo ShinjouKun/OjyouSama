@@ -2,6 +2,7 @@
 #include "../Math/Vector2.h"
 #include "../Math/Vector3.h"
 #include "../Math/Vector4.h"
+#include"../Math/Easing.h"
 #include<cmath>
 //当たり判定系
 #include "../Collision/CollisonInfo.h"
@@ -12,6 +13,7 @@ enum ObjectType//オブジェクトのタグ
 {
 	PLAYER,
 	ENEMY,
+	MIDDLEENEMY,
 	BULLET,
 	GROUND,
 	ENEMYBULLET,
