@@ -55,10 +55,10 @@ void GamePlay::StartScene()
 	//}
 		
 	//objM->Add(new EnemyTank(Vector3(90.0f , 0.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, 0));
-	objM->Add(new BlowEnemy(Vector3(95.0f, 0.0f, -125.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
+	//objM->Add(new BlowEnemy(Vector3(95.0f, 0.0f, -125.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	//objM->Add(new TestEnemy(Vector3(90.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, 1));
-	objM->Add(new SniperEnemy(Vector3(100.0f, 0.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 2));
-
+	//objM->Add(new SniperEnemy(Vector3(100.0f, 0.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 2));
+	objM->Add(new GolemEnemy(Vector3(100.0f, 0.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("SelectAim", "Resouse/selectcursol.png");
 	BaseScene::mSprite->AddTexture("SBack", "Resouse/selectback.png");
