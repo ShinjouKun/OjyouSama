@@ -3,31 +3,42 @@
 #include "../Actor/BaseObject.h"
 #include "../Render/ModelRenderer.h"
 
+enum ItemNames//アイテム判別用
+{
+	heal,
+	dome,
+	smock,
+};
+
 //アイテムのベースオブジェクト
 
 class Item :public BaseObject
 {
 public:
-	Item(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int aliv, int n);
+	Item();
 	~Item();
 
 private:
 
-	virtual void Init() override;
-	virtual void Update() override;
-	virtual void Rend() override;
+
+	virtual ItemNames GetItemNames() { return itemName; }
 
 	ObjectManager* objM;
 	shared_ptr<ModelRenderer>itemModel;
-	//アイテム種類分け
+	//アイテム種類分け+複数出す用
 	int number = 0;
 	string name;
 	string num;
 	string numName;
+	ItemNames itemName;//アイテム種類判別用
 
 	//生存時間指定用
 	int alive;
-	virtual void OnCollison(BaseCollider* info) override;
 
-	virtual void ImGuiDebug() override;
+	//BaseObject を介して継承
+	virtual void Init() = 0;
+	virtual void Update() = 0;
+	virtual void Rend() = 0;
+	virtual void ImGuiDebug() = 0;
+	virtual void OnCollison(BaseCollider * col) = 0;
 };

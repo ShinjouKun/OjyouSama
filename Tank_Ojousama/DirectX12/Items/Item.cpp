@@ -1,13 +1,8 @@
 #include "Item.h"
 #include "../Collision/BaseCollider.h"
 
-Item::Item(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int aliv, int n) :itemModel(m)
+Item::Item()
 {
-	position = pos;
-	angle = ang;
-	objM = obj;
-	number = n;
-	alive = aliv;
 }
 
 Item::~Item()
