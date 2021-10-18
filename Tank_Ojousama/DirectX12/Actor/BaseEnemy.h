@@ -5,8 +5,13 @@
 #include "BreadCrumb.h"             //パンくず
 #include "../Render/ModelRenderer.h"//モデル貼り付け
 #include "../Render/TexRenderer.h"	//ポリゴンの描画
-
 #include "AttackArea.h"
+
+class TestWayPoint;
+class WayPointManager;
+class ReportArea;
+class BreadCrumbCreater;
+class TestBreadCrumb;
 
 /// <summary>
 /// 敵の基底クラス
@@ -84,10 +89,25 @@ public:
 	virtual void TrackingObject();
 
 	/*瀕死時に自爆状態に変更する(自爆状態になる体力,自爆するかどうか)*/
-	void DestructMode(int hpLine, bool destructMode);
+	virtual void DestructMode(int hpLine, bool destructMode);
 
 	/*自爆行動(objManager, modelRender)(当たり判定オブジェクトをBase側で生成する)*/
 	virtual void DestructAction(ObjectManager * objManager, shared_ptr<ModelRenderer> modelRender);
+
+	/*WayPoint追跡開始(報告主の位置,objManager,modelRender,WayPoint管理クラス(シーンに1つしかないやつ))*/
+	virtual void InitSearch(Vector3 hitPosition, ObjectManager * objManager, shared_ptr<ModelRenderer> modelRender);
+
+	/*WayPoint追跡を実行(必ずInitSearchが行われていないといけない)*/
+	virtual void SerachWayPoint();
+
+	/*WayPoint変数の初期化*/
+	virtual void InitWayPoint();
+
+	/*WayPointに向かって移動開始*/
+	virtual void WayPointMove();
+
+	/*報告範囲を表示する*/
+	virtual void Report(ObjectManager* objM, shared_ptr<ModelRenderer> modelRender);
 
 	/*角度をベクトルに変換(Degree角度)(Yは変更なし)*/
 	virtual Vector3 AngleToVectorY(float angle)const;
@@ -99,9 +119,17 @@ public:
 	virtual bool InsideDistance(const Vector3& otherPos, float dist);
 
 	/*扇の当たり判定*/
-	virtual bool IsHitFanToPoint(const FanInfomation& fan, const Vector3& point, float radius = 0.0f) const;
+	virtual bool IsHitFanToPoint(const FanInfomation& fan, const Vector3& point, const float radius = 0.0f) const;
+
+	static void SetManager(WayPointManager * manager) { mManager = manager; }
+
+	static void SetBreadCreator(BreadCrumbCreater * breadCreator) { mBreadCreator = breadCreator; }
 
 private:
+
+	/*変数の初期化*/
+	void Initialize();
+
 	/*移動(移動先の位置)*/
 	void Move(const Vector3& otherPosition);
 
@@ -109,10 +137,13 @@ private:
 	void SetFanInfo(float range = 60.0f, float length = 30.0f);
 
 	/*プレイヤー検索(objManager)*/
-	void SearchPlayer(ObjectManager* objManager);
+	void SearchPlayer(const ObjectManager& objManager);
 
 	/*パンくず検索(objManager)*/
 	void SearchBreadCrumb(BaseObject* breadcrumb);
+
+	/*パンくず検索(objManager)*/
+	void SearchBreadCrumbTest(const TestBreadCrumb& breadCrumb);
 
 	/*オブジェクト追跡に切り替え*/
 	void StartTracking();
@@ -126,28 +157,28 @@ private:
 	/*振り返り機能(振り向くのにかかる時間)*/
 	void TurnAround(int time);
 
-	/*向き変更(使ってない)*/
-	void ChangeDirection();
+	/*シーン上のWayPointを取得し、リストに格納*/
+	void GetAllWayPoint();
 
+	/*指定位置から最も近いポイントを取得(指定位置)*/
+	shared_ptr<TestWayPoint> NearWayPointStartTest(const Vector3 & point) const;
+
+	/*自身から最も近いポイントn個を配列に格納(格納する個数)*/
+	void SearchPointToArrayTest(int length);
+
+	/*配列内で最も対象に近いWayPointを取得(指定配列,対象位置)*/
+	shared_ptr<TestWayPoint> NearWayPointArrayTest(const vector<shared_ptr<TestWayPoint>>& trans, const Vector3 & goal);
+
+	/*検索済みと移動不可能フラグを初期化*/
+	void ClearFlag();
 
 protected:
 
-	//key = 識別番号　：　value = 位置
-	std::unordered_map<int, Vector3> breadMap;//パンくずリスト
-
-	int HP;        //体力
-	int mapCount = 0;  //マップの要素数
-	int breadCount = 0;//落としたパンくずの総数
-	int number = 0;//識別番号
-
-	int warningTime;     //警戒時間
-	int attackTime;	     //攻撃時間
-	int attackCount = 0;       //攻撃カウント
-	int warningCount = 0;      //警戒カウント
-	int invincibleCount = 0;   //無敵カウント
-	int destructCount = 0;     //自爆カウント
-	int turnCount = 0;         //振り向きカウント
-	int currentPointNumber = 0;//現在の巡回番号
+	int HP;         //体力
+	int number;     //識別番号
+	int warningTime;//警戒時間
+	int attackTime;	//攻撃時間
+	int attackCount;//攻撃カウント
 
 	float radius;         //当たり判定の半径
 	float fanRotateOrigin;//扇の最初の向き
@@ -155,26 +186,18 @@ protected:
 	float barrelAngle;    //砲塔の向き
 	float turretAngle;    //砲身の向き
 	float attackLength;   //攻撃範囲
-
-	bool isDamage;          //ダメージを受けているか
-	bool isInvincible;      //無敵時間か
-	bool hitSensor;         //センサーが当たったか？
-	bool swingSensor;       //首振りの状態(true=左、false=右)
-	bool trackingPlayer;    //プレイヤーに当たっているか
+	
+	bool trackingPlayer;    //プレイヤーを追跡中か
 	bool trackingBreadcrumb;//パンくずを拾っているか
-	bool frontMove;         //正面に移動しているか
-	bool backMove;          //後ろに移動しているか
-	bool oneShot;           //オブジェクトを一度だけ生成する。
-	bool isDestruct;        //自爆状態になっているかどうか。
 	bool breadcrumbMode;    //パンくず追跡を行うかどうか
 	bool destructMode;      //瀕死時に自爆するかどうか
 	bool turnaroundMode;    //攻撃に当たった時にゆっくり振り向くかどうか
+	bool oneShot;           //オブジェクトを一度だけ生成する。
+	bool moveWayPoint;      //WayPoint移動中か
 
 	Vector3 scale;       //大きさ
-	Vector3 lastBreadPos;//パンくずの最後の位置を保存用
-	Vector3 previousPos; //前フレームの位置(角度変更用)
-	Vector3 hitPos = Vector3().zero;
-	Vector3 hitAngle = Vector3().zero;
+	//key = 識別番号　：　value = 位置
+	std::unordered_map<int, Vector3> breadMap;//パンくずリスト
 
 	string tankBarrel;//砲身の名前登録
 	string tankTurret;//砲塔の名前登録
@@ -184,5 +207,42 @@ protected:
 	string numTurret; //識別番号+砲塔の名前
 	string numBody;	  //識別番号+車体の名前
 
-	AttackArea* destructArea;//自爆範囲クラス
+private:
+	int warningCount;   //警戒カウント
+	int invincibleCount;//無敵カウント
+	int destructCount;  //自爆カウント
+	int breadCount;     //落としたパンくずの総数
+	int patrolCount;    //現在の巡回番号
+	int searchCount;    //使用するルートの総数
+	int loopCount;      //ルートの総検索回数
+	int moveCount;      //向かうべきオブジェクトの番号
+	int arrayCount;     //配列の要素数
+
+	bool isInvincible;   //無敵時間か
+	bool hitSensor;      //センサーが当たったか？
+	bool swingSensor;    //首振りの状態(true=左、false=右)
+	bool isDestruct;     //自爆状態になっているかどうか。
+	bool finishSearchWay;//ルート検索が完了したか
+	bool hitReportArea;  //報告範囲に当たったか
+	//bool moveWayPoint;   //WayPoint移動中か
+	bool goalFlag;       //目的地に到着したか
+
+	Vector3 lastBreadPos;//パンくずの最後の位置を保存用
+	Vector3 previousPos; //前フレームの位置(角度変更用)
+	Vector3 hitPos;      //攻撃が当たった位置を保存
+	Vector3 hitAngle;    //攻撃が当たった角度を保存
+	Vector3 goalPoint;   //報告を出したオブジェクトの位置
+	Vector3 resultPoint; //向かうべきWayPointの位置
+
+	static WayPointManager* mManager;           //ポイント生成クラス
+	static BreadCrumbCreater* mBreadCreator;    //パンくず作成クラス
+	AttackArea* destructArea;                   //自爆範囲クラス
+	shared_ptr<TestWayPoint> mWay;              //生成用
+	vector<shared_ptr<TestWayPoint>> mTarget;   //自分から近いポイントを格納する
+	vector<shared_ptr<TestWayPoint>> mPointList;//フィールドにあるポイントを管理
+	std::vector<Vector3> moveList;              //実際に移動する位置を管理
+
+
+
+	ReportArea* mReportArea;//報告範囲クラス
 };

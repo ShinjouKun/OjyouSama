@@ -7,8 +7,8 @@ namespace ECI = EnemyConstInfo;
 namespace BECI = BlowEnemyConstInfo;
 
 BlowEnemy::BlowEnemy(
-	Vector3 pos,
-	Vector3 ang,
+	const Vector3 & pos,
+	const Vector3 & ang,
 	ObjectManager * objM,
 	shared_ptr<ModelRenderer> modelRender,
 	shared_ptr<TexRenderer> texRender,
@@ -41,24 +41,15 @@ void BlowEnemy::EnemyInit()
 	barrelAngle = BECI::FAN_RANGE;
 	turretAngle = 0.0f;
 	attackLength = ECI::ATTACK_LENGTH * BECI::ATTACK_LENGTH;
-	
+
 	death = false;
-	isInvincible = false;
-	hitSensor = false;
-	swingSensor = false;
-	trackingPlayer = false;
-	trackingBreadcrumb = false;
-	oneShot = false;
-	isDestruct = false;
 	breadcrumbMode = ECI::BRRADCRUMB_MODE;
 	destructMode = ECI::DESTRUCT_MODE;
-	turnaroundMode = ECI::TURNAROUND_MODE;
+	//turnaroundMode = ECI::TURNAROUND_MODE;
+	turnaroundMode = true;
 
 	angle = Vector3(0.0f, 180.0f, 0.0f);//車体の向き
-	lastBreadPos = Vector3().zero;
 	scale = BECI::SCALE;
-	hitPos = Vector3().zero;
-	hitAngle = Vector3().zero;
 
 	objType = ObjectType::ENEMY;
 	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), radius));
@@ -67,12 +58,13 @@ void BlowEnemy::EnemyInit()
 	searchPoint.position = Vector3().zero;
 	searchPoint.radius = radius;
 
-	//センサーの初期化
+	//センサーの初期化----------------
 	fanRotateOrigin = -angle.y - 90.0f;
 	fanInfo.position = Vector3(position.x, position.y, position.z);//位置
 	fanInfo.fanRange = 180.0f;									   //θの角度
 	fanInfo.length = 30.0f;										   //長さ
 	fanInfo.rotate = fanRotateOrigin;							   //回転角
+	//--------------------------------
 
 	//最初は索敵状態
 	actionState = ActionState::SEARCH;
@@ -81,15 +73,18 @@ void BlowEnemy::EnemyInit()
 	breadMap.clear();
 
 	attackArea = new AttackArea(position, angle, objManager, modelRender, number);
+	attackArea->SetActive(false);
 
-	//配列の要素数を求める
+	//巡回ポイントの初期化------------------------------------
 	pointCount = sizeof(patrolPoint) / sizeof(patrolPoint[0]);
-	currentPointNumber = 0;
-
 	patrolPoint[0] = Vector3(position.x, position.y, position.z);
 	patrolPoint[1] = Vector3(position.x + 10, position.y, position.z);
 	patrolPoint[2] = Vector3(position.x + 10, position.y, position.z + 10);
 	patrolPoint[3] = Vector3(position.x, position.y, position.z + 10);
+	//----------------------------------------------------------------
+
+	currentTrigger = false;
+	previousTri = false;
 
 #pragma endregion
 
@@ -121,16 +116,28 @@ void BlowEnemy::EnemyInit()
 
 void BlowEnemy::EnemyUpdate()
 {
-	CreateOneObject();                //1度だけ実行される処理
-	DestructMode(BECI::MAX_HP / 2, destructMode);//自爆機能
-	ChangeState();		              //状態変更
-	ImGuiDebug();		              //デバッグ表示
-	Invincible(BECI::INVINCIBLE_TIME);//無敵時間
-	SearchObject(objManager);         //オブジェクト検索
+	/*当たり判定オブジェクトを生成*/
+	CreateOneObject();
 
-	//落ちているパンくずを数える
-	mapCount = static_cast<int>(breadMap.size());
+	/*自爆機能*/
+	DestructMode(BECI::MAX_HP / 2, destructMode);
 
+	/*状態変更*/
+	ChangeState();
+
+	/*無敵時間 & 振り向き処理*/
+	//Invincible(ECI::REPORT_INTERVAL);//無敵時間
+	Invincible(2);
+
+	/*パンくずやプレイヤーを探す*/
+	SearchObject(objManager);
+
+	/*WayPointを探す(InitWayがないと動かない)*/
+	SerachWayPoint();
+
+	ImGuiDebug();
+
+	currentTrigger = false;
 }
 
 void BlowEnemy::EnemyRend()
@@ -140,6 +147,7 @@ void BlowEnemy::EnemyRend()
 	modelRender->Draw(numBarrel, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
 	modelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
 	modelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), scale);
+
 }
 
 void BlowEnemy::EnemyOnCollision(BaseCollider * col)
@@ -149,45 +157,77 @@ void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 		trackingBreadcrumb = false;
 	}
 
-	if (col->GetColObject()->GetType() == ObjectType::BULLET ||
-		col->GetColObject()->GetType() == ObjectType::PLAYER)
+	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
-		Damage(1,objManager);
+		//ダメージを受ける
+		HP -= col->GetColObject()->GetDamage();
+
+		Report(objManager, modelRender);
+	}
+
+	//報告範囲に触れたら
+	if (col->GetColObject()->GetType() == ObjectType::ITEM)
+	{
+		currentTrigger = true;
+	}
+
+	//当たった瞬間にしたい
+	if (previousTri == false)
+	{
+		if (currentTrigger == true && actionState == ActionState::SEARCH)
+		{
+
+			InitSearch(col->GetColObject()->GetPosition(), objManager, modelRender);
+		}
 	}
 }
 
 void BlowEnemy::EnemyImGuiDebug()
 {
+#ifndef DEBUG
+
 	//ImGui::SliderInt("HP", &HP, 0, 10);
 	//ImGui::SliderInt("HP", &destructCount, 0, 1000);
-	//ImGui::Checkbox("Destruct", &isDestruct);
+	/*ImGui::Checkbox("Previous", &previousTri);*/
 
 	//float ePos[3] = { fanInfo.position.x,fanInfo.position.y,fanInfo.position.z };
-	float ePos[3] = { angle.x,angle.y,angle.z };
-	ImGui::SliderFloat3("EnemyPosition", ePos, -500.0f, 500.0f);
+	//float ePos[3] = { angle.x,angle.y,angle.z };
+	//ImGui::SliderFloat3("EnemyPosition", ePos, -500.0f, 500.0f);
+	//ImGui::SliderFloat("HP", &barrelAngle, -1000.0f, 1000.0f);
+
+#endif // DEBUG
 }
 
 void BlowEnemy::Search()
 {
-	ImGui::Text("ActionState == SEARCH");
+	//ImGui::Text("ActionState == SEARCH");
 
-	PatrolPoint(patrolPoint,pointCount);
+	//PatrolPoint(patrolPoint,pointCount);
+	SwingDirection(swingRange);
+
+
+	WayPointMove();
+
 }
 
 void BlowEnemy::Warning()
 {
-	ImGui::Text("ActionState == WARNING");
+	//ImGui::Text("ActionState == WARNING");
 
 	attackArea->SetActive(false);
 
 	TrackingObject();
+
+	InitWayPoint();
+	previousTri = false;
 }
 
 void BlowEnemy::Attack()
 {
-	ImGui::Text("ActionState == ATTACK");
+	//ImGui::Text("ActionState == ATTACK");
 
-	attackArea->SetActive(false);
+	Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
+	attackArea->SetActive(true, position + areaPos, -angle);
 
 	attackCount++;
 
@@ -195,8 +235,7 @@ void BlowEnemy::Attack()
 	if (attackCount > attackTime)
 	{
 		attackCount = 0;
-		Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
-		attackArea->SetActive(true, position + areaPos, -angle);
+		attackArea->SetActive(false);
 
 		//攻撃が終わったら警戒状態に戻す
 		actionState = ActionState::WARNING;
@@ -205,7 +244,7 @@ void BlowEnemy::Attack()
 
 void BlowEnemy::Destruct()
 {
-	ImGui::Text("ActionState == DESTRUCT");
+	//ImGui::Text("ActionState == DESTRUCT");
 
 	DestructAction(objManager, modelRender);
 }
@@ -216,6 +255,7 @@ void BlowEnemy::CreateOneObject()
 	if (!oneShot)
 	{
 		objManager->Add(attackArea);
+		attackArea->SetActive(false);
 		oneShot = true;
 	}
 }

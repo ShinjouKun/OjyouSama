@@ -2,12 +2,27 @@
 #include "BreadCrumb.h"
 #include "../Collision/SpherCollider.h"
 
+#include "ReportArea.h"
+#include "TestWayPoint.h"
+#include "WayPointManager.h"
+#include "BreadCrumbCreater.h"
+#include "TestBreadCrumb.h"
+
+WayPointManager* BaseEnemy::mManager = nullptr;
+BreadCrumbCreater* BaseEnemy::mBreadCreator = nullptr;
+
 BaseEnemy::~BaseEnemy()
 {
+	//if (mReportArea != nullptr)
+	//{
+	//	mReportArea->SetDeath(true);
+	//}
+	
 }
 
 void BaseEnemy::Init()
 {
+	Initialize();
 	EnemyInit();
 }
 
@@ -21,6 +36,7 @@ void BaseEnemy::Rend()
 	EnemyRend();
 }
 
+//ここはオブジェクトにぶつかった時しか入らない。
 void BaseEnemy::OnCollison(BaseCollider * col)
 {
 	EnemyOnCollision(col);
@@ -29,6 +45,51 @@ void BaseEnemy::OnCollison(BaseCollider * col)
 void BaseEnemy::ImGuiDebug()
 {
 	EnemyImGuiDebug();
+}
+
+void BaseEnemy::Initialize()
+{
+	//number = 0;
+	attackCount = 0;
+
+	trackingPlayer = false;
+	trackingBreadcrumb = false;
+	oneShot = false;
+
+	warningCount = 0;
+	invincibleCount = 0;
+	destructCount = 0;
+	breadCount = 0;
+	patrolCount = 0;
+	searchCount = 0;
+	loopCount = 0;
+	moveCount = 0;
+	arrayCount = 0;
+
+	isInvincible = false;
+	hitSensor = false;
+	swingSensor = false;
+	isDestruct = false;
+	finishSearchWay = false;
+	hitReportArea = false;
+	moveWayPoint = false;
+	goalFlag = false;
+
+	lastBreadPos = Vector3().zero;
+	previousPos = Vector3().zero;
+	hitPos = Vector3().zero;
+	hitAngle = Vector3().zero;
+	goalPoint = Vector3().zero;
+	resultPoint = Vector3().zero;
+
+	breadMap.clear();
+	moveList.clear();
+
+	mTarget.clear();
+	mPointList.clear();
+	mPointList.shrink_to_fit();//メモリの削除
+
+	mReportArea = nullptr;
 }
 
 void BaseEnemy::Move(const Vector3 & otherPosition)
@@ -96,26 +157,34 @@ void BaseEnemy::SearchObject(ObjectManager* objManager)
 	//プレイヤーを追っていない & パンくず追跡機能がON　なら処理を実行
 	if (!trackingPlayer && breadcrumbMode)
 	{
-		//シーン上のオブジェクトを全て検索して...
-		for (auto& type : objManager->getUseList())
+		////シーン上のオブジェクトを全て検索して...
+		//for (auto& type : objManager->getUseList())
+		//{
+		//	//シーン上のパンくずの存在を確認
+		//	if (type->GetType() == ObjectType::BREADCRUMB)
+		//	{
+		//		SearchBreadCrumb(type);
+		//	}
+		//}
+
+		auto BList = mBreadCreator->GetBreadList();
+
+		for (int i = 0, end = BList.size(); i < end; i++)
 		{
-			//シーン上のパンくずの存在を確認
-			if (type->GetType() == ObjectType::BREADCRUMB)
-			{
-				SearchBreadCrumb(type);
-			}
+			SearchBreadCrumbTest(*BList[i]);
 		}
 	}
 
 	//シーン上のプレイヤーの存在を確認
-	SearchPlayer(objManager);
+	SearchPlayer(*objManager);
 }
 
-void BaseEnemy::SearchPlayer(ObjectManager* objManager)
+void BaseEnemy::SearchPlayer(const ObjectManager& objManager)
 {
 	//センサーの情報をプレイヤー情報で更新
 	searchPoint.radius = 1.0f;
-	searchPoint.position = objManager->GetPlayer().GetPosition();
+	//searchPoint.position = objManager->GetPlayer().GetPosition();
+	searchPoint.position = objManager.GetPlayer().GetPosition();
 
 	//センサーを更新
 	hitSensor = IsHitFanToPoint(fanInfo, searchPoint.position, searchPoint.radius);
@@ -159,6 +228,32 @@ void BaseEnemy::SearchBreadCrumb(BaseObject * breadcrumb)
 	}
 }
 
+void BaseEnemy::SearchBreadCrumbTest(const TestBreadCrumb & breadCrumb)
+{
+	//パンくずを辿っている & プレイヤーを追っている なら処理しない
+	if (trackingBreadcrumb && trackingPlayer) return;
+
+	//位置取得 & センサー情報更新
+	Vector3 breadPos = breadCrumb.GetPosition();
+	searchPoint.position = breadPos;
+
+	//サーチライトに当たっているオブジェクトのみ、マップに格納
+	if (IsHitFanToPoint(fanInfo, searchPoint.position))
+	{
+
+		//オブジェクトの個体番号を取得
+		breadCount = breadCrumb.GetBreadNumber();
+
+		//マップに指定したキーが入っていなかったら追加する
+		auto itr = breadMap.find(breadCount);
+		if (itr == breadMap.end())
+		{
+
+			breadMap.emplace(breadCount, breadPos);
+		}
+	}
+}
+
 void BaseEnemy::StartTracking()
 {
 	//索敵中からしか振り向かないようにした
@@ -180,7 +275,7 @@ void BaseEnemy::TrackingBreadcrumb()
 	if (!trackingBreadcrumb && !breadMap.empty())
 	{
 		int lastKey = 0;
-		for (auto itr = breadMap.begin(); itr != breadMap.end(); ++itr)
+		for (auto itr = breadMap.begin(),end = breadMap.end(); itr != end; ++itr)
 		{
 			//最初から最後まで上書きするから、結果的に最後の要素が得られる？
 			lastKey = itr->first;
@@ -268,7 +363,7 @@ void BaseEnemy::SwingDirection(float range)
 void BaseEnemy::PatrolPoint(const Vector3 points[], int pointCount)
 {
 	//配列の番号の位置を取得
-	Vector3 targetPosition = points[currentPointNumber];
+	Vector3 targetPosition = points[patrolCount];
 
 	//移動
 	Move(targetPosition);
@@ -277,13 +372,13 @@ void BaseEnemy::PatrolPoint(const Vector3 points[], int pointCount)
 	if (InsideDistance(targetPosition, 0.1f))
 	{
 		//ゴールにト着したら(右辺は、配列の要素数を求めています)
-		if (currentPointNumber + 1 == pointCount)
+		if (patrolCount + 1 == pointCount)
 		{
-			currentPointNumber = 0;
+			patrolCount = 0;
 		}
 		else
 		{
-			currentPointNumber++;
+			patrolCount++;
 		}
 	}
 }
@@ -301,6 +396,7 @@ void BaseEnemy::TrackingObject()
 		{
 			actionState = ActionState::ATTACK;
 		}
+
 	}
 	else
 	{
@@ -361,6 +457,255 @@ void BaseEnemy::DestructAction(ObjectManager * objManager, shared_ptr<ModelRende
 	}
 }
 
+void BaseEnemy::InitSearch(Vector3 hitPosition, ObjectManager * objManager, shared_ptr<ModelRenderer> modelRender)
+{
+
+#pragma region memo
+	/*髪の毛のアニメーション付けるのか？
+　揺らすならちゃんとやって、やらないなら、別のところに力を入れるようにする。
+ 　顔の表情を変えようぜ
+  髪型をショートにしたりすると、手を上げた時とかに干渉しないからすこし楽になるよ。
+  自分たちがやるべきことをやって、かつプレイしてくれる人の面白さの基準を満たすようにする。
+
+
+  大阪と東京がどういった環境かどうかを調べて、考えていかないといけない。
+  「今井さん」・フェイスブックで馬場さんや加藤さんを探して相談できる。*/
+#pragma endregion
+
+	 //報告範囲に当たっている or ポイントの生成が完了していない なら処理しない
+	if (hitReportArea || !mManager->GetFinishFlag()) return;
+
+	if (isInvincible) return;
+
+	hitReportArea = true;
+	finishSearchWay = false;//新しいポイントに当たったらゴールをリセットする
+
+	//報告範囲を生成したオブジェクトの位置を取得したい
+	goalPoint = hitPosition;
+
+	//ゴールの位置にポイントを生成
+	mWay = std::make_shared<TestWayPoint>(goalPoint);
+	//ObjectManagerに追加しない！！！
+	mManager->AddTest(mWay);
+
+	//生成されているポイントをリストに格納
+	GetAllWayPoint();
+
+	mTarget.resize(5);
+
+	//最初の移動位置を決定する(現在いる場所)
+	moveList.insert(moveList.begin(), position);
+}
+
+void BaseEnemy::GetAllWayPoint()
+{
+	//全てのポイントのフラグを初期化
+	mManager->ResetFlag();
+
+	mPointList.clear();
+	mPointList.resize(mManager->GetTestPointList().size());
+	mPointList = mManager->GetTestPointList();
+
+	//移動リストのメモリを確保
+	moveList.reserve(mPointList.size());
+
+	mManager->Remove();
+	mWay.reset();//←上手く消せてるかわからない
+}
+
+shared_ptr<TestWayPoint> BaseEnemy::NearWayPointStartTest(const Vector3 & point) const
+{
+	float distance = 0;
+	float mostDistance = 0;
+	shared_ptr<TestWayPoint> wayPoint;
+
+	for (int i = 0, end = mPointList.size(); i < end; i++)
+	{
+		Vector3 dist = mPointList[i]->GetPosition() - point;
+		distance = dist.Length();
+
+		//まだ使用していないもののみ処理を行う
+		if (!mPointList[i]->GetUseFlag())
+		{
+			if (mostDistance == 0 || mostDistance > distance)
+			{
+				mostDistance = distance;
+				wayPoint = mPointList[i];
+			}
+		}
+	}
+
+	//使用済みに変更
+	wayPoint->SetUseFlag(true);
+
+	return wayPoint;
+}
+
+void BaseEnemy::SerachWayPoint()
+{
+	//報告範囲に当たっていない or ゴールに到着している or 自分が報告している(isInvisible) なら処理しない
+	if (!hitReportArea || finishSearchWay || isInvincible) return;
+
+	loopCount++;
+
+	SearchPointToArrayTest(mTarget.size());
+
+	resultPoint = NearWayPointArrayTest(mTarget, goalPoint)->GetPosition();
+
+	searchCount++;
+	moveList.push_back(resultPoint);
+
+	if (!finishSearchWay)
+	{
+		ClearFlag();
+	}
+}
+
+void BaseEnemy::SearchPointToArrayTest(int length)
+{
+	//自分から近いポイントを配列の数分取得する
+	for (int i = 0; i < length; i++)
+	{
+		mTarget[i] = NearWayPointStartTest(moveList[searchCount]);
+	}
+}
+
+shared_ptr<TestWayPoint> BaseEnemy::NearWayPointArrayTest(const vector<shared_ptr<TestWayPoint>>& trans, const Vector3 & goal)
+{
+	float distance = 0;
+	float mostDistance = 0;
+	shared_ptr<TestWayPoint> wayPoint;
+
+	for (int i = 0, end = mTarget.size(); i < end; i++)
+	{
+		Vector3 dist = goal - trans[i]->GetPosition();
+		distance = dist.Length();
+
+		//vectorには、検索済みのやつしか入らないはず...
+		//if (mTarget[i]->GetUseFlag())
+		{
+			if (mostDistance == 0 || mostDistance > distance)
+			{
+				mostDistance = distance;
+				wayPoint = trans[i];
+			}
+		}
+
+		//ゴールを発見したら
+		if (trans[i]->GetPosition().x == goal.x &&
+			trans[i]->GetPosition().y == goal.y &&
+			trans[i]->GetPosition().z == goal.z)
+		{
+			finishSearchWay = true;
+			wayPoint = trans[i];
+			break;
+		}
+	}
+
+	if (!finishSearchWay)
+	{
+		//ゴールしてないときは使用済みにする
+		wayPoint->SetUseFlag(true);
+	}
+
+	return wayPoint;
+}
+
+void BaseEnemy::ClearFlag()
+{
+
+	for (int i = 0, end = mPointList.size(); i < end; i++)
+	{
+		mPointList[i]->SetUseFlag(false);
+	}
+}
+
+void BaseEnemy::WayPointMove()
+{
+	//ゴールを見つけていなかったら処理しない
+	if (!finishSearchWay) return;
+
+	////全てのポイントのフラグを初期化
+	mManager->ResetFlag();
+
+	Vector3 otherPosition = moveList[moveCount];
+	moveWayPoint = true;
+
+	Move(otherPosition);
+
+	//到着したとする
+	if (InsideDistance(otherPosition, 8.0f))
+	{
+		if (moveList.size() == moveCount + 1)
+		{
+
+			ImGui::Text("**************");
+
+			goalFlag = true;
+			InitWayPoint();
+		}
+		else
+		{
+			moveCount++;
+		}
+	}
+}
+
+void BaseEnemy::Report(ObjectManager * objM, shared_ptr<ModelRenderer> modelRender)
+{
+	if (isInvincible) return;
+
+	isInvincible = true;
+
+	//振り向き機能追加---------------------------------------------
+	DicideTurnAround(objM);
+
+	//死亡処理に移る
+	if (HP <= 0)
+	{
+		death = true;
+		return;
+	}
+
+	//if (mReportArea == nullptr)
+	{
+
+		//mReportArea = new ReportArea(position, objM, modelRender, number);
+
+		objM->Add(new ReportArea(position, objM, modelRender, number));
+	}
+
+}
+
+void BaseEnemy::InitWayPoint()
+{
+	//ウェイポイント移動していなかったら処理しない
+	if (!moveWayPoint) return;
+
+	////全てのポイントのフラグを初期化
+	//mManager->ResetFlag();
+
+	//pointList.clear();
+	moveList.clear();
+
+	goalPoint = Vector3().zero;
+	resultPoint = Vector3().zero;
+
+	finishSearchWay = false;
+	hitReportArea = false;
+	moveWayPoint = false;
+	goalFlag = false;
+
+	mTarget.clear();
+	mPointList.clear();
+
+
+	searchCount = 0;
+	loopCount = 0;
+	moveCount = 0;
+	arrayCount = 0;
+}
+
 void BaseEnemy::DicideTurnAround(ObjectManager* objManager)
 {
 	//索敵状態でない or 振り向き機能がOFF なら処理をしない
@@ -407,10 +752,6 @@ void BaseEnemy::DestructMode(int hpLine, bool destructMode)
 	}
 }
 
-void BaseEnemy::ChangeDirection()
-{
-}
-
 Vector3 BaseEnemy::AngleToVectorY(float angle)const
 {
 	Vector3 vector = Vector3(0, 0, 0);
@@ -447,7 +788,7 @@ bool BaseEnemy::InsideDistance(const Vector3 & otherPos, float dist)
 	return true;
 }
 
-bool BaseEnemy::IsHitFanToPoint(const FanInfomation & fan, const Vector3 & point, float radius) const
+bool BaseEnemy::IsHitFanToPoint(const FanInfomation & fan, const Vector3 & point, const float radius) const
 {
 	//①　点と扇中心点のベクトルを求める
 	Vector3 vectorFanToPoint =

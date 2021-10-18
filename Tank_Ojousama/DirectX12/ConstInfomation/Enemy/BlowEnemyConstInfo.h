@@ -7,7 +7,7 @@ using namespace std;
 namespace BlowEnemyConstInfo
 {
 	/*最大体力*/
-	constexpr int MAX_HP = 2;
+	constexpr int MAX_HP = 20;
 
 	/*攻撃力*/
 	constexpr int ATTACK = 1;
@@ -43,11 +43,11 @@ namespace BlowEnemyConstInfo
 	const Vector3 SCALE = Vector3(1.5f, 1.5f, 1.5f);
 
 	/*砲身のモデル名*/
-	const string TANK_BARREL_NAME = "Barrel";
+	const string TANK_BARREL_NAME = "BlowBarrel";
 
 	/*砲塔のモデル名*/
-	const string TANK_TURRET_NAME = "Turret";
+	const string TANK_TURRET_NAME = "BlowTurret";
 
 	/*車体のモデル名*/
-	const string TANK_BODY_NAME = "Body";
+	const string TANK_BODY_NAME = "BlowBody";
 }

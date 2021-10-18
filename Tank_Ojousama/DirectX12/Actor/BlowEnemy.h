@@ -17,8 +17,8 @@ public:
     /// <param name="effect">エフェクト描画</param>
     /// <param name="num">識別番号</param>
 	BlowEnemy(
-		Vector3 position,
-		Vector3 angle,
+		const Vector3 & position,
+		const Vector3 & angle,
 		ObjectManager * objManager,
 		shared_ptr<ModelRenderer>modelRender,
 		shared_ptr<TexRenderer>texRender,
@@ -66,4 +66,8 @@ private:
 
 	Vector3 patrolPoint[4];
 	int pointCount;
+
+	bool currentTrigger;
+	bool previousTri;
+
 };

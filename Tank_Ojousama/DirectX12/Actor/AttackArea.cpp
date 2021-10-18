@@ -1,13 +1,15 @@
 #include "AttackArea.h"
 //#include "../Collision/SpherCollider.h"
 
-AttackArea::AttackArea(Vector3 pos, Vector3 ang, ObjectManager * objM, shared_ptr<ModelRenderer> modelR, int num)
+AttackArea::AttackArea(const Vector3& pos, const Vector3& ang, ObjectManager * objM, shared_ptr<ModelRenderer> modelR, int num)
 	:modelRender(modelR)
 {
 	position = pos;
 	angle = ang;
 	objManager = objM;
 	number = num;
+
+	Init();
 }
 
 AttackArea::~AttackArea()
@@ -59,8 +61,7 @@ void AttackArea::Init()
 
 	spehereCollider = new SphereCollider(position, 1);
 	spehereCollider->SetRadiuse(1.0f);
-	SetCollidder(spehereCollider);
-	//SetCollidder(new SphereCollider(position, 1));
+	//SetCollidder(spehereCollider);
 }
 
 void AttackArea::Update()
@@ -69,6 +70,9 @@ void AttackArea::Update()
 
 	//死亡のカウントダウン
 	DeathCountDown();
+
+    SetCollidder(spehereCollider);
+
 
 	ImGuiDebug();
 }
@@ -103,8 +107,7 @@ void AttackArea::SetActive(bool value, const Vector3& pos, const Vector3& ang, c
 	angle = ang;
 	scale = size;
 	//半径を再設定
-	spehereCollider->SetRadiuse(scale.x / 2);
-	
+	spehereCollider->SetRadiuse(size.x / 2);
 }
 
 void AttackArea::SetDeath(bool value)

@@ -27,6 +27,9 @@ namespace EnemyConstInfo
 	/*首振り角度*/
 	constexpr float SWING_RANGE = 1.0f;
 
+	/*報告クールタイム*/
+	constexpr float REPORT_INTERVAL = 5.0f;
+
 	/*パンくず追跡モード*/
 	constexpr bool BRRADCRUMB_MODE = true;
 
