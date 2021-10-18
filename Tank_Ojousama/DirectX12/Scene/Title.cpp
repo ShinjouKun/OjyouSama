@@ -2,8 +2,10 @@
 #include"Select.h"
 //#include"Collision.h"
 #include "../Collision/Collision.h"
+#include "../Sound/Sound.h"
 
-Title::Title()
+Title::Title():
+	mSound(nullptr)
 {
 
 }
@@ -21,10 +23,14 @@ void Title::StartScene()
 	BaseScene::mSprite->AddTexture("Push", "Resouse/Space.png");
 	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/ground.png");
+	mSound = std::make_shared<Sound>("boss01.mp3", false);
+	//mSound->play();
+	mSound->setVol(1.0f);
 }
 
 void Title::UpdateScene()
 {
+	mSound->playLoop();
 	if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 	{
 		NextScene(std::make_shared<Select>());

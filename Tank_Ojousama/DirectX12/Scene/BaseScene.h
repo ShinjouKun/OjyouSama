@@ -13,7 +13,10 @@ protected:
 	shared_ptr<TexRenderer>mSprite;
 	shared_ptr<ModelRenderer>mModel;
 	shared_ptr<ParticleManager>mParticle;
-	
+	static float mMasterSoundVol;
+	static float mBGMSoundVol;
+	static float mSESoundVol;
+
 public:
 	virtual void StartScene() = 0;
 	void Update();
@@ -29,4 +32,5 @@ private:
 	std::shared_ptr<BaseScene>mNext;
 	void Start();
 	bool isInit;//‰Šú‰»
+
 };
