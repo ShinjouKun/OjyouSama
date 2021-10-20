@@ -27,6 +27,7 @@ private:
 	bool parse();
 	//データ部分の解析をする
 	bool parseData(const BYTE* header);
+	bool parseData2(const BYTE* header);//ID3v1用
 
 private:
 	std::ifstream mIfs;

@@ -76,6 +76,10 @@ void SoundStreaming::seek(float point)
 void SoundStreaming::addBuffer()
 {
 	long res = 0;
+	if (mWrite >= 32565500)
+	{
+		int a = 0;
+	}
 	//次の読み込みがデータサイズを超えるなら
 	if (mWrite + READ_SIZE > mLoader->size()) 
 	{
@@ -89,6 +93,12 @@ void SoundStreaming::addBuffer()
 		}
 
 		res = read(READ_SIZE);
+	}
+	//なぜか読み込めなくなるので
+	if (res == 0)
+	{
+		mEndOfFile = true;
+		return;//強制的に終了
 	}
 	mWrite += res;
 
