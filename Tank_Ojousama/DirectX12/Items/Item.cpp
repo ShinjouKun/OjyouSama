@@ -9,6 +9,8 @@ Item::~Item()
 {
 }
 
+
+
 void Item::Init()
 {
 	death = false;
@@ -49,6 +51,11 @@ void Item::OnCollison(BaseCollider* col)
 		death = true;
 	}
 
+}
+
+void Item::SetActive(bool value)
+{
+	active = value;
 }
 
 void Item::ImGuiDebug()

@@ -20,6 +20,7 @@ public:
 
 private:
 
+	void SetActive(bool value);
 
 	virtual ItemNames GetItemNames() { return itemName; }
 
@@ -31,7 +32,10 @@ private:
 	string num;
 	string numName;
 	ItemNames itemName;//アイテム種類判別用
-
+	//アイテムの使用フラグ
+	bool active;
+	//アイテムの取得
+	bool isGet;
 	//生存時間指定用
 	int alive;
 
