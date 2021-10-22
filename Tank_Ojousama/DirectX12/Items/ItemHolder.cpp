@@ -30,6 +30,8 @@ void ItemHolder::UseItem(ItemNames item)
 	count = items.count(item) - 1;
 
 	items.insert_or_assign(item, count);
+
+	SetUseFlag(true);
 }
 
 //ƒAƒCƒeƒ€Žæ‚Á‚½Žž
@@ -38,4 +40,9 @@ void ItemHolder::AddItem(ItemNames item)
 	count = items.count(item)+1;
 
 	items.insert_or_assign( item, count );
+}
+
+void ItemHolder::SetUseFlag(bool value)
+{
+	useItems = value;
 }

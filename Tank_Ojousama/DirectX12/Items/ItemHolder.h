@@ -14,8 +14,12 @@ public:
 	void UseItem(ItemNames item);
 	void AddItem(ItemNames item);
 
+	void SetUseFlag(bool value);
+	bool GetUseFlag() { return useItems; };
+
 private:
 	//ƒAƒCƒeƒ€‚Ì•Û”
 	unordered_map<ItemNames, int> items;
 	int count;
+	bool useItems;
 };
