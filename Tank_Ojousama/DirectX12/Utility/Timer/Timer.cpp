@@ -19,7 +19,7 @@ void Timer::setTime(float t)
 	mCurrentTime = 0.0f;
 }
 
-bool Timer::isTime()
+bool Timer::isTime()const
 {
 	return mCurrentTime >= mLimitTime;
 }

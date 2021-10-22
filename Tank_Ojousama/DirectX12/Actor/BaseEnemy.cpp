@@ -29,7 +29,7 @@ void BaseEnemy::Init()
 
 void BaseEnemy::Update()
 {
-	//プレイヤーとの距離が一定以下なら
+	////プレイヤーとの距離が一定以下なら
 	if (InsideDistance(mManager->GetPlayer().GetPosition(), 100.0f))
 	{
 		isActive = true;

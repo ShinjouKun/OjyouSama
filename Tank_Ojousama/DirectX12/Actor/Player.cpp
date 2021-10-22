@@ -345,7 +345,8 @@ void Player::OnCollison(BaseCollider* col)
 	if (!HitFlag)
 	{
 		if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET
-			|| col->GetColObject()->GetType() == ObjectType::ENEMY)
+			|| col->GetColObject()->GetType() == ObjectType::ENEMY
+			||col->GetColObject()->GetType() == ObjectType::BOSS)
 		{
 			HP -= col->GetColObject()->GetDamage();
 			HitFlag = true;

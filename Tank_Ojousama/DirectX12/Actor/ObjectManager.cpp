@@ -183,7 +183,7 @@ BaseObject & ObjectManager::GetPlayer() const
 
 	for (auto& type : objectList)
 	{
-		if (type->GetType() == ObjectType::BOSS)
+		if (type->GetType() == ObjectType::PLAYER)
 		{
 			boss = type;
 		}
@@ -198,7 +198,7 @@ BaseObject & ObjectManager::GetGolem() const
 
 	for (auto& type : objectList)
 	{
-		if (type->GetType() == ObjectType::PLAYER)
+		if (type->GetType() == ObjectType::BOSS)
 		{
 			player = type;
 		}

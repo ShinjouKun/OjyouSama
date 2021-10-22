@@ -431,7 +431,7 @@ void GolemEnemy::Init()
 	AttackCount = 0;
 	HitFlag = false;
 	HitCount = 0;
-	objType = ObjectType::ENEMY;
+	objType = ObjectType::BOSS;
 	bodyAngle = Vector3(0,180.0f,0);
 	ArmAngleR = 0.0f;
 	zR = 0.0f;

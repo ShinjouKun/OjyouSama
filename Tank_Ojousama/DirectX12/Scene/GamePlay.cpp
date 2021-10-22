@@ -29,20 +29,7 @@ void GamePlay::StartScene()
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
 	//障害物
-	/*objM->Add(new Block(Vector3(0.0f, -4.0f, -130.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 0));
-	objM->Add(new Block(Vector3(45.0f, -4.0f, -130.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 1));
-	objM->Add(new Block(Vector3(10.0f, -4.0f, -180.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 2));
-	objM->Add(new Block(Vector3(80.0f, -4.0f, -110.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 3));
-	objM->Add(new Block(Vector3(120.0f, -4.0f, -200.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 4));
-	objM->Add(new Block(Vector3(120.0f, -4.0f, -130.0f), Vector3(0, 0, 0), objM, BaseScene::mModel,5));
-	objM->Add(new Block(Vector3(160.0f, -4.0f, -160.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 6));
-	objM->Add(new Block(Vector3(180.0f, -4.0f, -170.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 7));
-	objM->Add(new Block(Vector3(140.0f, -4.0f, -210.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 8));
-	objM->Add(new Block(Vector3(200.0f, -4.0f, -190.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 9));
-	objM->Add(new Block(Vector3(150.0f, -4.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 10));
-	objM->Add(new Block(Vector3(130.0f, -4.0f, -160.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 11));
-*/
-//objM->Add(new T_REX(Vector3(60.0f, -4.0f, -250.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle));
+
 //int s = 0;
 //float x_dis = 10.0f;
 //float z_dis = 0.0f;
@@ -82,18 +69,18 @@ void GamePlay::StartScene()
 
 
 	/*30体表示(この数をベースに考える)*/
-	int test = 0;
-	for (int i = 50; i < 150; i += 20)
-	{
-		for (int j = 100; j < 220; j += 20)
-		{
-			auto t = new SniperEnemy(Vector3(i, 0.0f, -j), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, test++);
+	//int test = 0;
+	//for (int i = 50; i < 150; i += 20)
+	//{
+	//	for (int j = 100; j < 220; j += 20)
+	//	{
+	//		auto t = new SniperEnemy(Vector3(i, 0.0f, -j), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, test++);
 
-			objM->Add(t);
+	//		objM->Add(t);
 
-			//objM->Add(new EnemyTank(Vector3(i, 0.0f, -j), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, test++));
-		}
-	}
+	//		//objM->Add(new EnemyTank(Vector3(i, 0.0f, -j), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, test++));
+	//	}
+	//}
 
 	//objM->Add(new BlowEnemy(Vector3(100.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	//objM->Add(new BlowEnemy(Vector3(150.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 1));
@@ -102,15 +89,15 @@ void GamePlay::StartScene()
 	//objM->Add(new BlowEnemy(Vector3( 80.0f, 0.0f, -200.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 4));
 
 
-
-	//objM->Add(new GolemEnemy(Vector3(100.0f, 0.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
+	objM->Add(new GolemEnemy(Vector3(100.0f, 4.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
+	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("SelectAim", "Resouse/selectcursol.png");
 	BaseScene::mSprite->AddTexture("SBack", "Resouse/selectback.png");
 	BaseScene::mSprite->AddTexture("OptionP", "Resouse/option.png");
 	BaseScene::mSprite->AddTexture("Ritorai", "Resouse/ritorai.png");
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skydome.obj", "Resouse/skydome.jpg");
-	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.jpg");
+	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
 
 	mSound = std::make_shared<Sound>("boss01.mp3", false);
 	//プレイヤーは最後に、又はUIクラスを作る
@@ -131,7 +118,7 @@ void GamePlay::UpdateScene()
 	}
 
 	//パンくずを落とす
-	mBreadCreator->DropBreadCrumb();
+	//mBreadCreator->DropBreadCrumb();
 
 
 	Pose();
@@ -145,6 +132,7 @@ void GamePlay::DrawScene()
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
+	BaseScene::mSprite->Draw("AIM", Vector3((Window::Window_Width/2)-32,Window::Window_Height/2,0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
 	if (pose)
 	{
 		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));

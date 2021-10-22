@@ -7,7 +7,7 @@ public:
 	~Timer();
 	void update();
 	void setTime(float t);
-	bool isTime(); const;
+	bool isTime() const;
 	float rate()const;
 	float getCuttentTime()const;
 

@@ -84,7 +84,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipeLine->SetPipelineParticle("untiP");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hit.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/sougen.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/sougen.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/AIM64.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/TankAicn.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/TankUI.png");
