@@ -44,6 +44,11 @@ Vector3 BaseObject::RotateY(float angle)
 	return v;
 }
 
+void BaseObject::SetHP(const int hp)
+{
+	HP = hp;
+}
+
 void BaseObject::SetCollidder(BaseCollider * collider)
 {
 	collider->SetObject(this);

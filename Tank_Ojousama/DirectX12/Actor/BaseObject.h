@@ -35,6 +35,10 @@ public:
 	virtual void CollisonUpdate();
 	virtual Vector3 RotateY(float angle);
 	int GetDamage() { return damage; }//ƒ_ƒ[ƒW
+
+	void SetHP(const int hp);
+
+	int GetHP() const { return HP; }
 	
 	//“–‚½‚è”»’è
 	void SetCollidder(BaseCollider* collider);
