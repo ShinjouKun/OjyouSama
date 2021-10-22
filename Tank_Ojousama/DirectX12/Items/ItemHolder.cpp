@@ -1,13 +1,18 @@
 #include "ItemHolder.h"
 
+ItemHolder::ItemHolder()
+{
+}
+
+ItemHolder::~ItemHolder()
+{
+}
+
 //‰Šú‰»
 void ItemHolder::Init()
 {
-	count + 0;
-	if (!items.empty())
-	{
-		items.clear();
-	}
+	count = 0;
+	useItems = false;
 }
 
 void ItemHolder::Update()
@@ -23,12 +28,13 @@ void ItemHolder::Reset()
 //g‚¤
 void ItemHolder::UseItem(ItemNames item)
 {
-	if (items.count(item) <= 0)
+	
+	count = items.count(item) - 1;
+
+	if (count <= 0)
 	{
 		return;
 	}
-	count = items.count(item) - 1;
-
 	items.insert_or_assign(item, count);
 
 	SetUseFlag(true);

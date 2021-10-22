@@ -7,6 +7,8 @@ using namespace std;
 class ItemHolder
 {
 public:
+	ItemHolder();
+	~ItemHolder();
 
 	void Init();
 	void Update();
