@@ -240,6 +240,7 @@
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Device\Window.cpp" />
+    <ClCompile Include="Utility\Timer\Timer.cpp" />
     <ClCompile Include="Weapons\LandMine.cpp" />
     <ClCompile Include="Weapons\MashinGun.cpp" />
     <ClCompile Include="Weapons\MissileBullet.cpp" />
@@ -519,6 +520,7 @@
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
+    <ClInclude Include="Utility\Timer\Timer.h" />
     <ClInclude Include="Utility\WCHAR_char.h" />
     <ClInclude Include="Device\Window.h" />
     <ClInclude Include="Weapons\LandMine.h" />
