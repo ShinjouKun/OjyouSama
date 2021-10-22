@@ -312,6 +312,7 @@ void GolemEnemy::ProximityAttack()
 		ArmAngleL += 4.0f;
 		if (ArmAngleR >= 360.0f)
 		{
+			damage = 0;
 			zR = 0.0f;
 			zL = 0.0f;
 			bodyAngle.x = 0;
@@ -337,6 +338,7 @@ void GolemEnemy::ProximityAttack()
 		ArmAngleL += 4.0f;
 		if (ArmAngleR >= 360.0f)
 		{
+			damage = 0;
 			bodyAngle.x = 0;
 			zR = 0.0f;
 			zL = 0.0f;
@@ -400,6 +402,10 @@ Vector3 GolemEnemy::GetEnemyVec(const Vector3 & vec)
 
 void GolemEnemy::Init()
 {
+
+	maxSpeed = 2.0f;
+	speedTime = 0.0f;
+	speedLimitTime = 360.0f;
 	//ƒ‚ƒfƒ‹
 	Body = "Body";
 	num = to_string(number);
@@ -448,8 +454,16 @@ void GolemEnemy::Init()
 
 void GolemEnemy::Update()
 {
+
+	speedTime ++;
+	if (speedTime >= speedLimitTime)
+	{
+		speedTime= 0;
+	}
 	ImGuiDebug();
 	Senser();
+	ySpeed = Easing::ease_in_cubic(sin(speedTime), 0, maxSpeed, 2.0f);
+	position.y += ySpeed;
 	if (HitFlag)
 	{
 		HitCount++;
@@ -490,6 +504,7 @@ void GolemEnemy::Rend()
 
 void GolemEnemy::ImGuiDebug()
 {
+	
 }
 
 void GolemEnemy::OnCollison(BaseCollider * col)

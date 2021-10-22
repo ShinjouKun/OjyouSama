@@ -27,13 +27,13 @@ Player::~Player()
 
 void Player::UseWeapon1()
 {
-	objM->Add(new NormalBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
 	shotFlag1 = true;
 }
 
 void Player::UseWeapon2()
 {
-	objM->Add(new MashinGun(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
 	//objM->Add(new MissileBullet(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
 	//objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0,0,0), objM, playerModel, playerParticle, objType, bulletStock));
 	/*objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock));
@@ -96,17 +96,17 @@ void Player::AngleReset()
 void Player::Init()
 {
 	//model
-	/*playerModel->AddModel("TankPlayerA", "Resouse/BoxTankATKA.obj","Resouse/BoxTankATKA.png");
-	playerModel->SetAncPoint("TankPlayerA", Vector3(-2.0f, -2.0f, -2.0f));*/
-	/*
-		playerModel->AddModel("TankPlayerHou", "Resouse/BoxTankATKB.obj", "Resouse/BoxTankATKB.png");
-		playerModel->SetAncPoint("TankPlayerHou", Vector3(-2.0f,-2.0f, -2.0f));
+	//戦車
+	playerModel->AddModel("TankPlayerA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
+	playerModel->AddModel("TankPlayerB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
+	//お嬢様
+	playerModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
+	playerModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
+	playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
+	playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
+	playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
+	playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
 
-		playerModel->AddModel("TankPlayerB", "Resouse/BoxTankBTM.obj", "Resouse/BoxTankBTM.png");
-		playerModel->SetAncPoint("TankPlayerB", Vector3(-2.0f, -2.0f, -2.0f));*/
-
-	playerModel->AddModel("TankPlayerA", "Resouse/head.obj", "Resouse/sensha.png");
-	playerModel->AddModel("TankPlayerB", "Resouse/body.obj", "Resouse/sensha.png");
 	//playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
 	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
 	//playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
@@ -137,6 +137,9 @@ void Player::Init()
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 	//コライダーの情報をセット
 	SetCollidder(Vector3(position.x, position.y, position.z), 1.0f);
+	ojyouY = 0.0f;
+	ojyouXR = 0.0f;
+	ojyouXL = 0.0f;
 	//SetCollidder(Vector3(position.x, position.y, position.z), Vector3(position.x + 2.0f, position.y + 2.0f, position.z + 2.0f));
 }
 
@@ -161,7 +164,7 @@ void Player::Update()
 		velocity = Vector3(0, 0, 0);
 		speed = Easing::ease_inout_cubic(speedTime, 0, maxSpeed, 20.0f);
 		velocity = RotateY(angle.y + 90.0f)*speed;
-		
+
 
 		CamVelocity = Vector3(0, 0, 0);
 		moveFlag = false;
@@ -172,7 +175,7 @@ void Player::Update()
 		{
 			position += velocity;
 		}
-		else if(BackMove)
+		else if (BackMove)
 		{
 			position -= velocity;
 		}
@@ -183,7 +186,7 @@ void Player::Update()
 			if (speedTime >= speedLimitTime)
 			{
 				speedTime = speedLimitTime;
-			}		
+			}
 			FrontMove = true;
 			BackMove = false;
 			moveFlag = true;
@@ -198,14 +201,14 @@ void Player::Update()
 			BackMove = true;
 			FrontMove = false;
 		}
-		else if(speedTime == speedLimitTime||speedTime < speedLimitTime)
+		else if (speedTime == speedLimitTime || speedTime < speedLimitTime)
 		{
 			speedTime--;
 			if (speedTime <= 0.0f)
 			{
 				speedTime = 0;
 			}
-			
+
 		}
 		if (Input::KeyState(DIK_D) || Input::pad_data.lX > 0)
 		{
@@ -241,10 +244,11 @@ void Player::Update()
 			atkAngle -= cameraSpeed;
 		}
 		//カメラ更新
+		
 		CamVelocity = RotateY(atkAngle - 90.0f)*8.0f;
 		CameraPos = position + CamVelocity;
-		camera->SetEye(Vector3(CameraPos.x, CameraPos.y + 4.0f, CameraPos.z));
-		camera->SetTarget(Vector3(position.x, position.y + 4.0f, position.z));
+		camera->SetEye(Vector3(CameraPos.x, CameraPos.y + 6.0f, CameraPos.z));
+		camera->SetTarget(Vector3(position.x, position.y + 6.0f, position.z));
 		if (shotFlag1)
 		{
 			int t = objM->GetReloadTime();
@@ -296,11 +300,16 @@ void Player::Update()
 
 void Player::Rend()
 {
-
+	ojyouXR -= 10.0f;
+	ojyouXL += 10.0f;
+	ojyouY -= 10.0f;
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	playerModel->Draw("TankPlayerA", Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
-	//playerModel->Draw("TankPlayerHou", Vector3(position.x, position.y, position.z), Vector3(fireAngle, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 	playerModel->Draw("TankPlayerB", Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
+
+	playerModel->Draw("ArmR", Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+	playerModel->Draw("OjyouSama", Vector3(position.x, position.y, position.z), Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+	playerModel->Draw("ArmL", Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
 
 	//if (moveFlag)
 	//{
@@ -310,33 +319,38 @@ void Player::Rend()
 
 	DirectXManager::GetInstance()->SetData2D();
 	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-/*
-	switch (HP)
-	{
-	case 3:
-		playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		playerSprite->Draw("Life2", Vector3(45, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		playerSprite->Draw("Life3", Vector3(90, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		break;
-	case 2:
-		playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		playerSprite->Draw("Life2", Vector3(45, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		break;
-	case 1:
-		playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		break;
-	case 0:
-		GameOver = true;
-		break;
-	default:
-		break;
-	}*/
+	/*
+		switch (HP)
+		{
+		case 3:
+			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			playerSprite->Draw("Life2", Vector3(45, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			playerSprite->Draw("Life3", Vector3(90, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			break;
+		case 2:
+			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			playerSprite->Draw("Life2", Vector3(45, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			break;
+		case 1:
+			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			break;
+		case 0:
+			GameOver = true;
+			break;
+		default:
+			break;
+		}*/
 	if (GameOver)
 	{
 		DirectXManager::GetInstance()->SetData2D();
 		playerSprite->Draw("DETH", Vector3(500, 200, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}
 
+}
+
+void Player::SetHP(int value)
+{
+	HP = value;
 }
 
 
@@ -346,13 +360,13 @@ void Player::OnCollison(BaseCollider* col)
 	{
 		if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET
 			|| col->GetColObject()->GetType() == ObjectType::ENEMY
-			||col->GetColObject()->GetType() == ObjectType::BOSS)
+			|| col->GetColObject()->GetType() == ObjectType::BOSS)
 		{
 			HP -= col->GetColObject()->GetDamage();
 			HitFlag = true;
 		}
 	}
-	
+
 
 	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
 	{
@@ -380,7 +394,7 @@ void Player::ImGuiDebug()
 	ImGui::SliderFloat("FireAngle", &fireAngle, 0, 360);
 	ImGui::Checkbox("ShotFlag", &shotFlag1);
 	ImGui::Checkbox("ShotFlag", &shotFlag2);
-	ImGui::SliderInt("HP", &HP, 0,HP);
+	ImGui::SliderInt("HP", &HP, 0, HP);
 	ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
 	ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
 	ImGui::SliderFloat("SPEED", &speed, 0, 100);

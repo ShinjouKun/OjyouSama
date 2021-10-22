@@ -87,6 +87,10 @@ private:
 	bool HitFlag;
 	int HitCount;
 	//ステータス
+	float ySpeed;
+	int speedTime;
+	float maxSpeed;
+	float speedLimitTime;
 	Vector3 ArmPosR;
 	Vector3 ArmPosL;
 	int HP;

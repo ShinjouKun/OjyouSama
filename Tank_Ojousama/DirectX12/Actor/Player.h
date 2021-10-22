@@ -26,6 +26,8 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Rend() override;
+	void SetHP(int value);//体力変更
+	int GetHP() { return HP; }
 private:
 	ObjectManager* objM;
     shared_ptr<ModelRenderer>playerModel;
@@ -59,6 +61,9 @@ private:
 	float speedLimitTime;
 	bool HitFlag;//無敵時間のため
 	int HitCount;
+	float ojyouY;
+	float ojyouXR;
+	float ojyouXL;
 	//サウンド
 
 	// BaseObject を介して継承されました
