@@ -47,7 +47,8 @@ void SniperEnemy::EnemyInit()
 	trackingBreadcrumb = false;
 	breadcrumbMode = ECI::BRRADCRUMB_MODE;
 	destructMode = ECI::DESTRUCT_MODE;
-	turnaroundMode = ECI::TURNAROUND_MODE;
+	//turnaroundMode = ECI::TURNAROUND_MODE;
+	turnaroundMode = true;
 
 	angle = Vector3(0.0f, 180.0f, 0.0f);//車体の向き
 	scale = SECI::SCALE;
@@ -102,11 +103,7 @@ void SniperEnemy::EnemyInit()
 
 void SniperEnemy::EnemyUpdate()
 {
-	//DestructMode(SECI::MAX_HP / 2, destructMode);//自爆機能
-	//ChangeState();		              //状態変更
-	//ImGuiDebug();		              //デバッグ表示
-	//Invincible(ECI::REPORT_INTERVAL);//無敵時間
-	//SearchObject(*objManager);         //オブジェクト検索
+	Invincible(2.0f);//無敵時間
 }
 
 void SniperEnemy::EnemyRend()
@@ -120,18 +117,32 @@ void SniperEnemy::EnemyRend()
 
 void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 {
-	//if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
-	//{
-	//	trackingBreadcrumb = false;
-	//}
+	if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
+	{
+		trackingBreadcrumb = false;
+	}
 
-	//if (col->GetColObject()->GetType() == ObjectType::BULLET)
-	//{
-	//	//ダメージを受ける
-	//	HP -= col->GetColObject()->GetDamage();
+	if (col->GetColObject()->GetType() == ObjectType::BULLET)
+	{
+		//ダメージを受ける
+		HP -= col->GetColObject()->GetDamage();
 
-	//	Report(objManager, modelRender);
-	//}
+		if (actionState == ActionState::SEARCH)
+		{
+			//ダメージを受けたら、報告を行う
+			Report(modelRender);
+		}
+	}
+
+	//報告範囲に触れたら
+	if (col->GetColObject()->GetType() == ObjectType::ITEM)
+	{
+		if (actionState == ActionState::SEARCH)
+		{
+			//報告元に向かう行動をとる
+			InitSearch(col->GetColObject()->GetPosition());
+		}
+	}
 }
 
 void SniperEnemy::EnemyImGuiDebug()

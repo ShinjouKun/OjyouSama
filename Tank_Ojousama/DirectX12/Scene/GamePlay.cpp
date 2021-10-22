@@ -87,7 +87,7 @@ void GamePlay::StartScene()
 	{
 		for (int j = 100; j < 220; j += 20)
 		{
-			auto t = new BlowEnemy(Vector3(i, 0.0f, -j), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, test++);
+			auto t = new SniperEnemy(Vector3(i, 0.0f, -j), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, test++);
 
 			objM->Add(t);
 

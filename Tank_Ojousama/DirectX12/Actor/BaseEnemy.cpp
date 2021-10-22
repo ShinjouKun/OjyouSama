@@ -50,7 +50,7 @@ void BaseEnemy::Update()
 
 	/*共通の要素*/
 	ChangeState(); //状態変更
-	//SearchObject();//パンくずやプレイヤーを探す
+	SearchObject();//パンくずやプレイヤーを探す
 
 	EnemyUpdate();
 }
@@ -202,7 +202,7 @@ void BaseEnemy::SearchObject()
 			{
 				auto BList = mBreadCreator->GetBreadList();
 
-				for (int i = 0, end = BList.size(); i < end; i++)
+				for (int i = 0, end = static_cast<int>(BList.size()); i < end; i++)
 				{
 					SearchBreadCrumbTest(*BList[i]);
 				}
@@ -233,7 +233,7 @@ void BaseEnemy::SearchObject()
 
 				auto BList = mBreadCreator->GetBreadList();
 
-				for (int i = 0, end = BList.size(); i < end; i++)
+				for (int i = 0, end = static_cast<int>(BList.size()); i < end; i++)
 				{
 					SearchBreadCrumbTest(*BList[i]);
 				}
@@ -596,7 +596,7 @@ shared_ptr<TestWayPoint> BaseEnemy::NearWayPointStartTest(const Vector3 & point)
 	float mostDistance = 0;
 	shared_ptr<TestWayPoint> wayPoint;
 
-	for (int i = 0, end = mPointList.size(); i < end; i++)
+	for (int i = 0, end = static_cast<int>(mPointList.size()); i < end; i++)
 	{
 		Vector3 dist = mPointList[i]->GetPosition() - point;
 		distance = dist.Length();
@@ -625,7 +625,7 @@ void BaseEnemy::SerachWayPoint()
 
 	loopCount++;
 
-	SearchPointToArrayTest(mTarget.size());
+	SearchPointToArrayTest(static_cast<int>(mTarget.size()));
 
 	resultPoint = NearWayPointArrayTest(mTarget, goalPoint)->GetPosition();
 
@@ -653,7 +653,7 @@ shared_ptr<TestWayPoint> BaseEnemy::NearWayPointArrayTest(const vector<shared_pt
 	float mostDistance = 0;
 	shared_ptr<TestWayPoint> wayPoint;
 
-	for (int i = 0, end = mTarget.size(); i < end; i++)
+	for (int i = 0, end = static_cast<int>(mTarget.size()); i < end; i++)
 	{
 		Vector3 dist = goal - trans[i]->GetPosition();
 		distance = dist.Length();
@@ -691,7 +691,7 @@ shared_ptr<TestWayPoint> BaseEnemy::NearWayPointArrayTest(const vector<shared_pt
 void BaseEnemy::ClearFlag()
 {
 
-	for (int i = 0, end = mPointList.size(); i < end; i++)
+	for (int i = 0, end = static_cast<int>(mPointList.size()); i < end; i++)
 	{
 		mPointList[i]->SetUseFlag(false);
 	}
@@ -724,7 +724,7 @@ void BaseEnemy::WayPointMove()
 	//到着したとする
 	if (InsideDistance(otherPosition, 8.0f))
 	{
-		if (moveList.size() == moveCount + 1)
+		if (static_cast<int>(moveList.size()) == moveCount + 1)
 		{
 
 			ImGui::Text("**************");

@@ -90,7 +90,7 @@ std::vector<Vector3> EnemyAI::GetMoveRoad(const Vector3& enemyPosition, const Ve
 	while (!mFindGoal)
 	{
 		//1:自分の位置から、最も近いポイントを指定数取得
-		for (int i = 0, end = nearPoints.size(); i < end; i++)
+		for (int i = 0, end = static_cast<int>(nearPoints.size()); i < end; i++)
 		{
 			//検索する位置は、現在いるポイント
 			nearPoints[i] = NearWayPointToNowPosition(moveList[searchCount]);
@@ -118,7 +118,7 @@ shared_ptr<TestWayPoint> EnemyAI::NearWayPointToNowPosition(const Vector3 & nowP
 	shared_ptr<TestWayPoint> wayPoint;
 
 	//ポイントリストを全検索して、最も近いポイントを1つ取得する
-	for (int i = 0, end = mPointList.size(); i < end; i++)
+	for (int i = 0, end = static_cast<int>(mPointList.size()); i < end; i++)
 	{
 		//対象との距離を計算
 		Vector3 dist = mPointList[i]->GetPosition() - nowPosition;
@@ -147,7 +147,7 @@ shared_ptr<TestWayPoint> EnemyAI::NearWayPointToGoal(const vector<shared_ptr<Tes
 	float mostDistance = 0;//最も近い距離
 	shared_ptr<TestWayPoint> wayPoint;
 
-	for (int i = 0, end = nearPoints.size(); i < end; i++)
+	for (int i = 0, end = static_cast<int>(nearPoints.size()); i < end; i++)
 	{
 		//ゴールと位置が一致するポイントを探す
 		if (nearPoints[i]->GetPosition().x == goalPosition.x &&
