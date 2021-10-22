@@ -2,7 +2,7 @@
 #include "../Collision/SpherCollider.h"
 #include"../Actor/Player.h"
 
-Repair::Repair(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, ItemHolder* holder, Player* p, shared_ptr<ModelLoader> m, ItemNames name, int num, int maxAlive)
+Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemNames name, int num, int maxAlive)
 {
 	position = pos;
 	angle = ang;
@@ -11,7 +11,6 @@ Repair::Repair(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, It
 	itemName = name;
 	itemHolder = holder;
 	alive_max = maxAlive;
-	player = p;
 }
 
 Repair::~Repair()
@@ -29,7 +28,7 @@ void Repair::Init()
 	name = "Repair";
 	num = to_string(number);
 	numName = name + num;
-	ItemModel->AddModel(numName, "Resouse/Bullet.obj", "Resouse/Bullet.png");
+	ItemModel->AddModel(numName, "Resouse/item.obj", "Resouse/item1.png");
 }
 
 void Repair::Update()
@@ -82,8 +81,8 @@ void Repair::Heal(Player* player)
 	{
 		return;
 	}
-
-	saveHP=player->GetHP()+healPoint;
-
-	player->SetHP(saveHP);
+	
+	saveHP=objM->GetPlayer().GetHP()+healPoint;
+	
+	objM->GetPlayer().SetHP(saveHP);
 }
