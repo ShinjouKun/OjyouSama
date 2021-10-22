@@ -192,3 +192,57 @@ void TexRenderer::Draw(const string& name, const Vector3 & pos, float angle, con
 	DirectXManager::GetInstance()->CmdList()->DrawInstanced(vertex.size(), 1, 0, 0);
 }
 
+void TexRenderer::DrawNumber(int num, const Vector2 & pos, const Vector2 & size)
+{
+	if (num < 0)
+	{
+		num = 0;
+	}
+
+	auto p = pos;
+	auto str = std::to_string(num);
+
+	for (auto n : str)
+	{
+		std::string s{ n };
+		auto iNum = std::stoi(s);
+
+		const constexpr float constant = 1.0f / 10.0f;
+
+		float width = constant * iNum;
+
+		std::string name = "";
+		SetUV(name, width, 0.f, width + constant, 1.f, false, false);
+		SpriteConstBuffData* constMap = nullptr;
+		auto d = spriteList[name];
+		d.color = Vector4::one;
+		d.texSize = size;
+
+		d.matWorld = Matrix4::Identity;
+		d.matWorld *= Matrix4::createScale(Vector3(size.x, size.y, 0.f));
+		d.matWorld *= Matrix4::createTranslation(Vector3(pos.x, pos.y, 0.f));
+		//行列の転送
+		result = d.constBuff->Map(0, nullptr, (void**)&constMap);
+		constMap->mat = d.matWorld*matProjection;
+		//constMap->color = Vector4(0, 0, 0, 1);
+		constMap->color = d.color;
+		d.constBuff->Unmap(0, nullptr);
+		//頂点バッファセット
+		DirectXManager::GetInstance()->CmdList()->IASetVertexBuffers(0, 1, &d.vbView);
+		//定数バッファのセット
+		DirectXManager::GetInstance()->CmdList()->SetGraphicsRootConstantBufferView(0, d.constBuff->GetGPUVirtualAddress());
+		//シェーダリソースビューセット
+		DirectXManager::GetInstance()->CmdList()->SetGraphicsRootDescriptorTable(
+			1,
+			CD3DX12_GPU_DESCRIPTOR_HANDLE(pipeLine->GetDescripterHeap()->GetGPUDescriptorHandleForHeapStart(),
+				d.texData->TexNum,//dataのTexDataのTexNUMを渡す
+				DirectXManager::GetInstance()->Dev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+
+		//描画コマンド
+		DirectXManager::GetInstance()->CmdList()->DrawInstanced(vertex.size(), 1, 0, 0);
+
+		p.x += size.x;
+	}
+
+}
+
