@@ -1,6 +1,6 @@
 #include "BaseScene.h"
 
-float BaseScene::mMasterSoundVol = 1.0f;
+float BaseScene::mMasterSoundVol = 0.0f;
 float BaseScene::mBGMSoundVol = 1.0f;
 float BaseScene::mSESoundVol = 1.0f;
 

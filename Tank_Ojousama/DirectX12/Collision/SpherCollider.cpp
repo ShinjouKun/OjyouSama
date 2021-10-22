@@ -19,6 +19,7 @@ void SphereCollider::Update()
 {
 	//À•WŒn‚É‚¸‚ê‚ªo‚é‰Â”\«‚ª‚ ‚é‚Ì‚Å’ˆÓ
 	Sphere::center = object->GetPosition();
+	//Sphere::center = offset;
 	Sphere::radius = radius;
 	//‚¢‚Á‚½‚ñíœ
 	colT->Remove();

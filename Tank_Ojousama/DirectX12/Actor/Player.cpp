@@ -111,7 +111,7 @@ void Player::Init()
 	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
 	//playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
 	//HP
-	HP = 3;
+	HP = 100;
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("Life1", "Resouse/TankAicn.png");
@@ -131,6 +131,8 @@ void Player::Init()
 	speedLimitTime = 10.0f;
 	cameraSpeed = 1.0f;
 	bulletStock = 0;
+	HitFlag = false;
+	HitCount = 0;
 	TargetPos = Vector3(position.x, position.y + 4.0f, position.z);
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 	//コライダーの情報をセット
@@ -142,6 +144,19 @@ void Player::Update()
 {
 	if (!GameOver)
 	{
+		if (HP <= 0)
+		{
+			GameOver = true;
+		}
+		if (HitFlag)
+		{
+			HitCount++;
+			if (HitCount >= 90)
+			{
+				HitCount = 0;
+				HitFlag = false;
+			}
+		}
 
 		velocity = Vector3(0, 0, 0);
 		speed = Easing::ease_inout_cubic(speedTime, 0, maxSpeed, 20.0f);
@@ -295,7 +310,7 @@ void Player::Rend()
 
 	DirectXManager::GetInstance()->SetData2D();
 	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-
+/*
 	switch (HP)
 	{
 	case 3:
@@ -315,7 +330,7 @@ void Player::Rend()
 		break;
 	default:
 		break;
-	}
+	}*/
 	if (GameOver)
 	{
 		DirectXManager::GetInstance()->SetData2D();
@@ -327,10 +342,16 @@ void Player::Rend()
 
 void Player::OnCollison(BaseCollider* col)
 {
-	if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET)
+	if (!HitFlag)
 	{
-		HP -= col->GetColObject()->GetDamage();
+		if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET
+			|| col->GetColObject()->GetType() == ObjectType::ENEMY)
+		{
+			HP -= col->GetColObject()->GetDamage();
+			HitFlag = true;
+		}
 	}
+	
 
 	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
 	{
@@ -358,6 +379,7 @@ void Player::ImGuiDebug()
 	ImGui::SliderFloat("FireAngle", &fireAngle, 0, 360);
 	ImGui::Checkbox("ShotFlag", &shotFlag1);
 	ImGui::Checkbox("ShotFlag", &shotFlag2);
+	ImGui::SliderInt("HP", &HP, 0,HP);
 	ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
 	ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
 	ImGui::SliderFloat("SPEED", &speed, 0, 100);

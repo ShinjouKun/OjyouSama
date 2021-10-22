@@ -160,12 +160,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	{
 
 		if (window->ProcesssMessage()) { break; }//メッセージ処理
+		
 		DirectXManager::GetInstance()->PostEffctBegin();
 		//キー入力
 		input->Update();//input	
 		input->UpdateGamepad();//ゲームパッド
 		//描画
 		mScene->Update();
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+			1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		s.update();//各updateが終わった後に音の処理を入れる
 		DirectXManager::GetInstance()->SetDrawComnd();
 		mScene->Draw();

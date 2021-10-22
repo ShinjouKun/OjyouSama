@@ -2,6 +2,7 @@
 #include"../Collision/SpherCollider.h"
 #include "../Collision/BaseCollider.h"
 #include"../ConstInfomation/Enemy/GolemEnemyConstInfo.h"
+#include<random>
 namespace GECI = GolemEnemyConstInfo;
 #define ToRad(deg)((deg)*(PI/180.0f))
 GolemEnemy::GolemEnemy(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> modelRender, shared_ptr<TexRenderer> texRender, shared_ptr<ParticleManager> effect, int num)
@@ -21,9 +22,9 @@ void GolemEnemy::Senser()
 	SenserFan_G fan =
 	{
 		Vector3(position.x,position.y,position.z),
-		180.0f,//視野角
-		80.0f,//視認距離
-		-bodyAngle - 90.0f
+		270.0f,//視野角
+		60.0f,//視認距離
+		-bodyAngle.y - 90.0f
 	};
 
 	for (auto& o : objM->getUseList())
@@ -56,7 +57,7 @@ void GolemEnemy::Senser()
 				}
 				break;
 			}
-			else
+			else if(!AttackFlag)
 			{
 				batteleS = GolemBatteleStatus::SAFE_G;//見失ったら警戒を解く
 			}
@@ -138,47 +139,80 @@ bool GolemEnemy::Distance(const Vector3 & otherPos, float dist)
 
 void GolemEnemy::Safe()
 {
+	rndCount++;
+	if (rndCount >= 240)
+	{
+		AvoidMove();
+	}
 }
 
 void GolemEnemy::Battele()
 {
 	//攻撃カウント開始
+	moveCount++;
 	AttackCount++;
-	if (AttackCount >= 240)
+	if (AttackCount >= 240)//四秒
 	{
-		ProximityAttack();
 		AttackFlag = true;//攻撃!!
-		AttackCount = 0;
 	}
-	PredecessorMove();
+
+	if (AttackFlag)
+	{
+		if (Distance(point.Point, 25.0f))//標的が近ければ
+		{
+			ProximityAttack();//近距離
+		}
+		else
+		{
+			LangeAttack();//遠距離
+		}
+	}
+	else if(moveCount >= 80)
+	{
+		PredecessorMove();
+	}
 	
 }
 
 void GolemEnemy::PredecessorMove()//接近する動き
 {
-	//angleVec = Vector3(0, 0, 0);
-	//angleVec = GetEnemyVec(angleVec);
-	//bodyAngle = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
-	//velocity = RotateY(bodyAngle + 90.0f)*speed;
-	//if (!Distance(point.Point, 20.0f))//一定以上接近しない
-	//{
-	//	position += velocity;
-	//	ArmPosL += velocity;
-	//	ArmPosR += velocity;
-	//}
+	if (moveCount <= 240)
+	{
+		angleVec = Vector3(0, 0, 0);
+		angleVec = GetEnemyVec(angleVec);
+		bodyAngle.y = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
+		velocity = RotateY(bodyAngle.y + 90.0f)*speed;
+		if (!Distance(point.Point, 25.0f))//一定以上接近しない
+		{
+			position += velocity;
+			ArmPosL += velocity;
+			ArmPosR += velocity;
+		}
+		else if (Distance(point.Point, 20.0f))//相手から接近してきた場合下がる
+		{
+			position -= velocity;
+			ArmPosL -= velocity;
+			ArmPosR -= velocity;
+		}
 
-	//if (CanpOut())//拠点範囲外にでたら戻る
-	//{
-	//	batteleS = GolemBatteleStatus::RETURN_G;
-	//}
+		if (CanpOut())//拠点範囲外にでたら戻る
+		{
+			batteleS = GolemBatteleStatus::RETURN_G;
+		}
+	}
+	else
+	{
+		moveCount = 0;
+	}
+	
 }
 
 void GolemEnemy::ReturnMove()
 {
 	angleVec = Vector3(0, 0, 0);
 	angleVec = GetCampVec(angleVec);
-	bodyAngle = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
-	velocity = RotateY(bodyAngle + 90.0f)*speed;
+	bodyAngle.y = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
+	velocity = RotateY(bodyAngle.y + 90.0f)*speed;
 
 	position -= velocity;
 	ArmPosL -= velocity;
@@ -187,38 +221,169 @@ void GolemEnemy::ReturnMove()
 
 void GolemEnemy::AvoidMove()
 {
-	//移動点をランダムでとって動き回る
+	
+	if (!avmoveFlag)
+	{
+		//移動点をランダムでとって動き回る
+		SenserFan_G fan =
+		{
+			Vector3(position.x,position.y,position.z),
+			180.0f,//視野角
+			30.0f,//視認距離
+			-bodyAngle.y - 90.0f
+		};
+
+		/*random_device rnd;
+		default_random_engine eng(rnd());
+		uniform_int_distribution<int>dist(-30.0f, 30.0f);*/
+
+
+		random_device rndang;
+		default_random_engine engang(rndang());
+		uniform_int_distribution<int>distang(0,4);
+
+		/*Vector3 moveP;
+		moveP.z = dist(eng);*/
+		int a = distang(engang);
+		float ang;
+		switch (a)
+		{
+		case 0:
+			ang = 0.0f;
+			break;
+		case 1:
+			ang = 30.0f;
+			break;
+		case 2:
+			ang = -30.0f;
+			break;
+		case 3:
+			ang = 90.0f;
+			break;
+		case 4:
+			ang = -90.0f;
+			break;
+		default:
+			break;
+		}
+		bodyAngle.y = ang;
+		velocity = Vector3(0, 0, -1);
+		velocity *= Matrix4::RotateY(-bodyAngle.y);
+		avmoveFlag = true;
+	}
+	else
+	{
+		avmoveCount++;
+		position += velocity*speed;
+		ArmPosL += velocity*speed;
+		ArmPosR += velocity*speed;
+		if (avmoveCount >= 40)
+		{
+			rndCount = 0;
+			avmoveCount = 0;
+			avmoveFlag = false;
+		}
+	}
+	
 }
 
 void GolemEnemy::ProximityAttack()
 {
-	angleVec = Vector3(0, 0, 0);
-	angleVec = GetEnemyVec(angleVec);
-	bodyAngle = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
-	velocity = RotateY(bodyAngle + 90.0f)*speed;
-	position += velocity;//胴体
-	ArmPosL += velocity;
-	ArmPosR += velocity;
-	//殴る
+	damage = 20;
+	attackMoveCount++;
+	
+	if (attackMoveCount <= 20)//追尾制限
+	{
+		zR = 25.0f;
+		ArmAngleR = 180.0f;
+		zL = -25.0f;
+		ArmAngleL = 180.0f;
+		bodyAngle.x = -20.0f;
+		angleVec = Vector3(0, 0, 0);
+		angleVec = GetEnemyVec(angleVec);
+		bodyAngle.y = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
+		velocity = RotateY(bodyAngle.y + 90.0f)*speed;
+	}
+	
+	if (attackMoveCount >= 60)//一定時間で攻撃終了
+	{
+		bodyAngle.x += 1.2f;
+		ArmAngleR += 4.0f;
+		ArmAngleL += 4.0f;
+		if (ArmAngleR >= 360.0f)
+		{
+			zR = 0.0f;
+			zL = 0.0f;
+			bodyAngle.x = 0;
+			ArmAngleL = 0.0f;
+			ArmAngleR = 0.0f;
+			AttackCount = 0;
+			attackMoveCount = 0;
+			AttackFlag = false;
+		}
+		
+	}
+
+	if (!Distance(point.Point, 5.0f))//一定以上接近しない
+	{
+		position += velocity;
+		ArmPosL += velocity;
+		ArmPosR += velocity;
+	}
+	else
+	{
+		bodyAngle.x += 1.2f;
+		ArmAngleR += 4.0f;
+		ArmAngleL += 4.0f;
+		if (ArmAngleR >= 360.0f)
+		{
+			bodyAngle.x = 0;
+			zR = 0.0f;
+			zL = 0.0f;
+			ArmAngleL = 0.0f;
+			ArmAngleR = 0.0f;
+			AttackCount = 0;
+			attackMoveCount = 0;
+			AttackFlag = false;
+		}
+	}
+	
 }
 
 void GolemEnemy::LangeAttack()
 {
+	attackMoveCount++;
 	//岩を投げる
+	angleVec = Vector3(0, 0, 0);
+	angleVec = GetEnemyVec(angleVec);
+	bodyAngle.y = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
 	zR = 15.0f;
 	zL = -15.0f;
 	ArmAngleL += 30.0f;
 	ArmAngleR += 30.0f;
+
+	if (attackMoveCount >= 120)
+	{
+		zR = 0.0f;
+		zL = 0.0f;
+		ArmAngleL = 0.0f;
+		ArmAngleR = 0.0f;
+		AttackCount = 0;
+		attackMoveCount = 0;
+		AttackFlag = false;
+	}
 }
 
 void GolemEnemy::SpecialAttack()
 {
+	
 	//腕を飛ばす
 	ArmAngleL = 70.0f;
 	ArmAngleR = -70.0f;
-	bodyAngle += 10.0f;
-	ArmPosL += velocity;
-	ArmPosR += velocity;
+	bodyAngle.y += 10.0f;
+
+	AttackCount = 0;
+	AttackFlag = false;
 }
 
 Vector3 GolemEnemy::GetCampVec(const Vector3 & vec)
@@ -267,18 +432,22 @@ void GolemEnemy::Init()
 	HitFlag = false;
 	HitCount = 0;
 	objType = ObjectType::ENEMY;
-	bodyAngle = 180.0f;
+	bodyAngle = Vector3(0,180.0f,0);
 	ArmAngleR = 0.0f;
 	zR = 0.0f;
 	ArmAngleL = 0.0f;
 	zL = 0.0f;
+	rndCount = 0;
+	avmoveCount = 0;
+	attackMoveCount = 0;
+	moveCount = 0;
+	damage = 0;//近距離系
 	batteleS = GolemBatteleStatus::SAFE_G;
-	SetCollidder(Vector3(position.x, position.y, position.z), 2.0f);
+	SetCollidder(Vector3(position.x,position.y,position.z), 2.0f);
 }
 
 void GolemEnemy::Update()
 {
-	SpecialAttack();
 	ImGuiDebug();
 	Senser();
 	if (HitFlag)
@@ -314,9 +483,9 @@ void GolemEnemy::Update()
 void GolemEnemy::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	Model->Draw(numNameBody, Vector3(position.x, position.y, position.z), Vector3(0, -bodyAngle, 0), Vector3(3.0f,3.0f,3.0f));
-	Model->Draw(numNameArmR, Vector3(ArmPosR.x,ArmPosR.y,ArmPosR.z), Vector3(ArmAngleR, -bodyAngle, zR), Vector3(4.0f, 4.0f, 4.0f));
-	Model->Draw(numNameArmL, Vector3(ArmPosL.x, ArmPosL.y, ArmPosL.z), Vector3(ArmAngleL, -bodyAngle, zL), Vector3(4.0f, 4.0f, 4.0f));
+	Model->Draw(numNameBody, Vector3(position.x, position.y, position.z), Vector3(bodyAngle.x, -bodyAngle.y, 0), Vector3(3.0f,3.0f,3.0f));
+	Model->Draw(numNameArmR, Vector3(ArmPosR.x,ArmPosR.y,ArmPosR.z), Vector3(ArmAngleR, -bodyAngle.y, zR), Vector3(4.0f, 4.0f, 4.0f));
+	Model->Draw(numNameArmL, Vector3(ArmPosL.x, ArmPosL.y, ArmPosL.z), Vector3(ArmAngleL, -bodyAngle.y, zL), Vector3(4.0f, 4.0f, 4.0f));
 }
 
 void GolemEnemy::ImGuiDebug()
@@ -329,5 +498,10 @@ void GolemEnemy::OnCollison(BaseCollider * col)
 	{
 		HP -= col->GetColObject()->GetDamage();
 		HitFlag = true;
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::PLAYER&&AttackFlag)
+	{
+		AttackFlag = false;
 	}
 }

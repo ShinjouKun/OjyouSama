@@ -25,7 +25,7 @@ void Title::StartScene()
 	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/ground.png");
 	mSound = std::make_shared<Sound>("boss01.mp3", false);
 	//mSound->play();
-	mSound->setVol(1.0f);
+	mSound->setVol(0.0f);
 }
 
 void Title::UpdateScene()

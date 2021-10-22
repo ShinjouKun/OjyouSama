@@ -95,6 +95,7 @@ private:
 	int SpecialPoint;//必殺技など
 	bool AttackFlag;//共通の攻撃用フラグ
 	int AttackCount;
+	int attackMoveCount;//攻撃が終わるまでのカウント（近遠）
 	Vector3 angleVec;//移動する向き
 	//複数だす用
 	int number = 0;
@@ -106,10 +107,14 @@ private:
 	string numNameArmR;
 	string numNameArmL;//上二つの複合体
 	int Count;
-	float bodyAngle;//Y軸//描画
+	Vector3 bodyAngle;//Y軸//描画
 	float ArmAngleR;//腕
 	float zR;
 	float ArmAngleL;//腕
 	float zL;
 	bool moveFlag;
+	bool avmoveFlag;
+	int avmoveCount;//ランダム移動カウント
+	int moveCount;//戦闘時の接近回数制限用カウント
+	int rndCount;
 };

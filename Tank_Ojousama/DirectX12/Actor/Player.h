@@ -43,7 +43,6 @@ private:
 	bool shotFlag2 = false;
 	int shotcnt1 = 0;
 	int shotcnt2 = 0;
-	bool hitFlag = false;
 	bool moveFlag;
 	bool FrontMove;
 	bool BackMove;
@@ -58,6 +57,8 @@ private:
 	int speedTime;
 	float maxSpeed;
 	float speedLimitTime;
+	bool HitFlag;//–³“GŠÔ‚Ì‚½‚ß
+	int HitCount;
 	//ƒTƒEƒ“ƒh
 
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
