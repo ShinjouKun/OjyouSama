@@ -2,6 +2,7 @@
 #include"Title.h"
 #include <cstdlib>
 #include"Select.h"
+#include"Result.h"
 #include "../Sound/Sound.h"
 #include "../Actor/SniperEnemy.h"
 #include "../Actor/BlowEnemy.h"
@@ -99,7 +100,7 @@ void GamePlay::StartScene()
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
 
-	mSound = std::make_shared<Sound>("boss01.mp3", false);
+	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//プレイヤーは最後に、又はUIクラスを作る
 
 	objM->Add(new Player(Vector3(0.0f, 0.0f, -50.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
@@ -114,15 +115,16 @@ void GamePlay::UpdateScene()
 	ImGui::End();
 	if (Input::KeyDown(DIK_1))
 	{
+		
 		NextScene(std::make_shared<Title>());
 	}
 
 	//パンくずを落とす
 	//mBreadCreator->DropBreadCrumb();
 
-
 	Pose();
 	Setting();
+	ResultF();
 }
 
 void GamePlay::DrawScene()
@@ -141,9 +143,12 @@ void GamePlay::DrawScene()
 		BaseScene::mSprite->Draw("Ritorai", Vector3(500, 360, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("SelectAim", selectposition, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}
-	if (settingFlag)
+	if (resultFlag && time >= 300)
 	{
 		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("SBack", selectbackPos, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Ritorai", Vector3(820, 180, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("SelectAim", selectposition, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}
 }
 
@@ -252,6 +257,71 @@ void GamePlay::Setting()
 		if (Input::KeyDown(DIK_RETURN) || Input::KeyDown(DIK_NUMPADENTER))
 		{
 			settingFlag = false;
+		}
+	}
+}
+void GamePlay::ResultF()
+{
+	
+	if (resultFlag == false)
+	{
+		if (objM->GetGolem().GetHp()<= 0)
+		{
+			NextScene(std::make_shared<Result>());
+		}
+	}
+	else if (resultFlag)
+	{
+
+		camera->GetEye();
+		camera->GetTarget();
+		camera->SetEye(camerapos);
+		camera->SetTarget(setcamerapos);
+		camerapos.x += 1;
+		time += 1;
+		if (time >= 300)
+		{
+			camerapos.x -= 1;
+			if (selectposition.x <= 0)
+			{
+				selectposition.x = 820;
+			}
+			if (selectposition.x > 820)
+			{
+				selectposition.x = 180;
+			}
+			if (Input::KeyDown(DIK_A) || Input::pad_data.lY < 0)
+			{
+				if (selectposition.y == 360)
+				{
+					return;
+				}
+				selectposition.x -= 640;
+			}
+
+			if (Input::KeyDown(DIK_D) || Input::pad_data.lY > 0)
+			{
+				if (selectposition.y == 360)
+				{
+					return;
+				}
+				selectposition.x += 640;
+			}
+
+			if (selectposition.x == 180)
+			{
+				if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+				{
+					NextScene(std::make_shared<Select>());
+				}
+			}
+			if (selectposition.x == 820)
+			{
+				if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+				{
+					NextScene(std::make_shared<GamePlay>());
+				}
+			}
 		}
 	}
 }

@@ -89,7 +89,7 @@ private:
 	//ステータス
 	Vector3 ArmPosR;
 	Vector3 ArmPosL;
-	int HP;
+	//int HP;
 	int ProximityPoint;//近接攻撃力
 	int LangePoint;//遠距離攻撃力
 	int SpecialPoint;//必殺技など

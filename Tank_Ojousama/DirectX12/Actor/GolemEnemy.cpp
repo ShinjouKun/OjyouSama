@@ -459,9 +459,9 @@ void GolemEnemy::Update()
 			HitFlag = false;
 		}
 	}
-	if (HP <= 0)
+	if (HP < 0)
 	{
-		death = true;
+		
 	}
 
 	switch (batteleS)

@@ -179,31 +179,31 @@ std::vector<BaseObject*> ObjectManager::getUseList()
 
 BaseObject & ObjectManager::GetPlayer() const
 {
-	BaseObject* boss = nullptr;
-
-	for (auto& type : objectList)
-	{
-		if (type->GetType() == ObjectType::PLAYER)
-		{
-			boss = type;
-		}
-	}
-
-	return *boss;
-}
-
-BaseObject & ObjectManager::GetGolem() const
-{
 	BaseObject* player = nullptr;
 
 	for (auto& type : objectList)
 	{
-		if (type->GetType() == ObjectType::BOSS)
+		if (type->GetType() == ObjectType::PLAYER)
 		{
 			player = type;
 		}
 	}
 
 	return *player;
+}
+
+BaseObject & ObjectManager::GetGolem() const
+{
+	BaseObject* boss = nullptr;
+
+	for (auto& type : objectList)
+	{
+		if (type->GetType() == ObjectType::BOSS)
+		{
+			boss = type;
+		}
+	}
+
+	return *boss;
 }
 

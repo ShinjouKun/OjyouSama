@@ -44,6 +44,7 @@ public:
 	virtual void OnCollison(BaseCollider* col) = 0;
 	//GetÅ@Set
 	virtual ObjectType GetType() { return objType; }
+	virtual int GetHp() const { return HP; }
 	virtual bool GetDeath() { return death; }
 	virtual Vector3 GetPosition() { return position; }
 	void SetNumber(int num);
@@ -57,6 +58,7 @@ public:
 	size_t AiID;//AIî‘çÜ
 protected:
 	ObjectType objType;
+	int HP;
 	bool death;//éÄÇÒÇ≈Ç¢ÇÈÇ©
 	Vector3 position;
 	Vector3 velocity;

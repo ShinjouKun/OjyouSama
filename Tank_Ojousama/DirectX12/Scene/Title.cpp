@@ -23,7 +23,7 @@ void Title::StartScene()
 	BaseScene::mSprite->AddTexture("Push", "Resouse/Space.png");
 	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/ground.png");
-	mSound = std::make_shared<Sound>("boss01.mp3", false);
+	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//mSound->play();
 	mSound->setVol(0.0f);
 }
