@@ -206,21 +206,20 @@ void TexRenderer::DrawNumber(int num, const Vector2 & pos, const Vector2 & size)
 	{
 		std::string s{ n };
 		auto iNum = std::stoi(s);
+		std::string name = "Number";
+		name += s;
 
-		const constexpr float constant = 1.0f / 10.0f;
-
-		float width = constant * iNum;
-
-		std::string name = "";
-		SetUV(name, width, 0.f, width + constant, 1.f, false, false);
-		SpriteConstBuffData* constMap = nullptr;
 		auto d = spriteList[name];
+
+		SpriteConstBuffData* constMap = nullptr;
+
+		
 		d.color = Vector4::one;
 		d.texSize = size;
 
 		d.matWorld = Matrix4::Identity;
-		d.matWorld *= Matrix4::createScale(Vector3(size.x, size.y, 0.f));
-		d.matWorld *= Matrix4::createTranslation(Vector3(pos.x, pos.y, 0.f));
+		d.matWorld *= Matrix4::createScale(Vector3(size.x, size.y, 1.f));
+		d.matWorld *= Matrix4::createTranslation(Vector3(p.x, p.y, 0.f));
 		//行列の転送
 		result = d.constBuff->Map(0, nullptr, (void**)&constMap);
 		constMap->mat = d.matWorld*matProjection;
@@ -244,5 +243,37 @@ void TexRenderer::DrawNumber(int num, const Vector2 & pos, const Vector2 & size)
 		p.x += size.x;
 	}
 
+}
+
+void TexRenderer::numberSetUV()
+{
+	
+	for (int i = 0; i < 10; ++i)
+	{
+		std::string str = "Number";
+		str += std::to_string(i);
+
+		AddTexture(str, "Resouse/Number.png");
+		auto d = spriteList[str];
+
+		vertex[0].pos = Vector3(0.f, 1.f, 0.0f);
+		vertex[1].pos = Vector3(0.f, 0.f, 0.0f);
+		vertex[2].pos = Vector3(1.f, 1.f, 0.0f);
+		vertex[3].pos = Vector3(1.f, 0.f, 0.0f);
+
+		auto width = i / 10.f;
+		d.texUV = Vector4(width, 0.f, width + 0.1f, 1.f);
+		vertex[0].uv = Vector2(width, 1.f);
+		vertex[1].uv = Vector2(width, 0.f);
+		vertex[2].uv = Vector2(width + 0.1f, 1.f);
+		vertex[3].uv = Vector2(width + 0.1f, 0.f);
+
+		SpriteVert* vertMap;
+		//バッファへデータを送信
+		result = data.vertBuff->Map(0, nullptr, (void**)&vertMap);
+		memcpy(vertMap, vertex.data(), sizeof(vertex[0])*vertex.size());
+		data.vertBuff->Unmap(0, nullptr);
+		spriteList.emplace(str, d);
+	}
 }
 
