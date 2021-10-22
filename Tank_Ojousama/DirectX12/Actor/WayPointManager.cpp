@@ -6,11 +6,13 @@
 WayPointManager::WayPointManager(
 	const Vector3 & pos,
 	ObjectManager* objM,
-	shared_ptr<ModelRenderer> mRender)
+	shared_ptr<ModelRenderer> mRender,
+	const bool breadDraw)
 {
 	position = pos;
 	objectManager = objM;
 	modelRender = mRender;
+	mBreadDraw = breadDraw;
 
 #pragma region 初期化
 
@@ -32,16 +34,22 @@ WayPointManager::~WayPointManager()
 
 void WayPointManager::CreateWayPoint()
 {
-	for (int i = 0; i < offsetWidth; i += interval)
+
+	if (mBreadDraw)
 	{
-		for (int j = 0; j < offsetHeight; j += interval)
+		for (int i = 0; i < offsetWidth; i += interval)
 		{
-			//ここでリストに追加する
-			Vector3 pos = position + Vector3(i - halfWidth, 0, j - halfHeight);
-			objectManager->Add(new WayPoint(pos, objectManager, modelRender, pointNumber));
-			pointNumber++;
+			for (int j = 0; j < offsetHeight; j += interval)
+			{
+				//ここでリストに追加する
+				Vector3 pos = position + Vector3(i - halfWidth, 0, j - halfHeight);
+				objectManager->Add(new WayPoint(pos, objectManager, modelRender, pointNumber));
+				pointNumber++;
+			}
 		}
 	}
+
+
 
 	for (int i = 0; i < offsetWidth; i += interval)
 	{
@@ -76,12 +84,12 @@ void WayPointManager::ResetFlag()
 	}
 }
 
-std::vector<std::shared_ptr<TestWayPoint>> WayPointManager::GetTestPointList()
+std::vector<std::shared_ptr<TestWayPoint>> WayPointManager::GetTestPointList() const
 {
 	return testPointList;
 }
 
-bool WayPointManager::GetFinishFlag()
+bool WayPointManager::GetFinishFlag() const
 {
 	return finishCreatePoint;
 }

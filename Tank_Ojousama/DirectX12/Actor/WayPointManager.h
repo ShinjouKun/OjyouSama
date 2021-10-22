@@ -18,7 +18,8 @@ public:
 	WayPointManager(
 		const Vector3 & pos,
 		ObjectManager* objM,
-		std::shared_ptr<ModelRenderer> mRender
+		std::shared_ptr<ModelRenderer> mRender,
+		const bool breadDraw
 	);
 
 	~WayPointManager();
@@ -36,9 +37,9 @@ public:
 	void ResetFlag();
 
 	/*PointList‚ğæ“¾*/
-	std::vector<std::shared_ptr<TestWayPoint>> GetTestPointList();
+	std::vector<std::shared_ptr<TestWayPoint>> GetTestPointList()const;
 
-	bool GetFinishFlag();
+	bool GetFinishFlag()const;
 
 private:
 	ObjectManager * objectManager;
@@ -58,4 +59,5 @@ private:
 	float halfHeight;
 
 	bool finishCreatePoint;//¶¬‚ªŠ®—¹‚µ‚½‚©H
+	bool mBreadDraw;
 };

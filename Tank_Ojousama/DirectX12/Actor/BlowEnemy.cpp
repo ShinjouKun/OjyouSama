@@ -85,6 +85,7 @@ void BlowEnemy::EnemyInit()
 
 	currentTrigger = false;
 	previousTri = false;
+	onTrigger = false;
 
 #pragma endregion
 
@@ -119,25 +120,18 @@ void BlowEnemy::EnemyUpdate()
 	/*当たり判定オブジェクトを生成*/
 	CreateOneObject();
 
-	/*自爆機能*/
-	DestructMode(BECI::MAX_HP / 2, destructMode);
+	///*自爆機能*/
+	//DestructMode(BECI::MAX_HP / 2, destructMode);
 
-	/*状態変更*/
-	ChangeState();
+	/////*状態変更*/
+	//ChangeState();
 
-	/*無敵時間 & 振り向き処理*/
-	//Invincible(ECI::REPORT_INTERVAL);//無敵時間
+	///*無敵時間 & 振り向き処理*/
+	////Invincible(ECI::REPORT_INTERVAL);//無敵時間
 	Invincible(2);
 
-	/*パンくずやプレイヤーを探す*/
-	SearchObject(objManager);
-
-	/*WayPointを探す(InitWayがないと動かない)*/
-	SerachWayPoint();
-
-	ImGuiDebug();
-
-	currentTrigger = false;
+ //   /*パンくずやプレイヤーを探す*/
+	//SearchObject();
 }
 
 void BlowEnemy::EnemyRend()
@@ -162,22 +156,20 @@ void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 		//ダメージを受ける
 		HP -= col->GetColObject()->GetDamage();
 
-		Report(objManager, modelRender);
+		if (actionState == ActionState::SEARCH)
+		{
+			//ダメージを受けたら、報告を行う
+			Report(modelRender);
+		}
 	}
 
 	//報告範囲に触れたら
 	if (col->GetColObject()->GetType() == ObjectType::ITEM)
 	{
-		currentTrigger = true;
-	}
-
-	//当たった瞬間にしたい
-	if (previousTri == false)
-	{
-		if (currentTrigger == true && actionState == ActionState::SEARCH)
+		if (actionState == ActionState::SEARCH)
 		{
-
-			InitSearch(col->GetColObject()->GetPosition(), objManager, modelRender);
+			//報告元に向かう行動をとる
+			InitSearch(col->GetColObject()->GetPosition());
 		}
 	}
 }
@@ -200,14 +192,8 @@ void BlowEnemy::EnemyImGuiDebug()
 
 void BlowEnemy::Search()
 {
-	//ImGui::Text("ActionState == SEARCH");
-
 	//PatrolPoint(patrolPoint,pointCount);
 	SwingDirection(swingRange);
-
-
-	WayPointMove();
-
 }
 
 void BlowEnemy::Warning()
@@ -217,9 +203,6 @@ void BlowEnemy::Warning()
 	attackArea->SetActive(false);
 
 	TrackingObject();
-
-	InitWayPoint();
-	previousTri = false;
 }
 
 void BlowEnemy::Attack()
@@ -246,16 +229,16 @@ void BlowEnemy::Destruct()
 {
 	//ImGui::Text("ActionState == DESTRUCT");
 
-	DestructAction(objManager, modelRender);
+	DestructAction(modelRender);
 }
 
 void BlowEnemy::CreateOneObject()
 {
 	//当たり判定オブジェクトを一度だけ生成
-	if (!oneShot)
+	if (!onTrigger)
 	{
 		objManager->Add(attackArea);
 		attackArea->SetActive(false);
-		oneShot = true;
+		onTrigger = true;
 	}
 }

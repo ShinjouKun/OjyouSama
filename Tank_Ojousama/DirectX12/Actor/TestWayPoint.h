@@ -20,19 +20,19 @@ public:
 	void FlagInit();
 
 	/*位置取得*/
-	Vector3 GetPosition();
+	Vector3 GetPosition() const;
 
 	/*すでに検索で使用したか?*/
-	bool GetUseFlag();
+	bool GetUseFlag() const;
 
 	/*障害物があるか？*/
-	bool GetImpossibleFlag();
+	bool GetImpossibleFlag() const;
 
 	/*到着したか?*/
-	bool GetArrivalFlag();
+	bool GetArrivalFlag() const;
 
 	/*進行不能か？*/
-	bool GetCloseFlag();
+	bool GetCloseFlag() const;
 
 	/*検索したか？の値を変更*/
 	void SetUseFlag(const bool value);

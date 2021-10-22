@@ -2,10 +2,11 @@
 #include <memory>
 #include "BaseObject.h"             //オブジェクトのひな型
 #include "ObjectManager.h"          //オブジェクト管理者
-#include "BreadCrumb.h"             //パンくず
 #include "../Render/ModelRenderer.h"//モデル貼り付け
 #include "../Render/TexRenderer.h"	//ポリゴンの描画
-#include "AttackArea.h"
+#include "AttackArea.h"//子クラスで作ってるからここに書いてる
+
+#include "EnemyAI.h"
 
 class TestWayPoint;
 class WayPointManager;
@@ -70,11 +71,11 @@ public:
 	/*行動状態の変更*/
 	void ChangeState();
 
-	/*オブジェクト検索まとめ(objManager)*/
-	virtual void SearchObject(ObjectManager* objManager);
+	/*オブジェクト検索まとめ()*/
+	virtual void SearchObject();
 
-	/*ダメージ処理(ダメージ量,objManager)*/
-	virtual void Damage(int damage, ObjectManager* objManager);
+	///*ダメージ処理(ダメージ量,objManager)*/
+	//virtual void Damage(int damage, const ObjectManager& objManager);
 
 	/*無敵時間(ダメージを受けない時間)*/
 	virtual void Invincible(int time);
@@ -92,10 +93,10 @@ public:
 	virtual void DestructMode(int hpLine, bool destructMode);
 
 	/*自爆行動(objManager, modelRender)(当たり判定オブジェクトをBase側で生成する)*/
-	virtual void DestructAction(ObjectManager * objManager, shared_ptr<ModelRenderer> modelRender);
+	virtual void DestructAction(shared_ptr<ModelRenderer> modelRender);
 
 	/*WayPoint追跡開始(報告主の位置,objManager,modelRender,WayPoint管理クラス(シーンに1つしかないやつ))*/
-	virtual void InitSearch(Vector3 hitPosition, ObjectManager * objManager, shared_ptr<ModelRenderer> modelRender);
+	virtual void InitSearch(const Vector3& hitPosition);
 
 	/*WayPoint追跡を実行(必ずInitSearchが行われていないといけない)*/
 	virtual void SerachWayPoint();
@@ -107,7 +108,7 @@ public:
 	virtual void WayPointMove();
 
 	/*報告範囲を表示する*/
-	virtual void Report(ObjectManager* objM, shared_ptr<ModelRenderer> modelRender);
+	virtual void Report(shared_ptr<ModelRenderer> modelRender);
 
 	/*角度をベクトルに変換(Degree角度)(Yは変更なし)*/
 	virtual Vector3 AngleToVectorY(float angle)const;
@@ -121,9 +122,23 @@ public:
 	/*扇の当たり判定*/
 	virtual bool IsHitFanToPoint(const FanInfomation& fan, const Vector3& point, const float radius = 0.0f) const;
 
-	static void SetManager(WayPointManager * manager) { mManager = manager; }
+	/*マネージャー取得*/
+	//static void SetManager(WayPointManager * manager);
 
-	static void SetBreadCreator(BreadCrumbCreater * breadCreator) { mBreadCreator = breadCreator; }
+	/*パンくず生成器取得*/
+	static void SetBreadCreator(BreadCrumbCreater * breadCreator);
+
+	int GetHP()const { return HP; }
+
+	bool GetActive()const { return isActive; }
+
+	void SetActive(const bool value) { isActive = value; }
+
+
+	static void SetEnemyAi(EnemyAI* enemyAI) { mEnemyAI = enemyAI; }
+	static void SetObjectManager(ObjectManager* manager) { mManager = manager; }
+
+
 
 private:
 
@@ -137,10 +152,10 @@ private:
 	void SetFanInfo(float range = 60.0f, float length = 30.0f);
 
 	/*プレイヤー検索(objManager)*/
-	void SearchPlayer(const ObjectManager& objManager);
+	void SearchPlayer();
 
-	/*パンくず検索(objManager)*/
-	void SearchBreadCrumb(BaseObject* breadcrumb);
+	///*パンくず検索(objManager)*/
+	//void SearchBreadCrumb(BaseObject* breadcrumb);
 
 	/*パンくず検索(objManager)*/
 	void SearchBreadCrumbTest(const TestBreadCrumb& breadCrumb);
@@ -151,8 +166,8 @@ private:
 	/*パンくず追跡*/
 	void TrackingBreadcrumb();
 
-	/*振り向き機能準備(objManager)*/
-	void DicideTurnAround(ObjectManager* objManager);
+	/*振り向き機能準備*/
+	void DicideTurnAround();
 
 	/*振り返り機能(振り向くのにかかる時間)*/
 	void TurnAround(int time);
@@ -192,7 +207,6 @@ protected:
 	bool breadcrumbMode;    //パンくず追跡を行うかどうか
 	bool destructMode;      //瀕死時に自爆するかどうか
 	bool turnaroundMode;    //攻撃に当たった時にゆっくり振り向くかどうか
-	bool oneShot;           //オブジェクトを一度だけ生成する。
 	bool moveWayPoint;      //WayPoint移動中か
 
 	Vector3 scale;       //大きさ
@@ -226,6 +240,7 @@ private:
 	bool hitReportArea;  //報告範囲に当たったか
 	//bool moveWayPoint;   //WayPoint移動中か
 	bool goalFlag;       //目的地に到着したか
+	bool isActive;       //行動状態かどうか
 
 	Vector3 lastBreadPos;//パンくずの最後の位置を保存用
 	Vector3 previousPos; //前フレームの位置(角度変更用)
@@ -234,8 +249,9 @@ private:
 	Vector3 goalPoint;   //報告を出したオブジェクトの位置
 	Vector3 resultPoint; //向かうべきWayPointの位置
 
-	static WayPointManager* mManager;           //ポイント生成クラス
+	//static WayPointManager* mManager;           //ポイント生成クラス
 	static BreadCrumbCreater* mBreadCreator;    //パンくず作成クラス
+	static ObjectManager* mManager;
 	AttackArea* destructArea;                   //自爆範囲クラス
 	shared_ptr<TestWayPoint> mWay;              //生成用
 	vector<shared_ptr<TestWayPoint>> mTarget;   //自分から近いポイントを格納する
@@ -245,4 +261,9 @@ private:
 
 
 	ReportArea* mReportArea;//報告範囲クラス
+
+	int testNumber = 0;
+	int mIntervalCount = 0;
+
+	static EnemyAI * mEnemyAI;
 };

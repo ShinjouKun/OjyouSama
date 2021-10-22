@@ -2,6 +2,8 @@
 #include "BaseEnemy.h"
 #include "../Render/ParticleManager.h"
 
+#include "EnemyAI.h"
+
 class BlowEnemy : public BaseEnemy
 {
 public:
@@ -69,5 +71,8 @@ private:
 
 	bool currentTrigger;
 	bool previousTri;
+	bool onTrigger;
+
+	shared_ptr<EnemyAI> mEnemyAI;
 
 };

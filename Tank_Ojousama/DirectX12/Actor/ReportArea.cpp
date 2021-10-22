@@ -33,7 +33,7 @@ void ReportArea::Init()
 	scale = offsetScale;
 	radius = offsetScale.x * 1.0f;
 
-	reportRange = 10;
+	reportRange = 5.0f;
 
 	isActive = true;
 
@@ -76,6 +76,7 @@ void ReportArea::Update()
 	}
 	else
 	{
+
 		death = true;
 	}
 
