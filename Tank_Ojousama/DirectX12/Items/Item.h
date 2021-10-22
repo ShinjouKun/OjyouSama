@@ -18,11 +18,18 @@ public:
 	Item();
 	~Item();
 
-private:
+	virtual void SetActive(bool value);
 
-	void SetActive(bool value);
+	virtual void SetIsGet(bool value);
+	
+	ItemNames GetItemNames() { return itemName; }
 
-	virtual ItemNames GetItemNames() { return itemName; }
+	//アイテムの使用フラグ
+	bool active;
+	//アイテムの取得
+	bool isGet;
+
+protected:
 
 	ObjectManager* objM;
 	shared_ptr<ModelRenderer>itemModel;
@@ -32,10 +39,6 @@ private:
 	string num;
 	string numName;
 	ItemNames itemName;//アイテム種類判別用
-	//アイテムの使用フラグ
-	bool active;
-	//アイテムの取得
-	bool isGet;
 	//生存時間指定用
 	int alive;
 
