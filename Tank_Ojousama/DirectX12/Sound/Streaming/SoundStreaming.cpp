@@ -90,6 +90,12 @@ void SoundStreaming::addBuffer()
 
 		res = read(READ_SIZE);
 	}
+	//なぜか読み込めなくなるので
+	if (res == 0)
+	{
+		mEndOfFile = true;
+		return;//強制的に終了
+	}
 	mWrite += res;
 
 	//書き込み量がデータサイズを超えたら終了

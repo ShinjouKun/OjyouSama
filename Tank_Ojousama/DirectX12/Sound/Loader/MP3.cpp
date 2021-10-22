@@ -131,6 +131,11 @@ bool MP3::parse()
 		}
 	}
 
+	//ID3v1‚Ì‰Â”\«
+	mIfs.seekg(0, std::ios_base::end - ID3V1_END_SIZE);
+	mIfs.read(reinterpret_cast<char*>(header), ID3V1_END_SIZE);
+	return parseData2(header);
+
 	//‰ğÍ¸”s
 	return false;
 }
@@ -147,6 +152,7 @@ bool MP3::parseData(const BYTE * header)
 
 		return true;
 	}
+	/*
 	//ID3v1‚Å‚ ‚é
 	else
 	{
@@ -162,6 +168,24 @@ bool MP3::parseData(const BYTE * header)
 		}
 		return true;
 	}
-
+	*/
 	return false;
+}
+
+bool MP3::parseData2(const BYTE * header)
+{
+	//ID3v1‚Å‚ ‚é
+	char s[ID3V1_END_SIZE];
+	memcpy(s, header, ID3V1_END_SIZE);//byte‚ğchar[]‚É•ÏŠ·
+	std::string str(s, sizeof(s) / sizeof(s[0]));//char[]‚ğstring‚É•ÏŠ·
+
+	if (str.find("TAG") != std::string::npos)
+	{
+		//––”ö‚Ìƒ^ƒO‚ğÈ‚­
+		mDataSize = mFileSize - ID3V1_END_SIZE;
+		return true;
+	}
+
+	mDataSize = mFileSize;
+	return true;
 }
