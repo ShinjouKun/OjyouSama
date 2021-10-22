@@ -16,6 +16,7 @@ protected:
 	static float mMasterSoundVol;
 	static float mBGMSoundVol;
 	static float mSESoundVol;
+	static int mMoney;
 
 public:
 	virtual void StartScene() = 0;

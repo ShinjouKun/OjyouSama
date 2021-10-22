@@ -22,6 +22,7 @@ public:
 	std::vector<BaseObject*>getUseList();
 
 	BaseObject & GetPlayer() const;
+	BaseObject & GetGolem() const;
 
 private:
 	std::vector<BaseObject*>objectList;//Žg‚¤‚à‚Ì
