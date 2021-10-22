@@ -122,9 +122,14 @@ void GamePlay::UpdateScene()
 	//ƒpƒ“‚­‚¸‚ð—Ž‚Æ‚·
 	//mBreadCreator->DropBreadCrumb();
 
+
 	Pose();
 	Setting();
 	ResultF();
+	if (objM->GetPlayer().GetHp() <= 0)
+	{
+		NextScene(std::make_shared<Title>());
+	}
 }
 
 void GamePlay::DrawScene()

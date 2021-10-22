@@ -24,8 +24,8 @@ void Result::StartScene()
 	BaseScene::mSprite->AddTexture("Ritorai", "Resouse/ritorai.png");
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
-	camerapos = Vector3(0,0,15);
-	setcamerapos = Vector3(0,4,0);
+	camerapos = Vector3(-80,0,15);
+	setcamerapos = Vector3(0,16,0);
 	BaseScene::mModel->AddModel("TankPlayerA", "Resouse/head.obj", "Resouse/sensha.png");
 	BaseScene::mModel->AddModel("TankPlayerB", "Resouse/body.obj", "Resouse/sensha.png");
 }
@@ -36,11 +36,11 @@ void Result::UpdateScene()
 	camera->GetTarget();
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
-	camerapos.x -=1;
+	//camerapos.x -=1;
 	time += 1;
 	if (time >= 300)
 	{
-		camerapos.x += 1;
+		//camerapos.x += 1;
 		if (selectposition.x <= 0)
 		{
 			selectposition.x = 820;
