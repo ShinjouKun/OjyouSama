@@ -58,6 +58,9 @@ public:
 	void AddTexture(const string& key, const string& name);//使うテクスチャを追加する
 	void Draw(const string& name, const Vector3& pos, float angle, const Vector2& size, const Vector4& color);
 	void DrawNumber(int num, const Vector2& pos, const Vector2& size);
+	void numberSetUV();
+
+	
 	
 private:
 	string texName;//テクスチャ名
