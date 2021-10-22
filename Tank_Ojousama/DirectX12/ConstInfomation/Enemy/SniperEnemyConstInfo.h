@@ -7,7 +7,7 @@ using namespace std;
 namespace SniperEnemyConstInfo
 {
 	/*Å‘å‘Ì—Í*/
-	constexpr int MAX_HP = 2;
+	constexpr int MAX_HP = 10;
 
 	/*UŒ‚—Í*/
 	constexpr int ATTACK = 1;

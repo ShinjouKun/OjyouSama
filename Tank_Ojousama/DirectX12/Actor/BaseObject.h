@@ -50,7 +50,7 @@ public:
 	int GetNumber();
 
 	//ŒÂ‘Ì”Ô†
-	int number;
+	int number = 0;
 	//AI—p
 	size_t GetID()const;
 	void SetID(size_t id);

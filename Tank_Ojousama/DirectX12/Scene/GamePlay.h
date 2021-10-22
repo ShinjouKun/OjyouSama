@@ -10,11 +10,15 @@
 #include "../Render/ModelRenderer.h"
 #include "../Render/TexRenderer.h"
 #include "../Render/ParticleManager.h"
-
-#include "../Actor/SniperEnemy.h"
-#include "../Actor/BlowEnemy.h"
 #include"../Actor/GolemEnemy.h"
 
+
+#include "../Actor/EnemyAI.h"
+
+class SniperEnemy;
+class BlowEnemy;
+class WayPointManager;
+class BreadCrumbCreater;
 class Sound;
 class GamePlay:public BaseScene
 {
@@ -49,6 +53,13 @@ private:
 	bool settingFlag = false;
 	Vector3 posePos;
 	Vector3 selectbackPos;
-	Vector3 selectposition;;
+	Vector3 selectposition;
 
+	//BreadCrumbCreater* mBreadCreator;
+	//WayPointManager * mpointManager;
+
+	shared_ptr<BreadCrumbCreater>mBreadCreator;
+	shared_ptr<WayPointManager> mpointManager;
+
+	shared_ptr<EnemyAI> mEnemyAI;
 };

@@ -1,15 +1,13 @@
 #include "BreadCrumbCreater.h"
 
-#include "BreadCrumb.h"
+//#include "BreadCrumb.h"
 #include "TestBreadCrumb.h"
 
 BreadCrumbCreater::BreadCrumbCreater(
-	ObjectManager* objM,
-	shared_ptr<ModelRenderer> mRender
+	ObjectManager* objM
 )
 {
 	objManager = objM;
-	modelRender = mRender;
 	Initialize();
 }
 
@@ -35,8 +33,6 @@ void BreadCrumbCreater::DropBreadCrumb()
 		mBreadList.push_back(mBread);
 
 		breadNumber++;
-
-		ImGui::Text("------------------");
 	}
 
 	auto itr = mBreadList.begin();

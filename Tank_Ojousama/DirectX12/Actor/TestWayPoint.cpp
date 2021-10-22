@@ -24,30 +24,30 @@ void TestWayPoint::FlagInit()
 	closeFlag = false;
 }
 
-Vector3 TestWayPoint::GetPosition()
+Vector3 TestWayPoint::GetPosition() const
 {
 	//スマートポインタをGetなどで渡す際は、*をつける
 	return *mPosition;
 }
 
-bool TestWayPoint::GetUseFlag()
+bool TestWayPoint::GetUseFlag() const
 {
 	return useFlag;
 }
 
-bool TestWayPoint::GetImpossibleFlag()
+bool TestWayPoint::GetImpossibleFlag() const
 {
 	return impossibleFlag;
 }
 
-bool TestWayPoint::GetArrivalFlag()
+bool TestWayPoint::GetArrivalFlag() const
 {
-	return false;
+	return arrivalFlag;
 }
 
-bool TestWayPoint::GetCloseFlag()
+bool TestWayPoint::GetCloseFlag() const
 {
-	return false;
+	return closeFlag;
 }
 
 void TestWayPoint::SetUseFlag(const bool value)

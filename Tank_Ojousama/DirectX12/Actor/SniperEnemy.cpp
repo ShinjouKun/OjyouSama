@@ -102,11 +102,11 @@ void SniperEnemy::EnemyInit()
 
 void SniperEnemy::EnemyUpdate()
 {
-	DestructMode(SECI::MAX_HP / 2, destructMode);//自爆機能
-	ChangeState();		              //状態変更
-	ImGuiDebug();		              //デバッグ表示
-	Invincible(ECI::REPORT_INTERVAL);//無敵時間
-	SearchObject(objManager);         //オブジェクト検索
+	//DestructMode(SECI::MAX_HP / 2, destructMode);//自爆機能
+	//ChangeState();		              //状態変更
+	//ImGuiDebug();		              //デバッグ表示
+	//Invincible(ECI::REPORT_INTERVAL);//無敵時間
+	//SearchObject(*objManager);         //オブジェクト検索
 }
 
 void SniperEnemy::EnemyRend()
@@ -120,18 +120,18 @@ void SniperEnemy::EnemyRend()
 
 void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 {
-	if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
-	{
-		trackingBreadcrumb = false;
-	}
+	//if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
+	//{
+	//	trackingBreadcrumb = false;
+	//}
 
-	if (col->GetColObject()->GetType() == ObjectType::BULLET)
-	{
-		//ダメージを受ける
-		HP -= col->GetColObject()->GetDamage();
+	//if (col->GetColObject()->GetType() == ObjectType::BULLET)
+	//{
+	//	//ダメージを受ける
+	//	HP -= col->GetColObject()->GetDamage();
 
-		Report(objManager, modelRender);
-	}
+	//	Report(objManager, modelRender);
+	//}
 }
 
 void SniperEnemy::EnemyImGuiDebug()

@@ -3,7 +3,6 @@
 #include "ObjectManager.h"
 #include <unordered_map>
 #include "BaseObject.h"
-#include "../Render/ModelRenderer.h"
 
 class TestBreadCrumb;
 
@@ -11,8 +10,7 @@ class BreadCrumbCreater
 {
 public:
 	BreadCrumbCreater(
-		ObjectManager* objM,
-		shared_ptr<ModelRenderer> mRender
+		ObjectManager* objM
 	);
 
 	~BreadCrumbCreater();
@@ -27,7 +25,6 @@ private:
 	void Initialize();
 
 	ObjectManager* objManager;
-	shared_ptr<ModelRenderer> modelRender;
 	Vector3 playerPosition;
 
 
