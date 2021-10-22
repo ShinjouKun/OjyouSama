@@ -3,6 +3,7 @@
 float BaseScene::mMasterSoundVol = 1.0f;
 float BaseScene::mBGMSoundVol = 1.0f;
 float BaseScene::mSESoundVol = 1.0f;
+int BaseScene::mMoney = 0;
 
 BaseScene::BaseScene()
 	:mSprite(nullptr),

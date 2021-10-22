@@ -59,6 +59,7 @@ void Select::UpdateScene()
 	ImGui::SliderFloat("slider",&camerapos.x , 0.0f, 360.0f);
 	ImGui::SliderFloat("slider",&camerapos.y , 0.0f, 360.0f);
 	ImGui::SliderFloat("slider",&camerapos.z , 0.0f, 360.0f);
+	ImGui::SliderInt("Money",&BaseScene::mMoney ,0,1000000000);
 	ImGui::Checkbox("selectflag",&selectFlag);
 	ImGui::End();
 #pragma region セレクト画面の選択
