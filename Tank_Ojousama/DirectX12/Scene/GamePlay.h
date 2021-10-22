@@ -39,6 +39,8 @@ private:
 	void Pose();
 	//音量設定
 	void Setting();
+	//リザルト画面
+	void ResultF();
 
 	ObjectManager* objM;
 	Player* player;//プレイヤーの実体生成
@@ -51,10 +53,15 @@ private:
 	bool pose = false;
 	//設定フラグ
 	bool settingFlag = false;
+	//リザルトフラグ
+	bool resultFlag = false;
+	int time = 0;
+
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;
-
+	Vector3 camerapos = Vector3(0, 0, 0);
+	Vector3 setcamerapos = Vector3(10, 0, 10);
 	//BreadCrumbCreater* mBreadCreator;
 	//WayPointManager * mpointManager;
 

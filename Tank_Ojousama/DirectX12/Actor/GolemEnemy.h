@@ -93,7 +93,7 @@ private:
 	float speedLimitTime;
 	Vector3 ArmPosR;
 	Vector3 ArmPosL;
-	int HP;
+	//int HP;
 	int ProximityPoint;//‹ßÚUŒ‚—Í
 	int LangePoint;//‰“‹——£UŒ‚—Í
 	int SpecialPoint;//•KE‹Z‚È‚Ç

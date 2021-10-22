@@ -111,7 +111,7 @@ void Player::Init()
 	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
 	//playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
 	//HP
-	HP = 100;
+	HP = 1;
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("Life1", "Resouse/TankAicn.png");
@@ -342,6 +342,7 @@ void Player::Rend()
 		}*/
 	if (GameOver)
 	{
+		
 		DirectXManager::GetInstance()->SetData2D();
 		playerSprite->Draw("DETH", Vector3(500, 200, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}

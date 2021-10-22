@@ -50,7 +50,7 @@ private:
 	bool BackMove;
 	Vector3 AIMPos;
 	//ステータス
-	int HP;
+	//int HP;
 	bool GameOver = false;
 	int bulletStock;//弾をいっぱいだすため
 	float atkAngle;//砲塔用//描画

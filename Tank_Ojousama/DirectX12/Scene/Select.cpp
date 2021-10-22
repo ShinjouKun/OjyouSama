@@ -208,11 +208,14 @@ void Select::DrawScene()
 	BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("AIM", Vector3(position.x - 32, position.y - 32, 0), 0.0f, Vector2(5, 1), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("Titleback", titleback, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("Option", option, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("Syutugeki", syutu, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("Garage", garege, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("AIM", Vector3(position.x - 32, position.y - 32, 0), 0.0f, Vector2(5, 1), Vector4(1, 1, 1, 1));
+	if (selectFlag == false)
+	{
+		BaseScene::mSprite->Draw("Titleback", titleback, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Option", option, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Syutugeki", syutu, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Garage", garege, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
+	}
 	if (setumeiFlag)
 	{
 		BaseScene::mSprite->Draw("Setumei", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
