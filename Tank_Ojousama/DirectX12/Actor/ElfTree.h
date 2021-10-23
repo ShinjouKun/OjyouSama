@@ -1,17 +1,13 @@
 #pragma once
-//#include"ObjectManager.h"
-//#include"BaseObject.h"
-//#include"ModelRenderer.h"
-#include "ObjectManager.h"
 #include "BaseObject.h"
+#include "ObjectManager.h"
 #include "../Render/ModelRenderer.h"
 
-using namespace std;
-class Block :public BaseObject
+class ElfTree :public BaseObject
 {
 public:
-	Block(const Vector3& pos, const Vector3& ang, ObjectManager * objManager, shared_ptr<ModelRenderer> modelRender, int num);
-	~Block();
+	ElfTree(const Vector3& pos, const Vector3& ang, ObjectManager* objManager, std::shared_ptr<ModelRenderer> modelRender, int num);
+	~ElfTree();
 
 private:
 
@@ -21,7 +17,7 @@ private:
 	virtual void Rend() override;
 	virtual void OnCollison(BaseCollider* col) override;
 	virtual void ImGuiDebug() override;
-	
+
 private:
 
 	ObjectManager* mObjManager;
@@ -29,6 +25,7 @@ private:
 
 	Vector3 scale;
 	float radius;
+	bool isActive;
 
 	int number = 0;//識別番号
 	string name;   //キーワード登録

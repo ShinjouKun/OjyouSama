@@ -1,12 +1,12 @@
 #include "Block.h"
 #include "../Collision/BaseCollider.h"
-Block::Block(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, int n)
-	:blockModel(m)
+Block::Block(const Vector3& pos, const Vector3& ang, ObjectManager * objManager, shared_ptr<ModelRenderer> modelRender, int num)
+	:mModelRender(modelRender)
 {
 	position = pos;
 	angle = ang;
-	objM = obj;
-	number = n;
+	mObjManager = objManager;
+	number = num;
 }
 
 Block::~Block()
@@ -17,15 +17,19 @@ void Block::Init()
 {
 	death = false;
 	objType = ObjectType::BLOCK;
+	angle = Vector3(0, 90, 0);
+
 	name = "Block";
 	num = to_string(number);
 	numName = name + num;
-	angle = Vector3(0, 0, 0);
-	
-	blockModel->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
-	blockModel->SetAncPoint(numName, Vector3(-1.0f,-2.0f, -3.0f));
+	scale = Vector3(2.0f, 2.0f, 2.0f);
+	radius = 1.0f;
+
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x, position.y, position.z), 1.0f);
+	SetCollidder(Vector3(position.x, position.y,position.z), radius);
+	
+	mModelRender->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
+	mModelRender->SetAncPoint(numName, -scale * 2.0f);//ここは約半径の二倍ずらす
 }
 
 void Block::Update()
@@ -36,7 +40,7 @@ void Block::Update()
 void Block::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	blockModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), Vector3(2, 2, 2));
+	mModelRender->Draw(numName, position, angle, scale);
 }
 
 void Block::OnCollison(BaseCollider* col)

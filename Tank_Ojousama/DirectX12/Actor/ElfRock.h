@@ -1,17 +1,13 @@
 #pragma once
-//#include"ObjectManager.h"
-//#include"BaseObject.h"
-//#include"ModelRenderer.h"
-#include "ObjectManager.h"
 #include "BaseObject.h"
+#include "ObjectManager.h"
 #include "../Render/ModelRenderer.h"
 
-using namespace std;
-class Block :public BaseObject
+class ElfRock :public BaseObject
 {
 public:
-	Block(const Vector3& pos, const Vector3& ang, ObjectManager * objManager, shared_ptr<ModelRenderer> modelRender, int num);
-	~Block();
+	ElfRock(const Vector3& pos, const Vector3& ang, ObjectManager* objManager, std::shared_ptr<ModelRenderer> modelRender, int num, int rockScale = 1);
+	~ElfRock();
 
 private:
 
@@ -21,7 +17,7 @@ private:
 	virtual void Rend() override;
 	virtual void OnCollison(BaseCollider* col) override;
 	virtual void ImGuiDebug() override;
-	
+
 private:
 
 	ObjectManager* mObjManager;
@@ -29,6 +25,8 @@ private:
 
 	Vector3 scale;
 	float radius;
+	int mRockScale;
+	bool isActive;
 
 	int number = 0;//識別番号
 	string name;   //キーワード登録

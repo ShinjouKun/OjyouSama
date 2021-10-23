@@ -157,6 +157,8 @@
     <ClCompile Include="Actor\BlowEnemy.cpp" />
     <ClCompile Include="Actor\BreadCrumb.cpp" />
     <ClCompile Include="Actor\BreadCrumbCreater.cpp" />
+    <ClCompile Include="Actor\ElfRock.cpp" />
+    <ClCompile Include="Actor\ElfTree.cpp" />
     <ClCompile Include="Actor\EnemyAI.cpp" />
     <ClCompile Include="Actor\GolemEnemy.cpp" />
     <ClCompile Include="Actor\ReportArea.cpp" />
@@ -410,6 +412,8 @@
     <ClInclude Include="Actor\BaseEnemy.h" />
     <ClInclude Include="Actor\BreadCrumb.h" />
     <ClInclude Include="Actor\BreadCrumbCreater.h" />
+    <ClInclude Include="Actor\ElfRock.h" />
+    <ClInclude Include="Actor\ElfTree.h" />
     <ClInclude Include="Actor\EnemyAI.h" />
     <ClInclude Include="Actor\GolemEnemy.h" />
     <ClInclude Include="Actor\ReportArea.h" />
