@@ -710,7 +710,7 @@ void BaseEnemy::WayPointMove()
 
 
 	//ƒS[ƒ‹‚Æ‚Ì‹——£‚ª‹ß‚·‚¬‚½‚çˆÚ“®‚µ‚È‚¢B
-	if (!InsideDistance(otherPosition, 8.0f))
+	if (!InsideDistance(otherPosition, 10.0f))
 	{
 		Move(otherPosition);
 	}

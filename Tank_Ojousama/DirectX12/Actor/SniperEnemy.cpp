@@ -50,7 +50,7 @@ void SniperEnemy::EnemyInit()
 	//turnaroundMode = ECI::TURNAROUND_MODE;
 	turnaroundMode = true;
 
-	angle = Vector3(0.0f, 180.0f, 0.0f);//ŽÔ‘Ì‚ÌŒü‚«
+	//angle = Vector3(0.0f, 180.0f, 0.0f);//ŽÔ‘Ì‚ÌŒü‚«
 	scale = SECI::SCALE;
 
 	objType = ObjectType::ENEMY;
