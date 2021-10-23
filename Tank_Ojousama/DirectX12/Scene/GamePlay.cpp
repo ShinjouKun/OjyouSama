@@ -226,8 +226,8 @@ void GamePlay::Pose()
 		{
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				settingFlag = true;
-				pose = false;
+				//settingFlag = true;
+				//pose = false;
 			}
 		}
 		if (selectposition.y == 360 && selectposition.x == 500)
@@ -247,7 +247,7 @@ void GamePlay::Pose()
 void GamePlay::Setting()
 {
 	mSound->playLoop();
-	mSound->setVol(BaseScene::mMasterSoundVol);
+	mSound->setVol(0.5f);
 	if (settingFlag == true)
 	{
 		if (BaseScene::mMasterSoundVol > 1.1f)
@@ -280,6 +280,7 @@ void GamePlay::ResultF()
 	{
 		if (objM->GetGolem().GetHp()<= 0)
 		{
+			BaseScene::mMoney += 20000000;
 			NextScene(std::make_shared<Result>());
 		}
 	}

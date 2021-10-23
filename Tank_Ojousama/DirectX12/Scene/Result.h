@@ -27,6 +27,7 @@ private:
 
 	ObjectManager* objM;
 	shared_ptr<ModelRenderer>playerModel;
+	std::shared_ptr<Sound> mSound;
 	Player* player;//ƒvƒŒƒCƒ„[‚ÌÀ‘Ì¶¬
 	Camera * camera;
 	int time = 0;

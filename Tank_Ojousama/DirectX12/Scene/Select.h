@@ -8,6 +8,7 @@
 #include "../Collision/CollisionPrimitive.h"
 #include "../Actor/ObjectManager.h"
 #include "GamePlay.h"
+class Sound;
 class Select :public BaseScene
 {
 public:
@@ -30,7 +31,8 @@ private:
 	Vector3 position;
 	Vector3 selectposition;
 
-	float b;
+	bool fadeF;
+	float fade;
 	bool selectFlag = false;
 	//
 	bool cameramoveFlag = false;
@@ -56,7 +58,7 @@ private:
 	Vector3 setumei;
 	//カメラポジション
 	Vector3 camerapos;
-	//
+	//ターゲット用ポジション
 	Vector3 setcamerapos;
-
+	std::shared_ptr<Sound> mSound;
 };

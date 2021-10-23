@@ -4,6 +4,7 @@
 #include "../Device/Input.h"
 #include "../Collision/BaseCollider.h"
 #include "../Sound/Listener.h"
+#include"../Sound/Sound.h"
 
 //ïêäÌÇΩÇø
 #include"../Weapons/NormalBullet.h"
@@ -12,7 +13,7 @@
 #include"../Weapons/MissileBullet.h"
 #include"../Weapons/MashinGun.h"
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
-	:playerModel(m), playerParticle(p), playerSprite(s),
+	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
 	listener(std::make_shared<Listener>())
 {
 	position = pos;
@@ -95,6 +96,7 @@ void Player::AngleReset()
 
 void Player::Init()
 {
+	mSound = std::make_shared<Sound>("bomb3.mp3", false);
 	//model
 	//êÌé‘
 	playerModel->AddModel("TankPlayerA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
@@ -146,6 +148,7 @@ void Player::Init()
 
 void Player::Update()
 {
+	mSound->setVol(0.5f);
 	if (!GameOver)
 	{
 		if (HP <= 0)
@@ -266,6 +269,7 @@ void Player::Update()
 				UseWeapon1();
 				bulletStock++;
 				shotcnt1 = 0;
+				mSound->play();
 			}
 		}
 		if (shotFlag2)

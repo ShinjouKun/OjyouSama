@@ -5,6 +5,7 @@
 #include"Garage.h"
 #include "../Collision/Collision.h"
 #include "../Device/Input.h"
+#include "../Sound/Sound.h"
 
 
 Select::Select()
@@ -19,6 +20,8 @@ Select::~Select()
 void Select::StartScene()
 {
 	//g = new GamePlay();
+	fade = 0;
+	fadeF = false;
 	camerapos = Vector3(100.0f, 0.0f, 0);
 	setcamerapos = Vector3(110, 0, 0);
 	//camera->SetEye(camerapos);
@@ -27,15 +30,15 @@ void Select::StartScene()
 	position = Vector3(600, 300, 0);
 	selectposition = Vector3(32, 64, 0);
 	targetPos1 = Vector3(320, 180, 0.0f);
-	targetPos2 = Vector3(320, 540 - 64, 0.0f);
-	targetPos3 = Vector3(960, 180, 0.0f);
-	targetPos4 = Vector3(960, 540 - 64, 0.0f);
+	targetPos2 = Vector3(400, 540 - 64, 0.0f);
+	targetPos3 = Vector3(960, 120, 0.0f);
+	targetPos4 = Vector3(850, 540 - 64, 0.0f);
 	syutu = Vector3(32, 64 - 32, 0.0f);
 	garege = Vector3(32, 128 - 32, 0.0f);
 	option = Vector3(32, 192 - 32, 0.0f);
 	titleback = Vector3(32, 256 - 32, 0.0f);
 	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
-	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
+	BaseScene::mSprite->AddTexture("AIM", "Resouse/cars.png");
 	BaseScene::mSprite->AddTexture("AIM1", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("target", "Resouse/select.png");
 	BaseScene::mSprite->AddTexture("target2", "Resouse/select.png");
@@ -46,10 +49,23 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("Option", "Resouse/opusyon.png");
 	BaseScene::mSprite->AddTexture("Titleback", "Resouse/tatleback.png");
 	BaseScene::mSprite->AddTexture("Setumei", "Resouse/setuemei.png");
+	BaseScene::mSprite->AddTexture("Sentaku", "Resouse/sentaku.png");
+	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
+	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 }
 
 void Select::UpdateScene()
 {
+	if (fadeF)
+	{
+		fade += 0.01f;
+		if (fade >= 1)
+		{
+			NextScene(std::make_shared<GamePlay>());
+		}
+	}
+	mSound->playLoop();
+	mSound->setVol(0.5f);
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
 	setumeiFlag = false;
@@ -95,14 +111,14 @@ void Select::UpdateScene()
 		{
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<Option>());
+				//NextScene(std::make_shared<Option>());
 			}
 		}		
 		else if (selectposition.y == 192)
 		{
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<Garage>());
+				//NextScene(std::make_shared<Garage>());
 			}
 		}
 		else if (selectposition.y == 256)
@@ -123,7 +139,7 @@ void Select::UpdateScene()
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<GamePlay>());
+				fadeF = true;
 				//cameramoveFlag = true;
 			}
 		}
@@ -132,7 +148,7 @@ void Select::UpdateScene()
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<GamePlay>());
+				fadeF = true;
 			}
 		}
 		if (position.x >= targetPos3.x && position.x <= targetPos3.x + 64 && position.y >= targetPos3.y && position.y <= targetPos3.y + 64)
@@ -140,7 +156,7 @@ void Select::UpdateScene()
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<GamePlay>());
+				fadeF = true;
 			}
 		}
 		if (position.x >= targetPos4.x && position.x <= targetPos4.x + 64 && position.y >= targetPos4.y && position.y <= targetPos4.y + 64)
@@ -148,7 +164,7 @@ void Select::UpdateScene()
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<GamePlay>());
+				fadeF = true;
 			}
 		}
 
@@ -204,11 +220,12 @@ void Select::DrawScene()
 	BaseScene::mModel->Draw("Sora", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	DirectXManager::GetInstance()->SetData2D();
 
+	BaseScene::mSprite->Draw("Sentaku", Vector3(0,0,0),0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target", targetPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("AIM", Vector3(position.x - 32, position.y - 32, 0), 0.0f, Vector2(5, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("AIM", Vector3(position.x -80 , position.y - 32, 0), 0.0f, Vector2(5, 1), Vector4(1, 1, 1, 1));
 	if (selectFlag == false)
 	{
 		BaseScene::mSprite->Draw("Titleback", titleback, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
@@ -224,5 +241,5 @@ void Select::DrawScene()
 	{
 		BaseScene::mSprite->Draw("AIM1", Vector3(selectposition.x - 32, selectposition.y - 32, 0), 0.0f, Vector2(3, 1), Vector4(1, 1, 1, 1));
 	}
-
+	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 }
