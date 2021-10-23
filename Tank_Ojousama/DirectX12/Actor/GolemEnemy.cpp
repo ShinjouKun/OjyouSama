@@ -25,7 +25,7 @@ void GolemEnemy::Senser()
 	{
 		Vector3(position.x,position.y,position.z),
 		360.0f,//Ž‹–ìŠp
-		60.0f,//Ž‹”F‹——£
+		90.0f,//Ž‹”F‹——£
 		-bodyAngle.y - 90.0f
 	};
 
@@ -528,7 +528,7 @@ void GolemEnemy::Init()
 	ArmPosR = Vector3(position.x + 0.1f, position.y + 5.0f, position.z);
 	canp.CanpPoint = Vector3(100.0f, 4.0f, 120.0f);
 	canp.CanpRadius = 150.0f;
-	HP = 30;
+	HP = 50;
 	speed = 0.2f;
 	death = false;
 	AttackFlag = false;

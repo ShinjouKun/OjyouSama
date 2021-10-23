@@ -152,6 +152,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ground.obj");
 	//いろいろ使えるプレーン
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Plane.obj");
+
+	//木
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/wood.obj");
+
+	//岩
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_s.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_m.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_big.obj");
+
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
 	
@@ -184,8 +193,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		input->UpdateGamepad();//ゲームパッド
 		//描画
 		mScene->Update();
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-			1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+		//	1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		s.update();//各updateが終わった後に音の処理を入れる
 		DirectXManager::GetInstance()->SetDrawComnd();
 		mScene->Draw();

@@ -9,6 +9,9 @@
 #include "../Actor/WayPointManager.h"
 #include "../Actor/BreadCrumbCreater.h"
 
+#include "../Actor/ElfTree.h"
+#include "../Actor/ElfRock.h"
+
 GamePlay::GamePlay()
 	:mSound(nullptr)
 {
@@ -68,6 +71,73 @@ void GamePlay::StartScene()
 	//敵にAIセット
 	BaseEnemy::SetEnemyAi(mEnemyAI.get());
 
+#pragma region オブジェクト生成
+
+	int objectCount = 0;
+
+	/*スタート地点の木*/
+	for (int i = 130; i < 210; i += 20)
+	{
+		objM->Add(new ElfTree(Vector3(20, 0.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-20, 0.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+	}
+
+	/*中央の木*/
+	for (int i = 40; i < 100; i += 20)
+	{
+		objM->Add(new ElfTree(Vector3(i, 0.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-i, 0.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+	}
+
+	/*中央奥の木*/
+	for (int i = -50; i < 51; i += 25)
+	{
+		objM->Add(new ElfTree(Vector3(i, 0.0f, -80), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+	}
+
+	/*中央の岩*/
+	objM->Add(new ElfRock(Vector3(0.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(+5.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(-5.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(+10.0f, 0.0f, 5.0f), Vector3(0.0f, +45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(-10.0f, 0.0f, 5.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+
+	/*左側の岩*/
+	objM->Add(new ElfRock(Vector3(100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+	/*右側の岩*/
+	objM->Add(new ElfRock(Vector3(-100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+
+#pragma endregion
+
+#pragma region 敵の生成
+
+	int enemyCount = 0;
+
+	/*遠距離攻撃の敵*/
+	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 10.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 20.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(-10.0f, 0.0f, 20.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	/*中央奥の木*/
+	for (int i = -35; i < 50; i += 25)
+	{
+		objM->Add(new SniperEnemy(Vector3(i, 0.0f, -75.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	}
+
+
+	///*近距離攻撃の敵*/
+ //   objM->Add(new BlowEnemy(Vector3(+90.0f, 0.0f, 100.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	//objM->Add(new BlowEnemy(Vector3(100.0f, 0.0f, 110.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	//objM->Add(new BlowEnemy(Vector3(-90.0f, 0.0f, 100.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	//objM->Add(new BlowEnemy(Vector3(-100.0f, 0.0f, 110.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	//objM->Add(new BlowEnemy(Vector3(-70.0f, 0.0f, 30.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	//objM->Add(new BlowEnemy(Vector3(-70.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	//objM->Add(new BlowEnemy(Vector3(+70.0f, 0.0f, 30.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	//objM->Add(new BlowEnemy(Vector3(+70.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+
+#pragma endregion
+
 	itemHolder = new ItemHolder();
 	itemHolder->Init();
 
@@ -93,7 +163,7 @@ void GamePlay::StartScene()
 	//objM->Add(new BlowEnemy(Vector3( 80.0f, 0.0f, -200.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 4));
 
 
-	objM->Add(new GolemEnemy(Vector3(100.0f, 4.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
+	objM->Add(new GolemEnemy(Vector3(0.0f, 4.0f, -150.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("SelectAim", "Resouse/selectcursol.png");
@@ -106,17 +176,17 @@ void GamePlay::StartScene()
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//プレイヤーは最後に、又はUIクラスを作る
 
-	objM->Add(new Player(Vector3(0.0f, 0.0f, -50.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	objM->Add(new Player(Vector3(0.0f, 0.0f, 180.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
 	objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, 0, 500));
 }
 
 void GamePlay::UpdateScene()
 {
-	ImGui::Begin("pose");
-	ImGui::Checkbox("selectflag", &pose);
-	ImGui::SliderFloat("soundSize", &BaseScene::mMasterSoundVol, 0, 1);
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::End();
+	//ImGui::Begin("pose");
+	//ImGui::Checkbox("selectflag", &pose);
+	//ImGui::SliderFloat("soundSize", &BaseScene::mMasterSoundVol, 0, 1);
+	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	//ImGui::End();
 	if (Input::KeyDown(DIK_1))
 	{
 		
@@ -124,7 +194,8 @@ void GamePlay::UpdateScene()
 	}
 
 	//パンくずを落とす
-	//mBreadCreator->DropBreadCrumb();
+	mBreadCreator->DropBreadCrumb();
+
 
 
 	Pose();
@@ -168,7 +239,7 @@ void GamePlay::Pose()
 	if (pose == false && settingFlag == false)
 	{
 		objM->Update();
-		if (Input::KeyDown(DIK_E))
+		if (Input::KeyDown(DIK_E) || Input::KeyDown(BUTTON_A))
 		{
 			itemHolder->UseItem(ItemNames::heal);
 		}

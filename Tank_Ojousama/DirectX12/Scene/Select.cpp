@@ -6,6 +6,7 @@
 #include "../Collision/Collision.h"
 #include "../Device/Input.h"
 #include "../Sound/Sound.h"
+#include "../Utility/Timer/Timer.h"
 
 
 Select::Select()
@@ -38,7 +39,7 @@ void Select::StartScene()
 	option = Vector3(32, 192 - 32, 0.0f);
 	titleback = Vector3(32, 256 - 32, 0.0f);
 	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
-	BaseScene::mSprite->AddTexture("AIM", "Resouse/cars.png");
+	BaseScene::mSprite->AddTexture("Arm", "Resouse/cars.png");
 	BaseScene::mSprite->AddTexture("AIM1", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("target", "Resouse/select.png");
 	BaseScene::mSprite->AddTexture("target2", "Resouse/select.png");
@@ -52,6 +53,8 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("Sentaku", "Resouse/sentaku.png");
 	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
+
+	mTimer = std::make_shared<Timer>(0.01f);
 }
 
 void Select::UpdateScene()
@@ -71,14 +74,19 @@ void Select::UpdateScene()
 	setumeiFlag = false;
 	setumei = Vector3(position.x + 32, position.y - 128, position.z);
 	//b = g->GetA();
-	ImGui::Begin("conf");
-	ImGui::SliderFloat("slider",&camerapos.x , 0.0f, 360.0f);
-	ImGui::SliderFloat("slider",&camerapos.y , 0.0f, 360.0f);
-	ImGui::SliderFloat("slider",&camerapos.z , 0.0f, 360.0f);
-	ImGui::SliderInt("Money",&BaseScene::mMoney ,0,1000000000);
-	ImGui::Checkbox("selectflag",&selectFlag);
-	ImGui::End();
+	//ImGui::Begin("conf");
+	//ImGui::SliderFloat("slider",&camerapos.x , 0.0f, 360.0f);
+	//ImGui::SliderFloat("slider",&camerapos.y , 0.0f, 360.0f);
+	//ImGui::SliderFloat("slider",&camerapos.z , 0.0f, 360.0f);
+	//ImGui::SliderInt("Money",&BaseScene::mMoney ,0,1000000000);
+	//ImGui::Checkbox("selectflag",&selectFlag);
+	//ImGui::End();
 #pragma region セレクト画面の選択
+
+
+	mTimer->update();
+
+	if (!mTimer->isTime()) return;
 
 	if(selectFlag == false)
 	{
@@ -90,21 +98,25 @@ void Select::UpdateScene()
 		{
 			selectposition.y = 64;
 		}
+
 		//AIM用キー処理
 		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
 		{
 			selectposition.y -= 64;
+			mTimer->setTime(0.5f);
 		}
 
 		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
 		{
 			selectposition.y += 64;
+			mTimer->setTime(0.5f);
 		}
 		if (selectposition.y == 64)
 		{
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				selectFlag = true;
+				mTimer->setTime(0.5f);
 			}
 		}
 		else if (selectposition.y == 128)
@@ -112,6 +124,7 @@ void Select::UpdateScene()
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				//NextScene(std::make_shared<Option>());
+				mTimer->setTime(0.5f);
 			}
 		}		
 		else if (selectposition.y == 192)
@@ -119,6 +132,7 @@ void Select::UpdateScene()
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				//NextScene(std::make_shared<Garage>());
+				mTimer->setTime(0.5f);
 			}
 		}
 		else if (selectposition.y == 256)
@@ -168,7 +182,7 @@ void Select::UpdateScene()
 			}
 		}
 
-		if (Input::KeyDown(DIK_B) || Input::pad_data.rgbButtons[2])
+		if (Input::KeyDown(DIK_B) || Input::pad_data.rgbButtons[1])
 		{
 			selectFlag = false;
 		}
@@ -225,7 +239,7 @@ void Select::DrawScene()
 	BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("AIM", Vector3(position.x -80 , position.y - 32, 0), 0.0f, Vector2(5, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Arm", Vector3(position.x -80 , position.y - 32, 0), 0.0f, Vector2(5, 1), Vector4(1, 1, 1, 1));
 	if (selectFlag == false)
 	{
 		BaseScene::mSprite->Draw("Titleback", titleback, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));

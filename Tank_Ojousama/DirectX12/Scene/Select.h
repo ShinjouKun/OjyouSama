@@ -8,6 +8,8 @@
 #include "../Collision/CollisionPrimitive.h"
 #include "../Actor/ObjectManager.h"
 #include "GamePlay.h"
+
+class Timer;
 class Sound;
 class Select :public BaseScene
 {
@@ -61,4 +63,6 @@ private:
 	//ターゲット用ポジション
 	Vector3 setcamerapos;
 	std::shared_ptr<Sound> mSound;
+
+	std::shared_ptr<Timer> mTimer;
 };

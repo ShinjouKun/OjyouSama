@@ -645,21 +645,21 @@ void DirectXManager::PostEffctBegin()
 		cmdList->ClearRenderTargetView(handles[i], clearColor, 0, nullptr);//ここくさい
 	}
 
-	//imgui関連
-	ImGui_ImplDX12_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-	ImGui::Begin("Debug Window 1");
-	ImGui::SetWindowSize(ImVec2(400, 500), ImGuiCond_::ImGuiCond_FirstUseEver);
+	////imgui関連
+	//ImGui_ImplDX12_NewFrame();
+	//ImGui_ImplWin32_NewFrame();
+	//ImGui::NewFrame();
+	//ImGui::Begin("Debug Window 1");
+	//ImGui::SetWindowSize(ImVec2(400, 500), ImGuiCond_::ImGuiCond_FirstUseEver);
 }
 
 void DirectXManager::PostEffctEnd()
 {
-	ImGui::End();
-	ImGui::Render();
-	ID3D12DescriptorHeap* ppHeaps[] = { imguiHeap.Get() };
-	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList.Get());
+	//ImGui::End();
+	//ImGui::Render();
+	//ID3D12DescriptorHeap* ppHeaps[] = { imguiHeap.Get() };
+	//cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	//ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList.Get());
 	//リソースバリアを戻す
 	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(postEffctResouce[0].Get(),
 		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));

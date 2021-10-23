@@ -34,9 +34,9 @@ void Player::UseWeapon1()
 
 void Player::UseWeapon2()
 {
-	objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	//objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
 	//objM->Add(new MissileBullet(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
-	//objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0,0,0), objM, playerModel, playerParticle, objType, bulletStock));
+	objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0,0,0), objM, playerModel, playerParticle, objType, bulletStock));
 	/*objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock));
 	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+1));
 	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock+2));
@@ -123,13 +123,13 @@ void Player::Init()
 	playerSprite->AddTexture("HIT", "Resouse/hit.png");*/
 	death = false;
 	objType = ObjectType::PLAYER;
-	position = Vector3(100.0f, 0.0f, -50.0f);
+	//position = Vector3(100.0f, 0.0f, -50.0f);
 
 	angle = Vector3(0.0f, 0.0f, 0.0f);//車体
 	atkAngle = 0.0f;//砲塔
 	fireAngle = 0.0f;
 	speed = 0.0f;
-	maxSpeed = 0.3f;
+	maxSpeed = 0.5f;
 	speedTime = 0.0f;
 	speedLimitTime = 10.0f;
 	cameraSpeed = 1.0f;
@@ -173,7 +173,7 @@ void Player::Update()
 		CamVelocity = Vector3(0, 0, 0);
 		moveFlag = false;
 		CameraPos = Vector3(position.x, position.y + 4.0f, position.z + 15.0f);
-		ImGuiDebug();//デバッグ用
+		//ImGuiDebug();//デバッグ用
 		AngleReset();
 		if (FrontMove)
 		{
