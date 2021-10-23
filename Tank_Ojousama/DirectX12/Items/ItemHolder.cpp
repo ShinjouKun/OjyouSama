@@ -29,12 +29,14 @@ void ItemHolder::Reset()
 void ItemHolder::UseItem(ItemNames item)
 {
 	
-	count = items.count(item) - 1;
+	count = items[item]-1;
 
-	if (count <= 0)
+	if (count < 0)
 	{
 		return;
 	}
+	
+	
 	items.insert_or_assign(item, count);
 
 	SetUseFlag(true);

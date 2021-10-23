@@ -107,7 +107,7 @@ void GamePlay::StartScene()
 	//プレイヤーは最後に、又はUIクラスを作る
 
 	objM->Add(new Player(Vector3(0.0f, 0.0f, -50.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
-	objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, ItemNames::heal, 0, 500));
+	objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, 0, 500));
 }
 
 void GamePlay::UpdateScene()
