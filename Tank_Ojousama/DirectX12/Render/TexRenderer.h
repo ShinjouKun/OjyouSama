@@ -54,7 +54,7 @@ public:
 	void SetBuffer();//バッファーのセット
 	void SetUV(const string& name, float left, float top, float right, float bottom, bool inversionX, bool inversionY);
 	void SetAncPoint(const string& name, const Vector2& point);
-	
+	void SetSize(const string&name, const Vector2& size);
 	void AddTexture(const string& key, const string& name);//使うテクスチャを追加する
 	void Draw(const string& name, const Vector3& pos, float angle, const Vector2& size, const Vector4& color);
 	void DrawNumber(int num, const Vector2& pos, const Vector2& size);
@@ -66,7 +66,7 @@ private:
 	string texName;//テクスチャ名
 	SpriteDatas data;
 	map<string, SpriteDatas>spriteList;//テクスチャのリスト
-	float texSize;//サイズ
+	//float texSize;//サイズ
 	vector<SpriteVert> vertex;
 	HRESULT result;
 	Matrix4 matProjection;//射影変換行列FixMe

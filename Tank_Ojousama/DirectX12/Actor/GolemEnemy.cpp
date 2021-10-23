@@ -3,6 +3,8 @@
 #include "../Collision/BaseCollider.h"
 #include"../ConstInfomation/Enemy/GolemEnemyConstInfo.h"
 #include<random>
+//ïêäÌ
+#include"../Weapons/StoneWeapon.h"
 namespace GECI = GolemEnemyConstInfo;
 #define ToRad(deg)((deg)*(PI/180.0f))
 GolemEnemy::GolemEnemy(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> modelRender, shared_ptr<TexRenderer> texRender, shared_ptr<ParticleManager> effect, int num)
@@ -358,6 +360,7 @@ void GolemEnemy::LangeAttack()
 	//ä‚ÇìäÇ∞ÇÈ
 	angleVec = Vector3(0, 0, 0);
 	angleVec = GetEnemyVec(angleVec);
+	targetAngleX = 10;
 	bodyAngle.y = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
 	zR = 15.0f;
 	zL = -15.0f;
@@ -366,6 +369,8 @@ void GolemEnemy::LangeAttack()
 
 	if (attackMoveCount >= 120)
 	{
+		bulletStock++;
+		objM->Add(new StoneWeapon(Vector3(position.x, position.y+6.0f, position.z), Vector3(targetAngleX,-bodyAngle.y, 0), objM, Model, Particle, objType, bulletStock));
 		zR = 0.0f;
 		zL = 0.0f;
 		ArmAngleL = 0.0f;
@@ -406,6 +411,7 @@ void GolemEnemy::Init()
 	maxSpeed = 2.0f;
 	speedTime = 0.0f;
 	speedLimitTime = 360.0f;
+	bulletStock = number * 10;
 	//ÉÇÉfÉã
 	Body = "Body";
 	num = to_string(number);
@@ -430,7 +436,7 @@ void GolemEnemy::Init()
 	ArmPosR = Vector3(position.x + 0.1f, position.y + 5.0f, position.z);
 	canp.CanpPoint = Vector3(100.0f, 4.0f, 120.0f);
 	canp.CanpRadius = 150.0f;
-	HP = 300;
+	HP = 30;
 	speed = 0.2f;
 	death = false;
 	AttackFlag = false;
@@ -448,6 +454,7 @@ void GolemEnemy::Init()
 	attackMoveCount = 0;
 	moveCount = 0;
 	damage = 0;//ãﬂãóó£ån
+	targetAngleX = 0.0f;
 	batteleS = GolemBatteleStatus::SAFE_G;
 	SetCollidder(Vector3(position.x,position.y,position.z), 2.0f);
 }
@@ -491,6 +498,11 @@ void GolemEnemy::Update()
 		break;
 	default:
 		break;
+	}
+	//ãÖêîè„å¿Çê›ÇØ
+	if (bulletStock >= 30)
+	{
+		bulletStock = 0;
 	}
 }
 

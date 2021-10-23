@@ -93,6 +93,7 @@ private:
 	float speedLimitTime;
 	Vector3 ArmPosR;
 	Vector3 ArmPosL;
+	float targetAngleX;
 	//int HP;
 	int ProximityPoint;//‹ßÚUŒ‚—Í
 	int LangePoint;//‰“‹——£UŒ‚—Í
@@ -110,6 +111,7 @@ private:
 	string numNameBody;//ã“ñ‚Â‚Ì•¡‡‘Ì
 	string numNameArmR;
 	string numNameArmL;//ã“ñ‚Â‚Ì•¡‡‘Ì
+	int bulletStock;//’e‚ğ‚¢‚Á‚Ï‚¢‚¾‚·‚½‚ß
 	int Count;
 	Vector3 bodyAngle;//Y²//•`‰æ
 	float ArmAngleR;//˜r

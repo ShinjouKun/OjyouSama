@@ -139,6 +139,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//Bullet
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Bullet.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/mine.obj");
+	//投げる用の石
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/throw.obj");
 	//ステージ
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/skydome.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ground.obj");

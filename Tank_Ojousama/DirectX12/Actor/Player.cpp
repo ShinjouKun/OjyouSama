@@ -111,13 +111,14 @@ void Player::Init()
 	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
 	//playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
 	//HP
-	HP = 1;
+	HP = 100;
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
-	playerSprite->AddTexture("Life1", "Resouse/TankAicn.png");
+	
+	/*playerSprite->AddTexture("Life1", "Resouse/TankAicn.png");
 	playerSprite->AddTexture("Life2", "Resouse/TankAicn.png");
 	playerSprite->AddTexture("Life3", "Resouse/TankAicn.png");
-	playerSprite->AddTexture("HIT", "Resouse/hit.png");
+	playerSprite->AddTexture("HIT", "Resouse/hit.png");*/
 	death = false;
 	objType = ObjectType::PLAYER;
 	position = Vector3(100.0f, 0.0f, -50.0f);
@@ -318,7 +319,8 @@ void Player::Rend()
 	//}
 
 	DirectXManager::GetInstance()->SetData2D();
-	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
+	playerSprite->SetSize("UI", Vector2(100, 100));
 	/*
 		switch (HP)
 		{

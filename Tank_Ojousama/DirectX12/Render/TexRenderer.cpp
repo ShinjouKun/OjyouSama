@@ -27,7 +27,7 @@ void TexRenderer::CreateVert()
 {
 	vertex.clear();
 	vertex.resize(4);
-	texSize = 100.0f;//初期サイズ
+	float texSize = 100.0f;//初期サイズ
 	vertex[0].pos.x = 0.0f;//左下
 	vertex[0].pos.y = texSize;
 	vertex[0].pos.z = 0.0f;
@@ -139,6 +139,25 @@ void TexRenderer::SetAncPoint(const string& key, const Vector2& point)
 	spriteList.emplace(key, d);
 }
 
+void TexRenderer::SetSize(const string & name, const Vector2 & size)
+{
+	auto d = spriteList[name];
+	spriteList.erase(name);
+	d.texSize = size;
+	vertex[0].pos = Vector3(0.0f, d.texSize.y, 0.0f);//左下
+	vertex[1].pos = Vector3(0.0f, 0.0f, 0.0f);//左上
+	vertex[2].pos = Vector3(d.texSize.x, d.texSize.y, 0.0f);//右下
+	vertex[3].pos = Vector3(d.texSize.x, 0.0f, 0.0f);//右上
+
+	SpriteVert* vertMap;
+	//バッファへデータを送信
+	result = d.vertBuff->Map(0, nullptr, (void**)&vertMap);
+	memcpy(vertMap, vertex.data(), sizeof(vertex[0])*vertex.size());
+	d.vertBuff->Unmap(0, nullptr);
+
+	spriteList.emplace(name, d);
+}
+
 
 void TexRenderer::AddTexture(const string& key, const string& filename)
 {
@@ -148,6 +167,7 @@ void TexRenderer::AddTexture(const string& key, const string& filename)
 	//頂点データを画像サイズに書き換え
 	data.texSize.x = (float)data.texData->texResource->GetDesc().Width;
 	data.texSize.y = (float)data.texData->texResource->GetDesc().Height;
+
 	CreateVert();
 	vertex[0].pos = Vector3(0.0f, data.texSize.y, 0.0f);//左下
 	vertex[1].pos = Vector3(0.0f, 0.0f, 0.0f);//左上
@@ -168,6 +188,7 @@ void TexRenderer::Draw(const string& name, const Vector3 & pos, float angle, con
 	d.texSize = size;
 
 	d.matWorld = Matrix4::Identity;
+	d.matWorld *= Matrix4::createScale(Vector3(d.texSize.x, d.texSize.y, 1.f));
 	d.matWorld = Matrix4::createTranslation(Vector3(d.ancPoint.x, d.ancPoint.y, 0.0f));
 	d.matWorld *= Matrix4::RotateZ(angle);
 	d.matWorld *= Matrix4::createTranslation(pos);
