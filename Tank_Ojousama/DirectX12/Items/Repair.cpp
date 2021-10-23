@@ -2,13 +2,13 @@
 #include "../Collision/SpherCollider.h"
 #include"../Actor/Player.h"
 
-Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemNames name, int num, int maxAlive)
+Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, int num, int maxAlive):ItemModel(m)
 {
 	position = pos;
 	angle = ang;
 	objM = obj;
 	objType = ObjectType::ITEM;
-	itemName = name;
+	itemName = ItemNames::heal;
 	itemHolder = holder;
 	alive_max = maxAlive;
 }
@@ -24,23 +24,25 @@ void Repair::Init()
 	isGet = false;
 	active = false;
 	SetCollidder(Vector3(position.x, position.y, position.z), 0.5f);
+	healPoint = 2;
 	alive = 0;
 	name = "Repair";
 	num = to_string(number);
 	numName = name + num;
-	ItemModel->AddModel(numName, "Resouse/item.obj", "Resouse/item1.png");
+	ItemModel->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
+	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
 }
 
 void Repair::Update()
 {
-	angle.x++;
+	angle.y++;
 	alive++;
-	if (angle.x >= 360||!isGet)
+	if (angle.z >= 360&&!isGet)
 	{
-		angle.x = 0;
+		angle.z = 0;
 	}
 
-	if (alive >= alive_max||!isGet)
+	if (alive >= alive_max&&!isGet)
 	{
 		death = true;
 	}
@@ -58,7 +60,7 @@ void Repair::Rend()
 	if (!isGet)
 	{
 		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-		ItemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(1, 1, 1));
+		ItemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), Vector3(1, 1, 1));
 	}
 }
 
@@ -85,4 +87,6 @@ void Repair::Heal(Player* player)
 	saveHP=objM->GetPlayer().GetHP()+healPoint;
 	
 	objM->GetPlayer().SetHP(saveHP);
+	active = false;
+	itemHolder->SetUseFlag(false);
 }

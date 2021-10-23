@@ -11,7 +11,8 @@
 #include "../Render/TexRenderer.h"
 #include "../Render/ParticleManager.h"
 #include"../Actor/GolemEnemy.h"
-
+#include "../Items/ItemHolder.h"
+#include "../Items/Repair.h"
 
 #include "../Actor/EnemyAI.h"
 
@@ -48,6 +49,8 @@ private:
 	Camera* camera;
 	std::shared_ptr<Sound> mSound;
 	float x, y, z;
+
+	ItemHolder* itemHolder;
 
 	//ポーズフラグ
 	bool pose = false;
