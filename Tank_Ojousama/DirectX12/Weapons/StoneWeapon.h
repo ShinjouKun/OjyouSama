@@ -19,5 +19,5 @@ private:
 	shared_ptr<ModelRenderer>Model;
 	shared_ptr<ParticleManager>Particle;
 	shared_ptr<ParticleEmitterBox>ParticleBox;
-	
+	int attckStart;
 };

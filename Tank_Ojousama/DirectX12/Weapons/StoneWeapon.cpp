@@ -19,7 +19,7 @@ StoneWeapon::~StoneWeapon()
 void StoneWeapon::Init()
 {
 	SetBulletType();
-	
+	attckStart = 0;
 	damage = 10;
 	name = "Stone";
 	num = to_string(number);
@@ -36,16 +36,27 @@ void StoneWeapon::Init()
 
 void StoneWeapon::Update()
 {
-	velocity = Vector3(0, 0, -1);
-	velocity *= Matrix4::RotateX(angle.x);
-	velocity *= Matrix4::RotateY(angle.y);
-	position += velocity * speed;
-
-	alive++;
-	if (alive >= 150)
+	
+	if (attckStart >= 10)
 	{
-		death = true;
+		velocity = Vector3(0, 0, -0.5f);
+		velocity *= Matrix4::RotateX(angle.x);
+		velocity *= Matrix4::RotateY(angle.y);
+		
+
+		alive++;
+		if (alive >= 150)
+		{
+			death = true;
+		}
 	}
+	else
+	{
+		attckStart++;
+		velocity = Vector3(0, 0.13f, 0);
+	}
+	position += velocity * speed;
+	
 }
 
 void StoneWeapon::Rend()

@@ -59,6 +59,9 @@ private:
 	void ProximityAttack();//近接
 	void LangeAttack();//遠距離
 	void SpecialAttack();//必殺技
+	void DicideTurnAround();//振り向き
+	void TurnAround(int time);
+	void Guard();
 	Vector3 GetEnemyVec(const Vector3& vec);//敵のベクトル
 	Vector3 GetCampVec(const Vector3& vec);//拠点のベクトル
 	// BaseObject を介して継承されました
@@ -123,4 +126,8 @@ private:
 	int avmoveCount;//ランダム移動カウント
 	int moveCount;//戦闘時の接近回数制限用カウント
 	int rndCount;
+	bool stoneShotFlag;
+	bool guardFlag;
+	Vector3 hitPos;      //攻撃が当たった位置を保存
+	Vector3 hitAngle;    //攻撃が当たった角度を保存
 };

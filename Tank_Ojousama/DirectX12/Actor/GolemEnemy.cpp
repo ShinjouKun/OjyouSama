@@ -24,7 +24,7 @@ void GolemEnemy::Senser()
 	SenserFan_G fan =
 	{
 		Vector3(position.x,position.y,position.z),
-		270.0f,//éãñÏäp
+		360.0f,//éãñÏäp
 		60.0f,//éãîFãóó£
 		-bodyAngle.y - 90.0f
 	};
@@ -157,9 +157,9 @@ void GolemEnemy::Battele()
 	{
 		AttackFlag = true;//çUåÇ!!
 	}
-
 	if (AttackFlag)
 	{
+		
 		if (Distance(point.Point, 25.0f))//ïWìIÇ™ãﬂÇØÇÍÇŒ
 		{
 			ProximityAttack();//ãﬂãóó£
@@ -168,8 +168,10 @@ void GolemEnemy::Battele()
 		{
 			LangeAttack();//âìãóó£
 		}
+		
+		
 	}
-	else if(moveCount >= 80)
+	else if(moveCount >= 90)
 	{
 		PredecessorMove();
 	}
@@ -296,9 +298,10 @@ void GolemEnemy::ProximityAttack()
 	
 	if (attackMoveCount <= 20)//í«îˆêßå¿
 	{
-		zR = 25.0f;
+		speed = 0.25f;
+		zR = 35.0f;
 		ArmAngleR = 180.0f;
-		zL = -25.0f;
+		zL = -35.0f;
 		ArmAngleL = 180.0f;
 		bodyAngle.x = -20.0f;
 		angleVec = Vector3(0, 0, 0);
@@ -314,6 +317,7 @@ void GolemEnemy::ProximityAttack()
 		ArmAngleL += 4.0f;
 		if (ArmAngleR >= 360.0f)
 		{
+			speed = 0.2f;
 			damage = 0;
 			zR = 0.0f;
 			zL = 0.0f;
@@ -356,6 +360,15 @@ void GolemEnemy::ProximityAttack()
 
 void GolemEnemy::LangeAttack()
 {
+	
+	if (!stoneShotFlag)
+	{
+		bulletStock++;
+		objM->Add(new StoneWeapon(Vector3(position.x, position.y+1.0f, position.z),
+			Vector3(targetAngleX, -bodyAngle.y, 0),
+			objM, Model, Particle, objType, bulletStock));
+		stoneShotFlag = true;
+	}
 	attackMoveCount++;
 	//ä‚ÇìäÇ∞ÇÈ
 	angleVec = Vector3(0, 0, 0);
@@ -364,39 +377,118 @@ void GolemEnemy::LangeAttack()
 	bodyAngle.y = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
 	zR = 15.0f;
 	zL = -15.0f;
-	ArmAngleL += 30.0f;
-	ArmAngleR += 30.0f;
+	ArmAngleL -= 10;
+	ArmAngleR -= 10;
+	
+	if (ArmAngleR <= -130.0f)
+	{
+		ArmAngleL = -130;
+		ArmAngleR = -130;
+	}
 
 	if (attackMoveCount >= 120)
 	{
-		bulletStock++;
-		objM->Add(new StoneWeapon(Vector3(position.x, position.y+6.0f, position.z), Vector3(targetAngleX,-bodyAngle.y, 0), objM, Model, Particle, objType, bulletStock));
 		zR = 0.0f;
 		zL = 0.0f;
 		ArmAngleL = 0.0f;
 		ArmAngleR = 0.0f;
 		AttackCount = 0;
 		attackMoveCount = 0;
+		stoneShotFlag = false;
 		AttackFlag = false;
 	}
 }
 
 void GolemEnemy::SpecialAttack()
 {
+	attackMoveCount++;
+	//zR = -35.0f;
+	//zL = 35.0f;
+	bodyAngle.x = 20.0f;
+	ArmAngleL -= 20;
+	ArmAngleR -= 20;
+	//ä‚ÇìäÇ∞ÇÈ
 	
-	//òrÇîÚÇŒÇ∑
-	ArmAngleL = 70.0f;
-	ArmAngleR = -70.0f;
-	bodyAngle.y += 10.0f;
+	if (!stoneShotFlag)
+	{
+		angleVec = Vector3(0, 0, 0);
+		angleVec = GetEnemyVec(angleVec);
+		targetAngleX = 10;
+		bodyAngle.y = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
+		velocity = RotateY(bodyAngle.y + 90.0f)*speed;
 
-	AttackCount = 0;
-	AttackFlag = false;
+
+		bulletStock++;
+		objM->Add(new StoneWeapon(Vector3(position.x, position.y + 1.0f, position.z),
+			Vector3(targetAngleX, -bodyAngle.y+60.0f, 0),
+			objM, Model, Particle, objType, bulletStock));
+
+		objM->Add(new StoneWeapon(Vector3(position.x, position.y + 1.0f, position.z),
+			Vector3(targetAngleX, -bodyAngle.y, 0),
+			objM, Model, Particle, objType, bulletStock+1));
+
+		objM->Add(new StoneWeapon(Vector3(position.x, position.y + 1.0f, position.z),
+			Vector3(targetAngleX, -bodyAngle.y-60.0f, 0),
+			objM, Model, Particle, objType, bulletStock+2));
+		stoneShotFlag = true;
+	}
+
+	if (!Distance(point.Point, 5.0f)&&stoneShotFlag)//àÍíËà»è„ê⁄ãﬂÇµÇ»Ç¢
+	{
+		position += velocity;
+		ArmPosL += velocity;
+		ArmPosR += velocity;
+	}
+	else if (attackMoveCount >= 90)
+	{
+		zR = 0.0f;
+		zL = 0.0f;
+		bodyAngle.x = 0.0f;
+		ArmAngleL = 0.0f;
+		ArmAngleR = 0.0f;
+		AttackCount = 0;
+		attackMoveCount = 0;
+		stoneShotFlag = false;
+		AttackFlag = false;
+	}
+	
+}
+
+void GolemEnemy::DicideTurnAround()
+{
+	hitPos = position;
+	hitAngle = angle;
 }
 
 Vector3 GolemEnemy::GetCampVec(const Vector3 & vec)
 {
 	Vector3 CampPos = canp.CanpPoint - position;
 	return CampPos.normal();
+}
+
+void GolemEnemy::TurnAround(int time)
+{
+}
+
+void GolemEnemy::Guard()
+{
+	attackMoveCount++;
+	zR = 35.0f;
+	zL = -35.0f;
+	ArmAngleL = -90;
+	ArmAngleR = -90;
+
+	if (attackMoveCount >= 120)
+	{
+		zR = 0.0f;
+		zL = 0.0f;
+		ArmAngleL = 0.0f;
+		ArmAngleR = 0.0f;
+		AttackCount = 0;
+		attackMoveCount = 0;
+		guardFlag = false;
+	}
+	guardFlag = true;
 }
 
 Vector3 GolemEnemy::GetEnemyVec(const Vector3 & vec)
@@ -455,6 +547,8 @@ void GolemEnemy::Init()
 	moveCount = 0;
 	damage = 0;//ãﬂãóó£ån
 	targetAngleX = 0.0f;
+	stoneShotFlag = false;//êŒìäÇ∞óp
+	guardFlag = false;
 	batteleS = GolemBatteleStatus::SAFE_G;
 	SetCollidder(Vector3(position.x,position.y,position.z), 2.0f);
 }
@@ -469,7 +563,7 @@ void GolemEnemy::Update()
 	}
 	ImGuiDebug();
 	Senser();
-	ySpeed = Easing::ease_in_cubic(sin(speedTime), 0, maxSpeed, 2.0f);
+	ySpeed = Easing::ease_in_cubic(sin(speedTime), 0, maxSpeed, 3.0f);
 	position.y += ySpeed;
 	if (HitFlag)
 	{
@@ -480,9 +574,16 @@ void GolemEnemy::Update()
 			HitFlag = false;
 		}
 	}
-	if (HP < 0)
+	if (HP <= 0)
 	{
-		
+		zR = -35.0f;
+		zL = 35.0f;
+		ArmAngleL = 180.0f;
+		ArmAngleR = 180.0f;
+		bodyAngle.y += 40.0f;
+		position.y -= 2.0f;
+		ArmPosL.y -= 2.0f;
+		ArmPosR.y -= 2.0f;
 	}
 
 	switch (batteleS)
@@ -523,12 +624,16 @@ void GolemEnemy::OnCollison(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
-		HP -= col->GetColObject()->GetDamage();
+		if (!guardFlag)
+		{
+			HP -= col->GetColObject()->GetDamage();
+		}
 		HitFlag = true;
 	}
 
 	if (col->GetColObject()->GetType() == ObjectType::PLAYER&&AttackFlag)
 	{
+		bodyAngle.x = 0.0f;
 		AttackFlag = false;
 	}
 }

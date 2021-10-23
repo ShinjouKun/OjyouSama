@@ -320,7 +320,6 @@ void Player::Rend()
 
 	DirectXManager::GetInstance()->SetData2D();
 	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
-	playerSprite->SetSize("UI", Vector2(100, 100));
 	/*
 		switch (HP)
 		{
