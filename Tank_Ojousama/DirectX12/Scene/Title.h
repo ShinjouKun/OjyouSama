@@ -37,5 +37,12 @@ private:
 	ObjectManager* objM;
 	std::shared_ptr<Sound> mSound;
 
+	float fade;
+	bool fadeF;
+	Vector3 ojoP;
+
+	float ojyouY;
+	float ojyouXR;
+	float ojyouXL;
 	
 };

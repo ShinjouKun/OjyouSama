@@ -103,6 +103,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/ritorai.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hime.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/heart.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/sentaku.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/fade.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/kakutoku.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/titlerogo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/start.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/cars.png");
 
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");

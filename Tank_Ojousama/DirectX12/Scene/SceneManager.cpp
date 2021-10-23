@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include"Title.h"
 #include"GamePlay.h"
+#include "Result.h"
 
 SceneManager::SceneManager(shared_ptr<TexRenderer> sprite, shared_ptr<ModelRenderer> model, shared_ptr<ParticleManager>particle)
 	:mSprite(sprite), mModel(model), mParticle(particle),

@@ -56,7 +56,6 @@ private:
 	//リザルトフラグ
 	bool resultFlag = false;
 	int time = 0;
-
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;

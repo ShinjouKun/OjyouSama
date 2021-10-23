@@ -10,6 +10,7 @@
 
 
 class Listener;
+class Sound;
 using namespace std;
 class Player :public BaseObject
 {
@@ -36,6 +37,8 @@ private:
 	shared_ptr<TexRenderer>playerSprite;
 	shared_ptr<Listener> listener;
 	Camera* camera;
+	std::shared_ptr<Sound> mSound;
+
 	//ƒJƒƒ‰—p
 	Vector3 CameraPos;
 	Vector3 TargetPos;
