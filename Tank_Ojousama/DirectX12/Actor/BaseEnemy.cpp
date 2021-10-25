@@ -555,7 +555,7 @@ void BaseEnemy::InitSearch(const Vector3& hitPosition)
 	//検索ルートの結果をリストに格納する
 	moveList = mEnemyAI->GetMoveRoad(position, hitPosition);
 
-	ImGui::Text("--------------------------------------");
+	//ImGui::Text("--------------------------------------");
 
 	////報告範囲を生成したオブジェクトの位置を取得したい
 	//goalPoint = hitPosition;
@@ -727,7 +727,7 @@ void BaseEnemy::WayPointMove()
 		if (static_cast<int>(moveList.size()) == moveCount + 1)
 		{
 
-			ImGui::Text("**************");
+			//ImGui::Text("**************");
 
 			goalFlag = true;
 			InitWayPoint();

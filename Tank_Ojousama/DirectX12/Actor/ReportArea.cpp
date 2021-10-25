@@ -80,7 +80,7 @@ void ReportArea::Update()
 		death = true;
 	}
 
-	ImGui::Checkbox("//////////////////////////////////", &isActive);
+	//ImGui::Checkbox("//////////////////////////////////", &isActive);
 
 	ImGuiDebug();
 }

@@ -193,8 +193,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		input->UpdateGamepad();//ゲームパッド
 		//描画
 		mScene->Update();
-		//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-		//	1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+#ifndef DEBUG
+
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+			1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+#endif // DEBUG
+
 		s.update();//各updateが終わった後に音の処理を入れる
 		DirectXManager::GetInstance()->SetDrawComnd();
 		mScene->Draw();
