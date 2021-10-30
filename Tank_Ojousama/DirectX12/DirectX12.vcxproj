@@ -23,7 +23,7 @@
     <ProjectGuid>{B7A7B929-B38A-4988-AB51-95012006B0B8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DirectX12</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -157,6 +157,7 @@
     <ClCompile Include="Actor\BlowEnemy.cpp" />
     <ClCompile Include="Actor\BreadCrumb.cpp" />
     <ClCompile Include="Actor\BreadCrumbCreater.cpp" />
+    <ClCompile Include="Actor\CameraEye.cpp" />
     <ClCompile Include="Actor\ElfRock.cpp" />
     <ClCompile Include="Actor\ElfTree.cpp" />
     <ClCompile Include="Actor\EnemyAI.cpp" />
@@ -413,6 +414,7 @@
     <ClInclude Include="Actor\BaseEnemy.h" />
     <ClInclude Include="Actor\BreadCrumb.h" />
     <ClInclude Include="Actor\BreadCrumbCreater.h" />
+    <ClInclude Include="Actor\CameraEye.h" />
     <ClInclude Include="Actor\ElfRock.h" />
     <ClInclude Include="Actor\ElfTree.h" />
     <ClInclude Include="Actor\EnemyAI.h" />

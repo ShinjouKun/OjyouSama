@@ -17,7 +17,7 @@ class Player :public BaseObject
 public:
 	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p,shared_ptr<TexRenderer>s);
 	~Player();
-
+	void SetCamEye();
 	void UseWeapon1();//兵装１
 	void UseWeapon2();//兵装２
 	void UseULT();//アルティメット

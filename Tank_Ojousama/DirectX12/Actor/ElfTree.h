@@ -25,8 +25,6 @@ private:
 
 	Vector3 scale;
 	float radius;
-	bool isActive;
-
 	int number = 0;//識別番号
 	string name;   //キーワード登録
 	string num;    //複数用ナンバー

@@ -1,5 +1,6 @@
 #include "ElfTree.h"
-
+#include"../Collision/SpherCollider.h"
+#include "../Collision/BaseCollider.h"
 ElfTree::ElfTree(const Vector3 & pos, const Vector3 & ang, ObjectManager* objManager, std::shared_ptr<ModelRenderer> modelRender, int num)
 	:mModelRender(modelRender)
 {
@@ -15,6 +16,7 @@ ElfTree::~ElfTree()
 
 void ElfTree::Init()
 {
+	SetActive(false);
 	death = false;
 	objType = ObjectType::BLOCK;
 
@@ -22,38 +24,36 @@ void ElfTree::Init()
 	num = to_string(number);
 	numName = name + num;
 	scale = Vector3(2.0f, 2.0f, 2.0f);
-	radius = 1.0f;
-	isActive = true;
-
+	radius = 1.2f;
+	
+	
+	mModelRender->AddModel(numName, "Resouse/wood.obj", "Resouse/Big-treeA.png");
+	mModelRender->SetAncPoint(numName, Vector3(0.0f, -2.0f, 0.0f));
 	//コライダーの情報をセット
 	SetCollidder(Vector3(position.x, position.y, position.z), radius);
-	mModelRender->AddModel(numName, "Resouse/wood.obj", "Resouse/Big-treeA.png");
 }
 
 void ElfTree::Update()
 {
-	Vector3 distance = mObjManager->GetPlayer().GetPosition() - position;
-	float length = distance.Length();
-
-	if (length > 100.0f)
-	{
-		isActive = false;
-	}
-	else
-	{
-		isActive = true;
-	}
+	ImGui::Checkbox("TreeActive", &IsActive);
 }
 
 void ElfTree::Rend()
 {
-	if (!isActive) return;
-	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	mModelRender->Draw(numName, position, angle, scale);
+	if (GetActive())
+	{
+		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
+		mModelRender->Draw(numName, position, angle, scale);
+	}
+	
 }
 
 void ElfTree::OnCollison(BaseCollider * col)
 {
+	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	{
+		SetActive(true);
+	}
 }
 
 void ElfTree::ImGuiDebug()

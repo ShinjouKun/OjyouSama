@@ -5,6 +5,7 @@
 #include "../Math/Matrix4.h"
 #include<wrl.h>
 
+
 using namespace Microsoft::WRL;
 class Camera
 {
@@ -24,6 +25,7 @@ public:
 	static Vector3 eye;
 	static Vector3 target;
 	static Vector3 up;
-private:
+
+	
 };
 

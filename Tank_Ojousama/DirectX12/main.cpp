@@ -212,7 +212,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma region FPSˆ—
 		cnt++;//fps—p
 		//d‚¢ˆ—‚ª‚ ‚Á‚½
-		std::this_thread::sleep_for(std::chrono::microseconds(5));
+		std::this_thread::sleep_for(std::chrono::microseconds(1));
 		//‚Å‚«‚é‚¾‚¯60fps‚É•Û‚Â
 		end  = currentTimeMicro();
 		if (end < next)
@@ -233,7 +233,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	window->DeleateGameWindow();//ƒQ[ƒ€window”jŠü
 	pipeLine->Clear();
 	delete input;
-	delete camera;
+	//delete camera;
 	delete pipeLine;
 	return 0;
 }

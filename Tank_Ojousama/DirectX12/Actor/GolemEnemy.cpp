@@ -499,7 +499,7 @@ Vector3 GolemEnemy::GetEnemyVec(const Vector3 & vec)
 
 void GolemEnemy::Init()
 {
-
+	SetActive(false);
 	maxSpeed = 2.0f;
 	speedTime = 0.0f;
 	speedLimitTime = 360.0f;
@@ -555,7 +555,6 @@ void GolemEnemy::Init()
 
 void GolemEnemy::Update()
 {
-
 	speedTime ++;
 	if (speedTime >= speedLimitTime)
 	{
@@ -609,15 +608,18 @@ void GolemEnemy::Update()
 
 void GolemEnemy::Rend()
 {
-	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	Model->Draw(numNameBody, Vector3(position.x, position.y, position.z), Vector3(bodyAngle.x, -bodyAngle.y, 0), Vector3(3.0f,3.0f,3.0f));
-	Model->Draw(numNameArmR, Vector3(ArmPosR.x,ArmPosR.y,ArmPosR.z), Vector3(ArmAngleR, -bodyAngle.y, zR), Vector3(4.0f, 4.0f, 4.0f));
-	Model->Draw(numNameArmL, Vector3(ArmPosL.x, ArmPosL.y, ArmPosL.z), Vector3(ArmAngleL, -bodyAngle.y, zL), Vector3(4.0f, 4.0f, 4.0f));
+	if (GetActive())
+	{
+		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
+		Model->Draw(numNameBody, Vector3(position.x, position.y, position.z), Vector3(bodyAngle.x, -bodyAngle.y, 0), Vector3(3.0f, 3.0f, 3.0f));
+		Model->Draw(numNameArmR, Vector3(ArmPosR.x, ArmPosR.y, ArmPosR.z), Vector3(ArmAngleR, -bodyAngle.y, zR), Vector3(4.0f, 4.0f, 4.0f));
+		Model->Draw(numNameArmL, Vector3(ArmPosL.x, ArmPosL.y, ArmPosL.z), Vector3(ArmAngleL, -bodyAngle.y, zL), Vector3(4.0f, 4.0f, 4.0f));
+	}
 }
 
 void GolemEnemy::ImGuiDebug()
 {
-	
+	ImGui::Checkbox("Active", &IsActive);
 }
 
 void GolemEnemy::OnCollison(BaseCollider * col)
@@ -635,5 +637,9 @@ void GolemEnemy::OnCollison(BaseCollider * col)
 	{
 		bodyAngle.x = 0.0f;
 		AttackFlag = false;
+	}
+	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	{
+		SetActive(true);
 	}
 }

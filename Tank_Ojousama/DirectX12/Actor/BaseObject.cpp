@@ -93,6 +93,10 @@ void BaseObject::SetID(size_t id)
 	AiID = id;
 }
 
+void BaseObject::SetActive(bool val)
+{
+	IsActive = val;
+}
 
 void BaseObject::SetNumber(int num)
 {

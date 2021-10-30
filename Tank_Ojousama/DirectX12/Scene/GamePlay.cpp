@@ -11,6 +11,8 @@
 
 #include "../Actor/ElfTree.h"
 #include "../Actor/ElfRock.h"
+#include"../Actor/CameraEye.h"
+
 
 GamePlay::GamePlay()
 	:mSound(nullptr)
@@ -33,7 +35,6 @@ void GamePlay::StartScene()
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
 	//障害物
-
 //int s = 0;
 //float x_dis = 10.0f;
 //float z_dis = 0.0f;
@@ -75,56 +76,56 @@ void GamePlay::StartScene()
 
 	int objectCount = 0;
 
-	/*スタート地点の木*/
+//	/*スタート地点の木*/
 	for (int i = 130; i < 210; i += 20)
 	{
-		objM->Add(new ElfTree(Vector3(20, 0.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-20, 0.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 	}
-
-	/*中央の木*/
+//
+//	/*中央の木*/
 	for (int i = 40; i < 100; i += 20)
 	{
-		objM->Add(new ElfTree(Vector3(i, 0.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-i, 0.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(i, 4.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-i, 4.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 	}
-
-	/*中央奥の木*/
+//
+//	/*中央奥の木*/
 	for (int i = -50; i < 51; i += 25)
 	{
-		objM->Add(new ElfTree(Vector3(i, 0.0f, -80), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(i, 4.0f, 30), Vector3(0.0f, 0.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 	}
+//
+//	/*中央の岩*/
+	objM->Add(new ElfRock(Vector3(0.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, 0, 2));
+	objM->Add(new ElfRock(Vector3(+5.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, 1, 2));
+	objM->Add(new ElfRock(Vector3(-5.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel,2, 2));
+	objM->Add(new ElfRock(Vector3(+10.0f, 4.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), objM, BaseScene::mModel, 3, 2));
+	objM->Add(new ElfRock(Vector3(-10.0f, 4.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), objM, BaseScene::mModel,4, 2));
 
-	/*中央の岩*/
-	objM->Add(new ElfRock(Vector3(0.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(+5.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(-5.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(+10.0f, 0.0f, 5.0f), Vector3(0.0f, +45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(-10.0f, 0.0f, 5.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
-
-	/*左側の岩*/
-	objM->Add(new ElfRock(Vector3(100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
-	/*右側の岩*/
-	objM->Add(new ElfRock(Vector3(-100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
-
-#pragma endregion
-
-#pragma region 敵の生成
-
-	int enemyCount = 0;
-
-	/*遠距離攻撃の敵*/
-	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 10.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 20.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new SniperEnemy(Vector3(-10.0f, 0.0f, 20.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new SniperEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	/*中央奥の木*/
-	for (int i = -35; i < 50; i += 25)
-	{
-		objM->Add(new SniperEnemy(Vector3(i, 0.0f, -75.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	}
-
+//	/*左側の岩*/
+//	objM->Add(new ElfRock(Vector3(100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+//	/*右側の岩*/
+//	objM->Add(new ElfRock(Vector3(-100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+//
+//#pragma endregion
+//
+//#pragma region 敵の生成
+//
+//	int enemyCount = 0;
+//
+//	/*遠距離攻撃の敵*/
+//	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 10.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+//	objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 20.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+//	objM->Add(new SniperEnemy(Vector3(-10.0f, 0.0f, 20.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+//	objM->Add(new SniperEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+//	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+//	/*中央奥の木*/
+//	for (int i = -35; i < 50; i += 25)
+//	{
+//		objM->Add(new SniperEnemy(Vector3(i, 0.0f, -75.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+//	}
+//
 
 	///*近距離攻撃の敵*/
  //   objM->Add(new BlowEnemy(Vector3(+90.0f, 0.0f, 100.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
@@ -177,6 +178,7 @@ void GamePlay::StartScene()
 	//プレイヤーは最後に、又はUIクラスを作る
 
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 180.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	objM->Add(new CameraEye(Vector3(0,0, 180.0f), Vector3(0,0,0), objM));
 	objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, 0, 500));
 }
 
@@ -318,7 +320,7 @@ void GamePlay::Pose()
 void GamePlay::Setting()
 {
 	mSound->playLoop();
-	mSound->setVol(0.5f);
+	mSound->setVol(0.0f);
 	if (settingFlag == true)
 	{
 		if (BaseScene::mMasterSoundVol > 1.1f)
