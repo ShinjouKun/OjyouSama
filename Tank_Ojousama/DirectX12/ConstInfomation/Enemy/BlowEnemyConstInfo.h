@@ -22,7 +22,7 @@ namespace BlowEnemyConstInfo
 	constexpr int INVINCIBLE_TIME = 2;
 
 	/*ˆÚ“®‘¬“x*/
-	constexpr float MOVE_SPEED = 0.4f;
+	constexpr float MOVE_SPEED = 0.2f;
 
 	/*õ“G”ÍˆÍ‚ÌŠp“x*/
 	constexpr float FAN_RANGE = 180.0f;

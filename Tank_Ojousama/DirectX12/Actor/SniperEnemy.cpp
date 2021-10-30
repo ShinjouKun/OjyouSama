@@ -103,7 +103,7 @@ void SniperEnemy::EnemyInit()
 
 void SniperEnemy::EnemyUpdate()
 {
-	Invincible(2.0f);//無敵時間
+	Invincible(2);//無敵時間
 }
 
 void SniperEnemy::EnemyRend()
@@ -122,27 +122,27 @@ void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 		trackingBreadcrumb = false;
 	}
 
-	if (col->GetColObject()->GetType() == ObjectType::BULLET)
-	{
-		//ダメージを受ける
-		HP -= col->GetColObject()->GetDamage();
+	//if (col->GetColObject()->GetType() == ObjectType::BULLET)
+	//{
+	//	//ダメージを受ける
+	//	HP -= col->GetColObject()->GetDamage();
 
-		if (actionState == ActionState::SEARCH)
-		{
-			//ダメージを受けたら、報告を行う
-			Report(modelRender);
-		}
-	}
+	//	if (actionState == ActionState::SEARCH)
+	//	{
+	//		//ダメージを受けたら、報告を行う
+	//		Report(modelRender);
+	//	}
+	//}
 
-	//報告範囲に触れたら
-	if (col->GetColObject()->GetType() == ObjectType::ITEM)
-	{
-		if (actionState == ActionState::SEARCH)
-		{
-			//報告元に向かう行動をとる
-			InitSearch(col->GetColObject()->GetPosition());
-		}
-	}
+	////報告範囲に触れたら
+	//if (col->GetColObject()->GetType() == ObjectType::ITEM)
+	//{
+	//	if (actionState == ActionState::SEARCH)
+	//	{
+	//		//報告元に向かう行動をとる
+	//		InitSearch(col->GetColObject()->GetPosition());
+	//	}
+	//}
 }
 
 void SniperEnemy::EnemyImGuiDebug()

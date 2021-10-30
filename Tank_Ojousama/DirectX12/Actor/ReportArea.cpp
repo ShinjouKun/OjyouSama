@@ -33,7 +33,7 @@ void ReportArea::Init()
 	scale = offsetScale;
 	radius = offsetScale.x * 1.0f;
 
-	reportRange = 5.0f;
+	reportRange = 10.0f;
 
 	isActive = true;
 
@@ -93,7 +93,7 @@ void ReportArea::Rend()
 
 	if (isActive)
 	{
-		//modelRender->Draw(keyname, position, Vector3(angle.x, -angle.y, angle.z), scale);
+		modelRender->Draw(keyname, position, Vector3(angle.x, -angle.y, angle.z), scale);
 	}
 }
 
