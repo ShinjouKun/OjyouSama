@@ -48,7 +48,6 @@ void BlowEnemy::EnemyInit()
 	//turnaroundMode = ECI::TURNAROUND_MODE;
 	turnaroundMode = true;
 
-	angle = Vector3(0.0f, 180.0f, 0.0f);//車体の向き
 	scale = BECI::SCALE;
 
 	objType = ObjectType::ENEMY;
@@ -123,15 +122,13 @@ void BlowEnemy::EnemyUpdate()
 	///*自爆機能*/
 	//DestructMode(BECI::MAX_HP / 2, destructMode);
 
-	/////*状態変更*/
-	//ChangeState();
 
 	///*無敵時間 & 振り向き処理*/
 	////Invincible(ECI::REPORT_INTERVAL);//無敵時間
 	Invincible(2);
 
- //   /*パンくずやプレイヤーを探す*/
-	//SearchObject();
+	//int debugHP = GetID();
+	//ImGui::SliderInt("MP-------------------", &debugHP, 0, 500);
 }
 
 void BlowEnemy::EnemyRend()
@@ -156,21 +153,8 @@ void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 		//ダメージを受ける
 		HP -= col->GetColObject()->GetDamage();
 
-		if (actionState == ActionState::SEARCH)
-		{
-			//ダメージを受けたら、報告を行う
-			Report(modelRender);
-		}
-	}
-
-	//報告範囲に触れたら
-	if (col->GetColObject()->GetType() == ObjectType::ITEM)
-	{
-		if (actionState == ActionState::SEARCH)
-		{
-			//報告元に向かう行動をとる
-			InitSearch(col->GetColObject()->GetPosition());
-		}
+		/*報告*/
+		InitSearch();
 	}
 }
 
@@ -209,8 +193,8 @@ void BlowEnemy::Attack()
 {
 	//ImGui::Text("ActionState == ATTACK");
 
-	Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
-	attackArea->SetActive(true, position + areaPos, -angle);
+	//Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
+	//attackArea->SetActive(true, position + areaPos, -angle);
 
 	attackCount++;
 
