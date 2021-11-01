@@ -43,7 +43,7 @@ void Title::StartScene()
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//mSound->play();
-	mSound->setVol(0.5f);
+	mSound->setVol(0.0f);
 }
 
 void Title::UpdateScene()

@@ -5,13 +5,14 @@
 #include "../Collision/BaseCollider.h"
 #include "../Sound/Listener.h"
 #include"../Sound/Sound.h"
-
+#include "../Actor/CameraEye.h"
 //武器たち
 #include"../Weapons/NormalBullet.h"
 #include"../Weapons/LandMine.h"
 #include"../Weapons/ShotGunBullet.h"
 #include"../Weapons/MissileBullet.h"
 #include"../Weapons/MashinGun.h"
+#define ToRad(deg)((deg)*(PI/180.0f))
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
 	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
 	listener(std::make_shared<Listener>())
@@ -25,9 +26,15 @@ Player::~Player()
 {
 }
 
+void Player::SetCamEye()
+{
+	
+}
+
 
 void Player::UseWeapon1()
 {
+	
 	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
 	shotFlag1 = true;
 }
@@ -96,6 +103,7 @@ void Player::AngleReset()
 
 void Player::Init()
 {
+	
 	mSound = std::make_shared<Sound>("bomb3.mp3", false);
 	//model
 	//戦車
@@ -137,6 +145,7 @@ void Player::Init()
 	HitFlag = false;
 	HitCount = 0;
 	TargetPos = Vector3(position.x, position.y + 4.0f, position.z);
+
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 	//コライダーの情報をセット
 	SetCollidder(Vector3(position.x, position.y, position.z), 1.0f);
@@ -173,7 +182,7 @@ void Player::Update()
 		CamVelocity = Vector3(0, 0, 0);
 		moveFlag = false;
 		CameraPos = Vector3(position.x, position.y + 4.0f, position.z + 15.0f);
-		//ImGuiDebug();//デバッグ用
+		ImGuiDebug();//デバッグ用
 		AngleReset();
 		if (FrontMove)
 		{

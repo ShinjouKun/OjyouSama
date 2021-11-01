@@ -1,16 +1,16 @@
 #include "Camera.h"
+
+#include"../Collision/SpherCollider.h"
+#include "../Collision/BaseCollider.h"
 Vector3 Camera::eye = Vector3{ 0.0f, 0.0f, -100.0f };
 Vector3 Camera::target = Vector3::zero;
 Vector3 Camera::up = Vector3{ 0.0f, 1.0f, 0.0f };
 Matrix4 Camera::matView{};
-void Camera::Init()
-{
-	matView = Matrix4::createLookAt(eye, target, up);
-}
 
 void Camera::SetEye(Vector3 eye)
 {
 	Camera::eye = eye;
+	
 	UpdateViewMatrix();
 }
 
@@ -50,6 +50,10 @@ void Camera::CameraMoveEyeVector(Vector3 move)
 }
 
 void Camera::UpdateViewMatrix()
+{
+	matView = Matrix4::createLookAt(eye, target, up);
+}
+void Camera::Init()
 {
 	matView = Matrix4::createLookAt(eye, target, up);
 }

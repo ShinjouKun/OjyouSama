@@ -1,5 +1,6 @@
 #include "ElfRock.h"
-
+#include"../Collision/SpherCollider.h"
+#include "../Collision/BaseCollider.h"
 ElfRock::ElfRock(const Vector3 & pos, const Vector3 & ang, ObjectManager* objManager, std::shared_ptr<ModelRenderer> modelRender, int num, int rockScale)
 	:mModelRender(modelRender)
 {
@@ -23,7 +24,7 @@ void ElfRock::Init()
 	num = to_string(number);
 	numName = name + num;
 
-	isActive = true;
+	SetActive(false);
 
 	switch (mRockScale)
 	{
@@ -33,6 +34,7 @@ void ElfRock::Init()
 		//コライダーの情報をセット
 		SetCollidder(Vector3(position.x, position.y, position.z), radius);
 		mModelRender->AddModel(numName, "Resouse/stone_s.obj", "Resouse/stone-s_color.png");
+		mModelRender->SetAncPoint(numName, Vector3(0.0f, -2.0f, 0.0f));
 		break;
 	case 2:
 		scale = Vector3(2.0f, 2.0f, 2.0f);
@@ -40,6 +42,7 @@ void ElfRock::Init()
 		//コライダーの情報をセット
 		SetCollidder(Vector3(position.x, position.y, position.z), radius);
 		mModelRender->AddModel(numName, "Resouse/stone_m.obj", "Resouse/stone_ma.png");
+		mModelRender->SetAncPoint(numName, Vector3(0.0f, -2.0f, 0.0f));
 		break;
 	case 3:
 		scale = Vector3(5.0f, 5.0f, 5.0f);
@@ -47,36 +50,35 @@ void ElfRock::Init()
 		//コライダーの情報をセット
 		SetCollidder(Vector3(position.x, position.y, position.z), radius);
 		mModelRender->AddModel(numName, "Resouse/stone_big.obj", "Resouse/stone_bigA.png");
+		mModelRender->SetAncPoint(numName, Vector3(0.0f, -2.0f, 0.0f));
 		break;
 	}
 }
 
 void ElfRock::Update()
 {
-	Vector3 distance = mObjManager->GetPlayer().GetPosition() - position;
-	float length = distance.Length();
-
-	if (length > 100.0f)
-	{
-		isActive = false;
-	}
-	else
-	{
-		isActive = true;
-	}
+	ImGuiDebug();
 }
 
 void ElfRock::Rend()
 {
-	if (!isActive) return;
-	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	mModelRender->Draw(numName, position, angle, scale);
+	if (GetActive())
+	{
+		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
+		mModelRender->Draw(numName, position, angle, scale);
+	}
+	
 }
 
 void ElfRock::OnCollison(BaseCollider * col)
 {
+	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	{
+		SetActive(true);
+	}
 }
 
 void ElfRock::ImGuiDebug()
 {
+	ImGui::Checkbox("RockActive", &IsActive);
 }

@@ -68,7 +68,7 @@ void Select::UpdateScene()
 		}
 	}
 	mSound->playLoop();
-	mSound->setVol(0.5f);
+	mSound->setVol(0.0f);
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
 	setumeiFlag = false;

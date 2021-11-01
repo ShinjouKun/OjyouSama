@@ -21,6 +21,7 @@ enum ObjectType//オブジェクトのタグ
 	BLOCK,
 	BREADCRUMB,
 	ITEM,
+	CAMEAR,
 };
 
 class BaseObject
@@ -51,6 +52,8 @@ public:
 	virtual int GetHp() const { return HP; }
 	virtual bool GetDeath() { return death; }
 	virtual Vector3 GetPosition() { return position; }
+	virtual bool GetActive() { return IsActive; }
+	void SetActive(bool val);
 	void SetNumber(int num);
 	int GetNumber();
 
@@ -64,6 +67,7 @@ protected:
 	ObjectType objType;
 	int HP;
 	bool death;//死んでいるか
+	bool IsActive;//カメラの範囲内にいるか（又はプレイヤーの視界にいるか）
 	Vector3 position;
 	Vector3 velocity;
     Vector3 angle;

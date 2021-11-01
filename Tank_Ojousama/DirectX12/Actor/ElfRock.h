@@ -26,7 +26,6 @@ private:
 	Vector3 scale;
 	float radius;
 	int mRockScale;
-	bool isActive;
 
 	int number = 0;//識別番号
 	string name;   //キーワード登録

@@ -51,9 +51,13 @@ void CollisonManager::CheckAllCollisons()
 				colA->OnCollison(colB);
 				colB->OnCollison(colA);
 			}
-			
+			else
+			{
+				colA->GetColObject()->SetActive(false);
+			}
 		}
-
+		
+	
 		////‚Ç‚¿‚ç‚àAABB
 		//	if (colA->GetCollType() == AABB_COLLISON &&
 		//		colB->GetCollType() == AABB_COLLISON && colA != colB)
@@ -71,5 +75,5 @@ void CollisonManager::CheckAllCollisons()
 		
 
 	}
-
+	
 }
