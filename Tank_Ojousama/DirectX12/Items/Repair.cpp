@@ -2,13 +2,14 @@
 #include "../Collision/SpherCollider.h"
 #include"../Actor/Player.h"
 
-Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, int num, int maxAlive, int addHp):ItemModel(m)
+Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemState itemStates, int num, int maxAlive, int addHp):ItemModel(m)
 {
 	position = pos;
 	angle = ang;
 	objM = obj;
 	objType = ObjectType::ITEM;
 	itemName = ItemNames::heal;
+	itemState = itemStates;
 	itemHolder = holder;
 	alive_max = maxAlive;
 	healPoint = addHp;
@@ -31,6 +32,10 @@ void Repair::Init()
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
 	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
+	if (itemState == ItemState::Normal)
+	{
+		healPoint = 20;
+	}
 }
 
 void Repair::Update()

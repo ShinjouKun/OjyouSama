@@ -15,6 +15,8 @@ public:
 	void Reset();
 	void UseItem(ItemNames item);
 	void AddItem(ItemNames item);
+	void UseUlt(ItemNames item);
+	void AddUlt(ItemNames item);
 
 	void SetUseFlag(bool value);
 	bool GetUseFlag() { return useItems; };
@@ -22,6 +24,7 @@ public:
 private:
 	//ƒAƒCƒeƒ€‚Ì•Û”
 	unordered_map<ItemNames, int> items;
+	unordered_map<ItemNames, int> ults;
 	int count;
 	bool useItems;
 };
