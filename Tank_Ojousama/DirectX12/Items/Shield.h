@@ -7,7 +7,7 @@ class Player;
 class Shield :public Item
 {
 public:
-	Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, int num, int maxAlive);
+	Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemState itemState, int num, int maxAlive, int addHp);
 	~Shield();
 
 private:
