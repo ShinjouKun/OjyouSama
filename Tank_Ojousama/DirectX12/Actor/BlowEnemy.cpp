@@ -3,6 +3,8 @@
 #include "../ConstInfomation/Enemy/EnemyConstInfo.h"
 #include "../ConstInfomation/Enemy/BlowEnemyConstInfo.h"
 
+#include "../Utility/Random.h"
+
 namespace ECI = EnemyConstInfo;
 namespace BECI = BlowEnemyConstInfo;
 
@@ -44,18 +46,15 @@ void BlowEnemy::EnemyInit()
 
 	death = false;
 	breadcrumbMode = ECI::BRRADCRUMB_MODE;
-	destructMode = ECI::DESTRUCT_MODE;
+	DESTRUCT_MODE = ECI::DESTRUCT_MODE;
 	//turnaroundMode = ECI::TURNAROUND_MODE;
-	turnaroundMode = true;
+	TURNAROUND_MODE = true;
+	RECEIVEREPORT_MODE = true;
 
 	scale = BECI::SCALE;
 
 	objType = ObjectType::ENEMY;
 	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), radius));
-
-	//プレイヤー位置(仮)初期化
-	searchPoint.position = Vector3().zero;
-	searchPoint.radius = radius;
 
 	//センサーの初期化----------------
 	fanRotateOrigin = -angle.y - 90.0f;
@@ -85,6 +84,9 @@ void BlowEnemy::EnemyInit()
 	currentTrigger = false;
 	previousTri = false;
 	onTrigger = false;
+
+	//初期化するとパターンが変わる。使う直前にやるといい
+	Random::initialize();
 
 #pragma endregion
 
@@ -129,6 +131,9 @@ void BlowEnemy::EnemyUpdate()
 
 	//int debugHP = GetID();
 	//ImGui::SliderInt("MP-------------------", &debugHP, 0, 500);
+
+
+	//searchPlayerState = true;
 }
 
 void BlowEnemy::EnemyRend()
@@ -155,6 +160,25 @@ void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 
 		/*報告*/
 		InitSearch();
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	{
+		SetActive(true);
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::ENEMY)
+	{
+		//自分の番号が相手より小さかったら
+		if (col->GetColObject()->GetID() > GetID())
+		{
+			position = mPreviousPosition;
+		}
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
+	{
+		position = mPreviousPosition;
 	}
 }
 
