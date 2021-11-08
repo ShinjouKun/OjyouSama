@@ -19,31 +19,27 @@ BaseEnemy::~BaseEnemy()
 
 void BaseEnemy::Init()
 {
+	//最初は表示状態
+	SetActive(true);
+
 	Initialize();
 	EnemyInit();
 }
 
 void BaseEnemy::Update()
 {
+	//1フレーム前の位置を保存しておく。
+	mPreviousPosition = position - velocity;
+
 	mPlayerPosition = mManager->GetPlayer().GetPosition();
 
-	//プレイヤーとの距離が一定以下なら
-	if (InsideDistance(mPlayerPosition, 150.0f))
-	{
-		isActive = true;
-	}
-	else//そうでないなら
-	{
-		isActive = false;
-	}
+	//カメラの当たり判定次第で、この処理は消す。
+	//if (!GetActive()) return;
 
-	/*表示状態でないなら処理しない*/
-	if (!isActive) return;
-
-	if (!trackingPlayer && !trackingBreadcrumb)
+	if (RECEIVEREPORT_MODE && !trackingPlayer && !trackingBreadcrumb)
 	{
 		//5:AIから報告主に近い敵のIDリストを受け取る
-		for (int i = 0, end = mEnemyAI->GetIDList().size(); i < end; i++)
+		for (int i = 0, end = static_cast<int>(mEnemyAI->GetIDList().size()); i < end; i++)
 		{
 			//6:自身と受け取ったIDが一致しているかを確認する
 			if (GetID() == mEnemyAI->GetIDList()[i])
@@ -57,12 +53,6 @@ void BaseEnemy::Update()
 		}
 	}
 
-	//if (goalFlag)
-	//{
-	//	//角度を一度だけ取得
-	//	Vector3 test = this->angle;
-	//}
-
 	/*共通の要素*/
 	ChangeState(); //状態変更
 	SearchObject();//パンくずやプレイヤーを探す
@@ -71,23 +61,27 @@ void BaseEnemy::Update()
 
 void BaseEnemy::Rend()
 {
-	if (!isActive) return;
+	//if (!GetActive()) return;
 
-	//EnemyRend();
+	EnemyRend();
 }
 
 //ここはオブジェクトにぶつかった時しか入らない。
 void BaseEnemy::OnCollison(BaseCollider * col)
 {
-	if (!isActive) return;
+	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	{
+		//カメラに当たっているとき、描画を行う。
+		SetActive(true);
+	}
+
+	//if (!GetActive()) return;
 
 	EnemyOnCollision(col);
 }
 
 void BaseEnemy::ImGuiDebug()
 {
-	if (!isActive) return;
-
 	EnemyImGuiDebug();
 }
 
@@ -202,67 +196,25 @@ void BaseEnemy::ChangeState()
 
 void BaseEnemy::SearchObject()
 {
-	//mIntervalCount++;
+	//シーン上のプレイヤーの存在を確認
+	SearchPlayer();
 
-	//索敵中は検索回数を少なくする
-	if (actionState == ActionState::SEARCH)
+	//プレイヤーを追っていない & パンくず追跡機能がON　なら処理を実行
+	if (!trackingPlayer && breadcrumbMode)
 	{
-		//if (mIntervalCount % 60 == 0)
-		//{
-		//	//シーン上のプレイヤーの存在を確認
-		//	SearchPlayer();
+		auto BList = mBreadCreator->GetBreadList();
 
-		//	//プレイヤーを追っていない & パンくず追跡機能がON　なら処理を実行
-		//	if (!trackingPlayer && breadcrumbMode)
-		//	{
-		//		auto BList = mBreadCreator->GetBreadList();
-
-		//		for (int i = 0, end = static_cast<int>(BList.size()); i < end; i++)
-		//		{
-		//			SearchBreadCrumbTest(*BList[i]);
-		//		}
-		//	}
-		//}
+		for (int i = 0, end = static_cast<int>(BList.size()); i < end; i++)
+		{
+			SearchBreadCrumbTest(*BList[i]);
+		}
 	}
-	//else
-	//{
-	//	////4で割り切れる値になったら
-	//	////(60fpsなので1秒に15回検索)
-	//	//if (mIntervalCount % 4 == 0)
-	//	//{
-	//		//シーン上のプレイヤーの存在を確認
-	//		SearchPlayer();
-
-	//		//プレイヤーを追っていない & パンくず追跡機能がON　なら処理を実行
-	//		if (!trackingPlayer && breadcrumbMode)
-	//		{
-	//			//シーン上のパンくずの存在を確認
-	//			auto BList = mBreadCreator->GetBreadList();
-
-	//			for (int i = 0, end = static_cast<int>(BList.size()); i < end; i++)
-	//			{
-	//				SearchBreadCrumbTest(*BList[i]);
-	//			}
-	//		}
-	//	//}
-	//}
-
-	//if (mIntervalCount > 60)
-	//{
-	//	//60超えたら0に戻しておく
-	//	mIntervalCount = 0;
-	//}
-
 }
 
 void BaseEnemy::SearchPlayer()
 {
-	//センサーの情報をプレイヤー情報で更新
-	searchPoint.radius = 1.0f;
-	searchPoint.position = mPlayerPosition;
-
 	//センサーを更新
-	hitSensor = IsHitFanToPoint(fanInfo, searchPoint.position, searchPoint.radius);
+	hitSensor = IsHitFanToPoint(fanInfo, mPlayerPosition, 1.0f);
 
 	//プレイヤーがセンサーの中に入っていたら
 	if (hitSensor)
@@ -286,12 +238,10 @@ void BaseEnemy::SearchBreadCrumbTest(const TestBreadCrumb & breadCrumb)
 
 	//位置取得 & センサー情報更新
 	Vector3 breadPos = breadCrumb.GetPosition();
-	searchPoint.position = breadPos;
 
 	//サーチライトに当たっているオブジェクトのみ、マップに格納
-	if (IsHitFanToPoint(fanInfo, searchPoint.position))
+	if (IsHitFanToPoint(fanInfo, breadPos))
 	{
-
 		//オブジェクトの個体番号を取得
 		breadCount = breadCrumb.GetBreadNumber();
 
@@ -299,7 +249,6 @@ void BaseEnemy::SearchBreadCrumbTest(const TestBreadCrumb & breadCrumb)
 		auto itr = breadMap.find(breadCount);
 		if (itr == breadMap.end())
 		{
-
 			breadMap.emplace(breadCount, breadPos);
 		}
 	}
@@ -422,10 +371,10 @@ void BaseEnemy::TrackingObject()
 	if (trackingPlayer)
 	{
 		//移動
-		Move(searchPoint.position);
+		Move(mPlayerPosition);
 
 		//対象との距離が以下になったら到着完了とする。
-		if (InsideDistance(searchPoint.position, attackLength))
+		if (InsideDistance(mPlayerPosition, attackLength))
 		{
 			actionState = ActionState::ATTACK;
 		}
@@ -477,7 +426,7 @@ void BaseEnemy::DestructAction(shared_ptr<ModelRenderer> modelRender)
 	}
 
 	//移動
-	Move(searchPoint.position);
+	Move(mPlayerPosition);
 
 	//一度だけ実行
 	if (!isDestruct)
@@ -716,7 +665,7 @@ void BaseEnemy::DicideTurnAround()
 	hitAngle = angle;
 
 	//索敵状態でない or 振り向き機能がOFF なら処理をしない
-	if (actionState != ActionState::SEARCH || !turnaroundMode) return;
+	if (actionState != ActionState::SEARCH || !TURNAROUND_MODE) return;
 
 	//当たった位置と、現在の自分の向きを一時保存する。
 	hitPos = mPlayerPosition;
@@ -727,7 +676,7 @@ void BaseEnemy::DicideTurnAround()
 void BaseEnemy::TurnAround(int time)
 {
 	//振り向き機能がOFF or プレイヤーを追っている or 自爆状態 なら処理をしない
-	if (!turnaroundMode || trackingPlayer || isDestruct || trackingBreadcrumb || moveWayPoint) return;
+	if (!TURNAROUND_MODE || trackingPlayer || isDestruct || trackingBreadcrumb || moveWayPoint) return;
 
 	//①距離を調べる
 	Vector3 distance = hitPos - position;

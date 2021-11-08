@@ -45,20 +45,16 @@ void SniperEnemy::EnemyInit()
 	death = false;
 	trackingPlayer = false;
 	trackingBreadcrumb = false;
+	RECEIVEREPORT_MODE = true;
 	breadcrumbMode = ECI::BRRADCRUMB_MODE;
-	destructMode = ECI::DESTRUCT_MODE;
+	DESTRUCT_MODE = ECI::DESTRUCT_MODE;
 	//turnaroundMode = ECI::TURNAROUND_MODE;
-	turnaroundMode = true;
+	TURNAROUND_MODE = true;
 
-	//angle = Vector3(0.0f, 180.0f, 0.0f);//車体の向き
 	scale = SECI::SCALE;
 
 	objType = ObjectType::ENEMY;
 	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), radius));
-
-	//プレイヤー位置(仮)初期化
-	searchPoint.position = Vector3().zero;
-	searchPoint.radius = radius;
 
 	//センサーの初期化
 	fanRotateOrigin = -angle.y - 90.0f;
@@ -73,6 +69,8 @@ void SniperEnemy::EnemyInit()
 	//マップのクリア
 	breadMap.clear();
 
+	SetActive(false);
+
 #pragma endregion
 
 #pragma region モデルの読み込み
@@ -81,22 +79,25 @@ void SniperEnemy::EnemyInit()
 	tankBarrel = SECI::TANK_BARREL_NAME;
 	num = to_string(number);
 	numBarrel = tankBarrel + num;
-	modelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
-	modelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//中心点の変更
+	//modelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
+	modelRender->AddModel(numBarrel, "Resouse/leg_kutu.obj", "Resouse/leg_sneaker.png");
+	//modelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//中心点の変更
 
 	//戦車の砲塔(上の部分)Turret
 	tankTurret = SECI::TANK_TURRET_NAME;
 	num = to_string(number);
 	numTurret = tankTurret + num;
-	modelRender->AddModel(numTurret, "Resouse/BoxTankATKBR.obj", "Resouse/BoxTankATKBR.png");
-	modelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
+	//modelRender->AddModel(numTurret, "Resouse/BoxTankATKBR.obj", "Resouse/BoxTankATKBR.png");
+	modelRender->AddModel(numTurret, "Resouse/head_hand.obj", "Resouse/face_color.png");
+	//modelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
 
 	//戦車の車体(下の部分)Body
 	tankBody = SECI::TANK_BODY_NAME;
 	num = to_string(number);
 	numBody = tankBody + num;
-	modelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
-	modelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
+    //modelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
+	modelRender->AddModel(numBody, "Resouse/body_bow.obj", "Resouse/hand_bow_color.png");
+	//modelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
 
 #pragma endregion
 }
@@ -122,27 +123,14 @@ void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 		trackingBreadcrumb = false;
 	}
 
-	//if (col->GetColObject()->GetType() == ObjectType::BULLET)
-	//{
-	//	//ダメージを受ける
-	//	HP -= col->GetColObject()->GetDamage();
+	if (col->GetColObject()->GetType() == ObjectType::BULLET)
+	{
+		//ダメージを受ける
+		HP -= col->GetColObject()->GetDamage();
 
-	//	if (actionState == ActionState::SEARCH)
-	//	{
-	//		//ダメージを受けたら、報告を行う
-	//		Report(modelRender);
-	//	}
-	//}
-
-	////報告範囲に触れたら
-	//if (col->GetColObject()->GetType() == ObjectType::ITEM)
-	//{
-	//	if (actionState == ActionState::SEARCH)
-	//	{
-	//		//報告元に向かう行動をとる
-	//		InitSearch(col->GetColObject()->GetPosition());
-	//	}
-	//}
+		/*報告*/
+		InitSearch();
+	}
 }
 
 void SniperEnemy::EnemyImGuiDebug()

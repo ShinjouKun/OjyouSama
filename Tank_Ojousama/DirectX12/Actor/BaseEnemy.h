@@ -21,12 +21,6 @@ class Timer;
 class BaseEnemy : public BaseObject
 {
 protected:
-	//プレイヤーの情報
-	struct SearchPoint
-	{
-		Vector3 position;//中心点
-		float radius;    //半径
-	}searchPoint;
 
 	//扇の索敵範囲
 	struct FanInfomation
@@ -44,6 +38,11 @@ protected:
 		WARNING, //警戒
 		ATTACK,  //攻撃
 		DESTRUCT,//自爆
+		CHASE_PLAYER,//プレイヤー追跡中
+		CHASE_BREADCRUMB,//パンくず追跡中
+		TURN_AROUND,//回転中
+		REPORT,//報告中
+		RECEIVE_REPORT,
 	}actionState;
 
 public:
@@ -74,6 +73,9 @@ public:
 
 	/*オブジェクト検索まとめ()*/
 	virtual void SearchObject();
+
+	/*移動(移動先の位置)*/
+	void Move(const Vector3& otherPosition);
 
 	/*無敵時間(ダメージを受けない時間)*/
 	virtual void Invincible(int time);
@@ -140,9 +142,6 @@ private:
 	/*変数の初期化*/
 	void Initialize();
 
-	/*移動(移動先の位置)*/
-	void Move(const Vector3& otherPosition);
-
 	/*扇の情報変更*/
 	void SetFanInfo(float range = 60.0f, float length = 30.0f);
 
@@ -197,11 +196,16 @@ protected:
 	bool trackingPlayer;    //プレイヤーを追跡中か
 	bool trackingBreadcrumb;//パンくずを拾っているか
 	bool breadcrumbMode;    //パンくず追跡を行うかどうか
-	bool destructMode;      //瀕死時に自爆するかどうか
-	bool turnaroundMode;    //攻撃に当たった時にゆっくり振り向くかどうか
+	bool DESTRUCT_MODE;     //瀕死時に自爆するかどうか
+	bool TURNAROUND_MODE;   //攻撃に当たった時にゆっくり振り向くかどうか
 	bool moveWayPoint;      //WayPoint移動中か
+	bool RECEIVEREPORT_MODE;//報告を受け取るかどうか
+	bool moveFlag;          //移動しているかどうか
 
 	Vector3 scale;       //大きさ
+	Vector3 mPlayerPosition;//プレイヤーの位置
+	Vector3 mPreviousPosition;//前フレームの位置
+
 	//key = 識別番号　：　value = 位置
 	std::unordered_map<int, Vector3> breadMap;//パンくずリスト
 
@@ -240,7 +244,6 @@ private:
 	Vector3 hitAngle;    //攻撃が当たった角度を保存
 	Vector3 goalPoint;   //報告を出したオブジェクトの位置
 	Vector3 resultPoint; //向かうべきWayPointの位置
-	Vector3 mPlayerPosition;//プレイヤーの位置
 
 	static BreadCrumbCreater* mBreadCreator;    //パンくず作成クラス
 	static ObjectManager* mManager;
@@ -259,4 +262,5 @@ private:
 	bool mDeathFlag = false;
 
 	static EnemyAI * mEnemyAI;
+
 };

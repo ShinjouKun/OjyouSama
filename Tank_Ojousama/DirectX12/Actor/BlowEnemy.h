@@ -4,6 +4,8 @@
 
 #include "EnemyAI.h"
 
+class Random;
+
 class BlowEnemy : public BaseEnemy
 {
 public:

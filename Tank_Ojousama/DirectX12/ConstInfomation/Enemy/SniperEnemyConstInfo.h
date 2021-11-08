@@ -31,7 +31,7 @@ namespace SniperEnemyConstInfo
 	constexpr float FAN_LENGTH = 50.0f;
 
 	/*”¼Œa*/
-	constexpr float RADIUS = 2.0f;
+	constexpr float RADIUS = 1.0f;
 
 	/*UŒ‚”ÍˆÍ*/
 	constexpr float ATTACK_LENGTH = 30.0f;
@@ -40,7 +40,7 @@ namespace SniperEnemyConstInfo
 	constexpr float SWING_RANGE = 90.0f;
 
 	/*‘å‚«‚³*/
-	const Vector3 SCALE = Vector3(2.5f, 2.5f, 2.5f);
+	const Vector3 SCALE = Vector3(1.0f, 1.0f, 1.0f);
 
 	/*–Cg‚Ìƒ‚ƒfƒ‹–¼*/
 	const string TANK_BARREL_NAME = "SniperBarrel";
