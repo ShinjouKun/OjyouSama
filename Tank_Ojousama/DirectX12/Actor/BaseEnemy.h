@@ -13,6 +13,7 @@ class WayPointManager;
 class ReportArea;
 class BreadCrumbCreater;
 class TestBreadCrumb;
+class Timer;
 
 /// <summary>
 /// 敵の基底クラス
@@ -20,12 +21,6 @@ class TestBreadCrumb;
 class BaseEnemy : public BaseObject
 {
 protected:
-	//プレイヤーの情報
-	struct SearchPoint
-	{
-		Vector3 position;//中心点
-		float radius;    //半径
-	}searchPoint;
 
 	//扇の索敵範囲
 	struct FanInfomation
@@ -43,6 +38,11 @@ protected:
 		WARNING, //警戒
 		ATTACK,  //攻撃
 		DESTRUCT,//自爆
+		CHASE_PLAYER,//プレイヤー追跡中
+		CHASE_BREADCRUMB,//パンくず追跡中
+		TURN_AROUND,//回転中
+		REPORT,//報告中
+		RECEIVE_REPORT,
 	}actionState;
 
 public:
@@ -74,8 +74,8 @@ public:
 	/*オブジェクト検索まとめ()*/
 	virtual void SearchObject();
 
-	///*ダメージ処理(ダメージ量,objManager)*/
-	//virtual void Damage(int damage, const ObjectManager& objManager);
+	/*移動(移動先の位置)*/
+	void Move(const Vector3& otherPosition);
 
 	/*無敵時間(ダメージを受けない時間)*/
 	virtual void Invincible(int time);
@@ -95,11 +95,11 @@ public:
 	/*自爆行動(objManager, modelRender)(当たり判定オブジェクトをBase側で生成する)*/
 	virtual void DestructAction(shared_ptr<ModelRenderer> modelRender);
 
-	/*WayPoint追跡開始(報告主の位置,objManager,modelRender,WayPoint管理クラス(シーンに1つしかないやつ))*/
-	virtual void InitSearch(const Vector3& hitPosition);
+	/*WayPoint追跡開始(報告主の位置)*/
+	virtual void InitSearch();
 
-	/*WayPoint追跡を実行(必ずInitSearchが行われていないといけない)*/
-	virtual void SerachWayPoint();
+	///*WayPoint追跡を実行(必ずInitSearchが行われていないといけない)*/
+	//virtual void SerachWayPoint();
 
 	/*WayPoint変数の初期化*/
 	virtual void InitWayPoint();
@@ -107,8 +107,8 @@ public:
 	/*WayPointに向かって移動開始*/
 	virtual void WayPointMove();
 
-	/*報告範囲を表示する*/
-	virtual void Report(shared_ptr<ModelRenderer> modelRender);
+	///*報告範囲を表示する*/
+	//virtual void Report(shared_ptr<ModelRenderer> modelRender);
 
 	/*角度をベクトルに変換(Degree角度)(Yは変更なし)*/
 	virtual Vector3 AngleToVectorY(float angle)const;
@@ -122,42 +122,33 @@ public:
 	/*扇の当たり判定*/
 	virtual bool IsHitFanToPoint(const FanInfomation& fan, const Vector3& point, const float radius = 0.0f) const;
 
-	/*マネージャー取得*/
-	//static void SetManager(WayPointManager * manager);
-
 	/*パンくず生成器取得*/
 	static void SetBreadCreator(BreadCrumbCreater * breadCreator);
 
-	int GetHP()const { return HP; }
+	/*体力取得*/
+	int GetHP()const;
 
-	bool GetActive()const { return isActive; }
+	/*死亡フラグ取得*/
+	bool GetDeathFlag() const;
 
-	void SetActive(const bool value) { isActive = value; }
+	/*敵AIをセットする*/
+	static void SetEnemyAi(EnemyAI* enemyAI);
 
-
-	static void SetEnemyAi(EnemyAI* enemyAI) { mEnemyAI = enemyAI; }
-	static void SetObjectManager(ObjectManager* manager) { mManager = manager; }
-
-
+	/*オブジェクトマネージャーセット*/
+	static void SetObjectManager(ObjectManager* manager);
 
 private:
 
 	/*変数の初期化*/
 	void Initialize();
 
-	/*移動(移動先の位置)*/
-	void Move(const Vector3& otherPosition);
-
 	/*扇の情報変更*/
 	void SetFanInfo(float range = 60.0f, float length = 30.0f);
 
-	/*プレイヤー検索(objManager)*/
+	/*プレイヤー検索*/
 	void SearchPlayer();
 
-	///*パンくず検索(objManager)*/
-	//void SearchBreadCrumb(BaseObject* breadcrumb);
-
-	/*パンくず検索(objManager)*/
+	/*パンくず検索*/
 	void SearchBreadCrumbTest(const TestBreadCrumb& breadCrumb);
 
 	/*オブジェクト追跡に切り替え*/
@@ -172,20 +163,20 @@ private:
 	/*振り返り機能(振り向くのにかかる時間)*/
 	void TurnAround(int time);
 
-	/*シーン上のWayPointを取得し、リストに格納*/
-	void GetAllWayPoint();
+	///*シーン上のWayPointを取得し、リストに格納*/
+	//void GetAllWayPoint();
 
-	/*指定位置から最も近いポイントを取得(指定位置)*/
-	shared_ptr<TestWayPoint> NearWayPointStartTest(const Vector3 & point) const;
+	///*指定位置から最も近いポイントを取得(指定位置)*/
+	//shared_ptr<TestWayPoint> NearWayPointStartTest(const Vector3 & point) const;
 
-	/*自身から最も近いポイントn個を配列に格納(格納する個数)*/
-	void SearchPointToArrayTest(int length);
+	///*自身から最も近いポイントn個を配列に格納(格納する個数)*/
+	//void SearchPointToArrayTest(int length);
 
-	/*配列内で最も対象に近いWayPointを取得(指定配列,対象位置)*/
-	shared_ptr<TestWayPoint> NearWayPointArrayTest(const vector<shared_ptr<TestWayPoint>>& trans, const Vector3 & goal);
+	///*配列内で最も対象に近いWayPointを取得(指定配列,対象位置)*/
+	//shared_ptr<TestWayPoint> NearWayPointArrayTest(const vector<shared_ptr<TestWayPoint>>& trans, const Vector3 & goal);
 
-	/*検索済みと移動不可能フラグを初期化*/
-	void ClearFlag();
+	///*検索済みと移動不可能フラグを初期化*/
+	//void ClearFlag();
 
 protected:
 
@@ -205,11 +196,16 @@ protected:
 	bool trackingPlayer;    //プレイヤーを追跡中か
 	bool trackingBreadcrumb;//パンくずを拾っているか
 	bool breadcrumbMode;    //パンくず追跡を行うかどうか
-	bool destructMode;      //瀕死時に自爆するかどうか
-	bool turnaroundMode;    //攻撃に当たった時にゆっくり振り向くかどうか
+	bool DESTRUCT_MODE;     //瀕死時に自爆するかどうか
+	bool TURNAROUND_MODE;   //攻撃に当たった時にゆっくり振り向くかどうか
 	bool moveWayPoint;      //WayPoint移動中か
+	bool RECEIVEREPORT_MODE;//報告を受け取るかどうか
+	bool moveFlag;          //移動しているかどうか
 
 	Vector3 scale;       //大きさ
+	Vector3 mPlayerPosition;//プレイヤーの位置
+	Vector3 mPreviousPosition;//前フレームの位置
+
 	//key = 識別番号　：　value = 位置
 	std::unordered_map<int, Vector3> breadMap;//パンくずリスト
 
@@ -249,21 +245,22 @@ private:
 	Vector3 goalPoint;   //報告を出したオブジェクトの位置
 	Vector3 resultPoint; //向かうべきWayPointの位置
 
-	//static WayPointManager* mManager;           //ポイント生成クラス
 	static BreadCrumbCreater* mBreadCreator;    //パンくず作成クラス
 	static ObjectManager* mManager;
 	AttackArea* destructArea;                   //自爆範囲クラス
-	shared_ptr<TestWayPoint> mWay;              //生成用
-	vector<shared_ptr<TestWayPoint>> mTarget;   //自分から近いポイントを格納する
-	vector<shared_ptr<TestWayPoint>> mPointList;//フィールドにあるポイントを管理
+	//shared_ptr<TestWayPoint> mWay;              //生成用
+	//vector<shared_ptr<TestWayPoint>> mTarget;   //自分から近いポイントを格納する
+	//vector<shared_ptr<TestWayPoint>> mPointList;//フィールドにあるポイントを管理
 	std::vector<Vector3> moveList;              //実際に移動する位置を管理
 
 
 
-	ReportArea* mReportArea;//報告範囲クラス
+	//ReportArea* mReportArea;//報告範囲クラス
 
-	int testNumber = 0;
+	//int testNumber = 0;
 	int mIntervalCount = 0;
+	bool mDeathFlag = false;
 
 	static EnemyAI * mEnemyAI;
+
 };

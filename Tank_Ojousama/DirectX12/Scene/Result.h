@@ -11,6 +11,7 @@
 #include "../Render/TexRenderer.h"
 
 class Sound;
+class Timer;
 class Result :public BaseScene
 {
 public:
@@ -37,4 +38,11 @@ private:
 	Vector3 selectposition;
 	Vector3 camerapos = Vector3(0, 0, 0);
 	Vector3 setcamerapos = Vector3(10, 0, 10);
+	int speed;
+	float ojyouZ;
+	float ojyouY;
+	float ojyouXR;
+	float ojyouXL;
+
+	std::shared_ptr<Timer> mTimer;
 };

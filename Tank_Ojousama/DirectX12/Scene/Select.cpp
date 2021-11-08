@@ -38,7 +38,7 @@ void Select::StartScene()
 	garege = Vector3(32, 128 - 32, 0.0f);
 	option = Vector3(32, 192 - 32, 0.0f);
 	titleback = Vector3(32, 256 - 32, 0.0f);
-	BaseScene::mModel->AddModel("Sora", "Resouse/skybox.obj", "Resouse/skybox_A.png");
+	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mSprite->AddTexture("Arm", "Resouse/cars.png");
 	BaseScene::mSprite->AddTexture("AIM1", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("target", "Resouse/select.png");
@@ -68,7 +68,7 @@ void Select::UpdateScene()
 		}
 	}
 	mSound->playLoop();
-	mSound->setVol(0.0f);
+	mSound->setVol(BaseScene::mBGMSoundVol);
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
 	setumeiFlag = false;
@@ -100,6 +100,7 @@ void Select::UpdateScene()
 		}
 
 		//AIMópÉLÅ[èàóù
+
 		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
 		{
 			selectposition.y -= 64;
@@ -116,7 +117,7 @@ void Select::UpdateScene()
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				selectFlag = true;
-				mTimer->setTime(0.5f);
+				//mTimer->setTime(0.5f);
 			}
 		}
 		else if (selectposition.y == 128)
@@ -182,7 +183,7 @@ void Select::UpdateScene()
 			}
 		}
 
-		if (Input::KeyDown(DIK_B) || Input::pad_data.rgbButtons[1])
+		if (Input::KeyDown(DIK_B) || Input::pad_data.rgbButtons[3])
 		{
 			selectFlag = false;
 		}

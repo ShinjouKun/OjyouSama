@@ -1,16 +1,17 @@
 #include "Repair.h"
 #include "../Collision/SpherCollider.h"
-#include"../Actor/Player.h"
 
-Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, int num, int maxAlive):ItemModel(m)
+Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemState itemStates, int num, int maxAlive, int addHp):ItemModel(m)
 {
 	position = pos;
 	angle = ang;
 	objM = obj;
 	objType = ObjectType::ITEM;
 	itemName = ItemNames::heal;
+	itemState = itemStates;
 	itemHolder = holder;
 	alive_max = maxAlive;
+	healPoint = addHp;
 }
 
 Repair::~Repair()
@@ -24,13 +25,16 @@ void Repair::Init()
 	isGet = false;
 	active = false;
 	SetCollidder(Vector3(position.x, position.y, position.z), 0.5f);
-	healPoint = 2;
 	alive = 0;
 	name = "Repair";
 	num = to_string(number);
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
 	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
+	if (itemState == ItemState::Normal)
+	{
+		healPoint = 20;
+	}
 }
 
 void Repair::Update()
@@ -52,7 +56,7 @@ void Repair::Update()
 		active = true;
 	}
 
-	Heal(player);
+	Heal();
 }
 
 void Repair::Rend()
@@ -77,7 +81,7 @@ void Repair::OnCollison(BaseCollider * col)
 	}
 }
 
-void Repair::Heal(Player* player)
+void Repair::Heal()
 {
 	if (!active)
 	{

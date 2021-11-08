@@ -14,7 +14,6 @@
 #include "../Items/ItemHolder.h"
 #include "../Items/Repair.h"
 
-
 #include "../Actor/EnemyAI.h"
 
 class SniperEnemy;
@@ -22,6 +21,7 @@ class BlowEnemy;
 class WayPointManager;
 class BreadCrumbCreater;
 class Sound;
+class Timer;
 class GamePlay:public BaseScene
 {
 public:
@@ -60,11 +60,14 @@ private:
 	//リザルトフラグ
 	bool resultFlag = false;
 	int time = 0;
+	//ボリュームマスター用
+	float masterVol;
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;
 	Vector3 camerapos = Vector3(0, 0, 0);
 	Vector3 setcamerapos = Vector3(10, 0, 10);
+	Vector3 optionPos;
 	//BreadCrumbCreater* mBreadCreator;
 	//WayPointManager * mpointManager;
 
@@ -72,4 +75,5 @@ private:
 	shared_ptr<WayPointManager> mpointManager;
 
 	shared_ptr<EnemyAI> mEnemyAI;
+	std::shared_ptr<Timer> mTimer;
 };

@@ -10,6 +10,12 @@ enum ItemNames//アイテム判別用
 	smock,
 };
 
+enum ItemState
+{
+	Normal,
+	High,
+};
+
 //アイテムのベースオブジェクト
 
 class Item :public BaseObject
@@ -23,6 +29,8 @@ public:
 	virtual void SetIsGet(bool value);
 	
 	ItemNames GetItemNames() { return itemName; }
+	
+	ItemState GetItemState() { return itemState; }
 
 	//アイテムの使用フラグ
 	bool active;
@@ -39,6 +47,7 @@ protected:
 	string num;
 	string numName;
 	ItemNames itemName;//アイテム種類判別用
+	ItemState itemState;//アイテムのウルトかどうかの判定
 	//生存時間指定用
 	int alive;
 

@@ -8,11 +8,10 @@
 #include "../Actor/BlowEnemy.h"
 #include "../Actor/WayPointManager.h"
 #include "../Actor/BreadCrumbCreater.h"
+#include "../Utility/Timer/Timer.h"
 
 #include "../Actor/ElfTree.h"
 #include "../Actor/ElfRock.h"
-#include"../Actor/CameraEye.h"
-
 
 GamePlay::GamePlay()
 	:mSound(nullptr)
@@ -34,7 +33,10 @@ void GamePlay::StartScene()
 	posePos = Vector3(0, 0, 0);
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
+	optionPos = Vector3(180, 180, 0);
+	masterVol = 1;
 	//障害物
+
 //int s = 0;
 //float x_dis = 10.0f;
 //float z_dis = 0.0f;
@@ -76,56 +78,56 @@ void GamePlay::StartScene()
 
 	int objectCount = 0;
 
-//	/*スタート地点の木*/
+	/*スタート地点の木*/
 	for (int i = 130; i < 210; i += 20)
 	{
-		objM->Add(new ElfTree(Vector3(20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(20, 0.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-20, 0.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 	}
-//
-//	/*中央の木*/
-	/*for (int i = 40; i < 100; i += 20)
-	{
-		objM->Add(new ElfTree(Vector3(i, 4.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-i, 4.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	}*/
-//
-//	/*中央奥の木*/
-	/*for (int i = -50; i < 51; i += 25)
-	{
-		objM->Add(new ElfTree(Vector3(i, 4.0f, 30), Vector3(0.0f, 0.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	}*/
-//
-//	/*中央の岩*/
-	objM->Add(new ElfRock(Vector3(0.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, 0, 2));
-	objM->Add(new ElfRock(Vector3(+5.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, 1, 2));
-	objM->Add(new ElfRock(Vector3(-5.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel,2, 2));
-	objM->Add(new ElfRock(Vector3(+10.0f, 4.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), objM, BaseScene::mModel, 3, 2));
-	objM->Add(new ElfRock(Vector3(-10.0f, 4.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), objM, BaseScene::mModel,4, 2));
 
-//	/*左側の岩*/
-//	objM->Add(new ElfRock(Vector3(100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
-//	/*右側の岩*/
-//	objM->Add(new ElfRock(Vector3(-100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
-//
-//#pragma endregion
-//
-//#pragma region 敵の生成
-//
-//	int enemyCount = 0;
-//
-//	/*遠距離攻撃の敵*/
-//	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 10.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-//	objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 20.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-//	objM->Add(new SniperEnemy(Vector3(-10.0f, 0.0f, 20.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-//	objM->Add(new SniperEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-//	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-//	/*中央奥の木*/
-//	for (int i = -35; i < 50; i += 25)
-//	{
-//		objM->Add(new SniperEnemy(Vector3(i, 0.0f, -75.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-//	}
-//
+	/*中央の木*/
+	for (int i = 40; i < 100; i += 20)
+	{
+		objM->Add(new ElfTree(Vector3(i, 0.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-i, 0.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+	}
+
+	/*中央奥の木*/
+	for (int i = -50; i < 51; i += 25)
+	{
+		objM->Add(new ElfTree(Vector3(i, 0.0f, -80), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+	}
+
+	/*中央の岩*/
+	objM->Add(new ElfRock(Vector3(0.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(+5.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(-5.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(+10.0f, 0.0f, 5.0f), Vector3(0.0f, +45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(-10.0f, 0.0f, 5.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+
+	/*左側の岩*/
+	objM->Add(new ElfRock(Vector3(100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+	/*右側の岩*/
+	objM->Add(new ElfRock(Vector3(-100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+
+#pragma endregion
+
+#pragma region 敵の生成
+
+	int enemyCount = 0;
+
+	/*遠距離攻撃の敵*/
+	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 10.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 20.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(-10.0f, 0.0f, 20.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	/*中央奥の木*/
+	for (int i = -35; i < 50; i += 25)
+	{
+		objM->Add(new SniperEnemy(Vector3(i, 0.0f, -75.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	}
+
 
 	///*近距離攻撃の敵*/
  //   objM->Add(new BlowEnemy(Vector3(+90.0f, 0.0f, 100.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
@@ -167,30 +169,36 @@ void GamePlay::StartScene()
 	objM->Add(new GolemEnemy(Vector3(0.0f, 4.0f, -150.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
+	BaseScene::mSprite->AddTexture("AIM2", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("SelectAim", "Resouse/selectcursol.png");
 	BaseScene::mSprite->AddTexture("SBack", "Resouse/selectback.png");
 	BaseScene::mSprite->AddTexture("OptionP", "Resouse/option.png");
 	BaseScene::mSprite->AddTexture("Ritorai", "Resouse/ritorai.png");
-	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
+	BaseScene::mModel->AddModel("Sora2", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//プレイヤーは最後に、又はUIクラスを作る
 
-	objM->Add(new Player(Vector3(0.0f, 0.0f, 400.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
-	objM->Add(new CameraEye(Vector3(0,0, 400.0f), Vector3(0,0,0), objM));
-	//objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, 0, 500));
+	objM->Add(new Player(Vector3(0.0f, 0.0f, 180.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, 0, 500));
+
+	mTimer = std::make_shared<Timer>(0.01f);
 }
 
 void GamePlay::UpdateScene()
 {
-	//ImGui::Begin("pose");
-	//ImGui::Checkbox("selectflag", &pose);
-	//ImGui::SliderFloat("soundSize", &BaseScene::mMasterSoundVol, 0, 1);
-	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	//ImGui::End();
+	ImGui::Begin("pose");
+	ImGui::Checkbox("selectflag", &pose);
+	ImGui::SliderFloat("soundSize", &BaseScene::mMasterSoundVol, 0, 1);
+	ImGui::SliderFloat("soundSize", &BaseScene::mBGMSoundVol, 0, 1);
+	ImGui::SliderFloat("soundSize", &BaseScene::mSESoundVol, 0, 1);
+	ImGui::SliderFloat("soundSize", &masterVol, 0, 1);
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
 	if (Input::KeyDown(DIK_1))
-	{	
+	{
+		
 		NextScene(std::make_shared<Title>());
 	}
 
@@ -198,10 +206,15 @@ void GamePlay::UpdateScene()
 	mBreadCreator->DropBreadCrumb();
 
 
-
+	mTimer->update();
+	if (!mTimer->isTime()) return;
 	Pose();
 	Setting();
-	ResultF();
+	if (objM->GetGolem().GetHp() <= 0)
+	{
+		BaseScene::mMoney += 20000000;
+		NextScene(std::make_shared<Result>());
+	}
 	if (objM->GetPlayer().GetHp() <= 0)
 	{
 		NextScene(std::make_shared<Title>());
@@ -211,8 +224,8 @@ void GamePlay::UpdateScene()
 void GamePlay::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
-	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 100.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, 0.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
+	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(7, 7, 7));
+	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("AIM", Vector3((Window::Window_Width/2)-32,Window::Window_Height/2,0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
@@ -223,6 +236,11 @@ void GamePlay::DrawScene()
 		BaseScene::mSprite->Draw("OptionP", Vector3(820, 180, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("Ritorai", Vector3(500, 360, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("SelectAim", selectposition, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+	}
+	if (settingFlag)
+	{
+		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("AIM2", Vector3((Window::Window_Width / 2) - 32,  optionPos.y , 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 	if (resultFlag && time >= 300)
 	{
@@ -245,7 +263,7 @@ void GamePlay::Pose()
 			itemHolder->UseItem(ItemNames::heal);
 		}
 
-		if (Input::KeyDown(DIK_RETURN) || Input::KeyDown(DIK_NUMPADENTER))
+		if (Input::KeyDown(DIK_RETURN) || Input::pad_data.rgbButtons[11])
 		{
 			pose = true;
 		}
@@ -260,46 +278,50 @@ void GamePlay::Pose()
 		{
 			selectposition.x = 180;
 		}
-		if (Input::KeyDown(DIK_A) || Input::pad_data.lY < 0)
+		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 		{
 			if (selectposition.y == 360)
 			{
 				return;
 			}
 			selectposition.x -= 640;
+			mTimer->setTime(0.5f);
 		}
 
-		if (Input::KeyDown(DIK_D) || Input::pad_data.lY > 0)
+		if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
 		{
 			if (selectposition.y == 360)
 			{
 				return;
 			}
 			selectposition.x += 640;
+			mTimer->setTime(0.5f);
 		}
 		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
 		{
 			selectposition.y = 360;
 			selectposition.x = 500;
+			mTimer->setTime(0.5f);
 		}
-		if (Input::KeyDown(DIK_W) || Input::pad_data.lY > 0)
+		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
 		{
 			selectposition.y = 180;
 			selectposition.x = 180;
+			mTimer->setTime(0.5f);
 		}
 		if (selectposition.x == 180)
 		{
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<Select>());
+				NextScene(std::make_shared<Result>());
 			}
 		}
 		if (selectposition.x == 820)
 		{
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				//settingFlag = true;
-				//pose = false;
+				settingFlag = true;
+				pose = false;
 			}
 		}
 		if (selectposition.y == 360 && selectposition.x == 500)
@@ -319,25 +341,98 @@ void GamePlay::Pose()
 void GamePlay::Setting()
 {
 	mSound->playLoop();
-	mSound->setVol(0.0f);
+	mSound->setVol(BaseScene::mBGMSoundVol);
 	if (settingFlag == true)
 	{
-		if (BaseScene::mMasterSoundVol > 1.1f)
+		if (optionPos.y >= 541)
 		{
-			return;
-			if (Input::KeyDown(DIK_D) || Input::pad_data.lY > 0)
-			{
-				BaseScene::mMasterSoundVol += 0.1f;
-			}
+			optionPos.y = 180;
+		}	
+		if (optionPos.y <= 179)
+		{
+			optionPos.y = 540;
 		}
-		if (BaseScene::mMasterSoundVol < 0.0f)
+		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
 		{
-			return;
-			if (Input::KeyDown(DIK_A) || Input::pad_data.lY < 0)
+			optionPos += Vector3(0,  180.0f ,  0);
+			mTimer->setTime(0.5f);
+		}	
+		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
+		{
+			optionPos -= Vector3(0,  180.0f ,  0);
+			mTimer->setTime(0.5f);
+		}
+		//マスターボリューム
+		if (optionPos.y == 180)
+		{
+
+			if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+			{
+
+				BaseScene::mMasterSoundVol += 0.1f;
+				if (BaseScene::mMasterSoundVol >= 1.0f)
+				{
+					BaseScene::mMasterSoundVol = 1.0f;
+				}
+				mTimer->setTime(0.5f);
+			}
+			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 			{
 				BaseScene::mMasterSoundVol -= 0.1f;
+				if (BaseScene::mMasterSoundVol <= 0.0f)
+				{
+					BaseScene::mMasterSoundVol = 0.0f;
+				}
+				mTimer->setTime(0.5f);
 			}
 		}
+		//BGMボリューム
+		if (optionPos.y == 360)
+		{
+			if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+			{
+				BaseScene::mBGMSoundVol += 0.1f;
+				if (BaseScene::mBGMSoundVol >= 1.0f)
+				{
+					BaseScene::mBGMSoundVol = 1.0f;
+				}
+				mTimer->setTime(0.5f);
+			}
+			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+			{
+				BaseScene::mBGMSoundVol -= 0.1f;
+				if (BaseScene::mBGMSoundVol <= 0.0f)
+				{
+					BaseScene::mBGMSoundVol = 0.0f;
+				}
+				mTimer->setTime(0.5f);
+			}
+		}
+		//SEボリューム
+		if (optionPos.y == 540)
+		{
+			if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+			{
+				BaseScene::mSESoundVol += 0.1f;
+				if (BaseScene::mSESoundVol >= 1.0f)
+				{
+
+					BaseScene::mSESoundVol = 1.0f;
+				}
+				mTimer->setTime(0.5f);
+			}
+			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+			{
+				BaseScene::mSESoundVol -= 0.1f;
+				if (BaseScene::mSESoundVol <= 0.0f)
+				{
+
+					BaseScene::mSESoundVol = 0.0f;
+				}
+				mTimer->setTime(0.5f);
+			}
+		}
+
 
 		if (Input::KeyDown(DIK_RETURN) || Input::KeyDown(DIK_NUMPADENTER))
 		{

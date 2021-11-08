@@ -50,6 +50,28 @@ void ItemHolder::AddItem(ItemNames item)
 	items.insert_or_assign( item, count );
 }
 
+void ItemHolder::UseUlt(ItemNames item)
+{
+	count = ults[item] - 1;
+
+	if (count < 0)
+	{
+		return;
+	}
+
+
+	ults.insert_or_assign(item, count);
+
+	SetUseFlag(true);
+}
+
+void ItemHolder::AddUlt(ItemNames item)
+{
+	count = ults.count(item) + 1;
+
+	ults.insert_or_assign(item, count);
+}
+
 void ItemHolder::SetUseFlag(bool value)
 {
 	useItems = value;
