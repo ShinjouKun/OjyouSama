@@ -22,6 +22,8 @@ private:
 
 	virtual void OnCollison(BaseCollider * col) override;
 
+	void Guade();
+
 private:
 	ObjectManager* objM;
 	ItemHolder* itemHolder;
@@ -29,6 +31,7 @@ private:
 	int alive_max;
 	int guadePoint;
 	int saveHP;
+	int damege;
 
 	shared_ptr<ModelRenderer>ItemModel;
 };

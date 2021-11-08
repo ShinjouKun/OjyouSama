@@ -1,6 +1,5 @@
 #include "Repair.h"
 #include "../Collision/SpherCollider.h"
-#include"../Actor/Player.h"
 
 Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemState itemStates, int num, int maxAlive, int addHp):ItemModel(m)
 {
@@ -57,7 +56,7 @@ void Repair::Update()
 		active = true;
 	}
 
-	Heal(player);
+	Heal();
 }
 
 void Repair::Rend()
@@ -82,7 +81,7 @@ void Repair::OnCollison(BaseCollider * col)
 	}
 }
 
-void Repair::Heal(Player* player)
+void Repair::Heal()
 {
 	if (!active)
 	{

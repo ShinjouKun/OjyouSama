@@ -23,7 +23,7 @@ private:
 
 	virtual void OnCollison(BaseCollider * col) override;
 
-	void Heal(Player* player);
+	void Heal();
 
 private:
 	ObjectManager* objM;

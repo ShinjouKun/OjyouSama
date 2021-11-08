@@ -1,6 +1,5 @@
 #include "Shield.h"
 #include "../Collision/SpherCollider.h"
-#include"../Actor/Player.h"
 
 
 Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemState itemStates, int num, int maxAlive, int addHp) :ItemModel(m)
@@ -78,4 +77,26 @@ void Shield::OnCollison(BaseCollider * col)
 		itemHolder->AddItem(itemName);
 		isGet = true;
 	}
+
+	if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET)
+	{
+		damege = col->GetColObject()->GetDamage();
+		Guade();
+	}
+}
+
+void Shield::Guade()
+{
+	if (!active)
+	{
+		return;
+	}
+
+	guadePoint -= damage;
+
+	if (guadePoint <= 0)
+	{
+		active = false;
+	}
+
 }
