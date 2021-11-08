@@ -177,6 +177,7 @@
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\ItemHolder.cpp" />
     <ClCompile Include="Items\Repair.cpp" />
+    <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
@@ -223,6 +224,7 @@
     <ClCompile Include="Sound\Volume\SoundVolume.cpp" />
     <ClCompile Include="Sound\XAudio2\SoundBase.cpp" />
     <ClCompile Include="Sound\XAudio2\XAudio2.cpp" />
+    <ClCompile Include="Transform\Transform3D.cpp" />
     <ClCompile Include="Utility\ImGuiSimplified.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -443,6 +445,7 @@
     <ClInclude Include="Items\Item.h" />
     <ClInclude Include="Items\ItemHolder.h" />
     <ClInclude Include="Items\Repair.h" />
+    <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />
     <ClInclude Include="Render\Camera.h" />
@@ -510,6 +513,7 @@
     <ClInclude Include="Sound\Volume\SoundVolume.h" />
     <ClInclude Include="Sound\XAudio2\SoundBase.h" />
     <ClInclude Include="Sound\XAudio2\XAudio2.h" />
+    <ClInclude Include="Transform\Transform3D.h" />
     <ClInclude Include="Utility\ImGuiSimplified.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
