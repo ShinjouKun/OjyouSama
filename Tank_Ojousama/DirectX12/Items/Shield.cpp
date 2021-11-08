@@ -1,7 +1,8 @@
-#include "Repair.h"
+#include "Shield.h"
 #include "../Collision/SpherCollider.h"
 
-Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemState itemStates, int num, int maxAlive, int addHp):ItemModel(m)
+
+Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemState itemStates, int num, int maxAlive, int addHp) :ItemModel(m)
 {
 	position = pos;
 	angle = ang;
@@ -11,15 +12,14 @@ Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, share
 	itemState = itemStates;
 	itemHolder = holder;
 	alive_max = maxAlive;
-	healPoint = addHp;
+	guadePoint = addHp;
 }
 
-Repair::~Repair()
+Shield::~Shield()
 {
-	
 }
 
-void Repair::Init()
+void Shield::Init()
 {
 	death = false;
 	isGet = false;
@@ -33,20 +33,20 @@ void Repair::Init()
 	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
 	if (itemState == ItemState::Normal)
 	{
-		healPoint = 20;
+		guadePoint = 20;
 	}
 }
 
-void Repair::Update()
+void Shield::Update()
 {
 	angle.y++;
 	alive++;
-	if (angle.z >= 360&&!isGet)
+	if (angle.z >= 360 && !isGet)
 	{
 		angle.z = 0;
 	}
 
-	if (alive >= alive_max&&!isGet)
+	if (alive >= alive_max && !isGet)
 	{
 		death = true;
 	}
@@ -55,11 +55,9 @@ void Repair::Update()
 	{
 		active = true;
 	}
-
-	Heal();
 }
 
-void Repair::Rend()
+void Shield::Rend()
 {
 	if (!isGet)
 	{
@@ -68,29 +66,37 @@ void Repair::Rend()
 	}
 }
 
-void Repair::ImGuiDebug()
+void Shield::ImGuiDebug()
 {
 }
 
-void Repair::OnCollison(BaseCollider * col)
+void Shield::OnCollison(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::PLAYER)
 	{
 		itemHolder->AddItem(itemName);
 		isGet = true;
 	}
+
+	if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET)
+	{
+		damege = col->GetColObject()->GetDamage();
+		Guade();
+	}
 }
 
-void Repair::Heal()
+void Shield::Guade()
 {
 	if (!active)
 	{
 		return;
 	}
-	
-	saveHP=objM->GetPlayer().GetHP()+healPoint;
-	
-	objM->GetPlayer().SetHP(saveHP);
-	active = false;
-	itemHolder->SetUseFlag(false);
+
+	guadePoint -= damage;
+
+	if (guadePoint <= 0)
+	{
+		active = false;
+	}
+
 }

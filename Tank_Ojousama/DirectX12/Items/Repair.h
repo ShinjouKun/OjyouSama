@@ -8,7 +8,7 @@ class Player;
 class Repair :public Item
 {
 public:
-	Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj,  shared_ptr<ModelRenderer>m, ItemHolder* holder, int num, int maxAlive);
+	Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj,  shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemState itemState, int num, int maxAlive, int addHp);
 	~Repair();
 
 private:
@@ -23,7 +23,7 @@ private:
 
 	virtual void OnCollison(BaseCollider * col) override;
 
-	void Heal(Player* player);
+	void Heal();
 
 private:
 	ObjectManager* objM;
