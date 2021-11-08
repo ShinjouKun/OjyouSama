@@ -29,7 +29,7 @@ void Title::StartScene()
 	BaseScene::mSprite->AddTexture("Push", "Resouse/start.png");
 	BaseScene::mSprite->AddTexture("Heart", "Resouse/heart.png");
 	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
-	BaseScene::mModel->AddModel("Sora", "Resouse/skybox.obj", "Resouse/skybox_A.png");
+	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/ground.png");
 
 	BaseScene::mModel->AddModel("TankPlayerA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
@@ -43,7 +43,7 @@ void Title::StartScene()
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//mSound->play();
-	mSound->setVol(0.0f);
+	mSound->setVol(BaseScene::mBGMSoundVol);
 }
 
 void Title::UpdateScene()
@@ -82,6 +82,7 @@ void Title::DrawScene()
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("Title", Vector3(100, 100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Push", Vector3(600, 300, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	//BaseScene::mSprite->SetSize("Fade", Vector2(560-fade, 0-fade));
 	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 	//BaseScene::mSprite->Draw("Heart", Vector3(0, 0, 0), 0.0f, Vector2(100, 1), Vector4(1, 1, 1, 1));
 }
