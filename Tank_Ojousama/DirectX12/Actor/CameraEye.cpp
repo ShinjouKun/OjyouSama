@@ -1,6 +1,8 @@
 #include "CameraEye.h"
 #include"../Collision/SpherCollider.h"
-#include "../Collision/BaseCollider.h"
+#include"../Collision/BaseCollider.h"
+#include "../Collision/AABBCollider.h"
+#include "../Device/Input.h"
 CameraEye::CameraEye(Vector3 pos, Vector3 ang, ObjectManager * obj)
 {
 	position = pos;
@@ -16,13 +18,25 @@ void CameraEye::Init()
 {
 	death = false;
 	objType = ObjectType::CAMEAR;
-	SetCollidder(Vector3(position.x, position.y, position.z), 10.0f);//Ž‹”F”ÍˆÍ
+	SetCollidder(Vector3(0,0,-110),10);//Ž‹”F”ÍˆÍ
 }
 
 void CameraEye::Update()
 {
 	ImGuiDebug();
-	this->position = objM->GetPlayer().GetPosition();
+	velocity = Vector3(0, 0, 0);
+	position = objM->GetPlayer().GetPosition();
+	camVel = RotateY(angle.y + 90.0f)*8.0f;
+	position = position + camVel;
+	if (Input::KeyState(DIK_RIGHT) || Input::pad_data.lZ > 0)
+	{
+		angle.y += 1.0f;
+	}
+	if (Input::KeyState(DIK_LEFT) || Input::pad_data.lZ < 0)
+	{
+		angle.y -= 1.0f;
+	}
+	
 }
 
 void CameraEye::Rend()

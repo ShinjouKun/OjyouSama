@@ -192,6 +192,7 @@ BaseObject & ObjectManager::GetPlayer() const
 	return *player;
 }
 
+
 BaseObject & ObjectManager::GetGolem() const
 {
 	BaseObject* boss = nullptr;

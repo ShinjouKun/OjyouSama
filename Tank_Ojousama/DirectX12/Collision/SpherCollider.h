@@ -18,7 +18,7 @@ public:
 	inline void SetRadiuse(float radius) { this->radius = radius; }//”¼ŒaƒZƒbƒg
 private:
 	Vector3 offset;
-	float radius;
+	float rad;
 	// BaseCollider ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
 	virtual void Regist() override;
 

@@ -135,6 +135,7 @@ void Player::Init()
 
 	angle = Vector3(0.0f, 0.0f, 0.0f);//車体
 	atkAngle = 0.0f;//砲塔
+	freeAngle = 0.0f;
 	fireAngle = 0.0f;
 	speed = 0.0f;
 	maxSpeed = 0.5f;
@@ -148,11 +149,11 @@ void Player::Init()
 
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x, position.y, position.z), 1.0f);
+	SetCollidder(Vector3(0,0,0), 1.0f);
 	ojyouY = 0.0f;
 	ojyouXR = 0.0f;
 	ojyouXL = 0.0f;
-	//SetCollidder(Vector3(position.x, position.y, position.z), Vector3(position.x + 2.0f, position.y + 2.0f, position.z + 2.0f));
+	//SetCollidder(Vector3(position.x, position.y, position.z), Vector3(2.0f,2.0f,2.0f));
 }
 
 void Player::Update()
@@ -257,11 +258,12 @@ void Player::Update()
 			atkAngle -= cameraSpeed;
 		}
 		//カメラ更新
-		
 		CamVelocity = RotateY(atkAngle - 90.0f)*8.0f;
 		CameraPos = position + CamVelocity;
 		camera->SetEye(Vector3(CameraPos.x, CameraPos.y + 6.0f, CameraPos.z));
 		camera->SetTarget(Vector3(position.x, position.y + 6.0f, position.z));
+
+
 		if (shotFlag1)
 		{
 			int t = objM->GetReloadTime();
@@ -381,7 +383,6 @@ void Player::OnCollison(BaseCollider* col)
 			HitFlag = true;
 		}
 	}
-
 
 	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
 	{

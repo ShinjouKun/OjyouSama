@@ -551,6 +551,7 @@ void GolemEnemy::Init()
 	guardFlag = false;
 	batteleS = GolemBatteleStatus::SAFE_G;
 	SetCollidder(Vector3(position.x,position.y,position.z), 2.0f);
+	
 }
 
 void GolemEnemy::Update()

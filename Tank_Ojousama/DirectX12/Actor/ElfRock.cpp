@@ -1,5 +1,4 @@
 #include "ElfRock.h"
-#include"../Collision/SpherCollider.h"
 #include "../Collision/BaseCollider.h"
 ElfRock::ElfRock(const Vector3 & pos, const Vector3 & ang, ObjectManager* objManager, std::shared_ptr<ModelRenderer> modelRender, int num, int rockScale)
 	:mModelRender(modelRender)
@@ -40,7 +39,8 @@ void ElfRock::Init()
 		scale = Vector3(2.0f, 2.0f, 2.0f);
 		radius = 1.5f;
 		//コライダーの情報をセット
-		SetCollidder(Vector3(position.x, position.y, position.z), radius);
+		SetCollidder(Vector3(0,0,0), radius);
+		//SetCollidder(Vector3(-2,-4,-2), Vector3(2,4,2));//視認範囲
 		mModelRender->AddModel(numName, "Resouse/stone_m.obj", "Resouse/stone_ma.png");
 		mModelRender->SetAncPoint(numName, Vector3(0.0f, -2.0f, 0.0f));
 		break;
@@ -80,5 +80,7 @@ void ElfRock::OnCollison(BaseCollider * col)
 
 void ElfRock::ImGuiDebug()
 {
-	ImGui::Checkbox("RockActive", &IsActive);
+	/*ImGui::Checkbox("RockActive", &IsActive);
+	float pos[3] = { position.x,position.y,position.z };
+	ImGui::SliderFloat3("RockPos", pos, -10, 10);*/
 }

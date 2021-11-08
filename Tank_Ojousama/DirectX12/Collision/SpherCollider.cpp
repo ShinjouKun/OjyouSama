@@ -3,7 +3,7 @@
 #include"../Collision/CollisonTree.h"
 #include"../Collision/OctTreeManager.h"
 SphereCollider::SphereCollider(const Vector3& offset, float radius)
-	: offset(offset), radius(radius)
+	: offset(offset), rad(radius)
 {
 	collisonTypes = SPHERE_COLLISON;//球判定をセット
 	colT = new CollisonTree();//コリジョンツリー用生成
@@ -18,9 +18,10 @@ SphereCollider::~SphereCollider()
 void SphereCollider::Update()
 {
 	//座標系にずれが出る可能性があるので注意
-	Sphere::center = object->GetPosition();
+	Sphere::center = offset + object->GetPosition();
+	//Sphere::center = object->GetPosition();
 	//Sphere::center = offset;
-	Sphere::radius = radius;
+	Sphere::radius = rad;
 	//いったん削除
 	colT->Remove();
 	////ここでツリーに再登録

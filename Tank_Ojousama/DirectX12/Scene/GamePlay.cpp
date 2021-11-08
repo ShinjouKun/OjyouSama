@@ -84,17 +84,17 @@ void GamePlay::StartScene()
 	}
 //
 //	/*中央の木*/
-	for (int i = 40; i < 100; i += 20)
+	/*for (int i = 40; i < 100; i += 20)
 	{
 		objM->Add(new ElfTree(Vector3(i, 4.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 		objM->Add(new ElfTree(Vector3(-i, 4.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	}
+	}*/
 //
 //	/*中央奥の木*/
-	for (int i = -50; i < 51; i += 25)
+	/*for (int i = -50; i < 51; i += 25)
 	{
 		objM->Add(new ElfTree(Vector3(i, 4.0f, 30), Vector3(0.0f, 0.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	}
+	}*/
 //
 //	/*中央の岩*/
 	objM->Add(new ElfRock(Vector3(0.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, 0, 2));
@@ -171,15 +171,15 @@ void GamePlay::StartScene()
 	BaseScene::mSprite->AddTexture("SBack", "Resouse/selectback.png");
 	BaseScene::mSprite->AddTexture("OptionP", "Resouse/option.png");
 	BaseScene::mSprite->AddTexture("Ritorai", "Resouse/ritorai.png");
-	BaseScene::mModel->AddModel("Sora2", "Resouse/skydome.obj", "Resouse/skydome.jpg");
+	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//プレイヤーは最後に、又はUIクラスを作る
 
-	objM->Add(new Player(Vector3(0.0f, 0.0f, 180.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
-	objM->Add(new CameraEye(Vector3(0,0, 180.0f), Vector3(0,0,0), objM));
-	objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, 0, 500));
+	objM->Add(new Player(Vector3(0.0f, 0.0f, 400.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	objM->Add(new CameraEye(Vector3(0,0, 400.0f), Vector3(0,0,0), objM));
+	//objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, 0, 500));
 }
 
 void GamePlay::UpdateScene()
@@ -190,8 +190,7 @@ void GamePlay::UpdateScene()
 	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	//ImGui::End();
 	if (Input::KeyDown(DIK_1))
-	{
-		
+	{	
 		NextScene(std::make_shared<Title>());
 	}
 
@@ -212,8 +211,8 @@ void GamePlay::UpdateScene()
 void GamePlay::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
-	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(7, 7, 7));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
+	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 100.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
+	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, 0.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("AIM", Vector3((Window::Window_Width/2)-32,Window::Window_Height/2,0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
