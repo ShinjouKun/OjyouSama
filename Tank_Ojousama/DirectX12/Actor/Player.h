@@ -67,6 +67,8 @@ private:
 	float ojyouY;
 	float ojyouXR;
 	float ojyouXL;
+
+	
 	//ƒTƒEƒ“ƒh
 
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½

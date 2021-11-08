@@ -24,4 +24,5 @@ private:
 	virtual void OnCollison(BaseCollider * col) override;
 private:
 	ObjectManager* objM;
+	Vector3 camVel;
 };

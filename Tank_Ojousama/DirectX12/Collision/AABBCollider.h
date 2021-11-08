@@ -3,7 +3,8 @@
 #include "CollisionPrimitive.h"
 #include "../Math/Vector3.h"
 #include<cmath>
-
+#include<memory>
+using namespace std;
 
 class  AABBCollider : public BaseCollider, public AABB
 {

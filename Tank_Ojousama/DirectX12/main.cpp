@@ -148,7 +148,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//投げる用の石
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/throw.obj");
 	//ステージ
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/skydome.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/skybox.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ground.obj");
 	//いろいろ使えるプレーン
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Plane.obj");

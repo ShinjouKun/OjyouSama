@@ -70,17 +70,17 @@ void BaseObject::SetCollidder(const Vector3 & center, float rad)
 	//”ª•ª–Ø“o˜^
 	this->collider->Regist();
 }
-//
-//void BaseObject::SetCollidder(const Vector3 & min, const Vector3 & max)
-//{
-//	this->collider = new AABBCollider(min, max);
-//	this->collider->SetObject(this);
-//	//ƒRƒŠƒWƒ‡ƒ“ƒ}ƒl[ƒWƒƒ[‚É“o˜^
-//	CollisonManager::GetInstance()->AddCollider(collider);
-//	collider->Update();
-//	//”ª•ª–Ø“o˜^
-//	this->collider->Regist();
-//}
+
+void BaseObject::SetCollidder(const Vector3 & min, const Vector3 & max)
+{
+	this->collider = new AABBCollider(min, max);
+	this->collider->SetObject(this);
+	//ƒRƒŠƒWƒ‡ƒ“ƒ}ƒl[ƒWƒƒ[‚É“o˜^
+	CollisonManager::GetInstance()->AddCollider(collider);
+	collider->Update();
+	//”ª•ª–Ø“o˜^
+	this->collider->Regist();
+}
 
 size_t BaseObject::GetID() const
 {

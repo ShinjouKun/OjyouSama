@@ -40,6 +40,21 @@ bool Collision::AABBColl(const AABB & box1, const AABB & box2)
 	return true;//衝突確認
 }
 
+bool Collision::StoAABBCol(const Sphere & s, const AABB & b)
+{
+	if (s.center.x < b.min.x)return false;
+	if (s.center.x > b.max.x)return false;
+
+	if (s.center.y < b.min.y)return false;
+	if (s.center.y > b.max.y)return false;
+
+	if (s.center.z < b.min.z)return false;
+	if (s.center.z > b.max.z)return false;
+
+	return true;
+
+}
+
 bool Collision::StoPColl(const Sphere& sphere, const Plane& plane, Vector3 * inter)
 {
 	//座標系の原点から球の中心座標への距離

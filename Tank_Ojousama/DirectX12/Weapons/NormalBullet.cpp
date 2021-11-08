@@ -31,7 +31,7 @@ void NormalBullet::Init()
 	death = false;
 	speed = 1.5f;
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x, position.y, position.z), 0.5f);
+	SetCollidder(Vector3(0,0,0), 0.5f);
 }
 
 void NormalBullet::Update()

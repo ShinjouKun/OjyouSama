@@ -30,12 +30,12 @@ void ElfTree::Init()
 	mModelRender->AddModel(numName, "Resouse/wood.obj", "Resouse/Big-treeA.png");
 	mModelRender->SetAncPoint(numName, Vector3(0.0f, -2.0f, 0.0f));
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x, position.y, position.z), radius);
+	SetCollidder(Vector3(0,0,0), radius);
 }
 
 void ElfTree::Update()
 {
-	ImGui::Checkbox("TreeActive", &IsActive);
+	//ImGui::Checkbox("TreeActive", &IsActive);
 }
 
 void ElfTree::Rend()

@@ -44,7 +44,7 @@ public:
 	//当たり判定
 	void SetCollidder(BaseCollider* collider);
 	void SetCollidder(const Vector3& center,float rad);//円
-	//void SetCollidder(const Vector3& min,const Vector3& max);//AABB
+	void SetCollidder(const Vector3& min,const Vector3& max);//AABB
 	//衝突時コールバック
 	virtual void OnCollison(BaseCollider* col) = 0;
 	//Get　Set
@@ -52,6 +52,7 @@ public:
 	virtual int GetHp() const { return HP; }
 	virtual bool GetDeath() { return death; }
 	virtual Vector3 GetPosition() { return position; }
+	virtual Vector3 GetAngle() { return angle; }
 	virtual bool GetActive() { return IsActive; }
 	void SetActive(bool val);
 	void SetNumber(int num);
