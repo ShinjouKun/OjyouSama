@@ -3,6 +3,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Matrix4.h"
+#include "Quaternion.h"
 #include "Easing.h"
 #include <limits>
 

@@ -1,4 +1,7 @@
 #pragma once
+
+class Vector2;
+
 class Vector3
 {
 public:
@@ -7,6 +10,8 @@ public:
 	float z;
 	Vector3();
 	Vector3(float x,float y,float z);
+	Vector3(const Vector2& vec2, float z = 0.f);
+	Vector3(const Vector3& vec3);
 	~Vector3();
 
 	float Length()const;
@@ -22,8 +27,10 @@ public:
 	Vector3 operator +()const;
 	Vector3 operator -()const;
 	//代入演算子オーバーロード
+	Vector3& operator=(const Vector3& vec);
 	Vector3& operator += (const Vector3& v);
 	Vector3& operator -= (const Vector3& v);
+	Vector3& operator *=(const Vector3& v);
 	Vector3& operator *=(float s);
 	Vector3& operator /=(float s);
 
@@ -43,6 +50,7 @@ private:
 //二項演算子オーバーロード
 const Vector3 operator + (const Vector3& v1, const Vector3& v2);
 const Vector3 operator - (const Vector3& v1, const Vector3& v2);
+const Vector3 operator * (const Vector3& left, const Vector3& right);
 const Vector3 operator * (const Vector3& v, float s);
 const Vector3 operator * (float s, const Vector3& v);
 const Vector3 operator / (const Vector3& v, float s);
