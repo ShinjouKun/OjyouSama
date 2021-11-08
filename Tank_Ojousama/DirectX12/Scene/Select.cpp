@@ -38,7 +38,7 @@ void Select::StartScene()
 	garege = Vector3(32, 128 - 32, 0.0f);
 	option = Vector3(32, 192 - 32, 0.0f);
 	titleback = Vector3(32, 256 - 32, 0.0f);
-	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
+	BaseScene::mModel->AddModel("Sora", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mSprite->AddTexture("Arm", "Resouse/cars.png");
 	BaseScene::mSprite->AddTexture("AIM1", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("target", "Resouse/select.png");

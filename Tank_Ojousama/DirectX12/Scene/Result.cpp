@@ -26,7 +26,7 @@ void Result::StartScene()
 	BaseScene::mSprite->AddTexture("OptionP", "Resouse/option.png");
 	BaseScene::mSprite->AddTexture("Ritorai", "Resouse/ritorai.png");
 	BaseScene::mSprite->AddTexture("Kakutoku", "Resouse/kakutoku.png");
-	BaseScene::mModel->AddModel("Sora2", "Resouse/skydome.obj", "Resouse/skydome.jpg");
+	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);

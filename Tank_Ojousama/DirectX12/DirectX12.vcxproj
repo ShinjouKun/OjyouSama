@@ -158,10 +158,12 @@
     <ClCompile Include="Actor\BreadCrumb.cpp" />
     <ClCompile Include="Actor\BreadCrumbCreater.cpp" />
     <ClCompile Include="Actor\CameraEye.cpp" />
+    <ClCompile Include="Actor\CEnemy.cpp" />
     <ClCompile Include="Actor\ElfRock.cpp" />
     <ClCompile Include="Actor\ElfTree.cpp" />
     <ClCompile Include="Actor\EnemyAI.cpp" />
     <ClCompile Include="Actor\GolemEnemy.cpp" />
+    <ClCompile Include="Actor\MemberEnemy.cpp" />
     <ClCompile Include="Actor\ReportArea.cpp" />
     <ClCompile Include="Actor\SniperEnemy.cpp" />
     <ClCompile Include="Actor\TestBreadCrumb.cpp" />
@@ -250,6 +252,7 @@
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Device\Window.cpp" />
+    <ClCompile Include="Utility\Random.cpp" />
     <ClCompile Include="Utility\Timer\Timer.cpp" />
     <ClCompile Include="Weapons\LandMine.cpp" />
     <ClCompile Include="Weapons\MashinGun.cpp" />
@@ -417,10 +420,12 @@
     <ClInclude Include="Actor\BreadCrumb.h" />
     <ClInclude Include="Actor\BreadCrumbCreater.h" />
     <ClInclude Include="Actor\CameraEye.h" />
+    <ClInclude Include="Actor\CEnemy.h" />
     <ClInclude Include="Actor\ElfRock.h" />
     <ClInclude Include="Actor\ElfTree.h" />
     <ClInclude Include="Actor\EnemyAI.h" />
     <ClInclude Include="Actor\GolemEnemy.h" />
+    <ClInclude Include="Actor\MemberEnemy.h" />
     <ClInclude Include="Actor\ReportArea.h" />
     <ClInclude Include="Actor\SniperEnemy.h" />
     <ClInclude Include="Actor\TestBreadCrumb.h" />
@@ -541,6 +546,8 @@
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
+    <ClInclude Include="Utility\Random.h" />
+    <ClInclude Include="Utility\SmartPtr.h" />
     <ClInclude Include="Utility\Timer\Timer.h" />
     <ClInclude Include="Utility\WCHAR_char.h" />
     <ClInclude Include="Device\Window.h" />

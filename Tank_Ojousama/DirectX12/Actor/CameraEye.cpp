@@ -18,7 +18,7 @@ void CameraEye::Init()
 {
 	death = false;
 	objType = ObjectType::CAMEAR;
-	SetCollidder(Vector3(0,0,-110),10);//Ž‹”F”ÍˆÍ
+	SetCollidder(Vector3(0,0,-90),10);//Ž‹”F”ÍˆÍ
 }
 
 void CameraEye::Update()

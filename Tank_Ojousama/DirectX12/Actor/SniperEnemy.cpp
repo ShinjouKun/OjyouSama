@@ -30,7 +30,7 @@ SniperEnemy::~SniperEnemy()
 void SniperEnemy::EnemyInit()
 {
 #pragma region 変数の初期化
-
+	//SetActive(false);
 	HP = ECI::MAX_HP * SECI::MAX_HP;
 	warningTime = ECI::WARNING_TIME * SECI::WARNING_TIME * 60;
 	attackTime = ECI::ATTACK_TIME * SECI::ATTACK_TIME * 60;
@@ -54,7 +54,7 @@ void SniperEnemy::EnemyInit()
 	scale = SECI::SCALE;
 
 	objType = ObjectType::ENEMY;
-	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), radius));
+	SetCollidder(new SphereCollider(Vector3(0,0,0), radius));
 
 	//センサーの初期化
 	fanRotateOrigin = -angle.y - 90.0f;
@@ -110,14 +110,21 @@ void SniperEnemy::EnemyUpdate()
 void SniperEnemy::EnemyRend()
 {
 	//モデルの描画
-	DirectXManager::GetInstance()->SetData3D();
-	modelRender->Draw(numBarrel, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
-	modelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
-	modelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), scale);
+	
+		DirectXManager::GetInstance()->SetData3D();
+		modelRender->Draw(numBarrel, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
+		modelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
+		modelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), scale);
+	
 }
 
 void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 {
+	/*if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	{
+		SetActive(true);
+	}*/
+
 	if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
 	{
 		trackingBreadcrumb = false;

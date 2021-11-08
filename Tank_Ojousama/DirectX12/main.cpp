@@ -109,6 +109,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titlerogo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/start.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/cars.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/Bom.jpg");
 
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
@@ -160,6 +161,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_s.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_m.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_big.obj");
+	//エルフ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/body_bow.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/head_hand.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/leg_kutu.obj");
+
+	//当たり判定用の円
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/maru.obj");
 
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);

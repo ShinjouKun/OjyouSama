@@ -9,7 +9,7 @@
 #include "../Actor/WayPointManager.h"
 #include "../Actor/BreadCrumbCreater.h"
 #include "../Utility/Timer/Timer.h"
-
+#include"../Actor/CameraEye.h"
 #include "../Actor/ElfTree.h"
 #include "../Actor/ElfRock.h"
 
@@ -99,11 +99,11 @@ void GamePlay::StartScene()
 	}
 
 	/*’†‰›‚ÌŠâ*/
-	objM->Add(new ElfRock(Vector3(0.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(+5.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(-5.0f, 0.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(+10.0f, 0.0f, 5.0f), Vector3(0.0f, +45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(-10.0f, 0.0f, 5.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(0.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(+5.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(-5.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(+10.0f, 4.0f, 5.0f), Vector3(0.0f, +45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(-10.0f, 4.0f, 5.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
 
 	/*¶‘¤‚ÌŠâ*/
 	objM->Add(new ElfRock(Vector3(100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
@@ -116,16 +116,16 @@ void GamePlay::StartScene()
 
 	int enemyCount = 0;
 
-	/*‰“‹——£UŒ‚‚Ì“G*/
-	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 10.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 20.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new SniperEnemy(Vector3(-10.0f, 0.0f, 20.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new SniperEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	///*‰“‹——£UŒ‚‚Ì“G*/
+	objM->Add(new SniperEnemy(Vector3(0.0f, 4.0f, 10.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(+10.0f, 4.0f, 20.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(-10.0f, 4.0f, 20.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(+50.0f, 4.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(-50.0f, 4.0f, 50.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
 	/*’†‰›‰œ‚Ì–Ø*/
 	for (int i = -35; i < 50; i += 25)
 	{
-		objM->Add(new SniperEnemy(Vector3(i, 0.0f, -75.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(i, 4.0f, -75.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
 	}
 
 
@@ -174,14 +174,15 @@ void GamePlay::StartScene()
 	BaseScene::mSprite->AddTexture("SBack", "Resouse/selectback.png");
 	BaseScene::mSprite->AddTexture("OptionP", "Resouse/option.png");
 	BaseScene::mSprite->AddTexture("Ritorai", "Resouse/ritorai.png");
-	BaseScene::mModel->AddModel("Sora2", "Resouse/skydome.obj", "Resouse/skydome.jpg");
+	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//ƒvƒŒƒCƒ„[‚ÍÅŒã‚ÉA–”‚ÍUIƒNƒ‰ƒX‚ðì‚é
 
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 180.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
-	objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, 0, 500));
+	objM->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), objM));
+	objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder,ItemState::Normal, 0, 500,20));
 
 	mTimer = std::make_shared<Timer>(0.01f);
 }
@@ -224,7 +225,7 @@ void GamePlay::UpdateScene()
 void GamePlay::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
-	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(7, 7, 7));
+	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();

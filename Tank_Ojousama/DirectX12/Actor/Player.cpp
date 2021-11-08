@@ -135,7 +135,7 @@ void Player::Init()
 
 	angle = Vector3(0.0f, 0.0f, 0.0f);//ŽÔ‘Ì
 	atkAngle = 0.0f;//–C“ƒ
-	freeAngle = 0.0f;
+	
 	fireAngle = 0.0f;
 	speed = 0.0f;
 	maxSpeed = 0.5f;
