@@ -55,6 +55,9 @@ private:
 	/*目標位置に移動&近かったら停止*/
 	void MoveTarget(const Vector3& targetPosition, const float distance);
 
+	/*指定距離以内かどうかを調べる*/
+	bool WithinDistance(const Vector3& targetPosition, const float distance);
+
 	/*角度をベクトルに変換*/
 	Vector3 AngleToVectorY(float angle)const;
 
@@ -68,7 +71,6 @@ private:
 
 #pragma endregion
 
-
 private:
 
 	enum AttackStep
@@ -79,14 +81,6 @@ private:
 		RELOAD,//リロード中
 	};
 	AttackStep mAttackStep;
-
-	enum Dissolution
-	{
-		NON,            //何もしてない
-		DICIDE_DIRECTION,//方向決定
-		MOVE_DIRECTION   //移動&時間測定
-	};
-	Dissolution mDissolutionStep;
 
 	ObjectManager * mObjManager;
 	shared_ptr<ModelRenderer> mModelRender;
@@ -102,6 +96,7 @@ private:
 	Vector3 mSearchTarget;  //索敵位置
 	Vector3 mSearchPosition;//索敵結果位置
 	Vector3 mRandomDirection;//ランダム移動方向
+	Vector3 mPreviousPosition;
 
 	float radius;//半径
 	float barrelAngle;
@@ -109,7 +104,7 @@ private:
 	const float SEARCH_RANGE = 30.0f;//索敵範囲(円)
 
 	int mBulletNumber = 0;//発射した弾数
-	int direction;
+	int testStep = 0;
 
 	bool mDeadFlag;     //死亡したかどうか
 	bool mAttackCommand;//攻撃指令
