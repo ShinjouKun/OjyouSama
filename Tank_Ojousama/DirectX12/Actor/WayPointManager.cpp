@@ -78,14 +78,9 @@ void WayPointManager::Remove()
 
 void WayPointManager::ResetFlag()
 {
-	//for (int i = 0,end = testPointList.size(); i < end; i++)
-	//{
-	//	testPointList[i]->FlagInit();
-	//}
-
-	for (auto& list : testPointList)
+	for (int i = 0,end = testPointList.size(); i < end; i++)
 	{
-		list->FlagInit();
+		testPointList[i]->FlagInit();
 	}
 }
 

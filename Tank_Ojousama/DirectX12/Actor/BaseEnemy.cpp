@@ -20,7 +20,7 @@ BaseEnemy::~BaseEnemy()
 void BaseEnemy::Init()
 {
 	//最初は表示状態
-	SetActive(false);
+	SetActive(true);
 
 	Initialize();
 	EnemyInit();
@@ -73,20 +73,6 @@ void BaseEnemy::OnCollison(BaseCollider * col)
 	{
 		//カメラに当たっているとき、描画を行う。
 		SetActive(true);
-	}
-
-	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
-	{
-		position = mPreviousPosition;
-	}
-
-	if (col->GetColObject()->GetType() == ObjectType::ENEMY)
-	{
-		//自分の番号が相手より小さかったら
-		if (col->GetColObject()->GetID() > GetID())
-		{
-			position = mPreviousPosition;
-		}
 	}
 
 	//if (!GetActive()) return;

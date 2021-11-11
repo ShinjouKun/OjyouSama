@@ -111,12 +111,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/cars.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Bom.jpg");
 
-	//TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_sneaker_Color.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_LR.png");	
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/face_color.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/hand_bow_color.png");
 
-	
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
 
@@ -166,15 +161,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_s.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_m.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_big.obj");
-	////エルフ
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/body_bow.obj");
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/head_hand.obj");
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/leg_kutu.obj");
-	//エルフ2
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/elf_body.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/elf_head.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/leg_L.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/leg_R.obj");
+	//エルフ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/body_bow.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/head_hand.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/leg_kutu.obj");
 
 	//当たり判定用の円
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/maru.obj");

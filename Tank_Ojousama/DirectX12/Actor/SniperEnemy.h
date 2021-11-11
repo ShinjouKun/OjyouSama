@@ -59,13 +59,4 @@ private:
 
 	/*’e‚Ì¯•Ê”Ô†*/
 	int bulletNumber = 0;
-
-	float testFloat = 0.0f;
-	float value = 1.5f;
-	float range = 15.0f;
-
-	bool testBool = false;
-
-	string tankBarrel2;
-	string numBarrel2;
 };

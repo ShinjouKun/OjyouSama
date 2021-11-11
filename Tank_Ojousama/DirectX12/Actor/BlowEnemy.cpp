@@ -54,8 +54,7 @@ void BlowEnemy::EnemyInit()
 	scale = BECI::SCALE;
 
 	objType = ObjectType::ENEMY;
-	//SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), radius));
-	SetCollidder(new SphereCollider(Vector3().zero, radius));
+	SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), radius));
 
 	//ƒZƒ“ƒT[‚Ì‰Šú‰»----------------
 	fanRotateOrigin = -angle.y - 90.0f;
