@@ -54,7 +54,7 @@ void SniperEnemy::EnemyInit()
 	scale = SECI::SCALE;
 
 	objType = ObjectType::ENEMY;
-	SetCollidder(new SphereCollider(Vector3(0,0,0), radius));
+	SetCollidder(new SphereCollider(Vector3().zero, radius));
 
 	//ƒZƒ“ƒT[‚Ì‰Šú‰»
 	fanRotateOrigin = -angle.y - 90.0f;
@@ -71,33 +71,40 @@ void SniperEnemy::EnemyInit()
 
 	SetActive(false);
 
+	testFloat = 0.0f;
+
 #pragma endregion
 
 #pragma region ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý
 
 	//íŽÔ‚Ì–Cg(ã‰º‚ÉˆÚ“®‚·‚é•”•ª)Barrel
-	tankBarrel = SECI::TANK_BARREL_NAME;
+	tankBarrel  = SECI::TANK_RLEG_NAME;
+	tankBarrel2 = SECI::TANK_LREG_NAME;
 	num = to_string(number);
-	numBarrel = tankBarrel + num;
+	numBarrel  = tankBarrel  + num;
+	numBarrel2 = tankBarrel2 + num;
 	//modelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
-	modelRender->AddModel(numBarrel, "Resouse/leg_kutu.obj", "Resouse/leg_sneaker.png");
-	//modelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//’†S“_‚Ì•ÏX
+	//modelRender->AddModel(numBarrel, "Resouse/leg_kutu.obj", "Resouse/leg_sneaker.png");
+	modelRender->AddModel(numBarrel,  "Resouse/leg_R.obj", "Resouse/leg_LR.png");
+	modelRender->AddModel(numBarrel2, "Resouse/leg_L.obj", "Resouse/leg_LR.png");
+	modelRender->SetAncPoint(numBarrel,  Vector3(0.0f, -2.0f, 0.0f));
+	modelRender->SetAncPoint(numBarrel2, Vector3(0.0f, -2.0f, 0.0f));
 
 	//íŽÔ‚Ì–C“ƒ(ã‚Ì•”•ª)Turret
-	tankTurret = SECI::TANK_TURRET_NAME;
+	tankTurret = SECI::TANK_HEAD_NAME;
 	num = to_string(number);
 	numTurret = tankTurret + num;
 	//modelRender->AddModel(numTurret, "Resouse/BoxTankATKBR.obj", "Resouse/BoxTankATKBR.png");
-	modelRender->AddModel(numTurret, "Resouse/head_hand.obj", "Resouse/face_color.png");
-	//modelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
+	//modelRender->AddModel(numTurret, "Resouse/head_hand.obj", "Resouse/face_color.png");
+	modelRender->AddModel(numTurret, "Resouse/elf_head.obj", "Resouse/face_color.png");
 
 	//íŽÔ‚ÌŽÔ‘Ì(‰º‚Ì•”•ª)Body
 	tankBody = SECI::TANK_BODY_NAME;
 	num = to_string(number);
 	numBody = tankBody + num;
-    //modelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
-	modelRender->AddModel(numBody, "Resouse/body_bow.obj", "Resouse/hand_bow_color.png");
-	//modelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
+	//modelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
+	//modelRender->AddModel(numBody, "Resouse/body_bow.obj", "Resouse/hand_bow_color.png");
+	modelRender->AddModel(numBody, "Resouse/elf_body.obj", "Resouse/hand_bow_color.png");
 
 #pragma endregion
 }
@@ -105,17 +112,42 @@ void SniperEnemy::EnemyInit()
 void SniperEnemy::EnemyUpdate()
 {
 	Invincible(2);//–³“GŽžŠÔ
+
+	if (actionState == ActionState::WARNING)
+	{
+		if (testBool)
+		{
+			testFloat += value;
+			if (testFloat > range)
+			{
+				testBool = false;
+			}
+		}
+		else
+		{
+			testFloat -= value;
+			if (testFloat < -range)
+			{
+				testBool = true;
+			}
+		}
+	}
+	else
+	{
+		testFloat = 0.0f;
+	}
+
+
+
 }
 
 void SniperEnemy::EnemyRend()
 {
-	//ƒ‚ƒfƒ‹‚Ì•`‰æ
-	
-		DirectXManager::GetInstance()->SetData3D();
-		modelRender->Draw(numBarrel, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
-		modelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
-		modelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), scale);
-	
+	DirectXManager::GetInstance()->SetData3D();
+	modelRender->Draw(numBarrel,  Vector3(position.x, position.y + 2.0f, position.z), Vector3(testFloat,  barrelAngle, 0), scale);//‹r
+	modelRender->Draw(numBarrel2, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-testFloat, barrelAngle, 0), scale);//‹r
+	modelRender->Draw(numTurret, position, Vector3(turretAngle, barrelAngle, 0), scale);//“ª‚ÆŽè
+	modelRender->Draw(numBody, position, Vector3(0, barrelAngle, 0), scale);//‘Ì‚Æ‹|
 }
 
 void SniperEnemy::EnemyOnCollision(BaseCollider * col)

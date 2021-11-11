@@ -42,12 +42,15 @@ namespace SniperEnemyConstInfo
 	/*大きさ*/
 	const Vector3 SCALE = Vector3(1.0f, 1.0f, 1.0f);
 
-	/*砲身のモデル名*/
-	const string TANK_BARREL_NAME = "SniperBarrel";
+	/*右脚のモデル名*/
+	const string TANK_RLEG_NAME = "SniperRightLeg";
 
-	/*砲塔のモデル名*/
-	const string TANK_TURRET_NAME = "SniperTurret";
+	/*左脚のモデル名*/
+	const string TANK_LREG_NAME = "SniperLeftLeg";
 
-	/*車体のモデル名*/
+	/*頭と手のモデル名*/
+	const string TANK_HEAD_NAME = "SniperHead";
+
+	/*体と弓のモデル名*/
 	const string TANK_BODY_NAME = "SniperBody";
 }
