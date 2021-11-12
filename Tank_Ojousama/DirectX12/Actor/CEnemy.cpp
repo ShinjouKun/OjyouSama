@@ -50,7 +50,8 @@ void CEnemy::EnemyInit()
 	mSearchPosition = Vector3().zero;
 
 	objType = ObjectType::ENEMY;
-	SetCollidder(new SphereCollider(position, radius));
+	//SetCollidder(new SphereCollider(position, radius));
+	SetCollidder(new SphereCollider(Vector3().zero, radius));
 
 	//センサーの初期化----------------
 	fanRotateOrigin = -angle.y - 90.0f;
@@ -204,16 +205,13 @@ void CEnemy::EnemyUpdate()
 				Move(mSearchPosition);
 			}
 		}
-
-		////指定した方向に動き続ける。
-		//Move(position + Vector3(0.1f, 0.0f, 0.0f));
 	}
 
-	ImGui::Checkbox("SearchCommand", &mSearchCommand);
-	ImGui::Checkbox("SearchResult", &mSearchResult);
+	//ImGui::Checkbox("SearchCommand", &mSearchCommand);
+	//ImGui::Checkbox("SearchResult", &mSearchResult);
 
-	float time = mSearchTimer->getCuttentTime();
-	ImGui::SliderFloat("SearchTimer", &time, 0, time);
+	//float time = mSearchTimer->getCuttentTime();
+	//ImGui::SliderFloat("SearchTimer", &time, 0, time);
 
 	////プレイヤーの位置を取得
 	//float debugPlayerPosition[3] = { mPlayerPosition.x,mPlayerPosition.y,mPlayerPosition.z };
@@ -278,7 +276,8 @@ void CEnemy::OnlyOnceAction()
 
 	for (int i = 0, end = static_cast<int>(mMemberList.size()); i < end; i++)
 	{
-		auto enemys = new MemberEnemy(mMemberPositionList[i], angle, mObjManager, mModelRender, mEffectManager, mEnemyNumber++);
+		Vector3 pos = position + AngleToVectorY(360.0f / mMemberList.size() * i) * MEMBER_DISTANCE;
+		auto enemys = new MemberEnemy(pos, angle, mObjManager, mModelRender, mEffectManager, mEnemyNumber++);
 		mMemberList[i] = enemys;
 		mObjManager->Add(enemys);
 	}

@@ -124,18 +124,18 @@ void Player::Init()
 	HP = 100;
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
-	
+	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	/*playerSprite->AddTexture("Life1", "Resouse/TankAicn.png");
 	playerSprite->AddTexture("Life2", "Resouse/TankAicn.png");
 	playerSprite->AddTexture("Life3", "Resouse/TankAicn.png");
 	playerSprite->AddTexture("HIT", "Resouse/hit.png");*/
 	death = false;
 	objType = ObjectType::PLAYER;
-	//position = Vector3(100.0f, 0.0f, -50.0f);
+	
 
 	angle = Vector3(0.0f, 0.0f, 0.0f);//車体
 	atkAngle = 0.0f;//砲塔
-	
+	aimPos_Y = 360.0f;
 	fireAngle = 0.0f;
 	speed = 0.0f;
 	maxSpeed = 0.5f;
@@ -144,6 +144,7 @@ void Player::Init()
 	cameraSpeed = 1.0f;
 	bulletStock = 0;
 	HitFlag = false;
+	sniperShotFlag = false;
 	HitCount = 0;
 	TargetPos = Vector3(position.x, position.y + 4.0f, position.z);
 
@@ -174,15 +175,14 @@ void Player::Update()
 				HitFlag = false;
 			}
 		}
-
+		
 		velocity = Vector3(0, 0, 0);
 		speed = Easing::ease_inout_cubic(speedTime, 0, maxSpeed, 20.0f);
 		velocity = RotateY(angle.y + 90.0f)*speed;
 
-
 		CamVelocity = Vector3(0, 0, 0);
 		moveFlag = false;
-		CameraPos = Vector3(position.x, position.y + 4.0f, position.z + 15.0f);
+	
 		ImGuiDebug();//デバッグ用
 		AngleReset();
 		if (FrontMove)
@@ -235,19 +235,29 @@ void Player::Update()
 		//砲塔
 		if (Input::KeyState(DIK_UP) || Input::pad_data.lRz < 0)
 		{
+			aimPos_Y -= 4.5f;
 			fireAngle -= 1.0f;
 		}
 		if (fireAngle <= -25.0f)
 		{
 			fireAngle = -25.0f;//上限
 		}
+		if (aimPos_Y <= 120.0f)
+		{
+			aimPos_Y = 120.0f;
+		}
 		if (Input::KeyState(DIK_DOWN) || Input::pad_data.lRz > 0)
 		{
+			aimPos_Y += 4.5f;
 			fireAngle += 1.0f;
 		}
 		if (fireAngle >= 0.0f)
 		{
 			fireAngle = 0.0f;//下限
+		}
+		if (aimPos_Y >= 360.0f)
+		{
+			aimPos_Y = 360.0f;
 		}
 		if (Input::KeyState(DIK_RIGHT) || Input::pad_data.lZ > 0)
 		{
@@ -257,11 +267,27 @@ void Player::Update()
 		{
 			atkAngle -= cameraSpeed;
 		}
+
 		//カメラ更新
-		CamVelocity = RotateY(atkAngle - 90.0f)*8.0f;
-		CameraPos = position + CamVelocity;
-		camera->SetEye(Vector3(CameraPos.x, CameraPos.y + 6.0f, CameraPos.z));
-		camera->SetTarget(Vector3(position.x, position.y + 6.0f, position.z));
+		if(Input::KeyState(DIK_8))
+		{
+			sniperShotFlag = !sniperShotFlag;
+		}
+		if (!sniperShotFlag)
+		{
+			CamVelocity = RotateY(atkAngle - 90.0f)*8.0f;
+			CameraPos = position + CamVelocity;
+			camera->SetEye(Vector3(CameraPos.x, CameraPos.y + 6.0f, CameraPos.z));
+			camera->SetTarget(Vector3(position.x, position.y + 6.0f, position.z));
+		}
+		else
+		{
+			CamVelocity = RotateY(atkAngle - 90.0f)*8.0f;
+			CameraPos = position + CamVelocity;
+			camera->SetEye(Vector3(CameraPos.x, CameraPos.y+2.5f, CameraPos.z-20.0f));
+			camera->SetTarget(Vector3(position.x, CameraPos.y+2.5f, position.z-40.0f));
+		}
+		
 
 
 		if (shotFlag1)
@@ -334,6 +360,7 @@ void Player::Rend()
 	//}
 
 	DirectXManager::GetInstance()->SetData2D();
+	playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
 	/*
 		switch (HP)
