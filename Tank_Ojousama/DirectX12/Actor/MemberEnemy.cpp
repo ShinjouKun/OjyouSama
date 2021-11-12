@@ -1,6 +1,7 @@
 #include "MemberEnemy.h"
 #include "../Collision/SpherCollider.h"
 #include "../Weapons/NormalBullet.h"
+#include "../Weapons/LaunchBullet.h"
 #include "../Utility/Timer/Timer.h"
 #include "../Utility/Random.h"
 
@@ -46,6 +47,22 @@ void MemberEnemy::MoveTarget(const Vector3 & targetPosition, const float distanc
 	position += velocity;
 }
 
+bool MemberEnemy::WithinDistance(const Vector3& targetPosition, const float distance)
+{
+	//移動&停止
+	Vector3 dist = targetPosition - position;
+	float length = dist.Length();
+	dist = dist.normal();
+
+	//目標位置との距離が、指定距離以下だったら 処理しない
+	if (length < distance)
+	{
+		return false;
+	}
+
+	return true;
+}
+
 Vector3 MemberEnemy::AngleToVectorY(float angle) const
 {
 	Vector3 vector = Vector3(0, 0, 0);
@@ -88,7 +105,8 @@ void MemberEnemy::AttackStep_FIRE()
 {
 	//弾発射
 	Vector3 firePosition = AngleToVectorY(barrelAngle);
-	mObjManager->Add(new NormalBullet(position + firePosition, Vector3(0.0f, barrelAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+	//mObjManager->Add(new NormalBullet(position + firePosition, Vector3(0.0f, barrelAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+	mObjManager->Add(new LaunchBullet(position + firePosition, mAttackTarget, mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
 	mAttackStep = AttackStep::RELOAD;
 }
 
@@ -144,7 +162,7 @@ Vector3 MemberEnemy::SendSearchPosition() const
 void MemberEnemy::Init()
 {
 	HP = 10;
-	speed = 0.3f;
+	speed = 0.2f;
 	radius = 1.0f;
 	barrelAngle = angle.y;
 	turretAngle = 0.0f;
@@ -163,19 +181,21 @@ void MemberEnemy::Init()
 	mCaptainLost = false;
 
 	objType = ObjectType::ENEMY;
-	SetCollidder(new SphereCollider(position, radius));
+	//SetCollidder(new SphereCollider(position, radius));
+	SetCollidder(new SphereCollider(Vector3().zero, radius));
 
 	mAimingTime = std::make_shared<Timer>();
 	mAimingTime->setTime(1.0f);
 	mReloadTime = std::make_shared<Timer>();
 	mReloadTime->setTime(1.0f);
 	mRandomMoveTimer = std::make_shared<Timer>();
-	mRandomMoveTimer->setTime(2.0f);
+	mRandomMoveTimer->setTime(0.5f);
 
 	mAttackStep = AttackStep::NONE;
-	mDissolutionStep = Dissolution::NON;
 
+	mRandomDirection = Vector3(0.0f, 0.0f, 0.1f);
 
+	testStep = 0;
 
 #pragma region モデルの読み込み
 	//戦車の砲身(上下に移動する部分)Barrel
@@ -203,6 +223,8 @@ void MemberEnemy::Init()
 
 void MemberEnemy::Update()
 {
+	mPreviousPosition = position - velocity;
+
 	if (HP <= 0)
 	{
 		mDeadFlag = true;
@@ -213,65 +235,57 @@ void MemberEnemy::Update()
 		death = true;
 	}
 
-	//ImGui::Checkbox("Dissolution", &mCaptainLost);
+	//隊長を失った時
+	if (mCaptainLost)
+	{
+		if (testStep == 0)
+		{
+			int direction = 0;
+			Random::initialize();
 
-	////隊長を失った時
-	//if (mCaptainLost)
-	//{
-	//	mDissolutionStep = Dissolution::DICIDE_DIRECTION;
-	//}
+			direction = Random::randomRange(0, 3);
 
-	//switch (mDissolutionStep)
-	//{
-	//case MemberEnemy::NON:
-	//	break;
-	//case MemberEnemy::DICIDE_DIRECTION:
-	//	Random::initialize();
+			if (direction == 0)
+			{
+				mRandomDirection = Vector3(0.1f, 0.0f, 0.0f);
+				testStep = 1;
+			}
+			else if (direction == 1)
+			{
+				mRandomDirection = Vector3(-0.1f, 0.0f, 0.0f);
+				testStep = 1;
+			}
+			else if (direction == 2)
+			{
+				mRandomDirection = Vector3(0.0f, 0.0f, 0.1f);
+				testStep = 1;
+			}
+			else if (direction == 3)
+			{
+				mRandomDirection = Vector3(0.0f, 0.0f, -0.1f);
+				testStep = 1;
+			}
+		}
+		else if (testStep == 1)
+		{
+			MoveTarget(position + mRandomDirection, -1.0f);
+			mRandomMoveTimer->update();
 
-	//	direction = Random::randomRange(0, 3);
-
-	//	switch (direction)
-	//	{
-	//	case 0://右
-	//		mRandomDirection = Vector3(0.1f, 0.0f, 0.0f);
-	//		mDissolutionStep = Dissolution::MOVE_DIRECTION;
-	//		break;
-	//	case 1://左
-	//		mRandomDirection = Vector3(-0.1f, 0.0f, 0.0f);
-	//		mDissolutionStep = Dissolution::MOVE_DIRECTION;
-	//		break;
-	//	case 2://前
-	//		mRandomDirection = Vector3(0.0f, 0.0f, 0.1f);
-	//		mDissolutionStep = Dissolution::MOVE_DIRECTION;
-	//		break;
-	//	case 3://後
-	//		mRandomDirection = Vector3(0.0f, 0.0f, -0.1f);
-	//		mDissolutionStep = Dissolution::MOVE_DIRECTION;
-	//		break;
-	//	default:
-	//		break;
-	//	}
-
-	//	break;
-	//case MemberEnemy::MOVE_DIRECTION:
-
-	//	MoveTarget(position + mRandomDirection, 0.0f);
-	//	mRandomMoveTimer->update();
-
-	//	if (mAimingTime->isTime())
-	//	{
-	//		mRandomMoveTimer->setTime(2.0f);
-	//		mDissolutionStep = Dissolution::DICIDE_DIRECTION;
-	//	}
-
-	//	break;
-	//default:
-	//	break;
-	//}
+			if (mRandomMoveTimer->isTime())
+			{
+				mRandomMoveTimer->setTime(0.5f);
+				testStep = 0;
+			}
+		}
+	}
+	else
+	{
+		//移動
+		MoveTarget(mFixedPosition, 1.0f);
+	}
 
 
-	//移動
-	MoveTarget(mFixedPosition, 1.0f);
+
 
 	//攻撃指令
 	switch (mAttackStep)
@@ -319,6 +333,9 @@ void MemberEnemy::Update()
 
 void MemberEnemy::Rend()
 {
+	//表示状態かどうか
+	//if(!GetActive()) return;
+
 	//モデルの描画
 	DirectXManager::GetInstance()->SetData3D();
 	mModelRender->Draw(numBarrel, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
@@ -335,5 +352,27 @@ void MemberEnemy::OnCollison(BaseCollider * col)
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		HP -= col->GetColObject()->GetDamage();
+		mSearchResult = true;
+		mSearchPosition = mSearchTarget;
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	{
+		//カメラに当たっているとき、描画を行う。
+		SetActive(true);
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
+	{
+		position = mPreviousPosition;
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::ENEMY)
+	{
+		//自分の番号が相手より小さかったら
+		if (col->GetColObject()->GetID() > GetID())
+		{
+			position = mPreviousPosition;
+		}
 	}
 }
