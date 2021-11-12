@@ -60,14 +60,23 @@ private:
 	//リザルトフラグ
 	bool resultFlag = false;
 	int time = 0;
-	//ボリュームマスター用
-	float masterVol;
+	//ボリューム用フラグ
+	bool OpFlag1;
+	bool OpFlag2;
+	bool OpFlag3;
+
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;
 	Vector3 camerapos = Vector3(0, 0, 0);
 	Vector3 setcamerapos = Vector3(10, 0, 10);
 	Vector3 optionPos;
+	Vector3 OpAim1;
+	Vector3 OpAim2;
+	Vector3 OpAim3;
+	Vector3 OpAimA1;
+	Vector3 OpAimA2;
+	Vector3 OpAimA3;
 	//BreadCrumbCreater* mBreadCreator;
 	//WayPointManager * mpointManager;
 
