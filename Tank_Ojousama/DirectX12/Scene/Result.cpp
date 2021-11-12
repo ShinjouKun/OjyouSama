@@ -48,6 +48,7 @@ void Result::StartScene()
 	ojyouXR = 7;
 	ojyouXL = 7;
 	mTimer = std::make_shared<Timer>(0.01f);
+	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 }
 
 void Result::UpdateScene()
@@ -55,7 +56,6 @@ void Result::UpdateScene()
 	mTimer->update();
 	speed += 1;
 	mSound->playLoop();
-	mSound->setVol(BaseScene::mBGMSoundVol);
 	ojyouY = ojyouY + speed;
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);

@@ -1,6 +1,6 @@
 #include "BaseScene.h"
 
-float BaseScene::mMasterSoundVol = 1.0f;
+float BaseScene::mMasterSoundVol = 0.5f;
 float BaseScene::mBGMSoundVol =  0.5f;
 float BaseScene::mSESoundVol =  0.5f;
 int BaseScene::mMoney = 0;
@@ -21,8 +21,7 @@ BaseScene::~BaseScene()
 
 void BaseScene::Update()
 {
-	BaseScene::mBGMSoundVol = BaseScene::mMasterSoundVol *  BaseScene::mBGMSoundVol;
-	BaseScene::mSESoundVol = BaseScene::mMasterSoundVol *  BaseScene::mSESoundVol;
+
 	Start();
 	UpdateScene();
 }

@@ -55,6 +55,7 @@ void Select::StartScene()
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 
 	mTimer = std::make_shared<Timer>(0.01f);
+	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 }
 
 void Select::UpdateScene()
@@ -68,7 +69,6 @@ void Select::UpdateScene()
 		}
 	}
 	mSound->playLoop();
-	mSound->setVol(BaseScene::mBGMSoundVol);
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
 	setumeiFlag = false;

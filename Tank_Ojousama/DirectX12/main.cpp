@@ -109,7 +109,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titlerogo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/start.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/cars.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/voloption.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/volAim.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/volAimA.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Bom.jpg");
+
 
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");

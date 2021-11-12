@@ -43,7 +43,7 @@ void Title::StartScene()
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//mSound->play();
-	mSound->setVol(BaseScene::mBGMSoundVol);
+	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 }
 
 void Title::UpdateScene()
