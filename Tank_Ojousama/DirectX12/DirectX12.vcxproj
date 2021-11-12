@@ -164,6 +164,7 @@
     <ClCompile Include="Actor\EnemyAI.cpp" />
     <ClCompile Include="Actor\GolemEnemy.cpp" />
     <ClCompile Include="Actor\MemberEnemy.cpp" />
+    <ClCompile Include="Actor\MortarEnemy.cpp" />
     <ClCompile Include="Actor\ReportArea.cpp" />
     <ClCompile Include="Actor\SniperEnemy.cpp" />
     <ClCompile Include="Actor\TestBreadCrumb.cpp" />
@@ -256,6 +257,7 @@
     <ClCompile Include="Utility\TextEditer.cpp" />
     <ClCompile Include="Utility\Timer\Timer.cpp" />
     <ClCompile Include="Weapons\LandMine.cpp" />
+    <ClCompile Include="Weapons\LaunchBullet.cpp" />
     <ClCompile Include="Weapons\MashinGun.cpp" />
     <ClCompile Include="Weapons\MissileBullet.cpp" />
     <ClCompile Include="Weapons\NormalBullet.cpp" />
@@ -427,6 +429,7 @@
     <ClInclude Include="Actor\EnemyAI.h" />
     <ClInclude Include="Actor\GolemEnemy.h" />
     <ClInclude Include="Actor\MemberEnemy.h" />
+    <ClInclude Include="Actor\MortarEnemy.h" />
     <ClInclude Include="Actor\ReportArea.h" />
     <ClInclude Include="Actor\SniperEnemy.h" />
     <ClInclude Include="Actor\TestBreadCrumb.h" />
@@ -554,6 +557,7 @@
     <ClInclude Include="Utility\WCHAR_char.h" />
     <ClInclude Include="Device\Window.h" />
     <ClInclude Include="Weapons\LandMine.h" />
+    <ClInclude Include="Weapons\LaunchBullet.h" />
     <ClInclude Include="Weapons\MashinGun.h" />
     <ClInclude Include="Weapons\MissileBullet.h" />
     <ClInclude Include="Weapons\NormalBullet.h" />
