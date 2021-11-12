@@ -44,6 +44,7 @@ private:
 	Vector3 TargetPos;
 	Vector3 CamVelocity;//カメラの移動量
 	//制御用フラグ
+	bool sniperShotFlag = false;
 	bool shotFlag1 =false;
 	bool shotFlag2 = false;
 	int shotcnt1 = 0;
@@ -67,7 +68,7 @@ private:
 	float ojyouY;
 	float ojyouXR;
 	float ojyouXL;
-
+	float aimPos_Y;
 	
 	//サウンド
 
