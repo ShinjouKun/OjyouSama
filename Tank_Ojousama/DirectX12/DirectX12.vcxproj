@@ -180,6 +180,7 @@
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\ItemHolder.cpp" />
     <ClCompile Include="Items\Repair.cpp" />
+    <ClCompile Include="Items\Shield.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
@@ -253,6 +254,7 @@
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Device\Window.cpp" />
+    <ClCompile Include="Utility\ModelChanger.cpp" />
     <ClCompile Include="Utility\Random.cpp" />
     <ClCompile Include="Utility\TextEditer.cpp" />
     <ClCompile Include="Utility\Timer\Timer.cpp" />
@@ -454,6 +456,7 @@
     <ClInclude Include="Items\Item.h" />
     <ClInclude Include="Items\ItemHolder.h" />
     <ClInclude Include="Items\Repair.h" />
+    <ClInclude Include="Items\Shield.h" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />
@@ -550,6 +553,7 @@
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
+    <ClInclude Include="Utility\ModelChanger.h" />
     <ClInclude Include="Utility\Random.h" />
     <ClInclude Include="Utility\SmartPtr.h" />
     <ClInclude Include="Utility\TextEditer.h" />
