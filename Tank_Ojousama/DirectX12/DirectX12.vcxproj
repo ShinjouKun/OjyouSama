@@ -192,6 +192,7 @@
     <ClCompile Include="Device\DirectXManager.cpp" />
     <ClCompile Include="Math\Easing.cpp" />
     <ClCompile Include="Actor\EnemyTank.cpp" />
+    <ClCompile Include="Scene\BossScene.cpp" />
     <ClCompile Include="Scene\GamePlay.cpp" />
     <ClCompile Include="Scene\Garage.cpp" />
     <ClCompile Include="Scene\Option.cpp" />
@@ -471,6 +472,7 @@
     <ClInclude Include="Device\DirectXManager.h" />
     <ClInclude Include="Math\Easing.h" />
     <ClInclude Include="Actor\EnemyTank.h" />
+    <ClInclude Include="Scene\BossScene.h" />
     <ClInclude Include="Scene\GamePlay.h" />
     <ClInclude Include="Scene\Garage.h" />
     <ClInclude Include="Scene\Option.h" />

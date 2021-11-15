@@ -3,6 +3,7 @@
 #include"Title.h"
 #include "Option.h"
 #include"Garage.h"
+#include"BossScene.h"
 #include "../Collision/Collision.h"
 #include "../Device/Input.h"
 #include "../Sound/Sound.h"
@@ -22,7 +23,8 @@ void Select::StartScene()
 {
 	//g = new GamePlay();
 	fade = 0;
-	fadeF = false;
+	fadeF1 = false;
+	fadeF2 = false;
 	SelectAlfa1 = 0.5f;
 	SelectAlfa2 = 0.5f;
 	SelectAlfa3 = 0.5f;
@@ -64,12 +66,20 @@ void Select::StartScene()
 
 void Select::UpdateScene()
 {
-	if (fadeF)
+	if (fadeF1)
 	{
 		fade += 0.01f;
 		if (fade >= 1)
 		{
 			NextScene(std::make_shared<GamePlay>());
+		}
+	}
+	if (fadeF2)
+	{
+		fade += 0.01f;
+		if (fade >= 1)
+		{
+			NextScene(std::make_shared<BossScene>());
 		}
 	}
 	mSound->playLoop();
@@ -90,7 +100,7 @@ void Select::UpdateScene()
 
 	mTimer->update();
 
-	if (!mTimer->isTime()) return;
+	
 
 	if(selectFlag == false)
 	{
@@ -102,7 +112,7 @@ void Select::UpdateScene()
 		{
 			selectposition.y = 64;
 		}
-
+		if (!mTimer->isTime()) return;
 		//AIMópÉLÅ[èàóù
 
 		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
@@ -173,7 +183,7 @@ void Select::UpdateScene()
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				fadeF = true;
+				fadeF1 = true;
 				//cameramoveFlag = true;
 			}
 		}
@@ -182,7 +192,7 @@ void Select::UpdateScene()
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				fadeF = true;
+				fadeF1 = true;
 			}
 		}
 		if (position.x >= targetPos3.x && position.x <= targetPos3.x + 64 && position.y >= targetPos3.y && position.y <= targetPos3.y + 64)
@@ -190,7 +200,7 @@ void Select::UpdateScene()
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				fadeF = true;
+				fadeF2 = true;
 			}
 		}
 		if (position.x >= targetPos4.x && position.x <= targetPos4.x + 64 && position.y >= targetPos4.y && position.y <= targetPos4.y + 64)
@@ -198,7 +208,7 @@ void Select::UpdateScene()
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				fadeF = true;
+				fadeF2 = true;
 			}
 		}
 
@@ -259,13 +269,17 @@ void Select::DrawScene()
 	BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("Arm", Vector3(position.x -80 , position.y - 32, 0), 0.0f, Vector2(5, 1), Vector4(1, 1, 1, 1));
+	
 	if (selectFlag == false)
 	{
 		BaseScene::mSprite->Draw("Titleback", titleback, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa4));
 		BaseScene::mSprite->Draw("Option", option, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa3));
 		BaseScene::mSprite->Draw("Syutugeki", syutu, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa1));
 		BaseScene::mSprite->Draw("Garage", garege, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa2));
+	}
+	if (selectFlag)
+	{
+		BaseScene::mSprite->Draw("Arm", Vector3(position.x - 80, position.y - 32, 0), 0.0f, Vector2(5, 1), Vector4(1, 1, 1, 1));
 	}
 	if (setumeiFlag)
 	{
