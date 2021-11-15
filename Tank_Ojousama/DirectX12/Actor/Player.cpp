@@ -12,6 +12,7 @@
 #include"../Weapons/ShotGunBullet.h"
 #include"../Weapons/MissileBullet.h"
 #include"../Weapons/MashinGun.h"
+#include"../Scene/BaseScene.h"
 #define ToRad(deg)((deg)*(PI/180.0f))
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
 	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
@@ -107,8 +108,10 @@ void Player::Init()
 	mSound = std::make_shared<Sound>("bomb3.mp3", false);
 	//model
 	//戦車
-	playerModel->AddModel("TankPlayerA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
-	playerModel->AddModel("TankPlayerB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
+	playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
+	playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
+	/*playerModel->AddModel("TankA", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
+	playerModel->AddModel("TankB", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");*/
 	//お嬢様
 	playerModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
 	playerModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
@@ -125,6 +128,7 @@ void Player::Init()
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");
+	playerSprite->AddTexture("AIM_S", "Resouse/croshear.png");
 	/*playerSprite->AddTexture("Life1", "Resouse/TankAicn.png");
 	playerSprite->AddTexture("Life2", "Resouse/TankAicn.png");
 	playerSprite->AddTexture("Life3", "Resouse/TankAicn.png");
@@ -147,8 +151,8 @@ void Player::Init()
 	sniperShotFlag = false;
 	HitCount = 0;
 	TargetPos = Vector3(position.x, position.y + 4.0f, position.z);
-
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
+
 	//コライダーの情報をセット
 	SetCollidder(Vector3(0,0,0), 1.0f);
 	ojyouY = 0.0f;
@@ -159,7 +163,7 @@ void Player::Init()
 
 void Player::Update()
 {
-	mSound->setVol(0.5f);
+	mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 	if (!GameOver)
 	{
 		if (HP <= 0)
@@ -269,6 +273,8 @@ void Player::Update()
 		}
 
 		//カメラ更新
+		
+		
 		if(Input::KeyState(DIK_8))
 		{
 			sniperShotFlag = !sniperShotFlag;
@@ -282,10 +288,10 @@ void Player::Update()
 		}
 		else
 		{
-			CamVelocity = RotateY(atkAngle - 90.0f)*8.0f;
+			CamVelocity = RotateY(atkAngle - 90.0f)*4.0f;
 			CameraPos = position + CamVelocity;
-			camera->SetEye(Vector3(CameraPos.x, CameraPos.y+2.5f, CameraPos.z-20.0f));
-			camera->SetTarget(Vector3(position.x, CameraPos.y+2.5f, position.z-40.0f));
+			camera->SetEye(Vector3(CameraPos.x, CameraPos.y+3.0f, CameraPos.z));
+			camera->SetTarget(Vector3(position.x, position.y+3.0f, position.z));
 		}
 		
 
@@ -346,12 +352,15 @@ void Player::Rend()
 	ojyouXL += 10.0f;
 	ojyouY -= 10.0f;
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	playerModel->Draw("TankPlayerA", Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
-	playerModel->Draw("TankPlayerB", Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
+	if (!sniperShotFlag)
+	{
+		playerModel->Draw("TankA", Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw("TankB", Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
 
-	playerModel->Draw("ArmR", Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-	playerModel->Draw("OjyouSama", Vector3(position.x, position.y, position.z), Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-	playerModel->Draw("ArmL", Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw("ArmR", Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw("OjyouSama", Vector3(position.x, position.y, position.z), Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw("ArmL", Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+	}
 
 	//if (moveFlag)
 	//{
@@ -360,7 +369,14 @@ void Player::Rend()
 	//}
 
 	DirectXManager::GetInstance()->SetData2D();
-	playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	if (!sniperShotFlag)
+	{
+		playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
+	else
+	{
+		playerSprite->Draw("AIM_S", Vector3(0,0,0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
 	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
 	/*
 		switch (HP)
@@ -431,6 +447,10 @@ void Player::ImGuiDebug()
 
 	float pos[3] = { position.x,position.y,position.z };
 	ImGui::SliderFloat3("PlayerPosition", pos, 0, 10000.0f);
+
+	float posC[3] = { CameraPos.x,CameraPos.y,CameraPos.z };
+	ImGui::SliderFloat3("CameraPosition", posC, 0, 10000.0f);
+
 	float ang[3] = { angle.x,angle.y,angle.z };
 	ImGui::SliderFloat3("BtmAngle", ang, 0, 360);
 	ImGui::SliderFloat("AtkAngle", &atkAngle, 0, 360);

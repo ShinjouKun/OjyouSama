@@ -384,10 +384,13 @@
     <ClCompile Include="Weapons\LaunchBullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Items\Shield.cpp">
+    <ClCompile Include="Utility\Sequence\Sequence.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\ModelChanger.cpp">
+    <ClCompile Include="Actor\SummonEnemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\TestBoss.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -882,10 +885,13 @@
     <ClInclude Include="Weapons\LaunchBullet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Items\Shield.h">
+    <ClInclude Include="Utility\Sequence\Sequence.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\ModelChanger.h">
+    <ClInclude Include="Actor\SummonEnemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\TestBoss.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

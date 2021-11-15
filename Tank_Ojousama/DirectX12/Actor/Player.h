@@ -70,6 +70,7 @@ private:
 	float ojyouXL;
 	float aimPos_Y;
 	
+	
 	//ƒTƒEƒ“ƒh
 
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½

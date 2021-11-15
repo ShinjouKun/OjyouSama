@@ -37,7 +37,6 @@ void GamePlay::StartScene()
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
 	optionPos = Vector3(180, 180, 0);
-	masterVol = 1;
 	//障害物
 
 //int s = 0;
@@ -185,10 +184,18 @@ void GamePlay::StartScene()
 	BaseScene::mSprite->AddTexture("SBack", "Resouse/selectback.png");
 	BaseScene::mSprite->AddTexture("OptionP", "Resouse/option.png");
 	BaseScene::mSprite->AddTexture("Ritorai", "Resouse/ritorai.png");
+	BaseScene::mSprite->AddTexture("VolOp", "Resouse/voloption.png");
+	BaseScene::mSprite->AddTexture("VolOpAim1", "Resouse/volAim.png");
+	BaseScene::mSprite->AddTexture("VolOpAim2", "Resouse/volAim.png");
+	BaseScene::mSprite->AddTexture("VolOpAim3", "Resouse/volAim.png");
+	BaseScene::mSprite->AddTexture("AimA1", "Resouse/volAimA.png");
+	BaseScene::mSprite->AddTexture("AimA2", "Resouse/volAimA.png");
+	BaseScene::mSprite->AddTexture("AimA3", "Resouse/volAimA.png");
+
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
-
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
+	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	//プレイヤーは最後に、又はUIクラスを作る
 
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 180.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
@@ -200,12 +207,12 @@ void GamePlay::StartScene()
 
 void GamePlay::UpdateScene()
 {
+	mSound->playLoop();
 	ImGui::Begin("pose");
 	ImGui::Checkbox("selectflag", &pose);
 	ImGui::SliderFloat("soundSize", &BaseScene::mMasterSoundVol, 0, 1);
 	ImGui::SliderFloat("soundSize", &BaseScene::mBGMSoundVol, 0, 1);
 	ImGui::SliderFloat("soundSize", &BaseScene::mSESoundVol, 0, 1);
-	ImGui::SliderFloat("soundSize", &masterVol, 0, 1);
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
 	if (Input::KeyDown(DIK_1))
@@ -253,7 +260,22 @@ void GamePlay::DrawScene()
 	if (settingFlag)
 	{
 		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("AIM2", Vector3((Window::Window_Width / 2) - 32, optionPos.y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("VolOp", posePos, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("VolOpAim1", OpAim1, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("VolOpAim2", OpAim2, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("VolOpAim3", OpAim3, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		if (OpFlag1)
+		{
+			BaseScene::mSprite->Draw("AimA1", OpAimA1, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
+		}
+		else if (OpFlag2)
+		{
+			BaseScene::mSprite->Draw("AimA2", OpAimA2, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
+		}
+		else if (OpFlag3)
+		{
+			BaseScene::mSprite->Draw("AimA3", OpAimA3, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
+		}
 	}
 	if (resultFlag && time >= 300)
 	{
@@ -345,7 +367,7 @@ void GamePlay::Pose()
 			}
 		}
 		if (Input::KeyDown(DIK_RETURN) || Input::KeyDown(DIK_NUMPADENTER))
-		{
+		{     
 			pose = false;
 		}
 	}
@@ -353,8 +375,6 @@ void GamePlay::Pose()
 
 void GamePlay::Setting()
 {
-	mSound->playLoop();
-	mSound->setVol(BaseScene::mBGMSoundVol);
 	if (settingFlag == true)
 	{
 		if (optionPos.y >= 541)
@@ -378,11 +398,19 @@ void GamePlay::Setting()
 		//マスターボリューム
 		if (optionPos.y == 180)
 		{
-
+			OpFlag1 = true;
+			OpFlag2 = false;
+			OpFlag3 = false;
 			if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
 			{
-
 				BaseScene::mMasterSoundVol += 0.1f;
+				OpAim1.x += 48.0f;
+				OpAimA1.x += 48.0f;
+				if (OpAim1.x > 880 && OpAimA1.x > 880)
+				{
+					OpAim1.x = 880;
+					OpAimA1.x = 880;
+				}
 				if (BaseScene::mMasterSoundVol >= 1.0f)
 				{
 					BaseScene::mMasterSoundVol = 1.0f;
@@ -392,6 +420,13 @@ void GamePlay::Setting()
 			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 			{
 				BaseScene::mMasterSoundVol -= 0.1f;
+				OpAim1.x -= 48.0f;
+				OpAimA1.x -= 48.0f;
+				if (OpAim1.x < 352 && OpAimA1.x < 352)
+				{
+					OpAim1.x = 352.0f;
+					OpAimA1.x = 352.0f;
+				}
 				if (BaseScene::mMasterSoundVol <= 0.0f)
 				{
 					BaseScene::mMasterSoundVol = 0.0f;
@@ -402,9 +437,19 @@ void GamePlay::Setting()
 		//BGMボリューム
 		if (optionPos.y == 360)
 		{
+			OpFlag1 = false;
+			OpFlag2 = true;
+			OpFlag3 = false;
 			if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
 			{
 				BaseScene::mBGMSoundVol += 0.1f;
+				OpAim2.x += 48.0f;
+				OpAimA2.x += 48.0f;
+				if (OpAim2.x > 880 && OpAimA2.x > 880)
+				{
+					OpAim2.x = 880.0f;
+					OpAimA2.x = 880.0f;
+				}
 				if (BaseScene::mBGMSoundVol >= 1.0f)
 				{
 					BaseScene::mBGMSoundVol = 1.0f;
@@ -414,6 +459,13 @@ void GamePlay::Setting()
 			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 			{
 				BaseScene::mBGMSoundVol -= 0.1f;
+				OpAim2.x -= 48.0f;
+				OpAimA2.x -= 48.0f;
+				if (OpAim2.x < 352 && OpAim2.x < 352)
+				{
+					OpAim2.x = 352.0f;
+					OpAimA2.x = 352.0f;
+				}
 				if (BaseScene::mBGMSoundVol <= 0.0f)
 				{
 					BaseScene::mBGMSoundVol = 0.0f;
@@ -424,9 +476,19 @@ void GamePlay::Setting()
 		//SEボリューム
 		if (optionPos.y == 540)
 		{
+			OpFlag1 = false;
+			OpFlag2 = false;
+			OpFlag3 = true;
 			if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
 			{
 				BaseScene::mSESoundVol += 0.1f;
+				OpAim3.x += 48.0f;
+				OpAimA3.x += 48.0f;
+				if (OpAim3.x > 880 && OpAimA3.x > 880)
+				{
+					OpAim3.x = 880.0f;
+					OpAimA3.x = 880.0f;
+				}
 				if (BaseScene::mSESoundVol >= 1.0f)
 				{
 
@@ -437,6 +499,13 @@ void GamePlay::Setting()
 			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 			{
 				BaseScene::mSESoundVol -= 0.1f;
+				OpAim3.x -= 48.0f;
+				OpAimA3.x -= 48.0f;
+				if (OpAim3.x < 352 && OpAimA3.x < 352)
+				{
+					OpAim3.x = 352.0f;
+					OpAimA3.x = 352.0f;
+				}
 				if (BaseScene::mSESoundVol <= 0.0f)
 				{
 
@@ -445,12 +514,12 @@ void GamePlay::Setting()
 				mTimer->setTime(0.5f);
 			}
 		}
-
-
 		if (Input::KeyDown(DIK_RETURN) || Input::KeyDown(DIK_NUMPADENTER))
 		{
 			settingFlag = false;
 		}
+
+		mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	}
 }
 void GamePlay::ResultF()

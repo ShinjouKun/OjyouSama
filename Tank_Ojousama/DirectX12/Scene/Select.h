@@ -38,6 +38,10 @@ private:
 	bool selectFlag = false;
 	//
 	bool cameramoveFlag = false;
+	float SelectAlfa1;
+	float SelectAlfa2;
+	float SelectAlfa3;
+	float SelectAlfa4;
 	//説明用フラグ
 	bool setumeiFlag = false;
 	//ターゲット１

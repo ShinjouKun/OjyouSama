@@ -48,6 +48,7 @@ void Result::StartScene()
 	ojyouXR = 7;
 	ojyouXL = 7;
 	mTimer = std::make_shared<Timer>(0.01f);
+	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 }
 
 void Result::UpdateScene()
@@ -55,7 +56,6 @@ void Result::UpdateScene()
 	mTimer->update();
 	speed += 1;
 	mSound->playLoop();
-	mSound->setVol(BaseScene::mBGMSoundVol);
 	ojyouY = ojyouY + speed;
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
@@ -127,12 +127,11 @@ void Result::DrawScene()
 
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("TankPlayerA", Vector3(0,0,0), Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
-	//playerModel->Draw("TankPlayerHou", Vector3(position.x, position.y, position.z), Vector3(fireAngle, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("TankPlayerB", Vector3(0,0,0 ), Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("ArmR", Vector3(0,3.2f + ojyouZ,0 ), Vector3(150, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("OjyouSama", Vector3(0,0 + ojyouZ,0 ), Vector3(0, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("ArmL", Vector3(0,3.2f + ojyouZ,0 ), Vector3(150, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(7, 7, 7));
+	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(7, 7, 7));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();

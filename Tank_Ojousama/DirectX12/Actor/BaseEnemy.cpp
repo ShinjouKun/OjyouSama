@@ -116,6 +116,7 @@ void BaseEnemy::Initialize()
 	loopCount = 0;
 	moveCount = 0;
 	arrayCount = 0;
+	damage = 5;
 
 	isInvincible = false;
 	hitSensor = false;

@@ -7,7 +7,8 @@
 #include "../Device/DirectXManager.h"
 
 namespace {
-	const int dataSize = 24;
+	//const int dataSize = 24;
+	const int dataSize = 48;
 }
 OBJData & ModelLoader::GetOBJData(const string& keyWord)
 {

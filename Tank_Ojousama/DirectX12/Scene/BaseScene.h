@@ -30,6 +30,13 @@ public:
 	static float mBGMSoundVol;
 	static float mSESoundVol;
 	static int mMoney;
+	static Vector3 OpAim1;
+	static Vector3 OpAim2;
+	static Vector3 OpAim3;
+	static Vector3 OpAimA1;
+	static Vector3 OpAimA2;
+	static Vector3 OpAimA3;
+
 private:
 	std::shared_ptr<BaseScene>mNext;
 	void Start();

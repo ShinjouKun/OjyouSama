@@ -12,6 +12,8 @@
 //FPS用
 #include<thread>
 #include<chrono>
+//数字
+#include"Utility/Sequence/Sequence.h"
 
 using namespace Microsoft::WRL;
 using namespace std;
@@ -109,14 +111,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titlerogo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/start.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/cars.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/voloption.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/volAim.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/volAimA.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/Sankaku.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeOjoSelect.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeHeadSelect.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeBodySelect.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/unti.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Bom.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/garege.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/syata.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/croshear.png");
 
 	//TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_sneaker_Color.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_LR.png");	
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/face_color.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hand_bow_color.png");
 
-	
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
 
@@ -130,6 +142,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensha_body.obj");//車体
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/houtou.obj");//砲塔
+
+	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Type2_head.obj");//砲塔
+	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Typ2_body.obj");//砲塔
+
 	//お嬢様
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_body.obj");
@@ -179,6 +195,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//当たり判定用の円
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/maru.obj");
 
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/big_sensha_head.obj");//砲塔
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/big_sensha_body.obj");//砲塔
+
+	//ゴーレム
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_body.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_R.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_L.obj");
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
 	
@@ -199,7 +222,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//シーン
 	mScene = std::make_unique<SceneManager>(sprite, model, paricle);
 
-	
+	//数字関連
+	auto & nums = Sequence::instance();
+	nums.setDev(DirectXManager::GetInstance()->Dev());
 	while (true)
 	{
 
@@ -222,6 +247,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		s.update();//各updateが終わった後に音の処理を入れる
 		DirectXManager::GetInstance()->SetDrawComnd();
 		mScene->Draw();
+		nums.drawNumber(DirectXManager::GetInstance()->CmdList(),pipeLine);
 		DirectXManager::GetInstance()->PostEffctEnd();
 		DirectXManager::GetInstance()->Begin();
 		
@@ -247,7 +273,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma endregion
 		
 	}
-
+	nums.finalize();
 	window->DeleateGameWindow();//ゲームwindow破棄
 	pipeLine->Clear();
 	delete input;

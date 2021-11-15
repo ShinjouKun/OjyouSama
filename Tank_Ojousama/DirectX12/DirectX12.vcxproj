@@ -167,6 +167,8 @@
     <ClCompile Include="Actor\MortarEnemy.cpp" />
     <ClCompile Include="Actor\ReportArea.cpp" />
     <ClCompile Include="Actor\SniperEnemy.cpp" />
+    <ClCompile Include="Actor\SummonEnemy.cpp" />
+    <ClCompile Include="Actor\TestBoss.cpp" />
     <ClCompile Include="Actor\TestBreadCrumb.cpp" />
     <ClCompile Include="Actor\TestEnemy.cpp" />
     <ClCompile Include="Actor\TestWayPoint.cpp" />
@@ -256,6 +258,7 @@
     <ClCompile Include="Device\Window.cpp" />
     <ClCompile Include="Utility\ModelChanger.cpp" />
     <ClCompile Include="Utility\Random.cpp" />
+    <ClCompile Include="Utility\Sequence\Sequence.cpp" />
     <ClCompile Include="Utility\TextEditer.cpp" />
     <ClCompile Include="Utility\Timer\Timer.cpp" />
     <ClCompile Include="Weapons\LandMine.cpp" />
@@ -434,6 +437,8 @@
     <ClInclude Include="Actor\MortarEnemy.h" />
     <ClInclude Include="Actor\ReportArea.h" />
     <ClInclude Include="Actor\SniperEnemy.h" />
+    <ClInclude Include="Actor\SummonEnemy.h" />
+    <ClInclude Include="Actor\TestBoss.h" />
     <ClInclude Include="Actor\TestBreadCrumb.h" />
     <ClInclude Include="Actor\TestEnemy.h" />
     <ClInclude Include="Actor\TestItem.h" />
@@ -555,6 +560,7 @@
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Utility\ModelChanger.h" />
     <ClInclude Include="Utility\Random.h" />
+    <ClInclude Include="Utility\Sequence\Sequence.h" />
     <ClInclude Include="Utility\SmartPtr.h" />
     <ClInclude Include="Utility\TextEditer.h" />
     <ClInclude Include="Utility\Timer\Timer.h" />

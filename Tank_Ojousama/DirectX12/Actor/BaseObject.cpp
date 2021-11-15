@@ -27,6 +27,23 @@ void BaseObject::CollisonUpdate()
 	}
 }
 
+Vector3 BaseObject::RotateX(float angle)
+{
+	Vector3 v;
+
+	angle = angle + 45.0f;
+	angle = angle * PI / 180.0f;
+
+	float sin = sinf(angle);
+	float cos = cosf(angle);
+
+	float y = cos + sin;
+	float z = -(sin)+cos;
+
+	v = Vector3(0.0f, y, z);
+	return v;
+}
+
 Vector3 BaseObject::RotateY(float angle)
 {
 	Vector3 v;
@@ -43,6 +60,7 @@ Vector3 BaseObject::RotateY(float angle)
 	v = Vector3(x,0.0f,z);
 	return v;
 }
+
 
 void BaseObject::SetHP(const int hp)
 {

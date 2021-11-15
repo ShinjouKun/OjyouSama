@@ -22,9 +22,9 @@ void Title::StartScene()
 	ojyouY = 0.0f;
 	ojyouXR = 0.0f;
 	ojyouXL = 0.0f;
-	camera->SetEye(Vector3(0.0f,0 ,-120));
+	camera->SetEye(Vector3(0.0f,0 ,-122));
 	camera->SetTarget(Vector3(0.0f, 0,-100.0f));
-	ojoP = Vector3(0, -5, -110);
+	ojoP = Vector3(0, -25, -113);
 	BaseScene::mSprite->AddTexture("Title", "Resouse/titlerogo.png");
 	BaseScene::mSprite->AddTexture("Push", "Resouse/start.png");
 	BaseScene::mSprite->AddTexture("Heart", "Resouse/heart.png");
@@ -35,15 +35,15 @@ void Title::StartScene()
 	BaseScene::mModel->AddModel("TankPlayerA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
 	BaseScene::mModel->AddModel("TankPlayerB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
 	BaseScene::mModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
-	BaseScene::mModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
+	BaseScene::mModel->SetAncPoint("ArmR", Vector3(0.0f, -1.9f, -0.1f));
 	BaseScene::mModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
-	BaseScene::mModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
+	BaseScene::mModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, 0.0f));
 	BaseScene::mModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
-	BaseScene::mModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
+	BaseScene::mModel->SetAncPoint("ArmL", Vector3(0.0f, -1.9f, -0.1f));
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//mSound->play();
-	mSound->setVol(BaseScene::mBGMSoundVol);
+	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 }
 
 void Title::UpdateScene()
@@ -66,18 +66,18 @@ void Title::UpdateScene()
 
 void Title::DrawScene()
 {
-	ojyouXR -= 10.0f;
-	ojyouXL += 10.0f;
-	ojyouY -= 10.0f;
+	ojyouXR = 180.0f;
+	ojyouXL = 180.0f;
+	//ojyouY -= 10.0f;
 
 	DirectXManager::GetInstance()->SetData3D();
 	//BaseScene::mModel->Draw("Sora", Vector3(0, 0, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	BaseScene::mModel->Draw("TankPlayerA", ojoP, Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
 	//playerModel->Draw("TankPlayerHou", Vector3(position.x, position.y, position.z), Vector3(fireAngle, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("TankPlayerB", ojoP, Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
-	BaseScene::mModel->Draw("ArmR", Vector3(ojoP.x, ojoP.y+3.2f, ojoP.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-	BaseScene::mModel->Draw("OjyouSama", ojoP, Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-	BaseScene::mModel->Draw("ArmL", Vector3(ojoP.x, ojoP.y + 3.2f, ojoP.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+	BaseScene::mModel->Draw("ArmR", Vector3(ojoP.x, ojoP.y+25.0f, ojoP.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
+	BaseScene::mModel->Draw("OjyouSama", ojoP, Vector3(0, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
+	BaseScene::mModel->Draw("ArmL", Vector3(ojoP.x, ojoP.y+25.0f, ojoP.z), Vector3(ojyouXL, -ojyouY,0), Vector3(10.0f, 10.0f, 10.0f));
 	//BaseScene::mModel->Draw("Ground", Vector3(-20.0f, 4.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("Title", Vector3(100, 100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
