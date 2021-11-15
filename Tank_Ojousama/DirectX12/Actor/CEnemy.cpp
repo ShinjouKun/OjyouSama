@@ -97,7 +97,7 @@ void CEnemy::EnemyInit()
 	mCircle = "Circle";
 	num = to_string(number);
 	mCircleNumber = mCircle + num;
-	mModelRender->AddModel(mCircleNumber, "Resouse/maru.obj", "Resouse/select.png");
+	mModelRender->AddModel(mCircleNumber, "Resouse/maru.obj", "Resouse/marui.png");
 
 #pragma endregion
 }
@@ -225,7 +225,7 @@ void CEnemy::EnemyRend()
 	mModelRender->Draw(numBarrel, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
 	mModelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
 	mModelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), scale);
-	mModelRender->Draw(mCircleNumber, Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), Vector3(10, 1, 10));
+	mModelRender->Draw(mCircleNumber, Vector3(position.x, position.y + 5.0f, position.z), Vector3(0, 0, 0), Vector3(10, 10, 10));
 }
 
 void CEnemy::EnemyOnCollision(BaseCollider * col)
