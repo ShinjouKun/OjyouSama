@@ -369,8 +369,8 @@ vn 0.000000 1.000000 0.000000
 vn 0.000000 1.000000 0.000000
 vn 0.000000 1.000000 0.000000
 s 1
-g pCube1 group2 sensha_head
-usemtl blinn10SG
+g pCube1 group2 group5
+usemtl blinn7SG
 f 1/1/1 2/2/2 6/6/3
 f 6/6/3 2/2/2 7/7/4
 f 2/2/2 3/3/5 7/7/4
@@ -675,8 +675,8 @@ vn 0.000001 0.000000 1.000000
 vn -0.000001 0.000000 1.000000
 vn -0.000005 0.000000 1.000000
 s 1
-g group2 sensha_head pCylinder1
-usemtl blinn10SG
+g group2 group5 pCylinder1
+usemtl blinn7SG
 f 101/126/149 102/127/150 108/134/151
 f 108/134/151 102/127/150 109/135/152
 s 2
@@ -821,8 +821,8 @@ vn 0.000004 -1.000000 -0.000002
 vn 0.000007 -1.000000 -0.000003
 vn -0.000009 -1.000000 -0.000004
 s 1
-g group2 sensha_head pCylinder2
-usemtl blinn10SG
+g group2 group5 pCylinder2
+usemtl blinn7SG
 f 123/157/206 124/158/207 131/166/208
 f 131/166/208 124/158/207 132/167/209
 s 2

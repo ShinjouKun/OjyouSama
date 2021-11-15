@@ -125,8 +125,8 @@ vn 1.000000 0.000000 0.000000
 vn 1.000000 -0.000000 0.000000
 vn 1.000000 -0.000000 0.000000
 s 1
-g pasted__pCube1 pasted__sensha_B sensha_body
-usemtl blinn10SG
+g pasted__pCube1 pasted__sensha_B group
+usemtl blinn3SG
 f 1/1/1 2/2/2 6/4/3
 f 6/4/3 2/2/2 7/3/4
 f 2/2/2 3/5/5 7/3/4
@@ -1826,8 +1826,8 @@ vn -1.000000 0.000000 0.000000
 vn -1.000000 0.000001 0.000000
 vn -1.000000 0.000001 0.000000
 s 1
-g pasted__sensha_B sensha_body pasted__pasted__sensha pasted__group
-usemtl blinn10SG
+g pasted__sensha_B group pasted__pasted__sensha pasted__group
+usemtl blinn3SG
 f 39/31/63 33/34/64 40/32/65
 f 40/32/65 33/34/64 34/33/66
 s 2

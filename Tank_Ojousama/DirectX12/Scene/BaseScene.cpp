@@ -1,9 +1,15 @@
 #include "BaseScene.h"
 
-float BaseScene::mMasterSoundVol = 1.0f;
+float BaseScene::mMasterSoundVol = 0.5f;
 float BaseScene::mBGMSoundVol =  0.5f;
 float BaseScene::mSESoundVol =  0.5f;
 int BaseScene::mMoney = 0;
+Vector3 BaseScene::OpAim1 = Vector3((Window::Window_Width / 2) - 32, 180, 0);
+Vector3 BaseScene::OpAim2 = Vector3((Window::Window_Width / 2) - 32, 360, 0);
+Vector3 BaseScene::OpAim3 = Vector3((Window::Window_Width / 2) - 32, 540, 0);
+Vector3 BaseScene::OpAimA1 = Vector3((Window::Window_Width / 2) - 32, 180, 0);
+Vector3 BaseScene::OpAimA2 = Vector3((Window::Window_Width / 2) - 32, 360, 0);
+Vector3 BaseScene::OpAimA3 = Vector3((Window::Window_Width / 2) - 32, 540, 0);
 
 BaseScene::BaseScene()
 	:mSprite(nullptr),
@@ -21,8 +27,7 @@ BaseScene::~BaseScene()
 
 void BaseScene::Update()
 {
-	BaseScene::mBGMSoundVol = BaseScene::mMasterSoundVol *  BaseScene::mBGMSoundVol;
-	BaseScene::mSESoundVol = BaseScene::mMasterSoundVol *  BaseScene::mSESoundVol;
+
 	Start();
 	UpdateScene();
 }

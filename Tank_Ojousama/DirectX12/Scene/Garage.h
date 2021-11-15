@@ -9,6 +9,8 @@
 #include "../Collision/CollisionPrimitive.h"
 #include "../Actor/Player.h"
 #include "../Actor/ObjectManager.h"
+class Sound;
+class Timer;
 class Garage :public BaseScene
 {
 public:
@@ -24,8 +26,27 @@ private:
 
 	virtual void DrawScene() override;
 
-	Camera* camera;
 	ObjectManager* objM;
-	Player* player;//ÉvÉåÉCÉÑÅ[ÇÃé¿ëÃê∂ê¨
+	std::shared_ptr<Sound> mSound;
 
+	float fade;
+	bool fadeF;
+	bool ChangeFlag;
+	int keyflag;
+	float SAlfa1;
+	float SAlfa2;
+	float SAlfa3;
+
+	Camera* camera;
+	Vector3 camerapos = Vector3(0, 0, 0);
+	Vector3 setcamerapos = Vector3(10, 0, 10);
+	Vector3 SentakuPos1;
+	Vector3 SentakuPos2;
+	Vector3 SentakuPos3;
+	Vector3 SentakuPos4;
+	Vector3 SentakuPos5;
+	Vector3 SentakuPos6;
+	Vector3 Syata;
+
+	std::shared_ptr<Timer> mTimer;
 };

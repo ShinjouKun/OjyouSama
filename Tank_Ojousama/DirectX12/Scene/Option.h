@@ -9,6 +9,9 @@
 #include "../Collision/CollisionPrimitive.h"
 #include "../Actor/Player.h"
 #include "../Actor/ObjectManager.h"
+
+class Sound;
+class Timer;
 class Option :public BaseScene
 {
 public:
@@ -28,4 +31,15 @@ private:
 	ObjectManager* objM;
 	Player* player;//プレイヤーの実体生成
 
+	//ボリューム用フラグ
+	bool OpFlag1;
+	bool OpFlag2;
+	bool OpFlag3;
+
+	Vector3 posePos;
+	Vector3 optionPos;
+
+	std::shared_ptr<Sound> mSound;
+
+	std::shared_ptr<Timer> mTimer;
 };

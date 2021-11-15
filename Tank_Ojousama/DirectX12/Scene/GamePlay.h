@@ -60,8 +60,11 @@ private:
 	//リザルトフラグ
 	bool resultFlag = false;
 	int time = 0;
-	//ボリュームマスター用
-	float masterVol;
+	//ボリューム用フラグ
+	bool OpFlag1;
+	bool OpFlag2;
+	bool OpFlag3;
+
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;
