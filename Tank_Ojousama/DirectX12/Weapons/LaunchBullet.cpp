@@ -123,6 +123,8 @@ void LaunchBullet::Move()
 		distHold.y = -mVelocityY;
 	}
 
+	//弾が、生成位置より下に行かないよ！
+
 	velocity = distHold * speed;
 	position += velocity;
 

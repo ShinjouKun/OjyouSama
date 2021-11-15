@@ -58,6 +58,8 @@ private:
 	const float SEARCH_LENGTH = 50.0f;//この距離以内になったら追跡する
 	const float FIND_LRNGTH = 20.0f;  //この距離以内になったら突撃する
 	const float ATTACK_LENGTH = 5.0f; //この距離以内になったら攻撃する
+	float tt = 0.0f;
+	float t = 3.0f;
 
 	bool mWithinPlayerFlag;//範囲内にプレイヤーがいるか？
 	bool mAttackFlag;//攻撃中か

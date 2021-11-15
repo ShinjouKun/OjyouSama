@@ -101,7 +101,7 @@ void SummonEnemy::Update()
 		float radian = atan2(distance.x, distance.z);
 		//回転を反映
 		angle.y = Math::toDegrees(radian) + 180.0f;
-		float test = -Math::toDegrees(radian) - 180.0f;
+		tt = -Math::toDegrees(radian) - 180.0f;
 
 		velocity = distance * speed;
 		position += velocity;
@@ -149,7 +149,7 @@ void SummonEnemy::Update()
 		{
 		case SummonEnemy::FALL_DOWN:
 
-			angle.x++;
+			angle.x += t;
 			if (angle.x > 90.0f)
 			{
 				mAttackStep = AttackStep::WAIT;
@@ -158,10 +158,24 @@ void SummonEnemy::Update()
 			break;
 		case SummonEnemy::WAIT:
 
+			mGetupTimer->update();
 
+			if (mGetupTimer->isTime())
+			{
+				mGetupTimer->setTime(1.0f);
+				mAttackStep = AttackStep::GET_UP;
+			}
 
 			break;
 		case SummonEnemy::GET_UP:
+
+			angle.x -= t;
+			if (angle.x <= 0.0f)
+			{
+				mAttackFlag = false;
+				mAttackStep = AttackStep::FALL_DOWN;
+			}
+
 			break;
 		default:
 			break;
@@ -179,7 +193,7 @@ void SummonEnemy::Rend()
     //if(!GetActive()) return;
 
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	mModelRender->Draw(mModelNumName01, position, Vector3(angle.x,angle.y,angle.z), Vector3(0.5f, 0.5f, 0.5f));
+	mModelRender->Draw(mModelNumName01, position, Vector3(angle.x,tt,angle.z), Vector3(0.5f, 0.5f, 0.5f));
 }
 
 void SummonEnemy::ImGuiDebug()
