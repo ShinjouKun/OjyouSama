@@ -17,7 +17,8 @@ Title::~Title()
 
 void Title::StartScene()
 {
-	fade = 0;
+	fade1 = 1;
+	fade2 = 0;
 	fadeF = false;
 	ojyouY = 0.0f;
 	ojyouXR = 0.0f;
@@ -28,7 +29,8 @@ void Title::StartScene()
 	BaseScene::mSprite->AddTexture("Title", "Resouse/titlerogo.png");
 	BaseScene::mSprite->AddTexture("Push", "Resouse/start.png");
 	BaseScene::mSprite->AddTexture("Heart", "Resouse/heart.png");
-	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
+	BaseScene::mSprite->AddTexture("Fade1", "Resouse/fade.png");
+	BaseScene::mSprite->AddTexture("Fade2", "Resouse/fade.png");
 	BaseScene::mModel->AddModel("Sora", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/ground.png");
 
@@ -48,18 +50,26 @@ void Title::StartScene()
 
 void Title::UpdateScene()
 {
-	mSound->playLoop();
-	if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+	fade1 -= 0.01f;
+	if (fade1 < 0)
 	{
-		fadeF = true;
-		//NextScene(std::make_shared<Select>());
+		fade1 = 0;
 	}
-	if (fadeF)
+	mSound->playLoop();
+	if (fade1 <= 0)
 	{
-		fade += 0.01;
-		if (fade >= 1)
+		if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 		{
-			NextScene(std::make_shared<Select>());
+			fadeF = true;
+			//NextScene(std::make_shared<Select>());
+		}
+		if (fadeF)
+		{
+			fade2 += 0.01;
+			if (fade2 >= 1)
+			{
+				NextScene(std::make_shared<Select>());
+			}
 		}
 	}
 }
@@ -83,6 +93,7 @@ void Title::DrawScene()
 	BaseScene::mSprite->Draw("Title", Vector3(100, 100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Push", Vector3(600, 300, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	//BaseScene::mSprite->SetSize("Fade", Vector2(560-fade, 0-fade));
-	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
+	BaseScene::mSprite->Draw("Fade1",Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade1));
+	BaseScene::mSprite->Draw("Fade2", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade2));
 	//BaseScene::mSprite->Draw("Heart", Vector3(0, 0, 0), 0.0f, Vector2(100, 1), Vector4(1, 1, 1, 1));
 }

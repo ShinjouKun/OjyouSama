@@ -32,6 +32,7 @@ void Option::StartScene()
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 
 	mTimer = std::make_shared<Timer>(0.01f);
+	mTimer->setTime(0.2f);
 }
 
 void Option::UpdateScene()
@@ -50,12 +51,12 @@ void Option::UpdateScene()
 	if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
 	{
 		optionPos += Vector3(0, 180.0f, 0);
-		mTimer->setTime(0.5f);
+		mTimer->setTime(0.2f);
 	}
 	if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
 	{
 		optionPos -= Vector3(0, 180.0f, 0);
-		mTimer->setTime(0.5f);
+		mTimer->setTime(0.2f);
 	}
 	//マスターボリューム
 	if (optionPos.y == 180)
@@ -77,7 +78,7 @@ void Option::UpdateScene()
 			{
 				BaseScene::mMasterSoundVol = 1.0f;
 			}
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 		{
@@ -93,7 +94,7 @@ void Option::UpdateScene()
 			{
 				BaseScene::mMasterSoundVol = 0.0f;
 			}
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 	}
 	//BGMボリューム
@@ -116,7 +117,7 @@ void Option::UpdateScene()
 			{
 				BaseScene::mBGMSoundVol = 1.0f;
 			}
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 		{
@@ -132,7 +133,7 @@ void Option::UpdateScene()
 			{
 				BaseScene::mBGMSoundVol = 0.0f;
 			}
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 	}
 	//SEボリューム
@@ -156,7 +157,7 @@ void Option::UpdateScene()
 
 				BaseScene::mSESoundVol = 1.0f;
 			}
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 		{
@@ -173,7 +174,7 @@ void Option::UpdateScene()
 
 				BaseScene::mSESoundVol = 0.0f;
 			}
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 	}
 	if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])

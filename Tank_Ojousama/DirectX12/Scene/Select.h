@@ -33,7 +33,8 @@ private:
 	Vector3 position;
 	Vector3 selectposition;
 
-	bool fadeF;
+	bool fadeF1;
+	bool fadeF2;
 	float fade;
 	bool selectFlag = false;
 	//

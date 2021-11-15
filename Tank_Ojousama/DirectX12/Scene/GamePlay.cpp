@@ -320,7 +320,7 @@ void GamePlay::Pose()
 				return;
 			}
 			selectposition.x -= 640;
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 
 		if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
@@ -330,25 +330,25 @@ void GamePlay::Pose()
 				return;
 			}
 			selectposition.x += 640;
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
 		{
 			selectposition.y = 360;
 			selectposition.x = 500;
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
 		{
 			selectposition.y = 180;
 			selectposition.x = 180;
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 		if (selectposition.x == 180)
 		{
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<Result>());
+				NextScene(std::make_shared<Select>());
 			}
 		}
 		if (selectposition.x == 820)
@@ -388,12 +388,12 @@ void GamePlay::Setting()
 		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
 		{
 			optionPos += Vector3(0, 180.0f, 0);
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
 		{
 			optionPos -= Vector3(0, 180.0f, 0);
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 		//マスターボリューム
 		if (optionPos.y == 180)
@@ -415,7 +415,7 @@ void GamePlay::Setting()
 				{
 					BaseScene::mMasterSoundVol = 1.0f;
 				}
-				mTimer->setTime(0.5f);
+				mTimer->setTime(0.2f);
 			}
 			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 			{
@@ -431,7 +431,7 @@ void GamePlay::Setting()
 				{
 					BaseScene::mMasterSoundVol = 0.0f;
 				}
-				mTimer->setTime(0.5f);
+				mTimer->setTime(0.2f);
 			}
 		}
 		//BGMボリューム
@@ -454,7 +454,7 @@ void GamePlay::Setting()
 				{
 					BaseScene::mBGMSoundVol = 1.0f;
 				}
-				mTimer->setTime(0.5f);
+				mTimer->setTime(0.2f);
 			}
 			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 			{
@@ -470,7 +470,7 @@ void GamePlay::Setting()
 				{
 					BaseScene::mBGMSoundVol = 0.0f;
 				}
-				mTimer->setTime(0.5f);
+				mTimer->setTime(0.2f);
 			}
 		}
 		//SEボリューム
@@ -494,7 +494,7 @@ void GamePlay::Setting()
 
 					BaseScene::mSESoundVol = 1.0f;
 				}
-				mTimer->setTime(0.5f);
+				mTimer->setTime(0.2f);
 			}
 			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
 			{
@@ -511,7 +511,7 @@ void GamePlay::Setting()
 
 					BaseScene::mSESoundVol = 0.0f;
 				}
-				mTimer->setTime(0.5f);
+				mTimer->setTime(0.2f);
 			}
 		}
 		if (Input::KeyDown(DIK_RETURN) || Input::KeyDown(DIK_NUMPADENTER))
