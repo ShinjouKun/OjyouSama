@@ -112,7 +112,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/voloption.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/volAim.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/volAimA.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/Sankaku.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeOjoSelect.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeHeadSelect.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeBodySelect.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/unti.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Bom.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/garege.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/syata.jpg");
 
 	//TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_sneaker_Color.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_LR.png");	
@@ -132,6 +139,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensha_body.obj");//Ô‘Ì
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/houtou.obj");//–C“ƒ
+
+	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Type2_head.obj");//–C“ƒ
+	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Typ2_body.obj");//–C“ƒ
+
 	//‚¨ì—l
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_body.obj");
@@ -181,6 +192,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//“–‚½‚è”»’è—p‚Ì‰~
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/maru.obj");
 
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/big_sensha_head.obj");//–C“ƒ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/big_sensha_body.obj");//–C“ƒ
 	//ƒXƒvƒ‰ƒCƒg
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
 	

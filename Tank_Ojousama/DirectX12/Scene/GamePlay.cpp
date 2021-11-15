@@ -37,12 +37,6 @@ void GamePlay::StartScene()
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
 	optionPos = Vector3(180, 180, 0);
-	OpAim1 = Vector3((Window::Window_Width / 2) - 32, 180, 0);
-	OpAim2 = Vector3((Window::Window_Width / 2) - 32, 360, 0);
-	OpAim3 = Vector3((Window::Window_Width / 2) - 32, 540, 0);
-	OpAimA1 = Vector3((Window::Window_Width / 2) - 32, 180, 0);
-	OpAimA2 = Vector3((Window::Window_Width / 2) - 32, 360, 0);
-	OpAimA3 = Vector3((Window::Window_Width / 2) - 32, 540, 0);
 	//è·äQï®
 
 //int s = 0;

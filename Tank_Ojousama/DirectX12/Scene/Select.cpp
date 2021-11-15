@@ -23,6 +23,10 @@ void Select::StartScene()
 	//g = new GamePlay();
 	fade = 0;
 	fadeF = false;
+	SelectAlfa1 = 0.5f;
+	SelectAlfa2 = 0.5f;
+	SelectAlfa3 = 0.5f;
+	SelectAlfa4 = 0.5f;
 	camerapos = Vector3(100.0f, 0.0f, 0);
 	setcamerapos = Vector3(110, 0, 0);
 	//camera->SetEye(camerapos);
@@ -104,40 +108,55 @@ void Select::UpdateScene()
 		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
 		{
 			selectposition.y -= 64;
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 
 		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
 		{
 			selectposition.y += 64;
-			mTimer->setTime(0.5f);
+			mTimer->setTime(0.2f);
 		}
 		if (selectposition.y == 64)
 		{
+			SelectAlfa1 = 1.0f;
+			SelectAlfa2 = 0.5f;
+			SelectAlfa3 = 0.5f;
+			SelectAlfa4 = 0.5f;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				selectFlag = true;
-				//mTimer->setTime(0.5f);
 			}
 		}
 		else if (selectposition.y == 128)
 		{
+			SelectAlfa1 = 0.5f;
+			SelectAlfa2 = 1.0f;
+			SelectAlfa3 = 0.5f;
+			SelectAlfa4 = 0.5f;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				//NextScene(std::make_shared<Option>());
-				mTimer->setTime(0.5f);
+				NextScene(std::make_shared<Garage>());
+				mTimer->setTime(0.2f);
 			}
 		}		
 		else if (selectposition.y == 192)
 		{
+			SelectAlfa1 = 0.5f;
+			SelectAlfa2 = 0.5f;
+			SelectAlfa3 = 1.0f;
+			SelectAlfa4 = 0.5f;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				//NextScene(std::make_shared<Garage>());
-				mTimer->setTime(0.5f);
+				NextScene(std::make_shared<Option>());
+				mTimer->setTime(0.2f);
 			}
 		}
 		else if (selectposition.y == 256)
 		{
+			SelectAlfa1 = 0.5f;
+			SelectAlfa2 = 0.5f;
+			SelectAlfa3 = 0.5f;
+			SelectAlfa4 = 1.0f;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				NextScene(std::make_shared<Title>());
@@ -243,10 +262,10 @@ void Select::DrawScene()
 		BaseScene::mSprite->Draw("Arm", Vector3(position.x -80 , position.y - 32, 0), 0.0f, Vector2(5, 1), Vector4(1, 1, 1, 1));
 	if (selectFlag == false)
 	{
-		BaseScene::mSprite->Draw("Titleback", titleback, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("Option", option, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("Syutugeki", syutu, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("Garage", garege, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Titleback", titleback, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa4));
+		BaseScene::mSprite->Draw("Option", option, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa3));
+		BaseScene::mSprite->Draw("Syutugeki", syutu, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa1));
+		BaseScene::mSprite->Draw("Garage", garege, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa2));
 	}
 	if (setumeiFlag)
 	{
@@ -254,7 +273,7 @@ void Select::DrawScene()
 	}
 	if (selectFlag == false)
 	{
-		BaseScene::mSprite->Draw("AIM1", Vector3(selectposition.x - 32, selectposition.y - 32, 0), 0.0f, Vector2(3, 1), Vector4(1, 1, 1, 1));
+		//BaseScene::mSprite->Draw("AIM1", Vector3(selectposition.x - 32, selectposition.y - 32, 0), 0.0f, Vector2(3, 1), Vector4(1, 1, 1, 1));
 	}
 	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 }

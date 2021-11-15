@@ -71,12 +71,6 @@ private:
 	Vector3 camerapos = Vector3(0, 0, 0);
 	Vector3 setcamerapos = Vector3(10, 0, 10);
 	Vector3 optionPos;
-	Vector3 OpAim1;
-	Vector3 OpAim2;
-	Vector3 OpAim3;
-	Vector3 OpAimA1;
-	Vector3 OpAimA2;
-	Vector3 OpAimA3;
 	//BreadCrumbCreater* mBreadCreator;
 	//WayPointManager * mpointManager;
 
