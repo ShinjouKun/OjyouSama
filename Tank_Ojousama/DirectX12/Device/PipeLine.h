@@ -24,6 +24,7 @@ public:
 	HRESULT SetPipeline3D(string shaderName);
 	HRESULT SetPipeline2D(string shaderName);
 	HRESULT SetPipelineParticle(string shaderName);
+	HRESULT SetPipelineSequence(string shaderName);
 	ID3D12PipelineState* GetPipeLineState(string shaderName);
 	ID3D12RootSignature* GetRootSignature(string shaderName);
     ID3D12DescriptorHeap* GetDescripterHeap()const;//3d—p

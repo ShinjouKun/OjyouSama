@@ -84,6 +84,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipeLine->SetPipeline2D("unti2d");
 	pipeLine->SetPipeline3D("unti");
 	pipeLine->SetPipelineParticle("untiP");
+	pipeLine->SetPipelineSequence("ahokusa");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hit.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/sougen.png");
