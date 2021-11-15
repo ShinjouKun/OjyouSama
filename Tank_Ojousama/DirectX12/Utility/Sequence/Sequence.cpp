@@ -83,9 +83,9 @@ void Sequence::setDev(ID3D12Device * dev)
 	mDev = dev;
 	const constexpr float constant = 1.0f / 10.0f;//10等分にする(小数点ありなら11等分にする)
 
-	for (float i = 0.f; i < 1.f; i += 0.1f)//0～9の10個作る
+	for (int i = 0; i < 10; ++i)//0～9の10個作る
 	{
-		float width = constant * i;//uvの位置
+		float width = constant * static_cast<float>(i);//uvの位置
 		createBuff(Vector2(width, 0.f), Vector2(width + constant, 1.f));
 	}
 	//デスクリプタヒープを生成
@@ -179,9 +179,9 @@ void Sequence::drawNumber(ID3D12GraphicsCommandList* cmdList, PipeLine* pipeLine
 	cmdList->SetDescriptorHeaps(_countof(ppHeap), ppHeap);
 
 	//パイプライン設定
-	cmdList->SetPipelineState(pipeLine->GetPipeLineState("unti2d"));
+	cmdList->SetPipelineState(pipeLine->GetPipeLineState("ahokusa"));
 	//ルートシグネスチャ生成
-	cmdList->SetGraphicsRootSignature(pipeLine->GetRootSignature("unti2d"));
+	cmdList->SetGraphicsRootSignature(pipeLine->GetRootSignature("ahokusa"));
 	//プリミティブ形状
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
@@ -189,12 +189,12 @@ void Sequence::drawNumber(ID3D12GraphicsCommandList* cmdList, PipeLine* pipeLine
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuDescHandleCBV = mDescHeap->GetGPUDescriptorHandleForHeapStart();
 
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV = gpuDescHandleCBV;
-	gpuDescHandleSRV.ptr += descHandleIncrementSize * static_cast<UINT64>(mNums.size());
+	gpuDescHandleSRV.ptr += descHandleIncrementSize * (static_cast<UINT64>(mNums.size()));
 
-	for (int i = 0, end = static_cast<int>(mNums.size()); i < end; ++i)
+	for (auto& n : mNums)
 	{
 		//頂点バッファのセット
-		cmdList->IASetVertexBuffers(0, 1, &mVertBuffViews[i]);
+		cmdList->IASetVertexBuffers(0, 1, &mVertBuffViews[n]);
 
 		//定数バッファのセット
 		cmdList->SetGraphicsRootDescriptorTable(0, gpuDescHandleCBV);
@@ -343,9 +343,6 @@ void Sequence::createTexBuff(std::string texName)
 	);
 
 	assert(SUCCEEDED(hr));
-
-	mTexResource = nullptr;
-
 }
 
 std::string Sequence::intToString(int number)
