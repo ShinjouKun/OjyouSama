@@ -85,8 +85,14 @@ void TestBoss::Init()
 
 void TestBoss::Update()
 {
+	if (HP <= 0)
+	{
+		death = true;
+	}
+
+
 	//この敵は、プレイヤーとの距離で描画を分ける必要がある
-	//RapidFire();//連続射撃
+	RapidFire();//連続射撃
 
 	Summon();
 
@@ -97,7 +103,7 @@ void TestBoss::Update()
 void TestBoss::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	mModelRender->Draw(mModelNumName01, position, angle, Vector3(5.0f, 5.0f, 5.0f));
+	mModelRender->Draw(mModelNumName01, position, Vector3(angle.x,angle.y,angle.z), Vector3(5.0f, 5.0f, 5.0f));
 
 	//表示状態の時だけ、警告を表示
 	if (mDrawSummonPoint)
@@ -115,6 +121,11 @@ void TestBoss::ImGuiDebug()
 
 void TestBoss::OnCollison(BaseCollider * col)
 {
+	if (col->GetColObject()->GetType() == ObjectType::BULLET)
+	{
+		HP -= col->GetColObject()->GetDamage();
+	}
+
 }
 
 void TestBoss::RapidFire()
@@ -152,7 +163,8 @@ void TestBoss::RapidFire()
 			float t = Math::atan2(mTargetPosition.y, mTargetPosition.z);
 			float tt = -Math::toDegrees(t);
 
-			mObjManager->Add(new NormalBullet(test, Vector3(tt, mFireAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletCount++));
+			//mObjManager->Add(new NormalBullet(test, Vector3(tt, mFireAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletCount++));
+			mObjManager->Add(new LaunchBullet(position, mObjManager->GetPlayer().GetPosition(), mObjManager, mModelRender, mEffectManager, objType, mBulletCount++));
 
 			//指定数連続で射撃する
 			if (mBulletCount >= RAPIDFIRE_COUNT)
