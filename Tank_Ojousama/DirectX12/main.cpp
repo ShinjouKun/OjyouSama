@@ -12,6 +12,8 @@
 //FPS用
 #include<thread>
 #include<chrono>
+//数字
+#include"Utility/Sequence/Sequence.h"
 
 using namespace Microsoft::WRL;
 using namespace std;
@@ -220,7 +222,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//シーン
 	mScene = std::make_unique<SceneManager>(sprite, model, paricle);
 
-	
+	//数字関連
+	auto & nums = Sequence::instance();
+	nums.setDev(DirectXManager::GetInstance()->Dev());
 	while (true)
 	{
 
@@ -243,6 +247,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		s.update();//各updateが終わった後に音の処理を入れる
 		DirectXManager::GetInstance()->SetDrawComnd();
 		mScene->Draw();
+		nums.drawNumber(DirectXManager::GetInstance()->CmdList(),pipeLine);
 		DirectXManager::GetInstance()->PostEffctEnd();
 		DirectXManager::GetInstance()->Begin();
 		
@@ -268,7 +273,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma endregion
 		
 	}
-
+	nums.finalize();
 	window->DeleateGameWindow();//ゲームwindow破棄
 	pipeLine->Clear();
 	delete input;

@@ -24,13 +24,7 @@ Sequence::Sequence():
 	mVertBuffs.clear();
 	mConstBuffs.clear();
 
-	const constexpr float constant = 1.0f / 10.0f;//10等分にする(小数点ありなら11等分にする)
-
-	for (float i = 0.f; i < 1.f; i += 0.1f)//0～9の10個作る
-	{
-		float width = constant * i;//uvの位置
-		createBuff(Vector2(width, 0.f), Vector2(width + constant, 1.f));
-	}
+	
 
 	mMatProjection = Matrix4::Identity;
 	//原点をスクリーン左上にする
@@ -87,6 +81,13 @@ void Sequence::setDev(ID3D12Device * dev)
 {
 	if (mDev) return;
 	mDev = dev;
+	const constexpr float constant = 1.0f / 10.0f;//10等分にする(小数点ありなら11等分にする)
+
+	for (float i = 0.f; i < 1.f; i += 0.1f)//0～9の10個作る
+	{
+		float width = constant * i;//uvの位置
+		createBuff(Vector2(width, 0.f), Vector2(width + constant, 1.f));
+	}
 	//デスクリプタヒープを生成
 	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
 	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
