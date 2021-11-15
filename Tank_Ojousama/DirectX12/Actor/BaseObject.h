@@ -34,6 +34,7 @@ public:
 	virtual void Rend() = 0;
 	virtual void ImGuiDebug() = 0;
 	virtual void CollisonUpdate();
+	virtual Vector3 RotateX(float angle);
 	virtual Vector3 RotateY(float angle);
 	int GetDamage() { return damage; }//É_ÉÅÅ[ÉW
 

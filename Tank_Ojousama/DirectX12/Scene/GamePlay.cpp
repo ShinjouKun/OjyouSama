@@ -187,7 +187,6 @@ void GamePlay::StartScene()
 	BaseScene::mSprite->AddTexture("Ritorai", "Resouse/ritorai.png");
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
-
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	//プレイヤーは最後に、又はUIクラスを作る
 

@@ -111,11 +111,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/cars.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Bom.jpg");
 
-	//TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_sneaker_Color.png");
+	
+
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/croshear.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_LR.png");	
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/face_color.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hand_bow_color.png");
-
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/big_sensha.png");
 	
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
@@ -130,6 +132,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensha_body.obj");//ŽÔ‘Ì
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/houtou.obj");//–C“ƒ
+
+	
 	//‚¨ì—l
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_body.obj");
@@ -140,8 +144,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKBR.obj");//–Cg
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/kisikunTank.obj");
 	//Enemy
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyHou.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyDaiza.obj");
+	/*ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyHou.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyDaiza.obj");*/
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/GolemBody.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/GolemArm_L.obj");//–C“ƒ
@@ -175,7 +179,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/elf_head.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/leg_L.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/leg_R.obj");
-
+	//díŽÔ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/big_sensha_body.obj");//ŽÔ‘Ì
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/big_sensha_head.obj");//–C“ƒ
+	//ƒS[ƒŒƒ€
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_body.obj");//ŽÔ‘Ì
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_L.obj");//ŽÔ‘Ì
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_R.obj");//ŽÔ‘Ì
 	//“–‚½‚è”»’è—p‚Ì‰~
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/maru.obj");
 

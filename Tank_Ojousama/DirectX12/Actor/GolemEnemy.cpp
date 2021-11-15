@@ -509,19 +509,19 @@ void GolemEnemy::Init()
 	num = to_string(number);
 	numNameBody = Body + num;
 
-	Model->AddModel(numNameBody, "Resouse/GolemBody.obj", "Resouse/GolemBody.png");
+	Model->AddModel(numNameBody, "Resouse/gorem_body.obj", "Resouse/gorem.png");
 	Model->SetAncPoint(numNameBody, Vector3(-2.0f, -2.0f, -2.0f));
 	ArmR = "ArmR";
 	num = to_string(number);
 	numNameArmR = ArmR + num;
 
-	Model->AddModel(numNameArmR, "Resouse/GolemArm_R.obj", "Resouse/GolemArm_R.png");
+	Model->AddModel(numNameArmR, "Resouse/gorem_hands_R.obj", "Resouse/gorem.png");
 	Model->SetAncPoint(numNameArmR, Vector3(-2.0f, -4.0f, -2.0f));
 
 	ArmL = "ArmL";
 	num = to_string(number);
 	numNameArmL = ArmL + num;
-	Model->AddModel(numNameArmL, "Resouse/GolemArm_L.obj", "Resouse/GolemArm_L.png");
+	Model->AddModel(numNameArmL, "Resouse/gorem_hands_L.obj", "Resouse/gorem.png");
 	Model->SetAncPoint(numNameArmL, Vector3(-2.0f, -4.0f, -2.0f));
 	//ステータス対応
 	ArmPosL = Vector3(position.x - 0.1f, position.y + 5.0f, position.z);
@@ -613,7 +613,7 @@ void GolemEnemy::Rend()
 	{
 		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 		Model->Draw(numNameBody, Vector3(position.x, position.y, position.z), Vector3(bodyAngle.x, -bodyAngle.y, 0), Vector3(3.0f, 3.0f, 3.0f));
-		Model->Draw(numNameArmR, Vector3(ArmPosR.x, ArmPosR.y, ArmPosR.z), Vector3(ArmAngleR, -bodyAngle.y, zR), Vector3(4.0f, 4.0f, 4.0f));
+		//Model->Draw(numNameArmR, Vector3(ArmPosR.x, ArmPosR.y, ArmPosR.z), Vector3(ArmAngleR, -bodyAngle.y, zR), Vector3(4.0f, 4.0f, 4.0f));
 		Model->Draw(numNameArmL, Vector3(ArmPosL.x, ArmPosL.y, ArmPosL.z), Vector3(ArmAngleL, -bodyAngle.y, zL), Vector3(4.0f, 4.0f, 4.0f));
 	}
 }

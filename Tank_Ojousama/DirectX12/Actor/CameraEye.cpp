@@ -18,16 +18,13 @@ void CameraEye::Init()
 {
 	death = false;
 	objType = ObjectType::CAMEAR;
-	SetCollidder(Vector3(0,0,-90),10);//Ž‹”F”ÍˆÍ
+	SetCollidder(Vector3(0,0,-30),10);//Ž‹”F”ÍˆÍ
 }
 
 void CameraEye::Update()
 {
 	ImGuiDebug();
 	velocity = Vector3(0, 0, 0);
-	position = objM->GetPlayer().GetPosition();
-	camVel = RotateY(angle.y + 90.0f)*8.0f;
-	position = position + camVel;
 	if (Input::KeyState(DIK_RIGHT) || Input::pad_data.lZ > 0)
 	{
 		angle.y += 1.0f;
@@ -36,6 +33,10 @@ void CameraEye::Update()
 	{
 		angle.y -= 1.0f;
 	}
+	position = objM->GetPlayer().GetPosition();
+	camVel = RotateY(angle.y + 90.0f)*8.0f;
+	position = position + camVel;
+	
 	
 }
 
