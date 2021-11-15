@@ -1,25 +1,25 @@
 #pragma once
 #include "TextEditer.h"
 
-enum Head
+enum HeadState
 {
 	Normal,
 	Other01,
 	Other02,
 };
 
-enum Body
+enum BodyState
 {
 	Light,
 	Midium,
 	Heavy,
 };
 
-enum Bottom
+enum BottomState
 {
-	Light,
-	Midium,
-	Heavy,
+	Light_b,
+	Midium_b,
+	Heavy_b,
 };
 
 class ModelChanger
@@ -32,14 +32,18 @@ public:
 	void Load();
 	void Save();
 
-	void ChangeHead(Head& head);
-	void ChangeBody(Body& body);
-	void ChangeBottom(Bottom bottom);
+	void ChangeHead(HeadState headState);
+	void ChangeBody(BodyState bodyState);
+	void ChangeBottom(BottomState bottomState);
+
+	HeadState GetHeadState() { return head; }
+	BodyState GetBodyState() { return body; }
+	BottomState GetBottomState() { return bottom; }
 
 private:
 	vector<string> state;
-	Head head;
-	Body body;
-	Bottom bottom;
+	HeadState head;
+	BodyState body;
+	BottomState bottom;
 	TextEditor editor;
 };
