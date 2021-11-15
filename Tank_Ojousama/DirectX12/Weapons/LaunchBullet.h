@@ -50,6 +50,7 @@ private:
 
 	Vector3 mTargetPosition;//射撃位置
 	Vector3 mScale;         //サイズ
+	Vector3 mCircleScale;
 
 	int BULLET_DAMAGE = 10;//ダメージ
 
@@ -58,4 +59,8 @@ private:
 	float mHalfLength;//生成位置と目標位置の距離の半分を求める
 
 	string PARTICLE_NAME = "Bom";//エフェクトの名前
+
+	//落下地点用オブジェクト
+	string mBlockName = "BLOCK";
+	string numBlock;
 };

@@ -105,8 +105,8 @@ void MemberEnemy::AttackStep_FIRE()
 {
 	//’e”­ŽË
 	Vector3 firePosition = AngleToVectorY(barrelAngle);
-	//mObjManager->Add(new NormalBullet(position + firePosition, Vector3(0.0f, barrelAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
-	mObjManager->Add(new LaunchBullet(position + firePosition, mAttackTarget, mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+	mObjManager->Add(new NormalBullet(position + firePosition, Vector3(0.0f, barrelAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+	//mObjManager->Add(new LaunchBullet(position + firePosition, mAttackTarget, mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
 	mAttackStep = AttackStep::RELOAD;
 }
 
@@ -163,6 +163,7 @@ void MemberEnemy::Init()
 {
 	HP = 10;
 	speed = 0.2f;
+	damage = 5;
 	radius = 1.0f;
 	barrelAngle = angle.y;
 	turretAngle = 0.0f;

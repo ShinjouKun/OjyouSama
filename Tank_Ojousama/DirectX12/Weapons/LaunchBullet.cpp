@@ -35,6 +35,7 @@ void LaunchBullet::Init()
 
 	//自クラスの変数
 	mScale = Vector3().one;
+	mCircleScale = Vector3(5.0f, 5.0f, 5.0f);
 	mHalfLength = (mTargetPosition - position).Length() / 2.0f;
 
 	//コライダーのセット
@@ -45,6 +46,11 @@ void LaunchBullet::Init()
 	num = to_string(number);
 	numName = name + num;
 	mModelRender->AddModel(numName, "Resouse/Bullet.obj", "Resouse/Bullet.png");
+
+	//落下地点用オブジェクト
+	numBlock = mBlockName + num;
+	mModelRender->AddModel(numBlock, "Resouse/maru.obj", "Resouse/marui.png");
+	//mModelRender->SetAncPoint(numBlock, -mScale * 2.0f);
 
 	//パーティクルの設定
 	mParticleEmitter = make_shared<ParticleEmitterBox>(mParticleManager);
@@ -60,6 +66,8 @@ void LaunchBullet::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	mModelRender->Draw(numName, position, Vector3().zero, mScale);
+
+	mModelRender->Draw(numBlock, Vector3(mTargetPosition.x,mTargetPosition.y + 0.0f,mTargetPosition.z), angle, mCircleScale);
 }
 
 void LaunchBullet::ImGuiDebug()
