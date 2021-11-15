@@ -120,6 +120,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Bom.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/garege.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/syata.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/croshear.png");
 
 	//TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_sneaker_Color.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_LR.png");	
@@ -194,6 +195,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/big_sensha_head.obj");//–C“ƒ
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/big_sensha_body.obj");//–C“ƒ
+
+	//ƒS[ƒŒƒ€
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_body.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_R.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_L.obj");
 	//ƒXƒvƒ‰ƒCƒg
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
 	

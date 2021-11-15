@@ -254,6 +254,7 @@
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Device\Window.cpp" />
     <ClCompile Include="Utility\Random.cpp" />
+    <ClCompile Include="Utility\Sequence\Sequence.cpp" />
     <ClCompile Include="Utility\TextEditer.cpp" />
     <ClCompile Include="Utility\Timer\Timer.cpp" />
     <ClCompile Include="Weapons\LandMine.cpp" />
@@ -551,6 +552,7 @@
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Utility\Random.h" />
+    <ClInclude Include="Utility\Sequence\Sequence.h" />
     <ClInclude Include="Utility\SmartPtr.h" />
     <ClInclude Include="Utility\TextEditer.h" />
     <ClInclude Include="Utility\Timer\Timer.h" />
