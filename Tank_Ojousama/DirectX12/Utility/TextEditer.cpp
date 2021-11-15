@@ -1,4 +1,5 @@
 #include "TextEditer.h"
+#include <vector>
 
 TextEditor::TextEditor()
 {
@@ -41,7 +42,7 @@ void TextEditor::Read(string textName, vector<string>& vstr)
 	}
 }
 
-void TextEditor::write(string textName, vector<string>& vstr)
+void TextEditor::Write(string textName, const vector<string>& vstr)
 {
 	ofstream file(textName);//書き出すファイルパスの指定
 	
@@ -51,7 +52,7 @@ void TextEditor::write(string textName, vector<string>& vstr)
 	}
 }
 
-void TextEditor::addWrite(string textName, vector<string>& vstr)
+void TextEditor::AddWrite(string textName, const vector<string>& vstr)
 {
 	ofstream file(textName, ios::app);//書き出すファイルパスの指定
 
