@@ -46,7 +46,7 @@ void CEnemy::EnemyInit()
 	mSearchCommand = false;
 	mSearchResult = false;
 
-	scale = Vector3(2.0f, 2.0f, 2.0f);
+	scale = Vector3(1.0f, 1.0f, 1.0f);
 	mSearchPosition = Vector3().zero;
 
 	objType = ObjectType::ENEMY;
@@ -73,29 +73,43 @@ void CEnemy::EnemyInit()
 
 #pragma region ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý
 
-	//íŽÔ‚Ì–Cg(ã‰º‚ÉˆÚ“®‚·‚é•”•ª)Barrel
-	tankBarrel = "Barrel";
 	num = to_string(number);
+
+	////íŽÔ‚Ì–Cg(ã‰º‚ÉˆÚ“®‚·‚é•”•ª)Barrel
+	//tankBarrel = "CaptainLegR";
+	//numBarrel = tankBarrel + num;
+	//mModelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
+	//mModelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//’†S“_‚Ì•ÏX
+
+	tankBarrel =  "CaptainLegR";
+	tankBarrel2 = "CaptainLegL";
 	numBarrel = tankBarrel + num;
-	mModelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
-	mModelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//’†S“_‚Ì•ÏX
+	numBarrel2 = tankBarrel2 + num;
+	mModelRender->AddModel(numBarrel,  "Resouse/EnemyModel/Elf_C/leg_R_C.obj", "Resouse/EnemyModel/Elf_C/leg_LR2.png");
+	mModelRender->AddModel(numBarrel2, "Resouse/EnemyModel/Elf_C/leg_L_C.obj", "Resouse/EnemyModel/Elf_C/leg_LR2.png");
+	mModelRender->SetAncPoint(numBarrel, Vector3(0.0f, -2.0f, 0.0f));
+	mModelRender->SetAncPoint(numBarrel2, Vector3(0.0f, -2.0f, 0.0f));
 
-	//íŽÔ‚Ì–C“ƒ(ã‚Ì•”•ª)Turret
-	tankTurret = "Turret";
-	num = to_string(number);
+	////íŽÔ‚Ì–C“ƒ(ã‚Ì•”•ª)Turret
+	//tankTurret = "Turret";
+	//numTurret = tankTurret + num;
+	//mModelRender->AddModel(numTurret, "Resouse/BoxTankATKBR.obj", "Resouse/BoxTankATKBR.png");
+	//mModelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
+	tankTurret = "CaptainHead";
 	numTurret = tankTurret + num;
-	mModelRender->AddModel(numTurret, "Resouse/BoxTankATKBR.obj", "Resouse/BoxTankATKBR.png");
-	mModelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
+	mModelRender->AddModel(numTurret, "Resouse/EnemyModel/Elf_C/elf_head3.obj", "Resouse/EnemyModel/Elf_C/face_color3.png");
 
-	//íŽÔ‚ÌŽÔ‘Ì(‰º‚Ì•”•ª)Body
-	tankBody = "Body";
-	num = to_string(number);
+	////íŽÔ‚ÌŽÔ‘Ì(‰º‚Ì•”•ª)Body
+	//tankBody = "Body";
+	//numBody = tankBody + num;
+	//mModelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
+	//mModelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
+	tankBody = "CaptainBody";
 	numBody = tankBody + num;
-	mModelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
-	mModelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
+	mModelRender->AddModel(numBody, "Resouse/EnemyModel/Elf_C/elf_body3.obj", "Resouse/EnemyModel/Elf_C/hand_bow_color3.png");
+
 
 	mCircle = "Circle";
-	num = to_string(number);
 	mCircleNumber = mCircle + num;
 	mModelRender->AddModel(mCircleNumber, "Resouse/maru.obj", "Resouse/marui.png");
 
@@ -113,6 +127,30 @@ void CEnemy::EnemyUpdate()
 		{
 			list->ReceiveCaptainLost(true);
 		}
+	}
+
+	if (actionState == ActionState::WARNING)
+	{
+		if (mRotDirection)
+		{
+			mLegRotate += LEG_SPEED;
+			if (mLegRotate > LEG_RANGE)
+			{
+				mRotDirection = false;
+			}
+		}
+		else
+		{
+			mLegRotate -= LEG_SPEED;
+			if (mLegRotate < -LEG_RANGE)
+			{
+				mRotDirection = true;
+			}
+		}
+	}
+	else
+	{
+		mLegRotate = 0.0f;
 	}
 
 
@@ -222,10 +260,16 @@ void CEnemy::EnemyRend()
 {
 	//ƒ‚ƒfƒ‹‚Ì•`‰æ
 	DirectXManager::GetInstance()->SetData3D();
-	mModelRender->Draw(numBarrel, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
+	//mModelRender->Draw(numBarrel, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
+	//mModelRender->Draw(numBarrel2, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
+	//mModelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
+	//mModelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), scale);
+
+	mModelRender->Draw(numBarrel,  Vector3(position.x, position.y + 2.0f, position.z), Vector3( mLegRotate,barrelAngle, 0), scale);
+	mModelRender->Draw(numBarrel2, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, barrelAngle, 0), scale);
 	mModelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
 	mModelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), scale);
-	mModelRender->Draw(mCircleNumber, Vector3(position.x, position.y + 5.0f, position.z), Vector3(0, 0, 0), Vector3(10, 10, 10));
+	//mModelRender->Draw(mCircleNumber, Vector3(position.x, position.y + 5.0f, position.z), Vector3(0, 0, 0), Vector3(10, 10, 10));
 }
 
 void CEnemy::EnemyOnCollision(BaseCollider * col)

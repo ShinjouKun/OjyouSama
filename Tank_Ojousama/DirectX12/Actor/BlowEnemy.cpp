@@ -45,6 +45,7 @@ void BlowEnemy::EnemyInit()
 	attackLength = ECI::ATTACK_LENGTH * BECI::ATTACK_LENGTH;
 
 	death = false;
+	damage = 5;
 	breadcrumbMode = ECI::BRRADCRUMB_MODE;
 	DESTRUCT_MODE = ECI::DESTRUCT_MODE;
 	//turnaroundMode = ECI::TURNAROUND_MODE;
@@ -82,8 +83,6 @@ void BlowEnemy::EnemyInit()
 	patrolPoint[3] = Vector3(position.x, position.y, position.z + 10);
 	//----------------------------------------------------------------
 
-	currentTrigger = false;
-	previousTri = false;
 	onTrigger = false;
 
 	//初期化するとパターンが変わる。使う直前にやるといい
@@ -93,26 +92,45 @@ void BlowEnemy::EnemyInit()
 
 #pragma region モデルの読み込み
 
-	//戦車の砲身(上下に移動する部分)Barrel
-	tankBarrel = BECI::TANK_BARREL_NAME;
-	num = to_string(number);
+	////戦車の砲身(上下に移動する部分)Barrel
+	//tankBarrel = BECI::TANK_BARREL_NAME;
+	//num = to_string(number);
+	//numBarrel = tankBarrel + num;
+	//modelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
+	//modelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//中心点の変更
+
+	tankBarrel =  BECI::TANK_RLEG_NAME;
+	tankBarrel2 = BECI::TANK_LREG_NAME;
 	numBarrel = tankBarrel + num;
-	modelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
-	modelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//中心点の変更
+	numBarrel2 = tankBarrel2 + num;
+	modelRender->AddModel(numBarrel,  "Resouse/EnemyModel/Elf_B/leg_R_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
+	modelRender->AddModel(numBarrel2, "Resouse/EnemyModel/Elf_B/leg_L_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
+	modelRender->SetAncPoint(numBarrel, Vector3(0.0f, -2.0f, 0.0f));
+	modelRender->SetAncPoint(numBarrel2, Vector3(0.0f, -2.0f, 0.0f));
+
+	////戦車の砲塔(上の部分)Turret
+	//tankTurret = BECI::TANK_TURRET_NAME;
+	//num = to_string(number);
+	//numTurret = tankTurret + num;
+	//modelRender->AddModel(numTurret, "Resouse/BoxTankATKBR.obj", "Resouse/BoxTankATKBR.png");
+	//modelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
 
 	//戦車の砲塔(上の部分)Turret
-	tankTurret = BECI::TANK_TURRET_NAME;
-	num = to_string(number);
+	tankTurret = BECI::TANK_HEAD_NAME;
 	numTurret = tankTurret + num;
-	modelRender->AddModel(numTurret, "Resouse/BoxTankATKBR.obj", "Resouse/BoxTankATKBR.png");
-	modelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
+	modelRender->AddModel(numTurret, "Resouse/EnemyModel/Elf_B/elf_head2.obj", "Resouse/EnemyModel/Elf_B/face_color2.png");
+
+	////戦車の車体(下の部分)Body
+	//tankBody = BECI::TANK_BODY_NAME;
+	//num = to_string(number);
+	//numBody = tankBody + num;
+	//modelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
+	//modelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
 
 	//戦車の車体(下の部分)Body
 	tankBody = BECI::TANK_BODY_NAME;
-	num = to_string(number);
 	numBody = tankBody + num;
-	modelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
-	modelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
+	modelRender->AddModel(numBody, "Resouse/EnemyModel/Elf_B/elf_body2.obj", "Resouse/EnemyModel/Elf_B/hand_bow_color2.png");
 
 #pragma endregion
 }
@@ -135,15 +153,40 @@ void BlowEnemy::EnemyUpdate()
 
 
 	//searchPlayerState = true;
+
+	if (actionState == ActionState::WARNING)
+	{
+		if (mRotDirection)
+		{
+			mLegRotate += LEG_SPEED;
+			if (mLegRotate > LEG_RANGE)
+			{
+				mRotDirection = false;
+			}
+		}
+		else
+		{
+			mLegRotate -= LEG_SPEED;
+			if (mLegRotate < -LEG_RANGE)
+			{
+				mRotDirection = true;
+			}
+		}
+	}
+	else
+	{
+		mLegRotate = 0.0f;
+	}
 }
 
 void BlowEnemy::EnemyRend()
 {
 	//モデルの描画
 	DirectXManager::GetInstance()->SetData3D();
-	modelRender->Draw(numBarrel, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
+	modelRender->Draw(numBarrel,  Vector3(position.x, position.y + 2.0f, position.z), Vector3(+mLegRotate, barrelAngle, 0), scale);
+	modelRender->Draw(numBarrel2, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, barrelAngle, 0), scale);
 	modelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
-	modelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), scale);
+	modelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
 
 }
 
@@ -218,8 +261,8 @@ void BlowEnemy::Attack()
 {
 	//ImGui::Text("ActionState == ATTACK");
 
-	//Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
-	//attackArea->SetActive(true, position + areaPos, -angle);
+	Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
+	attackArea->SetActive(true, position + areaPos, -angle);
 
 	attackCount++;
 

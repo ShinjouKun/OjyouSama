@@ -58,15 +58,17 @@ private:
 
 	float mRadius;
 	float barrelAngle;
-	float turretAngle;
+	float mHandAngle;//˜r‚ÌŠp“x
+
+	bool mFireFlag;//’e‚ğ”­Ë‚µ‚½‚©
 
 	int mBulletNumber;//”­Ë‚µ‚½’e”
 
-	string tankBarrel;//–Cg‚Ì–¼‘O“o˜^
-	string tankTurret;//–C“ƒ‚Ì–¼‘O“o˜^
-	string tankBody;  //Ô‘Ì‚Ì–¼‘O“o˜^
+	string mHandRight;//–Cg‚Ì–¼‘O“o˜^
+	string mHandLeft;//–C“ƒ‚Ì–¼‘O“o˜^
+	string mBody;  //Ô‘Ì‚Ì–¼‘O“o˜^
 	string num;       //stringŒ^‚Ì¯•Ê”Ô†
-	string numBarrel; //¯•Ê”Ô†+–Cg‚Ì–¼‘O
-	string numTurret; //¯•Ê”Ô†+–C“ƒ‚Ì–¼‘O
-	string numBody;	  //¯•Ê”Ô†+Ô‘Ì‚Ì–¼‘O
+	string mHandRNum; //¯•Ê”Ô†+–Cg‚Ì–¼‘O
+	string mHandLNum; //¯•Ê”Ô†+–C“ƒ‚Ì–¼‘O
+	string mBodyNum;	  //¯•Ê”Ô†+Ô‘Ì‚Ì–¼‘O
 };

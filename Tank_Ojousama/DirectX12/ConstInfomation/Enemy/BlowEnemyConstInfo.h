@@ -40,14 +40,17 @@ namespace BlowEnemyConstInfo
 	constexpr float SWING_RANGE = 90.0f;
 
 	/*大きさ*/
-	const Vector3 SCALE = Vector3(1.5f, 1.5f, 1.5f);
+	const Vector3 SCALE = Vector3(1.0f, 1.0f, 1.0f);
 
-	/*砲身のモデル名*/
-	const string TANK_BARREL_NAME = "BlowBarrel";
+	/*右脚のモデル名*/
+	const string TANK_RLEG_NAME = "BlowRightLeg";
 
-	/*砲塔のモデル名*/
-	const string TANK_TURRET_NAME = "BlowTurret";
+	/*左脚のモデル名*/
+	const string TANK_LREG_NAME = "BlowLeftLeg";
 
-	/*車体のモデル名*/
+	/*頭と手のモデル名*/
+	const string TANK_HEAD_NAME = "BlowHead";
+
+	/*体と弓のモデル名*/
 	const string TANK_BODY_NAME = "BlowBody";
 }

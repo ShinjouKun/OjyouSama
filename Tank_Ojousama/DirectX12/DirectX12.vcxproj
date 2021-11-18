@@ -172,6 +172,7 @@
     <ClCompile Include="Actor\TestBreadCrumb.cpp" />
     <ClCompile Include="Actor\TestEnemy.cpp" />
     <ClCompile Include="Actor\TestWayPoint.cpp" />
+    <ClCompile Include="Actor\TreeRoot.cpp" />
     <ClCompile Include="Actor\WayPoint.cpp" />
     <ClCompile Include="Actor\WayPointManager.cpp" />
     <ClCompile Include="Collision\AABBCollider.cpp" />
@@ -262,6 +263,7 @@
     <ClCompile Include="Utility\Sequence\Sequence.cpp" />
     <ClCompile Include="Utility\TextEditer.cpp" />
     <ClCompile Include="Utility\Timer\Timer.cpp" />
+    <ClCompile Include="Weapons\ElfBullet.cpp" />
     <ClCompile Include="Weapons\LandMine.cpp" />
     <ClCompile Include="Weapons\LaunchBullet.cpp" />
     <ClCompile Include="Weapons\MashinGun.cpp" />
@@ -444,6 +446,7 @@
     <ClInclude Include="Actor\TestEnemy.h" />
     <ClInclude Include="Actor\TestItem.h" />
     <ClInclude Include="Actor\TestWayPoint.h" />
+    <ClInclude Include="Actor\TreeRoot.h" />
     <ClInclude Include="Actor\WayPoint.h" />
     <ClInclude Include="Actor\WayPointManager.h" />
     <ClInclude Include="Collision\AABBCollider.h" />
@@ -568,6 +571,7 @@
     <ClInclude Include="Utility\Timer\Timer.h" />
     <ClInclude Include="Utility\WCHAR_char.h" />
     <ClInclude Include="Device\Window.h" />
+    <ClInclude Include="Weapons\ElfBullet.h" />
     <ClInclude Include="Weapons\LandMine.h" />
     <ClInclude Include="Weapons\LaunchBullet.h" />
     <ClInclude Include="Weapons\MashinGun.h" />

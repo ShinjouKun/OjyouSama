@@ -75,4 +75,13 @@ private:
 
 	string mCircle;      //‰~‚Ìƒ‚ƒfƒ‹
 	string mCircleNumber;//‰~‚Ìƒ‚ƒfƒ‹
+
+	//•àsƒAƒjƒ[ƒVƒ‡ƒ“ŠÖ˜A
+	float mLegRotate = 0.0f;//‹r‚ÌŒ»İ‚Ì‰ñ“]—Ê
+	const float LEG_SPEED = 1.5f; //‹r‚Ì‰ñ“]‘¬“x
+	const float LEG_RANGE = 15.0f;//‹r‚ÌÅ‘å‰ñ“]—Ê
+	bool mRotDirection = false;   //‰ñ“]•ûŒü
+
+	string tankBarrel2;
+	string numBarrel2;
 };

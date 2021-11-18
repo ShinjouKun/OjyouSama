@@ -71,10 +71,16 @@ private:
 	Vector3 patrolPoint[4];
 	int pointCount;
 
-	bool currentTrigger;
-	bool previousTri;
 	bool onTrigger;
+
+	//•àsƒAƒjƒ[ƒVƒ‡ƒ“ŠÖ˜A
+	float mLegRotate = 0.0f;//‹r‚ÌŒ»İ‚Ì‰ñ“]—Ê
+	const float LEG_SPEED = 1.5f; //‹r‚Ì‰ñ“]‘¬“x
+	const float LEG_RANGE = 15.0f;//‹r‚ÌÅ‘å‰ñ“]—Ê
+	bool mRotDirection = false;   //‰ñ“]•ûŒü
 
 	shared_ptr<EnemyAI> mEnemyAI;
 
+	string tankBarrel2;
+	string numBarrel2;
 };

@@ -37,7 +37,7 @@ private:
 	//リザルト画面
 	void ResultF();
 
-	ObjectManager* objM;
+	ObjectManager* mObjManager;
 	Player* player;//プレイヤーの実体生成
 	Camera* camera;
 	std::shared_ptr<Sound> mSound;

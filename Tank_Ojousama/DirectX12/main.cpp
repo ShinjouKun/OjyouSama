@@ -127,11 +127,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/back.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/backselect.png");
 
-	//TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_sneaker_Color.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_LR.png");	
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/face_color.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/hand_bow_color.png");
-
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
 
@@ -184,16 +179,38 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//岩
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_s.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_m.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_big.obj");
-	////エルフ
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/body_bow.obj");
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/head_hand.obj");
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/leg_kutu.obj");
-	//エルフ2
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/elf_body.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/elf_head.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/leg_L.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/leg_R.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_big.obj"); 
+
+	//矢
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Arrow/arrow.obj");
+	//エルフA
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_A/elf_body.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_A/elf_head.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_A/leg_L.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_A/leg_R.obj");
+	//エルフB
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_B/elf_body2.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_B/elf_head2.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_B/leg_L_B.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_B/leg_R_B.obj");
+	//エルフC
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_C/elf_body3.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_C/elf_head3.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_C/leg_L_C.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_C/leg_R_C.obj");
+	//エルフD
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_D/elf_body4.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_D/elf_head4.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_D/leg_L_D.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_D/leg_R_D.obj");
+	//木のボス
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/TreeBoss/wood_body.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/TreeBoss/wood_hands_L.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/TreeBoss/wood_hands_R.obj");
+	//リンゴの弾
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/AppleBullet/apple.obj");
+	//根っこの攻撃
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/TreeRoot/nekko.obj");
 
 	//当たり判定用の円
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/maru.obj");
