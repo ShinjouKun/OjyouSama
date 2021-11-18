@@ -8,7 +8,11 @@
 #include "../Actor/BreadCrumbCreater.h"
 #include "../Utility/Timer/Timer.h"
 #include"../Actor/CameraEye.h"
+
+#include "../Actor/ElfTree.h"
 #include "../Actor/SniperEnemy.h"
+#include "../Actor/TestBoss.h"
+#include "../Actor/MortarEnemy.h"
 
 
 BossScene::BossScene()
@@ -18,13 +22,13 @@ BossScene::BossScene()
 
 BossScene::~BossScene()
 {
-	delete objM;//重要
+	delete mObjManager;//重要
 }
 
 void BossScene::StartScene()
 {
-	objM = new ObjectManager();
-	objM->Claer();
+	mObjManager = new ObjectManager();
+	mObjManager->Claer();
 	posePos = Vector3(0, 0, 0);
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
@@ -32,14 +36,14 @@ void BossScene::StartScene()
 
 	//パンくず生成機作成
 	//mBreadCreator = new BreadCrumbCreater(objM);
-	mBreadCreator = std::make_shared<BreadCrumbCreater>(objM);
+	mBreadCreator = std::make_shared<BreadCrumbCreater>(mObjManager);
 	//WayPoint生成機作成(生成位置,見た目をつけるかどうか)
 	//mpointManager = new WayPointManager(Vector3(100.0f, 0.0f, -100.0f), objM, BaseScene::mModel,false);
-	mpointManager = std::make_shared<WayPointManager>(Vector3(100.0f, 0.0f, -100.0f), objM, BaseScene::mModel, false);
+	mpointManager = std::make_shared<WayPointManager>(Vector3(100.0f, 0.0f, -100.0f), mObjManager, BaseScene::mModel, false);
 	//敵AIシステム生成
 	mEnemyAI = std::make_shared<EnemyAI>(mpointManager);
 	//敵にマネージャーセット
-	BaseEnemy::SetObjectManager(objM);
+	BaseEnemy::SetObjectManager(mObjManager);
 	//敵にパンくずセット
 	BaseEnemy::SetBreadCreator(mBreadCreator.get());
 	//敵にAIセット
@@ -68,8 +72,42 @@ void BossScene::StartScene()
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 
-	objM->Add(new Player(Vector3(0.0f, 0.0f, 180.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
-	objM->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), objM));
+
+#pragma region ステージ内モデルの作成
+
+	int objectCount = 0;
+
+	for (int i = -20; i <= 20; i += 10)
+	{
+		float x = static_cast<float>(i);
+		mObjManager->Add(new ElfTree(Vector3(x, 4.0f, -100.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	}
+
+	for (int i = -20; i <= 20; i += 10)
+	{
+		float x = static_cast<float>(i);
+		mObjManager->Add(new ElfTree(Vector3(x, 4.0f, 150.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	}
+
+	for (int i = 50; i < 80; i += 5)
+	{
+		float x = static_cast<float>(i);
+		mObjManager->Add(new ElfTree(Vector3(-x, 4.0f, 50) , Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+		mObjManager->Add(new ElfTree(Vector3( x, 4.0f, 50), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	}
+
+
+	//mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+	//mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+
+	//mObjManager->Add(new MortarEnemy(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+
+	mObjManager->Add(new TestBoss(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+
+#pragma endregion
+
+	mObjManager->Add(new Player(Vector3(0.0f, 0.0f, 80.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	mObjManager->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), mObjManager));
 	mTimer = std::make_shared<Timer>(0.01f);
 }
 
@@ -81,7 +119,7 @@ void BossScene::UpdateScene()
 	if (!mTimer->isTime()) return;
 	Pose();
 	Setting();
-	if (objM->GetPlayer().GetHp() <= 0)
+	if (mObjManager->GetPlayer().GetHp() <= 0)
 	{
 		NextScene(std::make_shared<Title>());
 	}
@@ -91,8 +129,8 @@ void BossScene::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
-	objM->Draw();
+	//BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
+	mObjManager->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 
 	if (pose)
@@ -139,7 +177,7 @@ void BossScene::Pose()
 		//ポーズ
 		if (pose == false && settingFlag == false)
 		{
-			objM->Update();
+			mObjManager->Update();
 			if (Input::KeyDown(DIK_E) || Input::KeyDown(BUTTON_A))
 			{
 				itemHolder->UseItem(ItemNames::heal);
@@ -381,7 +419,7 @@ void BossScene::ResultF()
 
 		if (resultFlag == false)
 		{
-			if (objM->GetGolem().GetHp() <= 0)
+			if (mObjManager->GetGolem().GetHp() <= 0)
 			{
 				BaseScene::mMoney += 20000000;
 				NextScene(std::make_shared<Result>());

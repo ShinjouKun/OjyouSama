@@ -51,6 +51,7 @@ void AttackArea::Init()
 
 	death = false;
 	objType = ObjectType::ENEMYBULLET;
+	damage = 5;
 
 	destroyCount = 0;
 

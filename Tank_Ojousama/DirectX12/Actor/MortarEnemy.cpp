@@ -2,12 +2,13 @@
 #include "../Collision/SpherCollider.h"
 #include "../Weapons/LaunchBullet.h"
 #include "../Utility/Timer/Timer.h"
+#include "../Utility/Random.h"
 
 MortarEnemy::MortarEnemy(
 	const Vector3 & pos,
 	const Vector3 & ang,
 	ObjectManager * objectManager,
-	shared_ptr<ModelRenderer> modelRender, 
+	shared_ptr<ModelRenderer> modelRender,
 	shared_ptr<ParticleManager> effectManager,
 	int num
 )
@@ -30,11 +31,12 @@ void MortarEnemy::Init()
 
 	mRadius = 1.5f;
 	barrelAngle = angle.y;
-	turretAngle = 0.0f;
+	mHandAngle = 0.0f;
 
 	mScale = Vector3(2.0f, 2.0f, 2.0f);
 
 	death = false;
+	mFireFlag = false;
 
 	objType = ObjectType::ENEMY;
 
@@ -48,31 +50,35 @@ void MortarEnemy::Init()
 	mAttackStep = AttackStep::AIMING;
 
 #pragma region モデルの読み込み
-	//戦車の砲身(上下に移動する部分)Barrel
-	tankBarrel = "MemberBarrel";
-	num = to_string(number);
-	numBarrel = tankBarrel + num;
-	mModelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
-	mModelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//中心点の変更
 
-	//戦車の砲塔(上の部分)Turret
-	tankTurret = "MemberTurret";
 	num = to_string(number);
-	numTurret = tankTurret + num;
-	mModelRender->AddModel(numTurret, "Resouse/BoxTankATKBR.obj", "Resouse/BoxTankATKBR.png");
-	mModelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
 
-	//戦車の車体(下の部分)Body
-	tankBody = "MemberBody";
-	num = to_string(number);
-	numBody = tankBody + num;
-	mModelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
-	mModelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
+	//右手
+	mHandRight = "MemberHandRight";
+	mHandRNum = mHandRight + num;
+	mModelRender->AddModel(mHandRNum, "Resouse/gorem_hands_R.obj", "Resouse/gorem.png");
+
+	//左手
+	mHandLeft = "MemberHandLeft";
+	mHandLNum = mHandLeft + num;
+	mModelRender->AddModel(mHandLNum, "Resouse/gorem_hands_L.obj", "Resouse/gorem.png");
+
+	mModelRender->SetAncPoint(mHandRNum, Vector3(0.0f, -3.0f, 0.0f));
+	mModelRender->SetAncPoint(mHandLNum, Vector3(0.0f, -3.0f, 0.0f));
+
+	//体
+	mBody = "MemberBody";
+	mBodyNum = mBody + num;
+	mModelRender->AddModel(mBodyNum, "Resouse/gorem_body.obj", "Resouse/gorem.png");
 #pragma endregion
 }
 
 void MortarEnemy::Update()
 {
+	if (HP <= 0)
+	{
+		death = true;
+	}
 
 	switch (mAttackStep)
 	{
@@ -88,15 +94,19 @@ void MortarEnemy::Update()
 	default:
 		break;
 	}
+
+	//mHandAngle -= 2;
+
+	ImGui::SliderFloat("////////////////////////////////////////", &mHandAngle, -500, 500);
 }
 
 void MortarEnemy::Rend()
 {
 	//モデルの描画
 	DirectXManager::GetInstance()->SetData3D();
-	mModelRender->Draw(numBarrel, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), mScale);
-	mModelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), mScale);
-	mModelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), mScale);
+	mModelRender->Draw(mHandRNum, Vector3(position.x, position.y + 7.0f, position.z), Vector3(mHandAngle, barrelAngle, 0), mScale);
+	mModelRender->Draw(mHandLNum, Vector3(position.x, position.y + 7.0f, position.z), Vector3(mHandAngle, barrelAngle, 0), mScale);
+	mModelRender->Draw(mBodyNum, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), mScale);
 }
 
 void MortarEnemy::ImGuiDebug()
@@ -140,18 +150,47 @@ void MortarEnemy::AttackStep_AIMING()
 
 void MortarEnemy::AttackStep_FIRE()
 {
-	Vector3 firePosition = AngleToVectorY(barrelAngle);
-	mObjManager->Add(new LaunchBullet(position + firePosition, mTargetPosition, mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
-	mAttackStep = AttackStep::RELOAD;
+	if (!mFireFlag)
+	{
+		Vector3 firePosition = AngleToVectorY(barrelAngle);
+		mObjManager->Add(new LaunchBullet(position + firePosition, mTargetPosition, mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+		mFireFlag = true;
+	}
+
+	//腕を振り上げる
+	mHandAngle -= 10.0f;
+
+	//振り上げ終わったら
+	if (mFireFlag && mHandAngle <= -90.0f)
+	{
+		mAttackStep = AttackStep::RELOAD;
+	}
 }
 
 void MortarEnemy::AttackStep_RELOAD()
 {
 	//リロード
 	mReloadTime->update();
-	if (mReloadTime->isTime())
+
+	//腕を元に戻す
+	mHandAngle += 3.0f;
+
+	if (mHandAngle >= 0.0f)
 	{
-		mReloadTime->setTime(1.0f);
+		mHandAngle = 0.0f;
+	}
+
+	//リロード完了 && 腕が元に戻りきっていたら
+	if (mReloadTime->isTime() && mHandAngle >= 0.0f)
+	{
+		//ここの値がランダムじゃないと、全部の攻撃位置が重なっちゃう
+
+		Random::initialize();
+
+		float time = Random::randomRange(0.5f, 1.5f);
+
+		mReloadTime->setTime(time);
+		mFireFlag = false;
 		mAttackStep = AttackStep::AIMING;
 	}
 }

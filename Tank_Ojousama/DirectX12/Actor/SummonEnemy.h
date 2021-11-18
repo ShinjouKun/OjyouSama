@@ -31,6 +31,9 @@ private:
 	virtual void ImGuiDebug() override;
 	virtual void OnCollison(BaseCollider * col) override;
 
+	/*一度だけオブジェクトを生成*/
+	void CreateObject();
+
 	/*指定距離以内かどうかを調べる*/
 	bool WithinDistance(const Vector3& targetPosition, const float distance);
 
@@ -64,6 +67,7 @@ private:
 	bool mWithinPlayerFlag;//範囲内にプレイヤーがいるか？
 	bool mAttackFlag;//攻撃中か
 	bool mStep;//true = 右, false = 左
+	bool mCreateObject;
 
 	string mModelNum;
 	string mModelName01 = "SummonEnemy";

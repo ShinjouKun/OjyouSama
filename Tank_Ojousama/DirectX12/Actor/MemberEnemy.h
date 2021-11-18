@@ -102,7 +102,7 @@ private:
 	const float SEARCH_RANGE = 30.0f;//õ“G”ÍˆÍ(‰~)
 
 	int mBulletNumber = 0;//”­Ë‚µ‚½’e”
-	int testStep = 0;
+	int mMoveDirection = 0;
 
 	bool mDeadFlag;     //€–S‚µ‚½‚©‚Ç‚¤‚©
 	bool mAttackCommand;//UŒ‚w—ß
@@ -110,11 +110,19 @@ private:
 	bool mSearchResult; //ƒvƒŒƒCƒ„[‚ğ”­Œ©‚µ‚½‚©
 	bool mCaptainLost;  //‘à’·‚ğ¸‚Á‚½‚©‚Ç‚¤‚©
 
+	//•àsƒAƒjƒ[ƒVƒ‡ƒ“ŠÖ˜A
+	float mLegRotate = 0.0f;//‹r‚ÌŒ»İ‚Ì‰ñ“]—Ê
+	const float LEG_SPEED = 1.5f; //‹r‚Ì‰ñ“]‘¬“x
+	const float LEG_RANGE = 15.0f;//‹r‚ÌÅ‘å‰ñ“]—Ê
+	bool mRotDirection = false;   //‰ñ“]•ûŒü
+
 	string tankBarrel;//–Cg‚Ì–¼‘O“o˜^
+	string tankBarrel2;
 	string tankTurret;//–C“ƒ‚Ì–¼‘O“o˜^
 	string tankBody;  //Ô‘Ì‚Ì–¼‘O“o˜^
 	string num;       //stringŒ^‚Ì¯•Ê”Ô†
 	string numBarrel; //¯•Ê”Ô†+–Cg‚Ì–¼‘O
+	string numBarrel2;
 	string numTurret; //¯•Ê”Ô†+–C“ƒ‚Ì–¼‘O
 	string numBody;	  //¯•Ê”Ô†+Ô‘Ì‚Ì–¼‘O
 };

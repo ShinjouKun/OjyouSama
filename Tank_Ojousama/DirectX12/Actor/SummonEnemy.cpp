@@ -22,6 +22,7 @@ SummonEnemy::SummonEnemy(
 
 SummonEnemy::~SummonEnemy()
 {
+	
 }
 
 void SummonEnemy::Init()
@@ -38,15 +39,19 @@ void SummonEnemy::Init()
 	mWithinPlayerFlag = false;
 	mAttackFlag = false;
 	mStep = false;
+	mCreateObject = false;
 
 	mAttackStep = AttackStep::FALL_DOWN;
 
-	mAttackArea = std::make_shared<AttackArea>(position, angle,mObjManager,mModelRender,number);
+	//mAttackArea = std::make_shared<AttackArea>(position, Vector3().zero, mObjManager, mModelRender, number);
+	//mAttackArea->SetActive(false);
+
+
 	mGetupTimer = std::make_shared<Timer>();
 	mGetupTimer->setTime(1.0f);
 
 	objType = ObjectType::ENEMY;
-	SetCollidder(new SphereCollider(Vector3().zero, 1.0f));
+	SetCollidder(new SphereCollider(Vector3(0.0f, 1.0f, 0.0f), 1.5f));
 
 
 	mModelNum = to_string(number);
@@ -61,11 +66,13 @@ void SummonEnemy::Update()
 	//プレイヤーの位置を監視
 	mPlayerPosition = mObjManager->GetPlayer().GetPosition();
 
+	///*一度だけオブジェクトを生成*/
+	//CreateObject();
+
 	if (HP <= 0)
 	{
 		death = true;
 	}
-
 
 	//範囲内にプレイヤーがいるなら
 	if (WithinDistance(mPlayerPosition,SEARCH_LENGTH))
@@ -145,6 +152,9 @@ void SummonEnemy::Update()
 		起き上がり終わったら攻撃終了
 		*/
 
+		//Vector3 areaPos = RotateY(tt) * ATTACK_LENGTH;
+		//mAttackArea->SetActive(true, position + areaPos, Vector3(0.0f, tt, 0.0f));
+
 		switch (mAttackStep)
 		{
 		case SummonEnemy::FALL_DOWN:
@@ -184,7 +194,7 @@ void SummonEnemy::Update()
 
 
 
-	ImGui::SliderInt("**********************", &HP, 0, 100);
+	//ImGui::SliderInt("**********************", &HP, 0, 100);
 }
 
 void SummonEnemy::Rend()
@@ -221,6 +231,18 @@ void SummonEnemy::OnCollison(BaseCollider * col)
 			position = mPreviousPosition;
 		}
 	}
+	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
+	{
+		position = mPreviousPosition;
+	}
+}
+
+void SummonEnemy::CreateObject()
+{
+	if (mCreateObject) return;
+
+	mObjManager->Add(mAttackArea.get());
+	mCreateObject = true;
 }
 
 bool SummonEnemy::WithinDistance(const Vector3 & targetPosition, const float distance)

@@ -24,10 +24,14 @@ public:
 		shared_ptr<ModelRenderer> modelRender,
 		shared_ptr<ParticleManager> particleManager,
 		ObjectType objectType,
-		int num
+		int num,
+		const bool isApple = false
 	);
 
 	~LaunchBullet();
+
+	/*弾の種類をリンゴに変更(Initで書いてね)*/
+	void ChangeApple(const bool value);
 
 private:
 
@@ -58,9 +62,15 @@ private:
 	float mVelocityY = 1.0f;//縦の移動量
 	float mHalfLength;//生成位置と目標位置の距離の半分を求める
 
+	bool mAppleFlag;
+
 	string PARTICLE_NAME = "Bom";//エフェクトの名前
 
 	//落下地点用オブジェクト
 	string mBlockName = "BLOCK";
 	string numBlock;
+
+	//リンゴ
+	string mAppleName = "Apple";
+	string mAppleNum;
 };
