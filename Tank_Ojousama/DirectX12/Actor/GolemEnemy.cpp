@@ -510,24 +510,24 @@ void GolemEnemy::Init()
 	numNameBody = Body + num;
 
 	Model->AddModel(numNameBody, "Resouse/gorem_body.obj", "Resouse/gorem.png");
-	Model->SetAncPoint(numNameBody, Vector3(-2.0f, -2.0f, -2.0f));
+	Model->SetAncPoint(numNameBody, Vector3(0.0f, -2.0f, -3.0f));
 	ArmR = "ArmR";
 	num = to_string(number);
 	numNameArmR = ArmR + num;
 
 	Model->AddModel(numNameArmR, "Resouse/gorem_hands_R.obj", "Resouse/gorem.png");
-	Model->SetAncPoint(numNameArmR, Vector3(-2.0f, -4.0f, -2.0f));
+	Model->SetAncPoint(numNameArmR, Vector3(0.5f, -3.0f, -2.5f));
 
 	ArmL = "ArmL";
 	num = to_string(number);
 	numNameArmL = ArmL + num;
 	Model->AddModel(numNameArmL, "Resouse/gorem_hands_L.obj", "Resouse/gorem.png");
-	Model->SetAncPoint(numNameArmL, Vector3(-2.0f, -4.0f, -2.0f));
+	Model->SetAncPoint(numNameArmL, Vector3(-0.5f, -3.0f, -2.5f));
 	//ステータス対応
 	ArmPosL = Vector3(position.x - 0.1f, position.y + 5.0f, position.z);
 	ArmPosR = Vector3(position.x + 0.1f, position.y + 5.0f, position.z);
-	canp.CanpPoint = Vector3(100.0f, 4.0f, 120.0f);
-	canp.CanpRadius = 150.0f;
+	canp.CanpPoint = Vector3(0.0f, 4.0f, -150.0f);
+	canp.CanpRadius = 60.0f;
 	HP = 50;
 	speed = 0.2f;
 	death = false;
@@ -550,7 +550,7 @@ void GolemEnemy::Init()
 	stoneShotFlag = false;//石投げ用
 	guardFlag = false;
 	batteleS = GolemBatteleStatus::SAFE_G;
-	SetCollidder(Vector3(position.x,position.y,position.z), 2.0f);
+	SetCollidder(Vector3(0,0,0), 2.0f);
 	
 }
 
@@ -609,13 +609,10 @@ void GolemEnemy::Update()
 
 void GolemEnemy::Rend()
 {
-	if (GetActive())
-	{
 		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 		Model->Draw(numNameBody, Vector3(position.x, position.y, position.z), Vector3(bodyAngle.x, -bodyAngle.y, 0), Vector3(3.0f, 3.0f, 3.0f));
-		//Model->Draw(numNameArmR, Vector3(ArmPosR.x, ArmPosR.y, ArmPosR.z), Vector3(ArmAngleR, -bodyAngle.y, zR), Vector3(4.0f, 4.0f, 4.0f));
-		Model->Draw(numNameArmL, Vector3(ArmPosL.x, ArmPosL.y, ArmPosL.z), Vector3(ArmAngleL, -bodyAngle.y, zL), Vector3(4.0f, 4.0f, 4.0f));
-	}
+		Model->Draw(numNameArmR, Vector3(ArmPosR.x, ArmPosR.y, ArmPosR.z), Vector3(ArmAngleR, -bodyAngle.y, zR), Vector3(3.0f, 3.0f, 3.0f));
+		Model->Draw(numNameArmL, Vector3(ArmPosL.x, ArmPosL.y, ArmPosL.z), Vector3(ArmAngleL, -bodyAngle.y, zL), Vector3(3.0f, 3.0f, 3.0f));
 }
 
 void GolemEnemy::ImGuiDebug()

@@ -135,8 +135,8 @@ void Player::Init()
 	playerSprite->AddTexture("HIT", "Resouse/hit.png");*/
 	death = false;
 	objType = ObjectType::PLAYER;
-	
-
+	CamPos_Y = 2.5f;
+	TargetPos.y = 2.5f;
 	angle = Vector3(0.0f, 0.0f, 0.0f);//車体
 	atkAngle = 0.0f;//砲塔
 	aimPos_Y = 360.0f;
@@ -150,7 +150,7 @@ void Player::Init()
 	HitFlag = false;
 	sniperShotFlag = false;
 	HitCount = 0;
-	TargetPos = Vector3(position.x, position.y + 4.0f, position.z);
+	
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 
 	//コライダーの情報をセット
@@ -240,6 +240,8 @@ void Player::Update()
 		if (Input::KeyState(DIK_UP) || Input::pad_data.lRz < 0)
 		{
 			aimPos_Y -= 4.5f;
+			CamPos_Y -= 0.04f;
+			TargetPos.y += 0.02f;
 			fireAngle -= 1.0f;
 		}
 		if (fireAngle <= -25.0f)
@@ -250,9 +252,16 @@ void Player::Update()
 		{
 			aimPos_Y = 120.0f;
 		}
+		if (TargetPos.y >= 3.0f)
+		{
+			TargetPos.y = 3.0f;
+			CamPos_Y = 1.6f;
+		}
 		if (Input::KeyState(DIK_DOWN) || Input::pad_data.lRz > 0)
 		{
 			aimPos_Y += 4.5f;
+			CamPos_Y += 0.04f;
+			TargetPos.y -= 0.02f;
 			fireAngle += 1.0f;
 		}
 		if (fireAngle >= 0.0f)
@@ -262,6 +271,11 @@ void Player::Update()
 		if (aimPos_Y >= 360.0f)
 		{
 			aimPos_Y = 360.0f;
+		}
+		if (TargetPos.y <= 2.5f)
+		{
+			CamPos_Y = 2.5f;
+			TargetPos.y = 2.5f;
 		}
 		if (Input::KeyState(DIK_RIGHT) || Input::pad_data.lZ > 0)
 		{
@@ -281,6 +295,7 @@ void Player::Update()
 		}
 		if (!sniperShotFlag)
 		{
+			CamPos_Y = 2.5f;
 			CamVelocity = RotateY(atkAngle - 90.0f)*8.0f;
 			CameraPos = position + CamVelocity;
 			camera->SetEye(Vector3(CameraPos.x, CameraPos.y + 6.0f, CameraPos.z));
@@ -288,10 +303,10 @@ void Player::Update()
 		}
 		else
 		{
-			CamVelocity = RotateY(atkAngle - 90.0f)*4.0f;
+			CamVelocity = RotateY(atkAngle - 90.0f)*2.1f;
 			CameraPos = position + CamVelocity;
-			camera->SetEye(Vector3(CameraPos.x, CameraPos.y+3.0f, CameraPos.z));
-			camera->SetTarget(Vector3(position.x, position.y+3.0f, position.z));
+			camera->SetEye(Vector3(CameraPos.x, CameraPos.y + CamPos_Y, CameraPos.z));
+			camera->SetTarget(Vector3(position.x, position.y+TargetPos.y, position.z));
 		}
 		
 
@@ -455,6 +470,7 @@ void Player::ImGuiDebug()
 	ImGui::SliderFloat3("BtmAngle", ang, 0, 360);
 	ImGui::SliderFloat("AtkAngle", &atkAngle, 0, 360);
 	ImGui::SliderFloat("FireAngle", &fireAngle, 0, 360);
+	ImGui::SliderFloat("CamPosY", &CamPos_Y, -10, 10);
 	ImGui::Checkbox("ShotFlag", &shotFlag1);
 	ImGui::Checkbox("ShotFlag", &shotFlag2);
 	ImGui::SliderInt("HP", &HP, 0, HP);

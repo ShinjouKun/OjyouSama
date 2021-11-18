@@ -39,22 +39,7 @@ void GamePlay::StartScene()
 	optionPos = Vector3(180, 180, 0);
 	//障害物
 
-//int s = 0;
-//float x_dis = 10.0f;
-//float z_dis = 0.0f;
-//for (int i = 0; i <= 49; i++)
-//{
-//	if (s >= 5)
-//	{
-//		z_dis += 50.0f;
-//		x_dis = 0.0f;
-//		s = 0;
-//	}
-//  objM->Add(new EnemyTank(Vector3(90.0f+(s*x_dis), 0.0f, -800.0f + z_dis), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, i));
-//  //objM->Add(new TestEnemy(Vector3(90.0f + (s*x_dis), 0.0f, -800.0f + z_dis), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, i));
-//  x_dis = 10.0f;
-//  s++;
-//}
+
 
 	//パンくず生成機作成
 	//mBreadCreator = new BreadCrumbCreater(objM);
@@ -79,34 +64,105 @@ void GamePlay::StartScene()
 #pragma region オブジェクト生成
 
 	int objectCount = 0;
-
+	
 	///*スタート地点の木*/
-	for (int i = 130; i < 210; i += 20)
+	objM->Add(new ElfRock(Vector3(10.0f, 6.0f, 450.0f), Vector3(0,45.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-50.0f, 6.0f, 410.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
+	
+
+	objM->Add(new ElfRock(Vector3(0.0f, 4.0f, 350.0f), Vector3(0, 90.0f, 0), objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(-15.0f, 4.0f, 320.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	for (int i = 330; i < 400; i += 20)
 	{
 		objM->Add(new ElfTree(Vector3(20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 		objM->Add(new ElfTree(Vector3(-20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-40, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		
 	}
 
-	///*中央の木*/
-	//for (int i = 40; i < 100; i += 20)
-	//{
-	//	objM->Add(new ElfTree(Vector3(i, 0.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(-i, 0.0f, 0), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//}
+	for (int i = 230; i < 320; i += 20)
+	{
+		objM->Add(new ElfTree(Vector3(5, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(30, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-50, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+	}
+	
+		
+	
+	
+	for (int i = 150; i < 180; i += 20)
+	{
+		objM->Add(new ElfTree(Vector3(40+i, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-40-i, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+	}
+	for (int i = 100; i < 200; i += 30)
+	{
+		objM->Add(new ElfTree(Vector3(30, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(15, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-15, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+	}
 
-	///*中央奥の木*/
-	//for (int i = -50; i < 51; i += 25)
-	//{
-	//	objM->Add(new ElfTree(Vector3(i, 0.0f, -80), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//}
-
+	for (int i = 10; i < 80; i += 20)
+	{
+		objM->Add(new ElfTree(Vector3(30 -i, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-30 +i, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(20+i, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-20-i, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+	}
 	///*中央の岩*/
-	objM->Add(new ElfRock(Vector3(0.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(+5.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(-5.0f, 4.0f, 0.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(+10.0f, 4.0f, 5.0f), Vector3(0.0f, +45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(-10.0f, 4.0f, 5.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(30.0f, 6.0f, 210.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(0.0f, 6.0f, 250.0f), Vector3(0,45.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-30.0f, 6.0f, 300.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
 
+	objM->Add(new ElfRock(Vector3(30.0f, 6.0f, 90.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(0.0f, 6.0f, 90.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-30.0f, 6.0f, 90.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
+	//右
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -20.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -30.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -40.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -50.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -60.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -70.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -80.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -90.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -100.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -110.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(60.0f, 4.0f, -120.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	//前
+	objM->Add(new ElfRock(Vector3(0.0f, 4.0f, 0.0f),  Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(+10.0f, 4.0f, 0.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-10.0f, 4.0f, 0.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(+20.0f, 4.0f, -5.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-20.0f, 4.0f, -5.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	//左
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -20.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -30.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -40.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -50.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -60.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -70.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -80.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -90.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -100.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -110.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-60.0f, 4.0f, -120.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	//後ろ
+	objM->Add(new ElfRock(Vector3(50.0f, 4.0f, -140.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(40.0f, 4.0f, -150.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(30.0f, 4.0f, -150.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(20.0f, 4.0f, -150.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(10.0f, 4.0f, -150.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(0.0f, 4.0f, -150.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-10.0f, 4.0f, -150.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-20.0f, 4.0f, -150.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-30.0f, 4.0f, -150.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-40.0f, 4.0f, -150.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-50.0f, 4.0f, -140.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+
+
+	
 	///*左側の岩*/
 	//objM->Add(new ElfRock(Vector3(100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
 	///*右側の岩*/
@@ -176,7 +232,7 @@ void GamePlay::StartScene()
 	//objM->Add(new BlowEnemy(Vector3( 80.0f, 0.0f, -200.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 4));
 
 
-	objM->Add(new GolemEnemy(Vector3(0.0f, 4.0f, -150.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
+	objM->Add(new GolemEnemy(Vector3(0.0f, 4.0f, -110.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("AIM2", "Resouse/AIM64.png");
@@ -193,12 +249,12 @@ void GamePlay::StartScene()
 	BaseScene::mSprite->AddTexture("AimA3", "Resouse/volAimA.png");
 
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
-	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
+	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/sougen.png");
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	//プレイヤーは最後に、又はUIクラスを作る
 
-	objM->Add(new Player(Vector3(0.0f, 0.0f, 180.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
 	objM->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), objM));
 	objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, ItemState::Normal, 0, 500, 20));
 
@@ -245,7 +301,7 @@ void GamePlay::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
+	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 

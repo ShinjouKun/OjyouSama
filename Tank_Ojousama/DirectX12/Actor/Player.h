@@ -41,6 +41,7 @@ private:
 
 	//カメラ用
 	Vector3 CameraPos;
+	float CamPos_Y;
 	Vector3 TargetPos;
 	Vector3 CamVelocity;//カメラの移動量
 	//制御用フラグ

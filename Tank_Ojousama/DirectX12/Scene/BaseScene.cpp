@@ -1,7 +1,7 @@
 #include "BaseScene.h"
 
-float BaseScene::mMasterSoundVol = 0.5f;
-float BaseScene::mBGMSoundVol =  0.5f;
+float BaseScene::mMasterSoundVol = 0.0f;
+float BaseScene::mBGMSoundVol =  0.0f;
 float BaseScene::mSESoundVol =  0.5f;
 int BaseScene::mMoney = 0;
 Vector3 BaseScene::OpAim1 = Vector3((Window::Window_Width / 2) - 32, 180, 0);

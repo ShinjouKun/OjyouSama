@@ -39,18 +39,18 @@ void ElfRock::Init()
 		scale = Vector3(2.0f, 2.0f, 2.0f);
 		radius = 1.5f;
 		//コライダーの情報をセット
-		SetCollidder(Vector3(0,0,0), radius);
+		SetCollidder(Vector3(0,0,0), radius);//カメラ用
 		//SetCollidder(Vector3(-2,-4,-2), Vector3(2,4,2));//視認範囲
 		mModelRender->AddModel(numName, "Resouse/stone_m.obj", "Resouse/stone_ma.png");
 		mModelRender->SetAncPoint(numName, Vector3(0.0f, -2.0f, 0.0f));
 		break;
 	case 3:
-		scale = Vector3(5.0f, 5.0f, 5.0f);
-		radius = 2.5f;
+		scale = Vector3(4.0f, 4.0f, 4.3f);
+		radius = 2.2f;
 		//コライダーの情報をセット
-		SetCollidder(Vector3(position.x, position.y, position.z), radius);
+		SetCollidder(Vector3(0,0,0), radius);
 		mModelRender->AddModel(numName, "Resouse/stone_big.obj", "Resouse/stone_bigA.png");
-		mModelRender->SetAncPoint(numName, Vector3(0.0f, -2.0f, 0.0f));
+		mModelRender->SetAncPoint(numName, Vector3(0.0f, -1.5f, 0.0f));
 		break;
 	}
 }
