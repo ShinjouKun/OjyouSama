@@ -124,6 +124,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/garege.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/syata.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/croshear.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/back.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/backselect.png");
 
 	//TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_sneaker_Color.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/leg_LR.png");	

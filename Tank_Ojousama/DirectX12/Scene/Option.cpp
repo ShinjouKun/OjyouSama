@@ -27,6 +27,7 @@ void Option::StartScene()
 	BaseScene::mSprite->AddTexture("AimA1", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA2", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA3", "Resouse/volAimA.png");
+	BaseScene::mSprite->AddTexture("Back", "Resouse/back.png");
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
@@ -69,10 +70,10 @@ void Option::UpdateScene()
 			BaseScene::mMasterSoundVol += 0.1f;
 			OpAim1.x += 48.0f;
 			OpAimA1.x += 48.0f;
-			if (OpAim1.x > 880 && OpAimA1.x > 880)
+			if (OpAim1.x > 848 && OpAimA1.x > 848)
 			{
-				OpAim1.x = 880;
-				OpAimA1.x = 880;
+				OpAim1.x = 848;
+				OpAimA1.x = 848;
 			}
 			if (BaseScene::mMasterSoundVol >= 1.0f)
 			{
@@ -85,10 +86,10 @@ void Option::UpdateScene()
 			BaseScene::mMasterSoundVol -= 0.1f;
 			OpAim1.x -= 48.0f;
 			OpAimA1.x -= 48.0f;
-			if (OpAim1.x < 352 && OpAimA1.x < 352)
+			if (OpAim1.x < 368 && OpAimA1.x < 368)
 			{
-				OpAim1.x = 352.0f;
-				OpAimA1.x = 352.0f;
+				OpAim1.x = 368;
+				OpAimA1.x = 368;
 			}
 			if (BaseScene::mMasterSoundVol <= 0.0f)
 			{
@@ -108,10 +109,10 @@ void Option::UpdateScene()
 			BaseScene::mBGMSoundVol += 0.1f;
 			OpAim2.x += 48.0f;
 			OpAimA2.x += 48.0f;
-			if (OpAim2.x > 880 && OpAimA2.x > 880)
+			if (OpAim2.x > 848 && OpAimA2.x > 848)
 			{
-				OpAim2.x = 880.0f;
-				OpAimA2.x = 880.0f;
+				OpAim2.x = 848;
+				OpAimA2.x = 848;
 			}
 			if (BaseScene::mBGMSoundVol >= 1.0f)
 			{
@@ -124,10 +125,10 @@ void Option::UpdateScene()
 			BaseScene::mBGMSoundVol -= 0.1f;
 			OpAim2.x -= 48.0f;
 			OpAimA2.x -= 48.0f;
-			if (OpAim2.x < 352 && OpAim2.x < 352)
+			if (OpAim2.x < 368 && OpAim2.x < 368)
 			{
-				OpAim2.x = 352.0f;
-				OpAimA2.x = 352.0f;
+				OpAim2.x = 368;
+				OpAimA2.x = 368;
 			}
 			if (BaseScene::mBGMSoundVol <= 0.0f)
 			{
@@ -147,10 +148,10 @@ void Option::UpdateScene()
 			BaseScene::mSESoundVol += 0.1f;
 			OpAim3.x += 48.0f;
 			OpAimA3.x += 48.0f;
-			if (OpAim3.x > 880 && OpAimA3.x > 880)
+			if (OpAim3.x > 848 && OpAimA3.x > 848)
 			{
-				OpAim3.x = 880.0f;
-				OpAimA3.x = 880.0f;
+				OpAim3.x = 848;
+				OpAimA3.x = 848;
 			}
 			if (BaseScene::mSESoundVol >= 1.0f)
 			{
@@ -164,10 +165,10 @@ void Option::UpdateScene()
 			BaseScene::mSESoundVol -= 0.1f;
 			OpAim3.x -= 48.0f;
 			OpAimA3.x -= 48.0f;
-			if (OpAim3.x < 352 && OpAimA3.x < 352)
+			if (OpAim3.x < 368 && OpAimA3.x < 368)
 			{
-				OpAim3.x = 352.0f;
-				OpAimA3.x = 352.0f;
+				OpAim3.x = 368;
+				OpAimA3.x = 368;
 			}
 			if (BaseScene::mSESoundVol <= 0.0f)
 			{
@@ -177,7 +178,7 @@ void Option::UpdateScene()
 			mTimer->setTime(0.2f);
 		}
 	}
-	if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+	if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[3])
 	{
 		NextScene(std::make_shared<Select>());
 	}
@@ -193,6 +194,7 @@ void Option::DrawScene()
 	BaseScene::mSprite->Draw("VolOpAim1", OpAim1, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("VolOpAim2", OpAim2, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("VolOpAim3", OpAim3, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Back", Vector3(0,0,0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	if (OpFlag1)
 	{
 		BaseScene::mSprite->Draw("AimA1", OpAimA1, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));

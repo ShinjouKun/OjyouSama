@@ -59,9 +59,13 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("Sentaku", "Resouse/sentaku.png");
 	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
+	mSE = std::make_shared<Sound>("SelectSE.mp3", false);
+	mDecisionSE = std::make_shared<Sound>("OkSE.mp3", false);
 
 	mTimer = std::make_shared<Timer>(0.01f);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDecisionSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
 void Select::UpdateScene()
@@ -118,12 +122,14 @@ void Select::UpdateScene()
 		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
 		{
 			selectposition.y -= 64;
+			mSE->play();
 			mTimer->setTime(0.2f);
 		}
 
 		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
 		{
 			selectposition.y += 64;
+			mSE->play();
 			mTimer->setTime(0.2f);
 		}
 		if (selectposition.y == 64)
@@ -135,6 +141,7 @@ void Select::UpdateScene()
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				selectFlag = true;
+				mDecisionSE->play();
 			}
 		}
 		else if (selectposition.y == 128)
@@ -146,6 +153,7 @@ void Select::UpdateScene()
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				NextScene(std::make_shared<Garage>());
+				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}
 		}		
@@ -158,6 +166,7 @@ void Select::UpdateScene()
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				NextScene(std::make_shared<Option>());
+				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}
 		}
@@ -169,6 +178,7 @@ void Select::UpdateScene()
 			SelectAlfa4 = 1.0f;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
+				mDecisionSE->play();
 				NextScene(std::make_shared<Title>());
 			}
 		}
@@ -184,6 +194,7 @@ void Select::UpdateScene()
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				fadeF1 = true;
+				mDecisionSE->play();
 				//cameramoveFlag = true;
 			}
 		}
@@ -193,6 +204,7 @@ void Select::UpdateScene()
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				fadeF1 = true;
+				mDecisionSE->play();
 			}
 		}
 		if (position.x >= targetPos3.x && position.x <= targetPos3.x + 64 && position.y >= targetPos3.y && position.y <= targetPos3.y + 64)
@@ -201,6 +213,7 @@ void Select::UpdateScene()
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				fadeF2 = true;
+				mDecisionSE->play();
 			}
 		}
 		if (position.x >= targetPos4.x && position.x <= targetPos4.x + 64 && position.y >= targetPos4.y && position.y <= targetPos4.y + 64)
@@ -209,6 +222,7 @@ void Select::UpdateScene()
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				fadeF2 = true;
+				mDecisionSE->play();
 			}
 		}
 
