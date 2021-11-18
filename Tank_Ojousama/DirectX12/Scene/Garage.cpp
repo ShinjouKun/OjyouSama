@@ -5,7 +5,7 @@
 #include "../Utility/Timer/Timer.h"
 
 Garage::Garage()
-	:mSound(nullptr)
+	:mSound(nullptr) , mBGM(nullptr)
 {
 }
 
@@ -18,6 +18,7 @@ void Garage::StartScene()
 {
 	fade = 0;
 	fadeF = false;
+	fadeFB = false;
 	SAlfa1 = 0.5f;
 	SAlfa2 = 0.5f;
 	SAlfa3 = 0.5f;
@@ -34,6 +35,7 @@ void Garage::StartScene()
 	BaseScene::mSprite->AddTexture("Sentaku6", "Resouse/Sankaku.png");
 	BaseScene::mSprite->AddTexture("Garege", "Resouse/garege.jpg");
 	BaseScene::mSprite->AddTexture("Syata", "Resouse/syata.jpg");
+	BaseScene::mSprite->AddTexture("BackS", "Resouse/backselect.png");
 
 	BaseScene::mSprite->AddTexture("sOjo", "Resouse/GaregeOjoSelect.png");
 	BaseScene::mSprite->AddTexture("sHead", "Resouse/GaregeHeadSelect.png");
@@ -73,12 +75,19 @@ void Garage::StartScene()
 	camera->SetTarget(Vector3(0.0f, 0, -100.0f));
 	mTimer = std::make_shared<Timer>(0.01f);
 	mSound = std::make_shared<Sound>("syata.mp3", false);
-	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	mSound->play();
+	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
+	mBGM = std::make_shared<Sound>("garegeBGM.mp3", false);
+	mBGM->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+
+	mSE = std::make_shared<Sound>("SelectSE.mp3", false);
+	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
 void Garage::UpdateScene()
 {
+	mBGM->playLoop();
 	mTimer->update();
 	if (!mTimer->isTime()) return;
 	if (keyflag < 0)
@@ -93,16 +102,19 @@ void Garage::UpdateScene()
 	{
 		if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 		{
-			NextScene(std::make_shared<Select>());
+			fadeFB = true;
+			mSound->play();
 		}
 		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
 		{
 			keyflag -= 1;
+			mSE->play();
 			mTimer->setTime(0.2f);
 		}		
 		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
 		{
 			keyflag += 1;
+			mSE->play();
 			mTimer->setTime(0.2f);
 		}
 		if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
@@ -115,6 +127,7 @@ void Garage::UpdateScene()
 			{
 				ChangeFlag = false;
 			}
+			mSE->play();
 			mTimer->setTime(0.2f);
 		}		
 		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
@@ -127,6 +140,7 @@ void Garage::UpdateScene()
 			{
 				ChangeFlag = false;
 			}
+			mSE->play();
 			mTimer->setTime(0.2f);
 		}
 		if (keyflag == 0)
@@ -148,18 +162,28 @@ void Garage::UpdateScene()
 			SAlfa3 = 1.0f;
 		}
 	}
-	fade -= 15;
+	if (fadeF == false)
+	{
+		fade -= 15;
+	}
 	if (fade <= -700)
 	{
 		fadeF = true;
+		fade == -700;
+	}
+	if (fadeF&&fadeFB)
+	{
+		fade += 15;
+		if (fade >= 0)
+		{
+			NextScene(std::make_shared<Select>());
+		}
 	}
 }
 
 void Garage::DrawScene()
 {
-
 	DirectXManager::GetInstance()->SetData2D();
-
 	BaseScene::mSprite->SetSize("Garege", Vector2(1280, 720));
 	BaseScene::mSprite->Draw("Garege", Vector3(0,0,0), 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1.0f));
 	BaseScene::mSprite->Draw("Sentaku1", SentakuPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa1));
@@ -168,6 +192,7 @@ void Garage::DrawScene()
 	BaseScene::mSprite->Draw("Sentaku4", SentakuPos4, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa2));
 	BaseScene::mSprite->Draw("Sentaku5", SentakuPos5, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa3));
 	BaseScene::mSprite->Draw("Sentaku6", SentakuPos6, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa3));
+	BaseScene::mSprite->Draw("BackS", Vector3(0,0,0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	if (keyflag == 0)
 	{
 		BaseScene::mSprite->SetSize("sOjo", Vector2(300, 300));
@@ -183,14 +208,13 @@ void Garage::DrawScene()
 		BaseScene::mSprite->SetSize("sBody", Vector2(300, 300));
 		BaseScene::mSprite->Draw("sBody", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
-	if (fadeF == false)
-	{
 		BaseScene::mSprite->SetSize("Syata", Vector2(1280, 720));
 		BaseScene::mSprite->Draw("Syata", Vector3(0, fade, 0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-	}
+	
 	DirectXManager::GetInstance()->SetData3D();
 	if (fadeF)
 	{
+		if (fadeFB) return;
 		if (ChangeFlag == false)
 		{
 			BaseScene::mModel->Draw("ArmR1", Vector3(0, -2 + 3.2f, -113), Vector3(150, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
@@ -198,20 +222,15 @@ void Garage::DrawScene()
 			BaseScene::mModel->Draw("ArmL1", Vector3(0, -2 + 3.2f, -113), Vector3(150, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("TankPlayerA", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
-
 		}
 
 		else if (ChangeFlag)
 		{
-
 			BaseScene::mModel->Draw("ArmR2", Vector3(0, -2 + 3.2f, -113), Vector3(150, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("OjyouSama2", Vector3(0, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("ArmL2", Vector3(0, -2 + 3.2f, -113), Vector3(150, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
-
 			BaseScene::mModel->Draw("TankPlayerC", Vector3(0, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
-
 			BaseScene::mModel->Draw("TankPlayerD", Vector3(0, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
-
 		}
 	}
 	objM->Draw();

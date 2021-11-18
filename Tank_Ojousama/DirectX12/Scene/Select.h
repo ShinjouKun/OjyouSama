@@ -68,6 +68,8 @@ private:
 	//ターゲット用ポジション
 	Vector3 setcamerapos;
 	std::shared_ptr<Sound> mSound;
+	std::shared_ptr<Sound> mSE;
+	std::shared_ptr<Sound> mDecisionSE;
 
 	std::shared_ptr<Timer> mTimer;
 };

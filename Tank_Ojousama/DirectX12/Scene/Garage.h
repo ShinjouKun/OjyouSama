@@ -28,6 +28,8 @@ private:
 
 	ObjectManager* objM;
 	std::shared_ptr<Sound> mSound;
+	std::shared_ptr<Sound> mSE;
+	std::shared_ptr<Sound> mBGM;
 
 	float fade;
 	bool fadeF;
@@ -36,6 +38,7 @@ private:
 	float SAlfa1;
 	float SAlfa2;
 	float SAlfa3;
+	bool fadeFB;
 
 	Camera* camera;
 	Vector3 camerapos = Vector3(0, 0, 0);
