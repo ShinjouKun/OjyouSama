@@ -181,6 +181,7 @@
     <ClCompile Include="Collision\RayCollison.cpp" />
     <ClCompile Include="Collision\WorldSpace.cpp" />
     <ClCompile Include="Items\Item.cpp" />
+    <ClCompile Include="Items\ItemBox.cpp" />
     <ClCompile Include="Items\ItemHolder.cpp" />
     <ClCompile Include="Items\Repair.cpp" />
     <ClCompile Include="Items\Shield.cpp" />
@@ -463,6 +464,7 @@
     <ClInclude Include="ConstInfomation\Enemy\SniperEnemyConstInfo.h" />
     <ClInclude Include="ConstInfomation\Enemy\TestEnemyInfo.h" />
     <ClInclude Include="Items\Item.h" />
+    <ClInclude Include="Items\ItemBox.h" />
     <ClInclude Include="Items\ItemHolder.h" />
     <ClInclude Include="Items\Repair.h" />
     <ClInclude Include="Items\Shield.h" />
