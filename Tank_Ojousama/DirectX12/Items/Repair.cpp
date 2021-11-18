@@ -24,7 +24,7 @@ void Repair::Init()
 	death = false;
 	isGet = false;
 	active = false;
-	SetCollidder(Vector3(position.x, position.y, position.z), 0.5f);
+	SetCollidder(Vector3(0,0,0), 0.5f);
 	alive = 0;
 	name = "Repair";
 	num = to_string(number);
