@@ -111,6 +111,7 @@ void Player::Init()
 	//戦車
 	playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
 	playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
+	
 	/*playerModel->AddModel("TankA", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
 	playerModel->AddModel("TankB", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");*/
 	//お嬢様
@@ -184,9 +185,9 @@ void Player::Update()
 			position.z = 510;
 		}
 		//前
-		if (position.z <= 50)
+		if (position.z <= -250)
 		{
-			position.z = 50;
+			position.z = -250;
 		}
 		//HP
 		if (HP <= 0)
@@ -391,6 +392,7 @@ void Player::Rend()
 	ojyouXL += 10.0f;
 	ojyouY -= 10.0f;
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
+
 	if (!sniperShotFlag)
 	{
 		playerModel->Draw("TankA", Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));

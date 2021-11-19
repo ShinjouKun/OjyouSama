@@ -25,6 +25,7 @@ void LandMine::Init()
 	num = to_string(number);
 	numName = name + num;
 	Model->AddModel(numName, "Resouse/mine.obj", "Resouse/mine.png");
+	Model->SetAncPoint(numName, Vector3(2.0f, 2.0f, 0.0f));
 	ParticleBox = make_shared<ParticleEmitterBox>(Particle);
 	ParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
 	alive = 0;
@@ -33,7 +34,7 @@ void LandMine::Init()
 	speed = 1.5f;
 	bomSpace = 1.0f;
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x-2.2f, position.y - 1.5f, position.z), bomSpace);
+	SetCollidder(Vector3(0,2.5f,0), bomSpace);
 }
 
 void LandMine::Update()
@@ -41,7 +42,7 @@ void LandMine::Update()
 	//おきっぱでもいいけど残ったままなのもあれなので
 	alive++;
 	
-	if (alive >= 1000)
+	if (alive >= 300)
 	{
 		death = true;
 	}

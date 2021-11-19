@@ -24,7 +24,7 @@ void NormalBullet::Init()
 	name = "NormalBullet";
 	num = to_string(number);
 	numName = name + num;
-	BulletModel->AddModel(numName, "Resouse/Bullet.obj", "Resouse/Bullet.png");
+	BulletModel->AddModel(numName, "Resouse/bullet.obj", "Resouse/bullet.png");
 	BulletParticleBox = make_shared<ParticleEmitterBox>(BulletParticle);
 	BulletParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
 	alive = 0;
@@ -51,7 +51,7 @@ void NormalBullet::Update()
 void NormalBullet::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	BulletModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(1, 1, 1));
+	BulletModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(0.7f, 0.7f, 0.7f));
 }
 
 void NormalBullet::ImGuiDebug()

@@ -135,24 +135,19 @@ void SniperEnemy::EnemyUpdate()
 void SniperEnemy::EnemyRend()
 {
 	
-	/*if (GetActive() == true)
-	{*/
+	
 		DirectXManager::GetInstance()->SetData3D();
 		modelRender->Draw(numBarrel, Vector3(position.x, position.y + 2.0f, position.z), Vector3(mLegRotate, barrelAngle, 0), scale);//‹r
 		modelRender->Draw(numBarrel2, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, barrelAngle, 0), scale);//‹r
 		modelRender->Draw(numTurret, position, Vector3(turretAngle, barrelAngle, 0), scale);//“ª‚ÆŽè
 		modelRender->Draw(numBody, position, Vector3(0, barrelAngle, 0), scale);//‘Ì‚Æ‹|
-	//}
+	
 	
 }
 
 void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 {
-	/*if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
-	{
-		SetActive(true);
-	}
-*/
+	
 	if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
 	{
 		trackingBreadcrumb = false;

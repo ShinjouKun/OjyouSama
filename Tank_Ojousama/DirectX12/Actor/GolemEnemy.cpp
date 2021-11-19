@@ -52,7 +52,7 @@ void GolemEnemy::Senser()
 				case GolemBatteleStatus::BATTELE_G:
 					break;
 				case GolemBatteleStatus::RETURN_G:
-					//batteleS = GolemBatteleStatus::BATTELE_G;
+					batteleS = GolemBatteleStatus::BATTELE_G;
 					break;
 				default:
 					break;
@@ -144,7 +144,7 @@ void GolemEnemy::Safe()
 	rndCount++;
 	if (rndCount >= 240)
 	{
-		AvoidMove();
+		//AvoidMove();
 	}
 }
 
@@ -526,8 +526,8 @@ void GolemEnemy::Init()
 	//ステータス対応
 	ArmPosL = Vector3(position.x - 0.1f, position.y + 5.0f, position.z);
 	ArmPosR = Vector3(position.x + 0.1f, position.y + 5.0f, position.z);
-	canp.CanpPoint = Vector3(0.0f, 4.0f, -150.0f);
-	canp.CanpRadius = 60.0f;
+	canp.CanpPoint = Vector3(0.0f, 4.0f, -70.0f);
+	canp.CanpRadius = 120.0f;
 	HP = 50;
 	speed = 0.2f;
 	death = false;
