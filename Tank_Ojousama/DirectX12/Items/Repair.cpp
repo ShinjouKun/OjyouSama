@@ -31,7 +31,7 @@ void Repair::Init()
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
 	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
-	if (itemState == ItemState::Normal)
+	if (itemState == ItemState::Low)
 	{
 		healPoint = 20;
 	}

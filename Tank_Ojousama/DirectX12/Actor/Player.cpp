@@ -109,17 +109,19 @@ void Player::Init()
 	mSound = std::make_shared<Sound>("bomb3.mp3", false);
 	//model
 	//戦車
-	playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
-	playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
-	/*playerModel->AddModel("TankA", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
-	playerModel->AddModel("TankB", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");*/
-	//お嬢様
-	playerModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
-	playerModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
-	playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
-	playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
-	playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
-	playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
+	//playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
+	//playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
+	///*playerModel->AddModel("TankA", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
+	//playerModel->AddModel("TankB", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");*/
+	////お嬢様
+	//playerModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
+	//playerModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
+	//playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
+	//playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
+	//playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
+	//playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
+
+	modelChanger.Load(playerModel);
 
 	//playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
 	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
@@ -393,12 +395,12 @@ void Player::Rend()
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	if (!sniperShotFlag)
 	{
-		playerModel->Draw("TankA", Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw("TankB", Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger.GetModelName(3), Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger.GetModelName(4), Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
 
-		playerModel->Draw("ArmR", Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw("OjyouSama", Vector3(position.x, position.y, position.z), Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw("ArmL", Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger.GetModelName(0), Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger.GetModelName(1), Vector3(position.x, position.y, position.z), Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger.GetModelName(2), Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
 	}
 
 	//if (moveFlag)

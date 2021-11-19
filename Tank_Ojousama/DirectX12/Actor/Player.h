@@ -7,6 +7,7 @@
 #include "../Render/ModelRenderer.h"
 #include "../Render/ParticleManager.h"
 #include "../Collision/CollisonManager.h"
+#include"../Utility/ModelChanger.h"
 
 
 class Listener;
@@ -38,6 +39,7 @@ private:
 	shared_ptr<Listener> listener;
 	Camera* camera;
 	std::shared_ptr<Sound> mSound;
+	ModelChanger modelChanger;
 
 	//ƒJƒƒ‰—p
 	Vector3 CameraPos;
