@@ -119,13 +119,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeOjoSelect.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeHeadSelect.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeBodySelect.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/unti.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Bom.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/garege.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/syata.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/croshear.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/back.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/backselect.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/controller.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/operation.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/operationback.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/wepon.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpUI.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/title_rogo.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");

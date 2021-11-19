@@ -4,6 +4,7 @@
 #include"Select.h"
 #include "../Sound/Sound.h"
 #include "../Utility/Timer/Timer.h"
+#include"../Utility/Sequence/Sequence.h"
 
 Result::Result()
 	:mSound(nullptr)
@@ -49,6 +50,7 @@ void Result::StartScene()
 	ojyouXL = 7;
 	mTimer = std::make_shared<Timer>(0.01f);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	BaseScene::mMoney += 20000000;
 }
 
 void Result::UpdateScene()
@@ -114,11 +116,6 @@ void Result::UpdateScene()
 			}
 		}
 	}
-	if (Input::KeyDown(DIK_1))
-	{
-		//BaseScene::mMoney += 20000000;
-		NextScene(std::make_shared<Title>());
-	}
 }
 
 void Result::DrawScene()
@@ -137,6 +134,7 @@ void Result::DrawScene()
 	DirectXManager::GetInstance()->SetData2D();
 	if (time >= 120)
 	{
+		Sequence::instance().set(20000000, Vector2(70, 480), Vector2(64, 64));
 		ojyouZ += 0.1f;
 		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("SBack", selectbackPos, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));

@@ -13,9 +13,10 @@ void ModelChanger::Init()
 	head = HeadState::Normal;
 	body = BodyState::Light;
 	bottom = BottomState::Light_b;
+	
 }
 
-void ModelChanger::Load()
+void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 {
 	editor.Read("../Resource/ModelState.txt", state);
 	
@@ -33,6 +34,15 @@ void ModelChanger::Load()
 	else
 	{
 		head = HeadState::Normal;
+		playerModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
+		playerModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
+		playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
+		playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
+		playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
+		playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
+		modelKey[0] = "ArmR";
+		modelKey[1] = "OjyouSama";
+		modelKey[2] = "ArmL";
 	}
 
 	if (state[1] != "Light")
@@ -49,6 +59,9 @@ void ModelChanger::Load()
 	else
 	{
 		body = BodyState::Light;
+		playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
+		modelKey[3] = "TankA";
+		
 	}
 
 	if (state[2] != "Light_b")
@@ -65,6 +78,8 @@ void ModelChanger::Load()
 	else
 	{
 		bottom = BottomState::Light_b;
+		playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
+		modelKey[4] = "TankB";
 	}
 	
 	
@@ -123,6 +138,7 @@ void ModelChanger::Save()
 	editor.Write("../Resource/ModelState.txt", state);
 }
 
+
 void ModelChanger::ChangeHead(HeadState headState)
 {
 	head = headState;
@@ -136,4 +152,9 @@ void ModelChanger::ChangeBody(BodyState bodyState)
 void ModelChanger::ChangeBottom(BottomState bottomState)
 {
 	bottom = bottomState;
+}
+
+string ModelChanger::GetModelName(int num)
+{
+	return modelKey[num];
 }

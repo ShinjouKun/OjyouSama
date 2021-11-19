@@ -6,6 +6,7 @@
 #include "../Sound/Listener.h"
 #include"../Sound/Sound.h"
 #include "../Actor/CameraEye.h"
+#include"../Utility/Timer/Timer.h"
 //武器たち
 #include"../Weapons/NormalBullet.h"
 #include"../Weapons/LandMine.h"
@@ -13,7 +14,6 @@
 #include"../Weapons/MissileBullet.h"
 #include"../Weapons/MashinGun.h"
 #include"../Scene/BaseScene.h"
-#include"../Utility/Sequence/Sequence.h"
 #define ToRad(deg)((deg)*(PI/180.0f))
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
 	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
@@ -107,11 +107,15 @@ void Player::Init()
 {
 	
 	mSound = std::make_shared<Sound>("bomb3.mp3", false);
+	mTimer = std::make_shared<Timer>();
+
+
+	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
+	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
 	//model
 	//戦車
 	playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
 	playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
-	
 	/*playerModel->AddModel("TankA", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
 	playerModel->AddModel("TankB", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");*/
 	//お嬢様
@@ -165,31 +169,11 @@ void Player::Init()
 
 void Player::Update()
 {
+	mTimer->update();
+
 	mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 	if (!GameOver)
 	{
-		//行動制限
-		//右
-		if (position.x <= -150.0f)
-		{
-			position.x = -150.0f;
-		}
-		//左
-		if (position.x >= 150.0f)
-		{
-			position.x = 150.0f;
-		}
-		//後ろ
-		if (position.z >= 510)
-		{
-			position.z = 510;
-		}
-		//前
-		if (position.z <= -250)
-		{
-			position.z = -250;
-		}
-		//HP
 		if (HP <= 0)
 		{
 			GameOver = true;
@@ -260,6 +244,7 @@ void Player::Update()
 		{
 			angle.y -= 1.0f;
 		}
+
 		//砲塔
 		if (Input::KeyState(DIK_UP) || Input::pad_data.lRz < 0)
 		{
@@ -309,13 +294,37 @@ void Player::Update()
 		{
 			atkAngle -= cameraSpeed;
 		}
-
+		//行動制限
+		//右
+		if (position.x <= -150.0f)
+		{
+			position.x = -150.0f;
+		}
+		//左
+		if (position.x >= 150.0f)
+		{
+			position.x = 150.0f;
+		}
+		//後ろ
+		if (position.z >= 510)
+		{
+			position.z = 510;
+		}
+		//前
+		if (position.z <= -250)
+		{
+			position.z = -250;
+		}
 		//カメラ更新
 		
 		
-		if(Input::KeyState(DIK_8))
+		if(Input::KeyState(DIK_8)|| Input::pad_data.rgbButtons[4])
 		{
-			sniperShotFlag = !sniperShotFlag;
+			if (mTimer->isTime()) {
+				sniperShotFlag = !sniperShotFlag;
+				mTimer->setTime(0.2f);
+			}
+
 		}
 		if (!sniperShotFlag)
 		{
@@ -387,12 +396,10 @@ void Player::Update()
 
 void Player::Rend()
 {
-	Sequence::instance().set(HP, Vector2(0, 0), Vector2(64, 64));
 	ojyouXR -= 10.0f;
 	ojyouXL += 10.0f;
 	ojyouY -= 10.0f;
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-
 	if (!sniperShotFlag)
 	{
 		playerModel->Draw("TankA", Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
@@ -410,6 +417,8 @@ void Player::Rend()
 	//}
 
 	DirectXManager::GetInstance()->SetData2D();
+	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	playerSprite->Draw("WeponUi", Vector3(1280 -180, 720-180, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	if (!sniperShotFlag)
 	{
 		playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
@@ -418,8 +427,31 @@ void Player::Rend()
 	{
 		playerSprite->Draw("AIM_S", Vector3(0,0,0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
+	//playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
+	/*
+		switch (HP)
+		{
+		case 3:
+			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			playerSprite->Draw("Life2", Vector3(45, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			playerSprite->Draw("Life3", Vector3(90, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			break;
+		case 2:
+			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			playerSprite->Draw("Life2", Vector3(45, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			break;
+		case 1:
+			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			break;
+		case 0:
+			GameOver = true;
+			break;
+		default:
+			break;
+		}*/
 	if (GameOver)
 	{
+		
 		DirectXManager::GetInstance()->SetData2D();
 		playerSprite->Draw("DETH", Vector3(500, 200, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}
@@ -463,22 +495,22 @@ void Player::OnCollison(BaseCollider* col)
 void Player::ImGuiDebug()
 {
 
-	//float pos[3] = { position.x,position.y,position.z };
-	//ImGui::SliderFloat3("PlayerPosition", pos, 0, 10000.0f);
+	float pos[3] = { position.x,position.y,position.z };
+	ImGui::SliderFloat3("PlayerPosition", pos, 0, 10000.0f);
 
-	//float posC[3] = { CameraPos.x,CameraPos.y,CameraPos.z };
-	//ImGui::SliderFloat3("CameraPosition", posC, 0, 10000.0f);
+	float posC[3] = { CameraPos.x,CameraPos.y,CameraPos.z };
+	ImGui::SliderFloat3("CameraPosition", posC, 0, 10000.0f);
 
-	//float ang[3] = { angle.x,angle.y,angle.z };
-	//ImGui::SliderFloat3("BtmAngle", ang, 0, 360);
-	//ImGui::SliderFloat("AtkAngle", &atkAngle, 0, 360);
-	//ImGui::SliderFloat("FireAngle", &fireAngle, 0, 360);
-	//ImGui::SliderFloat("CamPosY", &CamPos_Y, -10, 10);
-	//ImGui::Checkbox("ShotFlag", &shotFlag1);
-	//ImGui::Checkbox("ShotFlag", &shotFlag2);
-	//ImGui::SliderInt("HP", &HP, 0, HP);
-	//ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
-	//ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
-	//ImGui::SliderFloat("SPEED", &speed, 0, 100);
-	//ImGui::SliderInt("SPEEDTime", &speedTime, 0, 100);
+	float ang[3] = { angle.x,angle.y,angle.z };
+	ImGui::SliderFloat3("BtmAngle", ang, 0, 360);
+	ImGui::SliderFloat("AtkAngle", &atkAngle, 0, 360);
+	ImGui::SliderFloat("FireAngle", &fireAngle, 0, 360);
+	ImGui::SliderFloat("CamPosY", &CamPos_Y, -10, 10);
+	ImGui::Checkbox("ShotFlag", &shotFlag1);
+	ImGui::Checkbox("ShotFlag", &shotFlag2);
+	ImGui::SliderInt("HP", &HP, 0, HP);
+	ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
+	ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
+	ImGui::SliderFloat("SPEED", &speed, 0, 100);
+	ImGui::SliderInt("SPEEDTime", &speedTime, 0, 100);
 }

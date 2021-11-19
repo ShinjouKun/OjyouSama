@@ -11,6 +11,7 @@
 
 class Listener;
 class Sound;
+class Timer;
 using namespace std;
 class Player :public BaseObject
 {
@@ -38,6 +39,7 @@ private:
 	shared_ptr<Listener> listener;
 	Camera* camera;
 	std::shared_ptr<Sound> mSound;
+	std::shared_ptr<Timer> mTimer;
 
 	//ƒJƒƒ‰—p
 	Vector3 CameraPos;
