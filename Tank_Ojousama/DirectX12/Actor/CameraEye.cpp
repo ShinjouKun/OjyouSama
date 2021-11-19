@@ -46,8 +46,6 @@ void CameraEye::Rend()
 
 void CameraEye::ImGuiDebug()
 {
-	float pos[3] = { position.x,position.y,position.z };
-	ImGui::SliderFloat3("Cam", pos, 0, 10000.0f);
 }
 
 void CameraEye::OnCollison(BaseCollider * col)

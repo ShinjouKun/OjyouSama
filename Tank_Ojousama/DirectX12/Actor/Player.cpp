@@ -463,22 +463,22 @@ void Player::OnCollison(BaseCollider* col)
 void Player::ImGuiDebug()
 {
 
-	float pos[3] = { position.x,position.y,position.z };
-	ImGui::SliderFloat3("PlayerPosition", pos, 0, 10000.0f);
+	//float pos[3] = { position.x,position.y,position.z };
+	//ImGui::SliderFloat3("PlayerPosition", pos, 0, 10000.0f);
 
-	float posC[3] = { CameraPos.x,CameraPos.y,CameraPos.z };
-	ImGui::SliderFloat3("CameraPosition", posC, 0, 10000.0f);
+	//float posC[3] = { CameraPos.x,CameraPos.y,CameraPos.z };
+	//ImGui::SliderFloat3("CameraPosition", posC, 0, 10000.0f);
 
-	float ang[3] = { angle.x,angle.y,angle.z };
-	ImGui::SliderFloat3("BtmAngle", ang, 0, 360);
-	ImGui::SliderFloat("AtkAngle", &atkAngle, 0, 360);
-	ImGui::SliderFloat("FireAngle", &fireAngle, 0, 360);
-	ImGui::SliderFloat("CamPosY", &CamPos_Y, -10, 10);
-	ImGui::Checkbox("ShotFlag", &shotFlag1);
-	ImGui::Checkbox("ShotFlag", &shotFlag2);
-	ImGui::SliderInt("HP", &HP, 0, HP);
-	ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
-	ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
-	ImGui::SliderFloat("SPEED", &speed, 0, 100);
-	ImGui::SliderInt("SPEEDTime", &speedTime, 0, 100);
+	//float ang[3] = { angle.x,angle.y,angle.z };
+	//ImGui::SliderFloat3("BtmAngle", ang, 0, 360);
+	//ImGui::SliderFloat("AtkAngle", &atkAngle, 0, 360);
+	//ImGui::SliderFloat("FireAngle", &fireAngle, 0, 360);
+	//ImGui::SliderFloat("CamPosY", &CamPos_Y, -10, 10);
+	//ImGui::Checkbox("ShotFlag", &shotFlag1);
+	//ImGui::Checkbox("ShotFlag", &shotFlag2);
+	//ImGui::SliderInt("HP", &HP, 0, HP);
+	//ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
+	//ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
+	//ImGui::SliderFloat("SPEED", &speed, 0, 100);
+	//ImGui::SliderInt("SPEEDTime", &speedTime, 0, 100);
 }

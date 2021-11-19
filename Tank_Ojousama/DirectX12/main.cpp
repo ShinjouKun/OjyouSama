@@ -259,12 +259,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//•`‰æ
 		mScene->Update();
 
-#ifndef DEBUG
+#ifdef DEBUG
 
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
 			1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-#endif // DEBUG
+#endif  DEBUG
 
 		s.update();//Šeupdate‚ªI‚í‚Á‚½Œã‚É‰¹‚Ìˆ—‚ð“ü‚ê‚é
 		DirectXManager::GetInstance()->SetDrawComnd();

@@ -528,7 +528,7 @@ void GolemEnemy::Init()
 	ArmPosR = Vector3(position.x + 0.1f, position.y + 5.0f, position.z);
 	canp.CanpPoint = Vector3(0.0f, 4.0f, -70.0f);
 	canp.CanpRadius = 120.0f;
-	HP = 50;
+	HP = 100;
 	speed = 0.2f;
 	death = false;
 	AttackFlag = false;
@@ -621,7 +621,6 @@ void GolemEnemy::Rend()
 
 void GolemEnemy::ImGuiDebug()
 {
-	ImGui::Checkbox("Active", &IsActive);
 }
 
 void GolemEnemy::OnCollison(BaseCollider * col)
