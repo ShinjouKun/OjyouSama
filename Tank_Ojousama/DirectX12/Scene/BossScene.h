@@ -18,6 +18,8 @@ class WayPointManager;
 class BreadCrumbCreater;
 class Sound;
 class Timer;
+class TestBoss;
+
 class BossScene :public BaseScene
 {
 public:
@@ -68,4 +70,6 @@ private:
 
 	shared_ptr<EnemyAI> mEnemyAI;
 	std::shared_ptr<Timer> mTimer;
+
+	TestBoss * mBoss;
 };

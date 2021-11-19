@@ -99,6 +99,8 @@ void BlowEnemy::EnemyInit()
 	//modelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
 	//modelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//’†S“_‚Ì•ÏX
 
+	num = to_string(number);
+
 	tankBarrel =  BECI::TANK_RLEG_NAME;
 	tankBarrel2 = BECI::TANK_LREG_NAME;
 	numBarrel = tankBarrel + num;

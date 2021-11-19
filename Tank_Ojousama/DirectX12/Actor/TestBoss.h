@@ -22,6 +22,8 @@ public:
 
 	~TestBoss();
 
+	bool GetDeadFlag();
+
 private:
 
 	virtual void Init() override;
@@ -117,7 +119,7 @@ private:
 	Vector3 mLeftHandPos;    //左手の位置
 	Vector3 mRootPosition;   //根っこの位置
 
-	const int MAX_HP = 200;       //最大体力
+	const int MAX_HP = 10;       //最大体力
 	const int RAPIDFIRE_COUNT = 3;//連続射撃の数
 	const int SUMMON_COUNT = 5;   //召喚数
 	int mBulletCount;//弾を発射した数
@@ -144,6 +146,7 @@ private:
 
 	bool mActionFlag;//攻撃アクション中かどうか
 	bool mDeathAnimationFlag;//死亡アニメーションを開始するか
+	bool mDeadFlag;//死ぬ前にtrueになるフラグ
 
 	//胴体
 	string mStringNum;
@@ -161,4 +164,6 @@ private:
 	string mRootCircleNum;
 	//エフェクト
 	string PARTICLE_EFFECT = "DeathBomm";
+	//エフェクト2
+	string EXPLOSION_EFFECT = "Explosion";
 };

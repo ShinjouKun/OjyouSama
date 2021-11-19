@@ -1,7 +1,5 @@
 #include "TestBoss.h"
 #include "../Collision/SpherCollider.h"
-#include "../Collision/AABBCollider.h"
-#include "../Weapons/NormalBullet.h"
 #include "../Weapons/LaunchBullet.h"
 #include "../Utility/Timer/Timer.h"
 #include "../Utility/Random.h"
@@ -27,14 +25,19 @@ TestBoss::TestBoss(
 
 TestBoss::~TestBoss()
 {
-	//delete mTreeRoot;
+	
+}
+
+bool TestBoss::GetDeadFlag()
+{
+	return mDeadFlag;
 }
 
 void TestBoss::Init()
 {
 	HP = MAX_HP;
 	speed = MOVE_SPEED;
-	objType = ObjectType::BLOCK;
+	objType = ObjectType::ENEMY;
 
 	damage = 5;
 	mBulletCount = 0;
@@ -56,6 +59,7 @@ void TestBoss::Init()
 
 	mActionFlag = false;
 	mDeathAnimationFlag = false;
+	mDeadFlag = false;
 
 	//各オブジェクトの初期位置をセット
 	mOffsetRightHand = Vector3(position.x /*- 10.0f*/, position.y + 15.0f, position.z);
@@ -115,9 +119,10 @@ void TestBoss::Init()
 	mRootCircleNum = mRootCircle + mStringNum;
 	mModelRender->AddModel(mRootCircleNum, "Resouse/maru.obj", "Resouse/marui.png");
 
-	//パーティクル
+	//パーティクル1
 	mParticleEmitter = make_shared<ParticleEmitterBox>(mEffectManager);
 	mParticleEmitter->LoadAndSet(PARTICLE_EFFECT, "Resouse/effect.png");
+	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
 
 	//配列の初期化
 	mSummonPoint.resize(SUMMON_COUNT);
@@ -144,13 +149,18 @@ void TestBoss::Update()
 		mDeathAnimationFlag = true;
 	}
 
+	if (mDeadFlag)
+	{
+		death = true;
+	}
+
 	//プレイヤーの位置を取得！
 	mPlayerPosition = mObjManager->GetPlayer().GetPosition();
 
 	/*一度だけオブジェクトを生成*/
 	CreateObject();
 
-	/*死亡アニメーションと死亡処理*/
+	/*死亡アニメーション*/
 	DeathAnimation();
 
 	/*攻撃*/
@@ -211,7 +221,7 @@ void TestBoss::ChangeAttackState()
 		{
 			Random::initialize();
 			/*0～10で行動を決める*/
-			mActionCount = Random::randomRange(0, 10);
+			mActionCount = Random::randomRange(0, 11);
 			mActionFlag = true;
 		}
 
@@ -272,10 +282,7 @@ void TestBoss::RapidFire()
 			mFireAngle = -Math::toDegrees(radian) - 180.0f;
 			angle.y = mFireAngle;
 
-			//mObjManager->Add(new NormalBullet(test, Vector3(tt, mFireAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletCount++));
-
-			mObjManager->Add(new LaunchBullet(position, mPlayerPosition, mObjManager, mModelRender, mEffectManager, objType, mBulletCount++,true));
-			//mPlayerPosition
+			mObjManager->Add(new LaunchBullet(position, mPlayerPosition, mObjManager, mModelRender, mEffectManager, objType, mBulletCount++));
 
 			//指定数連続で射撃する
 			if (mBulletCount >= RAPIDFIRE_COUNT)
@@ -355,9 +362,10 @@ void TestBoss::DeathAnimation()
 				Random::initialize();
 				//描画位置を毎回変える
 				float x = Random::randomRange(-10.0f, 10.0f);
-				float y = Random::randomRange(0.0f, 30.0f);
+				float y = Random::randomRange(0.0f, 40.0f);
 				float z = Random::randomRange(-10.0f, 10.0f);
-				mParticleEmitter->EmitterUpdate(PARTICLE_EFFECT, Vector3(x, y, z), angle);
+				//mParticleEmitter->EmitterUpdate(PARTICLE_EFFECT, Vector3(x, y, z), angle);
+				mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
 
 				/*できればSEも欲しいねうるさくない程度に*/
 
@@ -370,6 +378,16 @@ void TestBoss::DeathAnimation()
 
 			/*ここででっかい爆発が起きてほしい*/
 
+			for (int i = 0; i < 10; i++)
+			{
+				//パーティクルを描画
+				Random::initialize();
+				float x = Random::randomRange(-10.0f, 10.0f);
+				float y = Random::randomRange(0.0f, 40.0f);
+				float z = Random::randomRange(-10.0f, 10.0f);
+				mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
+			}
+
 			mDeathStep = DeathAnimationStep::DEATH_COUNT;
 		}
 
@@ -380,7 +398,7 @@ void TestBoss::DeathAnimation()
 
 		if (mExplosionTime->isTime())
 		{
-			death = true;
+			mDeadFlag = true;
 		}
 
 		break;

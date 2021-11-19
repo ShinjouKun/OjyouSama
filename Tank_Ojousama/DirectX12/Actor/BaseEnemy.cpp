@@ -61,7 +61,7 @@ void BaseEnemy::Update()
 
 void BaseEnemy::Rend()
 {
-	//if (!GetActive()) return;
+	if (!GetActive()) return;
 
 	EnemyRend();
 }
@@ -89,7 +89,7 @@ void BaseEnemy::OnCollison(BaseCollider * col)
 		}
 	}
 
-	//if (!GetActive()) return;
+	if (!GetActive()) return;
 
 	EnemyOnCollision(col);
 }
