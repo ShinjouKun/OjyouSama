@@ -510,19 +510,19 @@ void GolemEnemy::Init()
 	numNameBody = Body + num;
 
 	Model->AddModel(numNameBody, "Resouse/gorem_body.obj", "Resouse/gorem.png");
-	Model->SetAncPoint(numNameBody, Vector3(0.0f, -2.0f, -3.0f));
+	Model->SetAncPoint(numNameBody, Vector3(0.0f, -2.0f, 0.0f));
 	ArmR = "ArmR";
 	num = to_string(number);
 	numNameArmR = ArmR + num;
 
 	Model->AddModel(numNameArmR, "Resouse/gorem_hands_R.obj", "Resouse/gorem.png");
-	Model->SetAncPoint(numNameArmR, Vector3(0.5f, -3.0f, -2.5f));
+	Model->SetAncPoint(numNameArmR, Vector3(0.0f, -3.0f,0.0f ));
 
 	ArmL = "ArmL";
 	num = to_string(number);
 	numNameArmL = ArmL + num;
 	Model->AddModel(numNameArmL, "Resouse/gorem_hands_L.obj", "Resouse/gorem.png");
-	Model->SetAncPoint(numNameArmL, Vector3(-0.5f, -3.0f, -2.5f));
+	Model->SetAncPoint(numNameArmL, Vector3(0.0f, -3.0f, 0.0f));
 	//ステータス対応
 	ArmPosL = Vector3(position.x - 0.1f, position.y + 5.0f, position.z);
 	ArmPosR = Vector3(position.x + 0.1f, position.y + 5.0f, position.z);

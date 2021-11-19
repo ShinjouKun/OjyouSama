@@ -61,8 +61,8 @@ void BlowEnemy::EnemyInit()
 	//センサーの初期化----------------
 	fanRotateOrigin = -angle.y - 90.0f;
 	fanInfo.position = Vector3(position.x, position.y, position.z);//位置
-	fanInfo.fanRange = 180.0f;									   //θの角度
-	fanInfo.length = 30.0f;										   //長さ
+	fanInfo.fanRange = 240.0f;									   //θの角度
+	fanInfo.length = 60.0f;										   //長さ
 	fanInfo.rotate = fanRotateOrigin;							   //回転角
 	//--------------------------------
 
