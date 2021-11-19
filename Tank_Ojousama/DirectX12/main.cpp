@@ -231,7 +231,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//アイテムボックス
 	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item_box.obj");
 	//回復アイテム
-	ModelLoader::GetInstance(pipeLine)->Load("Resouce/items.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item.obj");
 	//シールド
 	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item2.obj");
 
