@@ -43,6 +43,7 @@ private:
 	float SelectAlfa2;
 	float SelectAlfa3;
 	float SelectAlfa4;
+	float SelectAlfa5;
 	//説明用フラグ
 	bool setumeiFlag = false;
 	//ターゲット１
@@ -61,6 +62,8 @@ private:
 	Vector3 garege;
 	//出撃
 	Vector3 syutu;
+	//操作説明
+	Vector3 operation;
 	//説明用
 	Vector3 setumei;
 	//カメラポジション

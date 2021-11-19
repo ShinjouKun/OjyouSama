@@ -6,6 +6,7 @@
 #include "../Sound/Listener.h"
 #include"../Sound/Sound.h"
 #include "../Actor/CameraEye.h"
+#include"../Utility/Timer/Timer.h"
 //武器たち
 #include"../Weapons/NormalBullet.h"
 #include"../Weapons/LandMine.h"
@@ -106,6 +107,11 @@ void Player::Init()
 {
 	
 	mSound = std::make_shared<Sound>("bomb3.mp3", false);
+	mTimer = std::make_shared<Timer>();
+
+
+	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
+	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
 	//model
 	//戦車
 	playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
@@ -163,6 +169,8 @@ void Player::Init()
 
 void Player::Update()
 {
+	mTimer->update();
+
 	mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 	if (!GameOver)
 	{
@@ -236,6 +244,7 @@ void Player::Update()
 		{
 			angle.y -= 1.0f;
 		}
+
 		//砲塔
 		if (Input::KeyState(DIK_UP) || Input::pad_data.lRz < 0)
 		{
@@ -285,13 +294,37 @@ void Player::Update()
 		{
 			atkAngle -= cameraSpeed;
 		}
-
+		//行動制限
+		//右
+		if (position.x <= -150.0f)
+		{
+			position.x = -150.0f;
+		}
+		//左
+		if (position.x >= 150.0f)
+		{
+			position.x = 150.0f;
+		}
+		//後ろ
+		if (position.z >= 510)
+		{
+			position.z = 510;
+		}
+		//前
+		if (position.z <= -250)
+		{
+			position.z = -250;
+		}
 		//カメラ更新
 		
 		
-		if(Input::KeyState(DIK_8))
+		if(Input::KeyState(DIK_8)|| Input::pad_data.rgbButtons[4])
 		{
-			sniperShotFlag = !sniperShotFlag;
+			if (mTimer->isTime()) {
+				sniperShotFlag = !sniperShotFlag;
+				mTimer->setTime(0.2f);
+			}
+
 		}
 		if (!sniperShotFlag)
 		{
@@ -384,6 +417,8 @@ void Player::Rend()
 	//}
 
 	DirectXManager::GetInstance()->SetData2D();
+	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	playerSprite->Draw("WeponUi", Vector3(1280 -180, 720-180, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	if (!sniperShotFlag)
 	{
 		playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
@@ -392,7 +427,7 @@ void Player::Rend()
 	{
 		playerSprite->Draw("AIM_S", Vector3(0,0,0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
-	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
+	//playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
 	/*
 		switch (HP)
 		{

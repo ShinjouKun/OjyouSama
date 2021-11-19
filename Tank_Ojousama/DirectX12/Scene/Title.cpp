@@ -26,7 +26,7 @@ void Title::StartScene()
 	camera->SetEye(Vector3(0.0f,0 ,-122));
 	camera->SetTarget(Vector3(0.0f, 0,-100.0f));
 	ojoP = Vector3(0, -25, -113);
-	BaseScene::mSprite->AddTexture("Title", "Resouse/titlerogo.png");
+	BaseScene::mSprite->AddTexture("Title", "Resouse/title_rogo.png");
 	BaseScene::mSprite->AddTexture("Push", "Resouse/start.png");
 	BaseScene::mSprite->AddTexture("Heart", "Resouse/heart.png");
 	BaseScene::mSprite->AddTexture("Fade1", "Resouse/fade.png");
@@ -44,8 +44,10 @@ void Title::StartScene()
 	BaseScene::mModel->SetAncPoint("ArmL", Vector3(0.0f, -1.9f, -0.1f));
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
+	mSE = std::make_shared<Sound>("OkSE.mp3", false);
 	//mSound->play();
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
 void Title::UpdateScene()
@@ -60,8 +62,8 @@ void Title::UpdateScene()
 	{
 		if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 		{
+			mSE->play();
 			fadeF = true;
-			//NextScene(std::make_shared<Select>());
 		}
 		if (fadeF)
 		{
@@ -78,8 +80,6 @@ void Title::DrawScene()
 {
 	ojyouXR = 180.0f;
 	ojyouXL = 180.0f;
-	//ojyouY -= 10.0f;
-
 	DirectXManager::GetInstance()->SetData3D();
 	//BaseScene::mModel->Draw("Sora", Vector3(0, 0, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	BaseScene::mModel->Draw("TankPlayerA", ojoP, Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));

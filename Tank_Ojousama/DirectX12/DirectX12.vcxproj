@@ -198,6 +198,7 @@
     <ClCompile Include="Scene\BossScene.cpp" />
     <ClCompile Include="Scene\GamePlay.cpp" />
     <ClCompile Include="Scene\Garage.cpp" />
+    <ClCompile Include="Scene\Operation.cpp" />
     <ClCompile Include="Scene\Option.cpp" />
     <ClCompile Include="Scene\Result.cpp" />
     <ClCompile Include="Scene\Select.cpp" />
@@ -483,6 +484,7 @@
     <ClInclude Include="Scene\BossScene.h" />
     <ClInclude Include="Scene\GamePlay.h" />
     <ClInclude Include="Scene\Garage.h" />
+    <ClInclude Include="Scene\Operation.h" />
     <ClInclude Include="Scene\Option.h" />
     <ClInclude Include="Scene\Result.h" />
     <ClInclude Include="Scene\Select.h" />
