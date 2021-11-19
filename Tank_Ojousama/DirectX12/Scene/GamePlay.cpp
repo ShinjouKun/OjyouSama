@@ -175,11 +175,11 @@ void GamePlay::StartScene()
 	int enemyCount = 0;
 
 	/////*‰“‹——£UŒ‚‚Ì“G*/
-	//objM->Add(new SniperEnemy(Vector3(0.0f, 4.0f, 10.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new SniperEnemy(Vector3(+10.0f, 4.0f, 20.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new SniperEnemy(Vector3(-10.0f, 4.0f, 20.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new SniperEnemy(Vector3(+50.0f, 4.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new SniperEnemy(Vector3(-50.0f, 4.0f, 50.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	/*objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 420.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(-10.0f, 0.0f, 390.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(+50.0f, 0.0f, 400.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 430.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));*/
 	/*’†‰›‰œ‚Ì–Ø*/
 	/*for (int i = -35; i < 50; i += 25)
 	{
@@ -188,14 +188,14 @@ void GamePlay::StartScene()
 */
 
 	///*‹ß‹——£UŒ‚‚Ì“G*/
- //   objM->Add(new BlowEnemy(Vector3(+90.0f, 0.0f, 100.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new BlowEnemy(Vector3(100.0f, 0.0f, 110.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new BlowEnemy(Vector3(-90.0f, 0.0f, 100.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new BlowEnemy(Vector3(-100.0f, 0.0f, 110.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new BlowEnemy(Vector3(-70.0f, 0.0f, 30.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new BlowEnemy(Vector3(-70.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new BlowEnemy(Vector3(+70.0f, 0.0f, 30.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	//objM->Add(new BlowEnemy(Vector3(+70.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+    /* objM->Add(new BlowEnemy(Vector3(+90.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new BlowEnemy(Vector3(60.0f, 0.0f, 310.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new BlowEnemy(Vector3(-90.0f, 0.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new BlowEnemy(Vector3(-10.0f, 0.0f, 380.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new BlowEnemy(Vector3(0.0f, 0.0f, 360.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new BlowEnemy(Vector3(-70.0f, 0.0f, 350.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new BlowEnemy(Vector3(+70.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
+	objM->Add(new BlowEnemy(Vector3(0.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));*/
 
 #pragma endregion
 
@@ -250,6 +250,10 @@ void GamePlay::StartScene()
 
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/sougen.png");
+	BaseScene::mModel->AddModel("KabeR", "Resouse/Plane.obj", "Resouse/kabe.png");
+	BaseScene::mModel->AddModel("KabeL", "Resouse/Plane.obj", "Resouse/kabe.png");
+	BaseScene::mModel->AddModel("KabeRR", "Resouse/Plane.obj", "Resouse/kabe.png");
+	BaseScene::mModel->AddModel("KabeLL", "Resouse/Plane.obj", "Resouse/kabe.png");
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	//ƒvƒŒƒCƒ„[‚ÍÅŒã‚ÉA–”‚ÍUIƒNƒ‰ƒX‚ðì‚é
@@ -302,6 +306,11 @@ void GamePlay::DrawScene()
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
+	BaseScene::mModel->Draw("KabeRR", Vector3(-190.0f, 60.0f, 480.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeLL", Vector3(190.0f, 60.0f, 480.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR", Vector3(-170.0f, 60.0f, 400.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL", Vector3(170.0f, 60.0f, 400.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 

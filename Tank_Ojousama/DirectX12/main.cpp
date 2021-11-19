@@ -129,6 +129,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/kabe.png");
 
 	//Player
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTM.obj");

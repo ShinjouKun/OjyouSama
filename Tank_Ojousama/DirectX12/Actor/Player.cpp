@@ -13,6 +13,7 @@
 #include"../Weapons/MissileBullet.h"
 #include"../Weapons/MashinGun.h"
 #include"../Scene/BaseScene.h"
+#include"../Utility/Sequence/Sequence.h"
 #define ToRad(deg)((deg)*(PI/180.0f))
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
 	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
@@ -166,6 +167,28 @@ void Player::Update()
 	mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 	if (!GameOver)
 	{
+		//çsìÆêßå¿
+		//âE
+		if (position.x <= -150.0f)
+		{
+			position.x = -150.0f;
+		}
+		//ç∂
+		if (position.x >= 150.0f)
+		{
+			position.x = 150.0f;
+		}
+		//å„ÇÎ
+		if (position.z >= 510)
+		{
+			position.z = 510;
+		}
+		//ëO
+		if (position.z <= 50)
+		{
+			position.z = 50;
+		}
+		//HP
 		if (HP <= 0)
 		{
 			GameOver = true;
@@ -363,6 +386,7 @@ void Player::Update()
 
 void Player::Rend()
 {
+	Sequence::instance().set(HP, Vector2(0, 0), Vector2(64, 64));
 	ojyouXR -= 10.0f;
 	ojyouXL += 10.0f;
 	ojyouY -= 10.0f;
@@ -392,31 +416,8 @@ void Player::Rend()
 	{
 		playerSprite->Draw("AIM_S", Vector3(0,0,0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
-	playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
-	/*
-		switch (HP)
-		{
-		case 3:
-			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			playerSprite->Draw("Life2", Vector3(45, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			playerSprite->Draw("Life3", Vector3(90, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			break;
-		case 2:
-			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			playerSprite->Draw("Life2", Vector3(45, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			break;
-		case 1:
-			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			break;
-		case 0:
-			GameOver = true;
-			break;
-		default:
-			break;
-		}*/
 	if (GameOver)
 	{
-		
 		DirectXManager::GetInstance()->SetData2D();
 		playerSprite->Draw("DETH", Vector3(500, 200, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}

@@ -206,10 +206,10 @@ void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 		InitSearch();
 	}
 
-	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	/*if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
 	{
 		SetActive(true);
-	}
+	}*/
 
 	if (col->GetColObject()->GetType() == ObjectType::ENEMY)
 	{
