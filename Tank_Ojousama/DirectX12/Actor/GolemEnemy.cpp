@@ -609,10 +609,14 @@ void GolemEnemy::Update()
 
 void GolemEnemy::Rend()
 {
+	if (GetActive())
+	{
 		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 		Model->Draw(numNameBody, Vector3(position.x, position.y, position.z), Vector3(bodyAngle.x, -bodyAngle.y, 0), Vector3(3.0f, 3.0f, 3.0f));
 		Model->Draw(numNameArmR, Vector3(ArmPosR.x, ArmPosR.y, ArmPosR.z), Vector3(ArmAngleR, -bodyAngle.y, zR), Vector3(3.0f, 3.0f, 3.0f));
 		Model->Draw(numNameArmL, Vector3(ArmPosL.x, ArmPosL.y, ArmPosL.z), Vector3(ArmAngleL, -bodyAngle.y, zL), Vector3(3.0f, 3.0f, 3.0f));
+	}
+		
 }
 
 void GolemEnemy::ImGuiDebug()
