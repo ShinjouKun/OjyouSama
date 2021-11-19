@@ -1,5 +1,6 @@
 #pragma once
 #include "TextEditer.h"
+#include "../Render/ModelRenderer.h"
 
 enum HeadState
 {
@@ -29,7 +30,7 @@ public:
 	~ModelChanger();
 
 	void Init();
-	void Load();
+	void Load(shared_ptr<ModelRenderer> playerModel);
 	void Save();
 
 	void ChangeHead(HeadState headState);
@@ -40,8 +41,11 @@ public:
 	BodyState GetBodyState() { return body; }
 	BottomState GetBottomState() { return bottom; }
 
+	string GetModelName(int num);//0`2‚¨ì—l,3íÔ(–C“ƒj,4íÔ(Ô‘Ìj
+
 private:
 	vector<string> state;
+	vector<string> modelKey;
 	HeadState head;
 	BodyState body;
 	BottomState bottom;
