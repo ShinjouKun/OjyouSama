@@ -9,6 +9,10 @@ TextEditor::~TextEditor()
 {
 }
 
+void TextEditor::Init()
+{
+}
+
 int TextEditor::strReplace(std::string & str, std::string from, std::string to)
 {
 	int n = 0;

@@ -14,6 +14,7 @@
 #include"../Weapons/MashinGun.h"
 #include"../Scene/BaseScene.h"
 #include"../Utility/Sequence/Sequence.h"
+#include"../Utility/ModelChanger.h"
 #define ToRad(deg)((deg)*(PI/180.0f))
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
 	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
@@ -121,7 +122,8 @@ void Player::Init()
 	//playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
 	//playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
 
-	modelChanger.Load(playerModel);
+	modelChanger = new ModelChanger();
+	modelChanger->Load(playerModel);
 
 	//playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
 	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
@@ -395,12 +397,12 @@ void Player::Rend()
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	if (!sniperShotFlag)
 	{
-		playerModel->Draw(modelChanger.GetModelName(3), Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw(modelChanger.GetModelName(4), Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(3), Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(4), Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
 
-		playerModel->Draw(modelChanger.GetModelName(0), Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw(modelChanger.GetModelName(1), Vector3(position.x, position.y, position.z), Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw(modelChanger.GetModelName(2), Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(0), Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(1), Vector3(position.x, position.y, position.z), Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(2), Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
 	}
 
 	//if (moveFlag)

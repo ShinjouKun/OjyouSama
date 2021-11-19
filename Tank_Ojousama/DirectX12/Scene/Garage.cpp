@@ -26,6 +26,8 @@ void Garage::StartScene()
 	keyflag = 0;
 	objM = new ObjectManager();
 	objM->Claer();
+	mChanger = new ModelChanger();
+	mChanger->Init();
 
 	BaseScene::mSprite->AddTexture("Sentaku1", "Resouse/Sankaku.png");
 	BaseScene::mSprite->AddTexture("Sentaku2", "Resouse/Sankaku.png");
@@ -104,6 +106,7 @@ void Garage::UpdateScene()
 		{
 			fadeFB = true;
 			mSound->play();
+			mChanger->Save();
 		}
 		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
 		{
@@ -222,6 +225,7 @@ void Garage::DrawScene()
 			BaseScene::mModel->Draw("ArmL1", Vector3(0, -2 + 3.2f, -113), Vector3(150, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("TankPlayerA", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			
 		}
 
 		else if (ChangeFlag)

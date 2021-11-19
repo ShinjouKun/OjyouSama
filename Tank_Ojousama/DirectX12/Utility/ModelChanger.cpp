@@ -13,22 +13,42 @@ void ModelChanger::Init()
 	head = HeadState::Normal;
 	body = BodyState::Light;
 	bottom = BottomState::Light_b;
+	editor = new TextEditor();
+	editor->Init();
 	
 }
 
 void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 {
-	editor.Read("Resource/ModelState.txt", state);
+	editor->Read("Resouse/ModelState.txt", state);
 	
 	if (state[0] != "Normal")
 	{
 		if (state[0] != "Other01")
 		{
 			head = HeadState::Other02;
+			playerModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
+			playerModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
+			playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
+			playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
+			playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
+			playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
+			modelKey[0] = "ArmR";
+			modelKey[1] = "OjyouSama";
+			modelKey[2] = "ArmL";
 		}
 		else
 		{
 			head = HeadState::Other01;
+			playerModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
+			playerModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
+			playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
+			playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
+			playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
+			playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
+			modelKey[0] = "ArmR";
+			modelKey[1] = "OjyouSama";
+			modelKey[2] = "ArmL";
 		}
 	}
 	else
@@ -50,10 +70,14 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		if (state[1] != "Midium")
 		{
 			body = BodyState::Heavy;
+			playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
+			modelKey[3] = "TankA";
 		}
 		else
 		{
 			body = BodyState::Midium;
+			playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
+			modelKey[3] = "TankA";
 		}
 	}
 	else
@@ -69,10 +93,14 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		if (state[1] != "Midium_b")
 		{
 			bottom = BottomState::Heavy_b;
+			playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
+			modelKey[4] = "TankB";
 		}
 		else
 		{
 			bottom = BottomState::Midium_b;
+			playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
+			modelKey[4] = "TankB";
 		}
 	}
 	else
@@ -99,7 +127,7 @@ void ModelChanger::Save()
 		state[0] = "Other02";
 		break;
 	default:
-		cout << "error :>> OutOfRange." << endl;
+		state[0] = "Normal";
 		break;
 	}
 
@@ -115,7 +143,7 @@ void ModelChanger::Save()
 		state[1] = "Heavy";
 		break;
 	default:
-		cout << "error :>> OutOfRange." << endl;
+		state[1] = "Light";
 		break;
 	}
 
@@ -131,11 +159,11 @@ void ModelChanger::Save()
 		state[2] = "Heavy_b";
 		break;
 	default:
-		cout << "error :>> OutOfRange." << endl;
+		state[2] = "Light_b";
 		break;
 	}
 
-	editor.Write("Resource/ModelState.txt", state);
+	editor->Write("Resource/ModelState.txt", state);
 }
 
 

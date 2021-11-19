@@ -39,7 +39,7 @@ private:
 	shared_ptr<Listener> listener;
 	Camera* camera;
 	std::shared_ptr<Sound> mSound;
-	ModelChanger modelChanger;
+	ModelChanger* modelChanger;
 
 	//ƒJƒƒ‰—p
 	Vector3 CameraPos;

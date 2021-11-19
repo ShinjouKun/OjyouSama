@@ -11,6 +11,8 @@ public:
 	TextEditor();
 	~TextEditor();
 
+	void Init();
+
 	int strReplace(std::string &str, std::string from, std::string to);
 	void Read(std::string textName, std::vector<std::string> &vstr);
 
