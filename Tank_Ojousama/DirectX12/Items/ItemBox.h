@@ -36,7 +36,7 @@ private:
 	int itemNum;
 	int itemAlive;
 	int addHp;
-	int nomber
+	int nomber;
 
 
 };

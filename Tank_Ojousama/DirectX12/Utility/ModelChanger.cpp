@@ -18,7 +18,7 @@ void ModelChanger::Init()
 
 void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 {
-	editor.Read("../Resource/ModelState.txt", state);
+	editor.Read("Resource/ModelState.txt", state);
 	
 	if (state[0] != "Normal")
 	{
@@ -135,7 +135,7 @@ void ModelChanger::Save()
 		break;
 	}
 
-	editor.Write("../Resource/ModelState.txt", state);
+	editor.Write("Resource/ModelState.txt", state);
 }
 
 
