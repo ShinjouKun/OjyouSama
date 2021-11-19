@@ -11,13 +11,14 @@
 #include "../Actor/ObjectManager.h"
 
 class Sound;
+class Timer;
 
-class Title:public BaseScene
+class Operation :public BaseScene
 {
 public:
-	Title();
-	~Title();
-	
+	Operation();
+	~Operation();
+
 private:
 
 	// BaseScene ÇâÓÇµÇƒåpè≥Ç≥ÇÍÇ‹ÇµÇΩ
@@ -27,18 +28,9 @@ private:
 
 	virtual void DrawScene() override;
 
-	Camera* camera;	
+	Camera* camera;
 	ObjectManager* objM;
 	std::shared_ptr<Sound> mSound;
 	std::shared_ptr<Sound> mSE;
-
-	float fade1;
-	float fade2;
-	bool fadeF;
-	Vector3 ojoP;
-
-	float ojyouY;
-	float ojyouXR;
-	float ojyouXL;
-	
+	std::shared_ptr<Timer> mTimer;
 };

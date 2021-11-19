@@ -51,8 +51,8 @@ void Garage::StartScene()
 	BaseScene::mModel->AddModel("TankPlayerA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
 	BaseScene::mModel->AddModel("TankPlayerB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
 
-	BaseScene::mModel->AddModel("TankPlayerC", "Resouse/houtou.obj", "Resouse/sensha_A.png");
-	BaseScene::mModel->AddModel("TankPlayerD", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
+	BaseScene::mModel->AddModel("TankPlayerC", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
+	BaseScene::mModel->AddModel("TankPlayerD", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
 
 	//BaseScene::mModel->AddModel("TankPlayerC","Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
 	//BaseScene::mModel->AddModel("TankPlayerD", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
@@ -100,7 +100,7 @@ void Garage::UpdateScene()
 	}
 	if (fadeF)
 	{
-		if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+		if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[3])
 		{
 			fadeFB = true;
 			mSound->play();
@@ -226,9 +226,9 @@ void Garage::DrawScene()
 
 		else if (ChangeFlag)
 		{
-			BaseScene::mModel->Draw("ArmR2", Vector3(0, -2 + 3.2f, -113), Vector3(150, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
-			BaseScene::mModel->Draw("OjyouSama2", Vector3(0, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
-			BaseScene::mModel->Draw("ArmL2", Vector3(0, -2 + 3.2f, -113), Vector3(150, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			BaseScene::mModel->Draw("ArmR2", Vector3(0.5f, -2 + 3.2f, -113), Vector3(150, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			BaseScene::mModel->Draw("OjyouSama2", Vector3(0.5f, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			BaseScene::mModel->Draw("ArmL2", Vector3(0.5f, -2 + 3.2f, -113), Vector3(150, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("TankPlayerC", Vector3(0, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("TankPlayerD", Vector3(0, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
 		}

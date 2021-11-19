@@ -2,12 +2,15 @@
 #include"GamePlay.h"
 #include"Title.h"
 #include "Option.h"
+#include"Operation.h"
 #include"Garage.h"
 #include"BossScene.h"
+#include"Result.h"
 #include "../Collision/Collision.h"
 #include "../Device/Input.h"
 #include "../Sound/Sound.h"
 #include "../Utility/Timer/Timer.h"
+#include"../Utility/Sequence/Sequence.h"
 
 
 Select::Select()
@@ -29,6 +32,7 @@ void Select::StartScene()
 	SelectAlfa2 = 0.5f;
 	SelectAlfa3 = 0.5f;
 	SelectAlfa4 = 0.5f;
+	SelectAlfa5 = 0.5f;
 	camerapos = Vector3(100.0f, 0.0f, 0);
 	setcamerapos = Vector3(110, 0, 0);
 	//camera->SetEye(camerapos);
@@ -41,9 +45,10 @@ void Select::StartScene()
 	targetPos3 = Vector3(960, 120, 0.0f);
 	targetPos4 = Vector3(850, 540 - 64, 0.0f);
 	syutu = Vector3(32, 64 - 32, 0.0f);
-	garege = Vector3(32, 128 - 32, 0.0f);
-	option = Vector3(32, 192 - 32, 0.0f);
-	titleback = Vector3(32, 256 - 32, 0.0f);
+	operation = Vector3(20, 124 - 32, 0.0f);
+	garege = Vector3(32, 192 - 32, 0.0f);
+	option = Vector3(32, 256 - 32, 0.0f);
+	titleback = Vector3(32, 320 - 32, 0.0f);
 	BaseScene::mModel->AddModel("Sora", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mSprite->AddTexture("Arm", "Resouse/cars.png");
 	BaseScene::mSprite->AddTexture("AIM1", "Resouse/AIM64.png");
@@ -55,6 +60,7 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("Garage", "Resouse/garezi.png");
 	BaseScene::mSprite->AddTexture("Option", "Resouse/opusyon.png");
 	BaseScene::mSprite->AddTexture("Titleback", "Resouse/tatleback.png");
+	BaseScene::mSprite->AddTexture("Operation", "Resouse/operation.png");
 	BaseScene::mSprite->AddTexture("Setumei", "Resouse/setuemei.png");
 	BaseScene::mSprite->AddTexture("Sentaku", "Resouse/sentaku.png");
 	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
@@ -70,6 +76,7 @@ void Select::StartScene()
 
 void Select::UpdateScene()
 {
+	Sequence::instance().set(BaseScene::mMoney, Vector2(0, 0), Vector2(32, 32));
 	if (fadeF1)
 	{
 		fade += 0.01f;
@@ -104,15 +111,15 @@ void Select::UpdateScene()
 
 	mTimer->update();
 
-	
 
-	if(selectFlag == false)
+
+	if (selectFlag == false)
 	{
 		if (selectposition.y < 64)
 		{
-			selectposition.y = 256;
+			selectposition.y = 320;
 		}
-		else if (selectposition.y > 256)
+		else if (selectposition.y > 320)
 		{
 			selectposition.y = 64;
 		}
@@ -138,6 +145,7 @@ void Select::UpdateScene()
 			SelectAlfa2 = 0.5f;
 			SelectAlfa3 = 0.5f;
 			SelectAlfa4 = 0.5f;
+			SelectAlfa5 = 0.5f;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				selectFlag = true;
@@ -150,22 +158,24 @@ void Select::UpdateScene()
 			SelectAlfa2 = 1.0f;
 			SelectAlfa3 = 0.5f;
 			SelectAlfa4 = 0.5f;
+			SelectAlfa5 = 0.5f;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<Garage>());
+				NextScene(std::make_shared<Operation>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}
-		}		
+		}
 		else if (selectposition.y == 192)
 		{
 			SelectAlfa1 = 0.5f;
 			SelectAlfa2 = 0.5f;
 			SelectAlfa3 = 1.0f;
 			SelectAlfa4 = 0.5f;
+			SelectAlfa5 = 0.5f;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<Option>());
+				NextScene(std::make_shared<Garage>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}
@@ -176,6 +186,20 @@ void Select::UpdateScene()
 			SelectAlfa2 = 0.5f;
 			SelectAlfa3 = 0.5f;
 			SelectAlfa4 = 1.0f;
+			SelectAlfa5 = 0.5f;
+			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			{
+				mDecisionSE->play();
+				NextScene(std::make_shared<Option>());
+			}
+		}
+		else if (selectposition.y == 320)
+		{
+			SelectAlfa1 = 0.5f;
+			SelectAlfa2 = 0.5f;
+			SelectAlfa3 = 0.5f;
+			SelectAlfa4 = 0.5f;
+			SelectAlfa5 = 1.0f;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				mDecisionSE->play();
@@ -189,7 +213,7 @@ void Select::UpdateScene()
 	if (selectFlag == true)
 	{
 		if (position.x >= targetPos1.x && position.x <= targetPos1.x + 64 && position.y >= targetPos1.y && position.y <= targetPos1.y + 64)
-		{		
+		{
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
@@ -278,18 +302,19 @@ void Select::DrawScene()
 	BaseScene::mModel->Draw("Sora", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	DirectXManager::GetInstance()->SetData2D();
 
-	BaseScene::mSprite->Draw("Sentaku", Vector3(0,0,0),0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Sentaku", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target", targetPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	
+
 	if (selectFlag == false)
 	{
-		BaseScene::mSprite->Draw("Titleback", titleback, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa4));
-		BaseScene::mSprite->Draw("Option", option, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa3));
+		BaseScene::mSprite->Draw("Titleback", titleback, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa5));
+		BaseScene::mSprite->Draw("Option", option, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa4));
 		BaseScene::mSprite->Draw("Syutugeki", syutu, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa1));
-		BaseScene::mSprite->Draw("Garage", garege, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa2));
+		BaseScene::mSprite->Draw("Operation", operation, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa2));
+		BaseScene::mSprite->Draw("Garage", garege, 0.0f, Vector2(0.5f, 0.5f), Vector4(1, 1, 1, SelectAlfa3));
 	}
 	if (selectFlag)
 	{
