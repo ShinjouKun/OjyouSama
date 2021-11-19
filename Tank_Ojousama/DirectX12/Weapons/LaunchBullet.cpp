@@ -39,6 +39,7 @@ void LaunchBullet::Init()
 
 	//Šî’êƒNƒ‰ƒX‚Ì•Ï”
 	damage = BULLET_DAMAGE;
+	HP = 10;
 	alive = 0;
 	death = false;
 	speed = MOVE_SPEED;
@@ -98,9 +99,6 @@ void LaunchBullet::Rend()
 		mModelRender->Draw(numName, position, angle, mScale);
 		mModelRender->Draw(numBlock, Vector3(mTargetPosition.x, mTargetPosition.y - 4.5f, mTargetPosition.z), Vector3().zero, mCircleScale);
 	}
-
-
-	
 }
 
 void LaunchBullet::ImGuiDebug()
