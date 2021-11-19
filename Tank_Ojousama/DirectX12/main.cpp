@@ -205,6 +205,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_D/elf_head4.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_D/leg_L_D.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Elf_D/leg_R_D.obj");
+	//‹ßÚ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/yari_elf_body.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/yari_elf_head.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/yari_elf_L.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/yari_elf_R.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/yari_elf_te.obj");
 	//–Ø‚Ìƒ{ƒX
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/TreeBoss/wood_body.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/TreeBoss/wood_hands_L.obj");
