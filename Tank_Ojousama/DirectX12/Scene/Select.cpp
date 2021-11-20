@@ -62,6 +62,7 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("Titleback", "Resouse/tatleback.png");
 	BaseScene::mSprite->AddTexture("Operation", "Resouse/operation.png");
 	BaseScene::mSprite->AddTexture("Setumei", "Resouse/setuemei.png");
+	BaseScene::mSprite->AddTexture("SetumeiBoss", "Resouse/setumeibos.png");
 	BaseScene::mSprite->AddTexture("Sentaku", "Resouse/sentaku.png");
 	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
@@ -76,7 +77,7 @@ void Select::StartScene()
 
 void Select::UpdateScene()
 {
-	Sequence::instance().set(BaseScene::mMoney, Vector2(0, 0), Vector2(32, 32));
+	Sequence::instance().set(1234567890, Vector2(0, 0), Vector2(32, 32));
 	if (fadeF1)
 	{
 		fade += 0.01f;
@@ -97,6 +98,7 @@ void Select::UpdateScene()
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
 	setumeiFlag = false;
+	setumeiBossFlag = false;
 	setumei = Vector3(position.x + 32, position.y - 128, position.z);
 	//b = g->GetA();
 	//ImGui::Begin("conf");
@@ -233,7 +235,7 @@ void Select::UpdateScene()
 		}
 		if (position.x >= targetPos3.x && position.x <= targetPos3.x + 64 && position.y >= targetPos3.y && position.y <= targetPos3.y + 64)
 		{
-			setumeiFlag = true;
+			setumeiBossFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				fadeF2 = true;
@@ -242,7 +244,7 @@ void Select::UpdateScene()
 		}
 		if (position.x >= targetPos4.x && position.x <= targetPos4.x + 64 && position.y >= targetPos4.y && position.y <= targetPos4.y + 64)
 		{
-			setumeiFlag = true;
+			setumeiBossFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
 				fadeF2 = true;
@@ -324,9 +326,9 @@ void Select::DrawScene()
 	{
 		BaseScene::mSprite->Draw("Setumei", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}
-	if (selectFlag == false)
+	if (setumeiBossFlag)
 	{
-		//BaseScene::mSprite->Draw("AIM1", Vector3(selectposition.x - 32, selectposition.y - 32, 0), 0.0f, Vector2(3, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("SetumeiBoss", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}
 	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 }

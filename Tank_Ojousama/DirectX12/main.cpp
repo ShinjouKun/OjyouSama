@@ -131,6 +131,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/wepon.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpUI.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/title_rogo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeibos.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");

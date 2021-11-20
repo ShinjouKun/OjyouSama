@@ -46,6 +46,7 @@ private:
 	float SelectAlfa5;
 	//説明用フラグ
 	bool setumeiFlag = false;
+	bool setumeiBossFlag = false;
 	//ターゲット１
 	Vector3 targetPos1;
 	//ターゲット２

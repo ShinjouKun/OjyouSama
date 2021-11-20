@@ -95,7 +95,7 @@ void Sequence::setDev(ID3D12Device * dev)
 	descHeapDesc.NumDescriptors = 512;
 	mDev->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&mDescHeap));
 
-	createTexBuff("Resouse/Number.png");
+	createTexBuff("Resouse/Number1.png");
 }
 
 void Sequence::set(int num, const Vector2 & pos, const Vector2 & size)
