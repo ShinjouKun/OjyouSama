@@ -20,6 +20,7 @@ void ModelChanger::Init()
 
 void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 {
+	state.clear();
 	editor->Read("Resouse/ModelState.txt", state);
 	
 	if (state[0] != "Normal")
@@ -90,7 +91,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 
 	if (state[2] != "Light_b")
 	{
-		if (state[1] != "Midium_b")
+		if (state[2] != "Midium_b")
 		{
 			bottom = BottomState::Heavy_b;
 			playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
@@ -163,7 +164,8 @@ void ModelChanger::Save()
 		break;
 	}
 
-	editor->Write("Resource/ModelState.txt", state);
+	editor->Write("Resouse/ModelState.txt", state);
+	state.clear();
 }
 
 

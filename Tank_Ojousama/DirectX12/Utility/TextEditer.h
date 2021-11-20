@@ -19,5 +19,6 @@ public:
 	void AddWrite(std::string textName,const std::vector<std::string> &vstr);
 
 private:
+	int i = 0;
 
 };
