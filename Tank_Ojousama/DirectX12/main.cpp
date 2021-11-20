@@ -137,6 +137,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/kabe.png");
 
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/item_box.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/item1.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/item2.png");
+
 	//Player
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTM.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKA.obj");//砲塔
@@ -236,6 +240,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_body.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_R.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_L.obj");
+
+	//アイテムボックス
+	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item_box.obj");
+	//回復アイテム
+	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item.obj");
+	//シールド
+	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item2.obj");
+
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
 	

@@ -1,6 +1,10 @@
 #pragma once
+#include <vector>
+#include <string>
 #include "TextEditer.h"
 #include "../Render/ModelRenderer.h"
+
+using namespace std;
 
 enum HeadState
 {
@@ -43,11 +47,12 @@ public:
 
 	string GetModelName(int num);//0`2‚¨ì—l,3íÔ(–C“ƒj,4íÔ(Ô‘Ìj
 
+
 private:
-	vector<string> state;
-	vector<string> modelKey;
+	std::vector<std::string> state{ 3 };
+	std::vector<std::string> modelKey{ 5 };
 	HeadState head;
 	BodyState body;
 	BottomState bottom;
-	TextEditor editor;
+	TextEditor* editor;
 };

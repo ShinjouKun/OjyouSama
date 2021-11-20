@@ -12,7 +12,7 @@ enum ItemNames//アイテム判別用
 
 enum ItemState
 {
-	Normal,
+	Low,
 	High,
 };
 

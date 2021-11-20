@@ -22,6 +22,7 @@ enum ObjectType//オブジェクトのタグ
 	BREADCRUMB,
 	ITEM,
 	CAMEAR,
+	ITEMBOX,
 };
 
 class BaseObject

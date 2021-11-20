@@ -7,12 +7,36 @@
 class ItemBox: public BaseObject
 {
 public:
-	ItemBox(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder);
+	ItemBox(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder,int Number,int itemNumber,int alive,int addHealth);
 	~ItemBox();
 
 private:
 
-	void Init() override;
-	void Update() override;
-	void Rend() override;
+	virtual void Init() override;
+
+	virtual void Update() override;
+
+	virtual void Rend() override;
+
+	virtual void ImGuiDebug() override;
+
+	virtual void OnCollison(BaseCollider * col) override;
+
+	void ItemSpawn();
+
+private:
+	shared_ptr<ModelRenderer>ItemModel;
+	ObjectManager* objM;
+	ItemHolder* iHolder;
+	Vector3 position;
+	Vector3 angle;
+	string name;
+	string num;
+	string numName;
+	int itemNum;
+	int itemAlive;
+	int addHp;
+	int nomber;
+
+
 };

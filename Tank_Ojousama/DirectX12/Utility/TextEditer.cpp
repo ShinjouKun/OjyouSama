@@ -9,6 +9,10 @@ TextEditor::~TextEditor()
 {
 }
 
+void TextEditor::Init()
+{
+}
+
 int TextEditor::strReplace(std::string & str, std::string from, std::string to)
 {
 	int n = 0;
@@ -23,7 +27,10 @@ int TextEditor::strReplace(std::string & str, std::string from, std::string to)
 
 void TextEditor::Read(std::string textName, std::vector<std::string>& vstr)
 {
-	std::ifstream ifs(textName);
+	std::ifstream ifs;
+
+	ifs.open(textName, std::ios::in);
+
 	if (ifs.fail())
 	{
 		std::cout << "error :>> failed to open the text file." << std::endl;
@@ -33,7 +40,10 @@ void TextEditor::Read(std::string textName, std::vector<std::string>& vstr)
 	while (getline(ifs, tmp))
 	{
 		if ((tmp[0] == '/' && tmp[1] == '/') || tmp.empty())
+		{
+			ifs.close();
 			continue;
+		}
 		else
 		{
 			strReplace(tmp, "\\", "/");//パスの区切りを置き換え
@@ -44,12 +54,16 @@ void TextEditor::Read(std::string textName, std::vector<std::string>& vstr)
 
 void TextEditor::Write(std::string textName, const std::vector<std::string>& vstr)
 {
-	std::ofstream file(textName);//書き出すファイルパスの指定
+
+	std::ofstream file;//書き出すファイルパスの指定
 	
+	file.open(textName,std::ios::out);
+
 	for (const auto state : vstr)
 	{
 		file << state << std::endl;//書き出し
 	}
+	file.close();
 }
 
 void TextEditor::AddWrite(std::string textName, const std::vector<std::string>& vstr)

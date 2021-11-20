@@ -9,6 +9,7 @@
 #include "../Collision/CollisionPrimitive.h"
 #include "../Actor/Player.h"
 #include "../Actor/ObjectManager.h"
+#include "../Utility/ModelChanger.h"
 class Sound;
 class Timer;
 class Garage :public BaseScene
@@ -52,4 +53,6 @@ private:
 	Vector3 Syata;
 
 	std::shared_ptr<Timer> mTimer;
+
+	ModelChanger* mChanger;
 };

@@ -29,9 +29,9 @@ void Shield::Init()
 	name = "Repair";
 	num = to_string(number);
 	numName = name + num;
-	ItemModel->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
+	ItemModel->AddModel(numName, "Resouse/item2.obj", "Resouse/item2.png");
 	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
-	if (itemState == ItemState::Normal)
+	if (itemState == ItemState::Low)
 	{
 		guadePoint = 20;
 	}
