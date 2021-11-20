@@ -9,6 +9,7 @@
 #include "../Utility/Timer/Timer.h"
 #include"../Actor/CameraEye.h"
 
+#include "../Actor/ElfRock.h"
 #include "../Actor/ElfTree.h"
 #include "../Actor/SniperEnemy.h"
 #include "../Actor/TestBoss.h"
@@ -35,10 +36,8 @@ void BossScene::StartScene()
 	optionPos = Vector3(180, 180, 0);
 
 	//パンくず生成機作成
-	//mBreadCreator = new BreadCrumbCreater(objM);
 	mBreadCreator = std::make_shared<BreadCrumbCreater>(mObjManager);
 	//WayPoint生成機作成(生成位置,見た目をつけるかどうか)
-	//mpointManager = new WayPointManager(Vector3(100.0f, 0.0f, -100.0f), objM, BaseScene::mModel,false);
 	mpointManager = std::make_shared<WayPointManager>(Vector3(100.0f, 0.0f, -100.0f), mObjManager, BaseScene::mModel, false);
 	//敵AIシステム生成
 	mEnemyAI = std::make_shared<EnemyAI>(mpointManager);
@@ -51,6 +50,8 @@ void BossScene::StartScene()
 
 	itemHolder = new ItemHolder();
 	itemHolder->Init();
+
+#pragma region 画像の読み込み
 
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
@@ -66,29 +67,33 @@ void BossScene::StartScene()
 	BaseScene::mSprite->AddTexture("AimA1", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA2", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA3", "Resouse/volAimA.png");
-
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
-	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
+	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/sougen.png");
+
+#pragma endregion
+
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
-
 
 #pragma region ステージ内モデルの作成
 
 	int objectCount = 0;
 
+	//奥の木
 	for (int i = -20; i <= 20; i += 10)
 	{
 		float x = static_cast<float>(i);
 		mObjManager->Add(new ElfTree(Vector3(x, 4.0f, -100.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 	}
 
+	//手前の木
 	for (int i = -20; i <= 20; i += 10)
 	{
 		float x = static_cast<float>(i);
 		mObjManager->Add(new ElfTree(Vector3(x, 4.0f, 150.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 	}
 
+	//左右の木
 	for (int i = 50; i < 80; i += 5)
 	{
 		float x = static_cast<float>(i);
@@ -96,17 +101,30 @@ void BossScene::StartScene()
 		mObjManager->Add(new ElfTree(Vector3( x, 4.0f, 50), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 	}
 
+	////入口の木
+	//for (int i = 50; i < 80; i += 5)
+	//{
+	//	float x = static_cast<float>(i);
+	//	mObjManager->Add(new ElfTree(Vector3(+20, 4.0f, 70.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//	mObjManager->Add(new ElfTree(Vector3(-20, 4.0f, 70.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//}
 
-	//mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
-	//mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+	for (int i = -150; i <= 150; i += 15)
+	{
+		float x = static_cast<float>(i);
+		mObjManager->Add(new ElfRock(Vector3(x, 4.0f, 80.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	}
 
-	//mObjManager->Add(new MortarEnemy(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
 
-	mObjManager->Add(new TestBoss(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+	mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+	mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+
+	mBoss = new TestBoss(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++);
+	mObjManager->Add(mBoss);
 
 #pragma endregion
 
-	mObjManager->Add(new Player(Vector3(0.0f, 0.0f, 80.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	mObjManager->Add(new Player(Vector3(0.0f, 0.0f, 70.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
 	mObjManager->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), mObjManager));
 	mTimer = std::make_shared<Timer>(0.01f);
 }
@@ -119,6 +137,13 @@ void BossScene::UpdateScene()
 	if (!mTimer->isTime()) return;
 	Pose();
 	Setting();
+
+	if (mBoss->GetDeadFlag())
+	{
+		BaseScene::mMoney += 20000000;
+		NextScene(std::make_shared<Result>());
+	}
+
 	if (mObjManager->GetPlayer().GetHp() <= 0)
 	{
 		NextScene(std::make_shared<Title>());
@@ -129,7 +154,7 @@ void BossScene::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
-	//BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
+	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
 	mObjManager->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 
