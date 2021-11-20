@@ -225,6 +225,9 @@ void Garage::DrawScene()
 			BaseScene::mModel->Draw("ArmL1", Vector3(0, -2 + 3.2f, -113), Vector3(150, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("TankPlayerA", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeHead(Normal);
+			mChanger->ChangeBody(Light);
+			mChanger->ChangeBottom(Light_b);
 			
 		}
 
@@ -235,6 +238,9 @@ void Garage::DrawScene()
 			BaseScene::mModel->Draw("ArmL2", Vector3(0.5f, -2 + 3.2f, -113), Vector3(150, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("TankPlayerC", Vector3(0, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			BaseScene::mModel->Draw("TankPlayerD", Vector3(0, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeHead(Other01);
+			mChanger->ChangeBody(Midium);
+			mChanger->ChangeBottom(Midium_b);
 		}
 	}
 	objM->Draw();

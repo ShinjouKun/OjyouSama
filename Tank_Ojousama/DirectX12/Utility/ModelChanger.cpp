@@ -40,15 +40,15 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		else
 		{
 			head = HeadState::Other01;
-			playerModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
-			playerModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
-			playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
-			playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
-			playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
-			playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
-			modelKey[0] = "ArmR";
-			modelKey[1] = "OjyouSama";
-			modelKey[2] = "ArmL";
+			playerModel->AddModel("ArmR2", "Resouse/R_hands.obj", "Resouse/hands_one.png");
+			playerModel->SetAncPoint("ArmR2", Vector3(0.0f, -2.1f, -0.1f));
+			playerModel->AddModel("OjyouSama2", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
+			playerModel->SetAncPoint("OjyouSama2", Vector3(0.0f, 0.0f, -0.1f));
+			playerModel->AddModel("ArmL2", "Resouse/L_hands.obj", "Resouse/hands_one.png");
+			playerModel->SetAncPoint("ArmL2", Vector3(0.0f, -2.1f, -0.1f));
+			modelKey[0] = "ArmR2";
+			modelKey[1] = "OjyouSama2";
+			modelKey[2] = "ArmL2";
 		}
 	}
 	else
@@ -76,8 +76,8 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		else
 		{
 			body = BodyState::Midium;
-			playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
-			modelKey[3] = "TankA";
+			playerModel->AddModel("TankPlayerC", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
+			modelKey[3] = "TankPlayerC";
 		}
 	}
 	else
@@ -99,8 +99,8 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		else
 		{
 			bottom = BottomState::Midium_b;
-			playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
-			modelKey[4] = "TankB";
+			playerModel->AddModel("TankPlayerD", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
+			modelKey[4] = "TankPlayerD";
 		}
 	}
 	else
