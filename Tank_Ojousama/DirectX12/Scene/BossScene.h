@@ -57,6 +57,7 @@ private:
 	bool OpFlag1;
 	bool OpFlag2;
 	bool OpFlag3;
+	bool mBossDeadFlag;
 
 	Vector3 posePos;
 	Vector3 selectbackPos;

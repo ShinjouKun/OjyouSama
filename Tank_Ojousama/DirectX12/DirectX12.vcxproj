@@ -154,6 +154,7 @@
     <ClCompile Include="Actor\AttackArea.cpp" />
     <ClCompile Include="Actor\BaseEnemy.cpp" />
     <ClCompile Include="Actor\BaseObject.cpp" />
+    <ClCompile Include="Actor\BetaTestBlock.cpp" />
     <ClCompile Include="Actor\BlowEnemy.cpp" />
     <ClCompile Include="Actor\BreadCrumb.cpp" />
     <ClCompile Include="Actor\BreadCrumbCreater.cpp" />
@@ -430,6 +431,7 @@
   <ItemGroup>
     <ClInclude Include="Actor\AttackArea.h" />
     <ClInclude Include="Actor\BaseEnemy.h" />
+    <ClInclude Include="Actor\BetaTestBlock.h" />
     <ClInclude Include="Actor\BreadCrumb.h" />
     <ClInclude Include="Actor\BreadCrumbCreater.h" />
     <ClInclude Include="Actor\CameraEye.h" />

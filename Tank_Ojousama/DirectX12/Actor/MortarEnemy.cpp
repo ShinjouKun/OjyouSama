@@ -28,6 +28,7 @@ MortarEnemy::~MortarEnemy()
 void MortarEnemy::Init()
 {
 	HP = 10;
+	damage = 5;
 
 	mRadius = 1.5f;
 	barrelAngle = angle.y;
@@ -94,10 +95,6 @@ void MortarEnemy::Update()
 	default:
 		break;
 	}
-
-	//mHandAngle -= 2;
-
-	ImGui::SliderFloat("////////////////////////////////////////", &mHandAngle, -500, 500);
 }
 
 void MortarEnemy::Rend()
