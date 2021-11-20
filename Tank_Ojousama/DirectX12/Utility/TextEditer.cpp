@@ -9,11 +9,11 @@ TextEditor::~TextEditor()
 {
 }
 
-int TextEditor::strReplace(string & str, string from, string to)
+int TextEditor::strReplace(std::string & str, std::string from, std::string to)
 {
 	int n = 0;
-	string::size_type pos = 0;
-	while (pos = str.find(from, pos), pos != string::npos) {
+	std::string::size_type pos = 0;
+	while (pos = str.find(from, pos), pos != std::string::npos) {
 		str.replace(pos, to.length(), to);
 		pos += to.length();
 		n++;
@@ -21,15 +21,15 @@ int TextEditor::strReplace(string & str, string from, string to)
 	return n; // 置換回数を返す
 }
 
-void TextEditor::Read(string textName, vector<string>& vstr)
+void TextEditor::Read(std::string textName, std::vector<std::string>& vstr)
 {
-	ifstream ifs(textName);
+	std::ifstream ifs(textName);
 	if (ifs.fail())
 	{
-		cout << "error :>> failed to open the text file." << endl;
+		std::cout << "error :>> failed to open the text file." << std::endl;
 		return;
 	}
-	string tmp;
+	std::string tmp;
 	while (getline(ifs, tmp))
 	{
 		if ((tmp[0] == '/' && tmp[1] == '/') || tmp.empty())
@@ -42,22 +42,22 @@ void TextEditor::Read(string textName, vector<string>& vstr)
 	}
 }
 
-void TextEditor::Write(string textName, const vector<string>& vstr)
+void TextEditor::Write(std::string textName, const std::vector<std::string>& vstr)
 {
-	ofstream file(textName);//書き出すファイルパスの指定
+	std::ofstream file(textName);//書き出すファイルパスの指定
 	
 	for (const auto state : vstr)
 	{
-		file << state << endl;//書き出し
+		file << state << std::endl;//書き出し
 	}
 }
 
-void TextEditor::AddWrite(string textName, const vector<string>& vstr)
+void TextEditor::AddWrite(std::string textName, const std::vector<std::string>& vstr)
 {
-	ofstream file(textName, ios::app);//書き出すファイルパスの指定
+	std::ofstream file(textName, std::ios::app);//書き出すファイルパスの指定
 
 	for (const auto state : vstr)
 	{
-		file << state << endl;//書き出し
+		file << state << std::endl;//書き出し
 	}
 }

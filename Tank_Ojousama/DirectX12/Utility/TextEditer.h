@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+//using namespace std;
 
 class TextEditor
 {
@@ -12,11 +12,11 @@ public:
 	TextEditor();
 	~TextEditor();
 
-	int strReplace(string &str, string from, string to);
-	void Read(string textName, vector<string> &vstr);
+	int strReplace(std::string &str, std::string from, std::string to);
+	void Read(std::string textName, std::vector<std::string> &vstr);
 
-	void Write(string textName, const vector<string> &vstr);
-	void AddWrite(string textName,const vector<string> &vstr);
+	void Write(std::string textName, const std::vector<std::string> &vstr);
+	void AddWrite(std::string textName,const std::vector<std::string> &vstr);
 
 private:
 
