@@ -16,6 +16,10 @@
 #include "../Actor/MortarEnemy.h"
 
 
+
+#include "../Actor/BetaTestBlock.h"
+
+
 BossScene::BossScene()
 	:mSound(nullptr)
 {
@@ -34,6 +38,7 @@ void BossScene::StartScene()
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
 	optionPos = Vector3(180, 180, 0);
+	mBossDeadFlag = false;
 
 	//パンくず生成機作成
 	mBreadCreator = std::make_shared<BreadCrumbCreater>(mObjManager);
@@ -79,46 +84,127 @@ void BossScene::StartScene()
 
 	int objectCount = 0;
 
-	//奥の木
-	for (int i = -20; i <= 20; i += 10)
-	{
-		float x = static_cast<float>(i);
-		mObjManager->Add(new ElfTree(Vector3(x, 4.0f, -100.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	}
+	////奥の木
+	//for (int i = -20; i <= 20; i += 10)
+	//{
+	//	float x = static_cast<float>(i);
+	//	mObjManager->Add(new ElfTree(Vector3(x, 4.0f, -100.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//}
 
-	//手前の木
-	for (int i = -20; i <= 20; i += 10)
-	{
-		float x = static_cast<float>(i);
-		mObjManager->Add(new ElfTree(Vector3(x, 4.0f, 150.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	}
+	////手前の木
+	//for (int i = -20; i <= 20; i += 10)
+	//{
+	//	float x = static_cast<float>(i);
+	//	mObjManager->Add(new ElfTree(Vector3(x, 4.0f, 150.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//}
 
-	//左右の木
-	for (int i = 50; i < 80; i += 5)
-	{
-		float x = static_cast<float>(i);
-		mObjManager->Add(new ElfTree(Vector3(-x, 4.0f, 50) , Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-		mObjManager->Add(new ElfTree(Vector3( x, 4.0f, 50), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	}
-
-	////入口の木
+	////左右の木1
 	//for (int i = 50; i < 80; i += 5)
 	//{
 	//	float x = static_cast<float>(i);
-	//	mObjManager->Add(new ElfTree(Vector3(+20, 4.0f, 70.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	//	mObjManager->Add(new ElfTree(Vector3(-20, 4.0f, 70.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//	mObjManager->Add(new ElfTree(Vector3(-x, 4.0f, 0.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//	mObjManager->Add(new ElfTree(Vector3(x, 4.0f, 0.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 	//}
 
-	for (int i = -150; i <= 150; i += 15)
+	//左右の木1.5
+	for (int i = 50; i < 80; i += 5)
 	{
 		float x = static_cast<float>(i);
-		mObjManager->Add(new ElfRock(Vector3(x, 4.0f, 80.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+		mObjManager->Add(new ElfTree(Vector3(-x, 4.0f, 0.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+		mObjManager->Add(new ElfTree(Vector3(x, 4.0f, 0.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 	}
 
+	////左右の木2
+	//for (int i = 100; i < 130; i += 5)
+	//{
+	//	float x = static_cast<float>(i);
+	//	mObjManager->Add(new ElfTree(Vector3(-x, 4.0f, -50.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//	mObjManager->Add(new ElfTree(Vector3(x, 4.0f, -50.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//}
 
-	mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
-	mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+	////左右の木3
+	//for (int i = 100; i < 130; i += 5)
+	//{
+	//	float z = static_cast<float>(i);
+	//	mObjManager->Add(new ElfTree(Vector3(-80, 4.0f, -z), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//	mObjManager->Add(new ElfTree(Vector3(80, 4.0f, -z), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//}
 
+	//左右の木3.5
+	for (int i = 80; i < 120; i += 5)
+	{
+		float z = static_cast<float>(i);
+		mObjManager->Add(new ElfTree(Vector3(-80, 4.0f, -z), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+		mObjManager->Add(new ElfTree(Vector3(80, 4.0f, -z), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	}
+
+	////左右の木4
+	//for (int i = 150; i < 180; i += 5)
+	//{
+	//	float z = static_cast<float>(i);
+	//	mObjManager->Add(new ElfTree(Vector3(-50, 4.0f, -z), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//	mObjManager->Add(new ElfTree(Vector3(50, 4.0f, -z), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//}
+
+	//奥の木
+	for (int i = -10; i <= 10; i += 5)
+	{
+		float x = static_cast<float>(i);
+		mObjManager->Add(new ElfTree(Vector3(x, 4.0f, -180.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	}
+
+	////入口の横岩
+	//for (int i = -150; i < -20; i += 10)
+	//{
+	//	float x = static_cast<float>(i);
+	//	mObjManager->Add(new ElfRock(Vector3(x, 4.0f, 50.0f), Vector3(0.0f, 0.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++, 3));
+	//	mObjManager->Add(new ElfRock(Vector3(-x, 4.0f, 50.0f), Vector3(0.0f, 0.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++, 3));
+	//}
+
+	//入口の縦岩
+	for (int i = 50; i <= 80; i += 10)
+	{
+		float z = static_cast<float>(i);
+		mObjManager->Add(new ElfRock(Vector3(+20, 4.0f, z), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+		mObjManager->Add(new ElfRock(Vector3(-20, 4.0f, z), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	}
+
+	//岩投げの敵を守る岩Right
+	mObjManager->Add(new ElfRock(Vector3(+120, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	mObjManager->Add(new ElfRock(Vector3(+110, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	mObjManager->Add(new ElfRock(Vector3(+100, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	mObjManager->Add(new ElfRock(Vector3(+90, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	mObjManager->Add(new ElfRock(Vector3(+130, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	mObjManager->Add(new ElfRock(Vector3(+70, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+
+	//岩投げの敵を守る岩Left
+	mObjManager->Add(new ElfRock(Vector3(-120, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	mObjManager->Add(new ElfRock(Vector3(-110, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	mObjManager->Add(new ElfRock(Vector3(-100, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	mObjManager->Add(new ElfRock(Vector3(-90, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	mObjManager->Add(new ElfRock(Vector3(-130, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	mObjManager->Add(new ElfRock(Vector3(-70, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+
+
+	//スタート地点の天井
+	mObjManager->Add(new BetaTestBlock(Vector3(0, 15.0f, 65.0f), Vector3(180, 0, 0), mObjManager, BaseScene::mModel, objectCount, Vector3(-10.0f, 0.0f, -15.0f), Vector3(10.0f, 1.0f, 15.0f)));
+
+
+
+	//後ろの壁
+	mObjManager->Add(new BetaTestBlock(Vector3(0, 0.0f, 80.0f), Vector3(90, 0, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-150.0f, 0.0f, -2.0f), Vector3(150.0f, 1.0f, 1.0f)));
+	//奥
+	mObjManager->Add(new BetaTestBlock(Vector3(0, 0.0f, -250.0f), Vector3(90, 180, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-150.0f, 0.0f, -2.0f), Vector3(150.0f, 1.0f, 1.0f)));
+	//右
+	mObjManager->Add(new BetaTestBlock(Vector3(150, 0.0f, 0.0f), Vector3(90, -90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
+	//左
+	mObjManager->Add(new BetaTestBlock(Vector3(-150, 0.0f, 0.0f), Vector3(90, 90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
+
+	//岩投げの敵
+	mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+	mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+
+	//ボス
 	mBoss = new TestBoss(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++);
 	mObjManager->Add(mBoss);
 
@@ -140,12 +226,14 @@ void BossScene::UpdateScene()
 
 	if (mBoss->GetDeadFlag())
 	{
+		mBossDeadFlag = true;
 		BaseScene::mMoney += 20000000;
 		NextScene(std::make_shared<Result>());
 	}
 
 	if (mObjManager->GetPlayer().GetHp() <= 0)
 	{
+		if (mBossDeadFlag) return;
 		NextScene(std::make_shared<Title>());
 	}
 }

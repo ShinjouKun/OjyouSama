@@ -65,6 +65,7 @@ private:
 	bool mAppleFlag;
 
 	string PARTICLE_NAME = "Bom";//エフェクトの名前
+	string EXPLOSION = "ExBom";//プレイヤーに当たった時のエフェクト
 
 	//落下地点用オブジェクト
 	string mBlockName = "BLOCK";

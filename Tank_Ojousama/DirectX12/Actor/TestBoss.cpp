@@ -3,6 +3,8 @@
 #include "../Weapons/LaunchBullet.h"
 #include "../Utility/Timer/Timer.h"
 #include "../Utility/Random.h"
+#include "../Sound/Sound.h"
+#include"../Scene/BaseScene.h"
 #include "SummonEnemy.h"
 #include "TreeRoot.h"
 
@@ -71,6 +73,10 @@ void TestBoss::Init()
 
 	//根っこオブジェクト生成
 	mTreeRoot = new TreeRoot(mRootPosition, angle, mObjManager, mModelRender, number);
+
+	//サウンドの設定
+	mSmallExplosion = std::make_shared<Sound>("Small_Explosion.wav", false);
+	mBigExplosion =   std::make_shared<Sound>("Big_Explosion.mp3", false);
 
 	//各種タイマー初期化
 	mAimingTime = std::make_shared<Timer>();
@@ -156,6 +162,10 @@ void TestBoss::Update()
 
 	//プレイヤーの位置を取得！
 	mPlayerPosition = mObjManager->GetPlayer().GetPosition();
+
+	//音量の調整
+	mSmallExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+	mBigExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 
 	/*一度だけオブジェクトを生成*/
 	CreateObject();
@@ -282,7 +292,7 @@ void TestBoss::RapidFire()
 			mFireAngle = -Math::toDegrees(radian) - 180.0f;
 			angle.y = mFireAngle;
 
-			mObjManager->Add(new LaunchBullet(position, mPlayerPosition, mObjManager, mModelRender, mEffectManager, objType, mBulletCount++));
+			mObjManager->Add(new LaunchBullet(position, mPlayerPosition, mObjManager, mModelRender, mEffectManager, objType, mBulletCount++,true));
 
 			//指定数連続で射撃する
 			if (mBulletCount >= RAPIDFIRE_COUNT)
@@ -361,13 +371,14 @@ void TestBoss::DeathAnimation()
 				//パーティクルを描画
 				Random::initialize();
 				//描画位置を毎回変える
-				float x = Random::randomRange(-10.0f, 10.0f);
-				float y = Random::randomRange(0.0f, 40.0f);
-				float z = Random::randomRange(-10.0f, 10.0f);
+				float x = Random::randomRange(position.x - 10.0f, position.x +10.0f);
+				float y = Random::randomRange(0.0f, position.y + 40.0f);
+				float z = Random::randomRange(position.z - 10.0f, position.z + 10.0f);
 				//mParticleEmitter->EmitterUpdate(PARTICLE_EFFECT, Vector3(x, y, z), angle);
 				mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
 
 				/*できればSEも欲しいねうるさくない程度に*/
+				mSmallExplosion->play();
 
 				mEffectInterval->setTime(0.1f);
 			}
@@ -377,14 +388,15 @@ void TestBoss::DeathAnimation()
 			mExplosionTime->setTime(2.0f);//爆発が終わって消えて、死亡するまでの時間
 
 			/*ここででっかい爆発が起きてほしい*/
+			mBigExplosion->play();
 
 			for (int i = 0; i < 10; i++)
 			{
 				//パーティクルを描画
 				Random::initialize();
-				float x = Random::randomRange(-10.0f, 10.0f);
-				float y = Random::randomRange(0.0f, 40.0f);
-				float z = Random::randomRange(-10.0f, 10.0f);
+				float x = Random::randomRange(position.x -10.0f, position.x+ 10.0f);
+				float y = Random::randomRange(0.0f, position.y + 40.0f);
+				float z = Random::randomRange(position.z -10.0f, position.z + 10.0f);
 				mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
 			}
 

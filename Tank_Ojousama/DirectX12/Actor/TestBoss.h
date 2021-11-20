@@ -6,6 +6,7 @@
 
 class Timer;
 class TreeRoot;
+class Sound;
 
 class TestBoss : public BaseObject
 {
@@ -96,6 +97,8 @@ private:
 	shared_ptr<ModelRenderer> mModelRender;
 	shared_ptr<ParticleManager> mEffectManager;
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
+	shared_ptr<Sound> mSmallExplosion;//¬”š”­
+	shared_ptr<Sound> mBigExplosion;  //‘å”š”­
 
 	shared_ptr<Timer> mAimingTime;  //‘_‚¤ŠÔ
 	shared_ptr<Timer> mReloadTime;  //ƒŠƒ[ƒhŠÔ

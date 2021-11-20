@@ -74,7 +74,8 @@ void LaunchBullet::Init()
 
 	//パーティクルの設定
 	mParticleEmitter = make_shared<ParticleEmitterBox>(mParticleManager);
-	mParticleEmitter->LoadAndSet("Bom", "Resouse/effect.png");
+	mParticleEmitter->LoadAndSet(PARTICLE_NAME, "Resouse/effect.png");
+	mParticleEmitter->LoadAndSet(EXPLOSION, "Resouse/Bom.jpg");
 }
 
 void LaunchBullet::Update()
@@ -107,20 +108,16 @@ void LaunchBullet::ImGuiDebug()
 
 void LaunchBullet::OnCollison(BaseCollider * col)
 {
-	if (objType == BULLET && 
-		(col->GetColObject()->GetType() == ObjectType::ENEMY || 
-		 col->GetColObject()->GetType() == ObjectType::BOSS || 
-		 col->GetColObject()->GetType() == ObjectType::ENEMYBULLET || 
-		 col->GetColObject()->GetType() == ObjectType::BLOCK)
-	)
+	if (objType == ENEMYBULLET &&
+		(col->GetColObject()->GetType() == ObjectType::PLAYER)
+		)
 	{
-		mParticleEmitter->EmitterUpdate(PARTICLE_NAME, position, angle);
+		mParticleEmitter->EmitterUpdate(EXPLOSION, position, angle);
 		death = true;
 	}
 
 	if (objType == ENEMYBULLET && 
-		(col->GetColObject()->GetType() == ObjectType::PLAYER || 
-		 col->GetColObject()->GetType() == ObjectType::BULLET || 
+		(col->GetColObject()->GetType() == ObjectType::BULLET || 
 		 col->GetColObject()->GetType() == ObjectType::BLOCK ||
 		 col->GetColObject()->GetType() == ObjectType::ITEM)
 	)
