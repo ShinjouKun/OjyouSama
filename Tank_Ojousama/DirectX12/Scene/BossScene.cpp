@@ -218,7 +218,7 @@ void BossScene::StartScene()
 void BossScene::UpdateScene()
 {
 	mSound->playLoop();
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	mTimer->update();
 	if (!mTimer->isTime()) return;
 	Pose();
@@ -227,7 +227,6 @@ void BossScene::UpdateScene()
 	if (mBoss->GetDeadFlag())
 	{
 		mBossDeadFlag = true;
-		BaseScene::mMoney += 20000000;
 		NextScene(std::make_shared<Result>());
 	}
 

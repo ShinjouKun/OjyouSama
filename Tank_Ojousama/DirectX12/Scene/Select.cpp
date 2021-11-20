@@ -77,7 +77,7 @@ void Select::StartScene()
 
 void Select::UpdateScene()
 {
-	Sequence::instance().set(1234567890, Vector2(0, 0), Vector2(32, 32));
+	Sequence::instance().set(BaseScene::mMoney, Vector2(0, 0), Vector2(32, 32));
 	if (fadeF1)
 	{
 		fade += 0.01f;
