@@ -147,10 +147,10 @@ void SniperEnemy::EnemyRend()
 
 void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 {
-	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	/*if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
 	{
 		SetActive(true);
-	}
+	}*/
 
 	if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
 	{

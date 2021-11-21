@@ -61,7 +61,7 @@ void BaseEnemy::Update()
 
 void BaseEnemy::Rend()
 {
-	if (!GetActive()) return;
+	//if (!GetActive()) return;
 
 	EnemyRend();
 }
@@ -69,11 +69,11 @@ void BaseEnemy::Rend()
 //ここはオブジェクトにぶつかった時しか入らない。
 void BaseEnemy::OnCollison(BaseCollider * col)
 {
-	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
-	{
-		//カメラに当たっているとき、描画を行う。
-		SetActive(true);
-	}
+	//if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	//{
+	//	//カメラに当たっているとき、描画を行う。
+	//	SetActive(true);
+	//}
 
 	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
 	{
@@ -89,7 +89,7 @@ void BaseEnemy::OnCollison(BaseCollider * col)
 		}
 	}
 
-	if (!GetActive()) return;
+	//if (!GetActive()) return;
 
 	EnemyOnCollision(col);
 }

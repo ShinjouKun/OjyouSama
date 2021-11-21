@@ -69,26 +69,26 @@ void GamePlay::StartScene()
 	int objectCount = 0;
 	
 	///*スタート地点の木*/
-	objM->Add(new ElfRock(Vector3(10.0f,  6.0f, 450.0f), Vector3(0,45.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-50.0f, 6.0f, 410.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(10.0f,  4.0f, 450.0f), Vector3(0,45.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-50.0f, 4.0f, 410.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
 	
 
-	objM->Add(new ElfRock(Vector3(0.0f,   6.0f, 350.0f), Vector3(0, 90.0f, 0), objM, BaseScene::mModel, objectCount++, 2));
-	objM->Add(new ElfRock(Vector3(-15.0f, 6.0f, 320.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(0.0f,   4.0f, 350.0f), Vector3(0, 90.0f, 0), objM, BaseScene::mModel, objectCount++, 2));
+	objM->Add(new ElfRock(Vector3(-15.0f, 4.0f, 320.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
 	for (int i = 330; i < 400; i += 20)
 	{
-		objM->Add(new ElfTree(Vector3(20,  6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-20, 6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-40, 6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(20,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-40, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 		
 	}
 
 	for (int i = 230; i < 320; i += 20)
 	{
-		objM->Add(new ElfTree(Vector3(5,   6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(30,  6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-20, 6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-50, 6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(5,   4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(30,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-50, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 	}
 	
 		
@@ -96,73 +96,73 @@ void GamePlay::StartScene()
 	
 	for (int i = 150; i < 180; i += 20)
 	{
-		objM->Add(new ElfTree(Vector3(40+i,  6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-40-i, 6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(40+i,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-40-i, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 	}
 	for (int i = 100; i < 200; i += 30)
 	{
-		objM->Add(new ElfTree(Vector3(30,  6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(15,  6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-15, 6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(30,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(15,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-15, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 	}
 
 	for (int i = 10; i < 80; i += 20)
 	{
-		objM->Add(new ElfTree(Vector3(30 -i,  6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-30 +i, 6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(20+i,   6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-		objM->Add(new ElfTree(Vector3(-20-i,  6.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(30 -i,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-30 +i, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(20+i,   4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
+		objM->Add(new ElfTree(Vector3(-20-i,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
 	}
 	///*中央の岩*/
-	objM->Add(new ElfRock(Vector3(30.0f,  8.0f, 210.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(0.0f,   8.0f, 250.0f), Vector3(0,45.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-30.0f, 8.0f, 300.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(30.0f,  4.0f, 210.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(0.0f,   4.0f, 250.0f), Vector3(0,45.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-30.0f, 4.0f, 300.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
 
-	objM->Add(new ElfRock(Vector3(30.0f,  8.0f, 90.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(0.0f,   8.0f, 90.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-30.0f, 8.0f, 90.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(30.0f,  4.0f, 90.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(0.0f,   4.0f, 90.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-30.0f, 4.0f, 90.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
 	//右
-	objM->Add(new ElfRock(Vector3(70.0f, 8.0f, -20.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(70.0f, 8.0f, -30.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(70.0f, 8.0f, -40.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(70.0f, 8.0f, -50.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(70.0f, 8.0f, -60.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(70.0f, 8.0f, -70.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(70.0f, 8.0f, -80.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(70.0f, 8.0f, -90.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(70.0f, 8.0f, -100.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(70.0f, 8.0f, -110.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(60.0f, 8.0f, -120.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -20.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -30.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -40.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -50.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -60.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -70.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -80.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -90.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -100.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(70.0f, 4.0f, -110.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(60.0f, 4.0f, -120.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
 	//前
-	objM->Add(new ElfRock(Vector3(0.0f,   8.0f, 0.0f),  Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(+10.0f, 8.0f, 0.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-10.0f, 8.0f, 0.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(+20.0f, 8.0f, -5.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-20.0f, 8.0f, -5.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(0.0f,   4.0f, 0.0f),  Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(+10.0f, 4.0f, 0.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-10.0f, 4.0f, 0.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(+20.0f, 4.0f, -5.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-20.0f, 4.0f, -5.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	//左
-	objM->Add(new ElfRock(Vector3(-70.0f, 8.0f, -20.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-70.0f, 8.0f, -30.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-70.0f, 8.0f, -40.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-70.0f, 8.0f, -50.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-70.0f, 8.0f, -60.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-70.0f, 8.0f, -70.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-70.0f, 8.0f, -80.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-70.0f, 8.0f, -90.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-70.0f, 8.0f, -100.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-70.0f, 8.0f, -110.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-60.0f, 8.0f, -120.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -20.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -30.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -40.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -50.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -60.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -70.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -80.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -90.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -100.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-70.0f, 4.0f, -110.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-60.0f, 4.0f, -120.0f), Vector3(0,90.0f,0), objM, BaseScene::mModel, objectCount++, 3));
 	//後ろ
-	objM->Add(new ElfRock(Vector3(50.0f,  8.0f, -170.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(40.0f,  8.0f, -180.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(30.0f,  8.0f, -180.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(20.0f,  8.0f, -180.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(10.0f,  8.0f, -180.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(0.0f,   8.0f, -180.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-10.0f, 8.0f, -180.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-20.0f, 8.0f, -180.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-30.0f, 8.0f, -180.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-40.0f, 8.0f, -180.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
-	objM->Add(new ElfRock(Vector3(-50.0f, 8.0f, -170.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(50.0f,  4.0f, -170.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(40.0f,  4.0f, -180.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(30.0f,  4.0f, -180.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(20.0f,  4.0f, -180.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(10.0f,  4.0f, -180.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(0.0f,   4.0f, -180.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-10.0f, 4.0f, -180.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-20.0f, 4.0f, -180.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-30.0f, 4.0f, -180.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-40.0f, 4.0f, -180.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
+	objM->Add(new ElfRock(Vector3(-50.0f, 4.0f, -170.0f), Vector3(0,0.0f,0), objM, BaseScene::mModel, objectCount++, 3));
 
 
 	
@@ -262,7 +262,7 @@ void GamePlay::StartScene()
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	//プレイヤーは最後に、又はUIクラスを作る
 	objM->Add(new GolemEnemy(Vector3(0.0f, 4.0f, -110.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
-	objM->Add(new Player(Vector3(0.0f, 4.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
 	objM->Add(new CameraEye(Vector3(0,  0.0f, 180), Vector3(0, 0, 0), objM));
 	objM->Add(new Repair(Vector3(50.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, ItemState::Low, 0, 500, 20));
 
@@ -308,47 +308,47 @@ void GamePlay::UpdateScene()
 	if (!spawnFlag)
 	{
 		
-		objM->Add(new SniperEnemy(Vector3(0.0f,   4.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
-		objM->Add(new SniperEnemy(Vector3(+10.0f, 4.0f, 420.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 1));
-		objM->Add(new SniperEnemy(Vector3(-10.0f, 4.0f, 390.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 2));
-		objM->Add(new SniperEnemy(Vector3(+50.0f, 4.0f, 400.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 3));
-		objM->Add(new SniperEnemy(Vector3(-50.0f, 4.0f, 380.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 4));
-		objM->Add(new BlowEnemy(Vector3(20.0f,    4.0f, 400.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 5));
+		objM->Add(new SniperEnemy(Vector3(0.0f,   0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
+		objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 420.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 1));
+		objM->Add(new SniperEnemy(Vector3(-10.0f, 0.0f, 390.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 2));
+		objM->Add(new SniperEnemy(Vector3(+50.0f, 0.0f, 400.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 3));
+		objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 380.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 4));
+		objM->Add(new BlowEnemy(Vector3(20.0f,    0.0f, 400.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 5));
 
 
-		objM->Add(new SniperEnemy(Vector3(2.0f,   4.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 6));
-		objM->Add(new SniperEnemy(Vector3(+60.0f, 4.0f, 350.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 7));
-		objM->Add(new SniperEnemy(Vector3(-40.0f, 4.0f, 310.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 8));
-		objM->Add(new BlowEnemy(Vector3(-20.0f,   4.0f, 400.0f), Vector3(0, 180, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 9));
+		objM->Add(new SniperEnemy(Vector3(2.0f,   0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 6));
+		objM->Add(new SniperEnemy(Vector3(+60.0f, 0.0f, 350.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 7));
+		objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 310.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 8));
+		objM->Add(new BlowEnemy(Vector3(-20.0f,   0.0f, 400.0f), Vector3(0, 180, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 9));
 		spawnFlag = true;
 	}
 	
 	if (!spawnFlag2&&objM->GetPlayer().GetPosition().z <= 320.0f)
 	{
-		objM->Add(new BlowEnemy(Vector3(20.0f,    4.0f, 230.0f), Vector3(0, 180, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 10));
-		objM->Add(new BlowEnemy(Vector3(-20.0f,   4.0f, 230.0f), Vector3(0, 180, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 11));
-		objM->Add(new SniperEnemy(Vector3(5.0f,   4.0f, 240.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 12));
-		objM->Add(new SniperEnemy(Vector3(+10.0f, 4.0f, 250.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 13));
-		objM->Add(new SniperEnemy(Vector3(-20.0f, 4.0f, 210.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 14));
-		objM->Add(new SniperEnemy(Vector3(+40.0f, 4.0f, 220.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 15));
-		objM->Add(new SniperEnemy(Vector3(-30.0f, 4.0f, 230.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 16));
+		objM->Add(new BlowEnemy(Vector3(20.0f,    0.0f, 230.0f), Vector3(0, 180, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 10));
+		objM->Add(new BlowEnemy(Vector3(-20.0f,   0.0f, 230.0f), Vector3(0, 180, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 11));
+		objM->Add(new SniperEnemy(Vector3(5.0f,   0.0f, 240.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 12));
+		objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 250.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 13));
+		objM->Add(new SniperEnemy(Vector3(-20.0f, 0.0f, 210.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 14));
+		objM->Add(new SniperEnemy(Vector3(+40.0f, 0.0f, 220.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 15));
+		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 230.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 16));
 		spawnFlag2 = true;
 	}
 
 
 	if (!spawnFlag3&&objM->GetPlayer().GetPosition().z <= 200.0f)
 	{
-		objM->Add(new SniperEnemy(Vector3(2.0f,   4.0f, 140.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 17));
-		objM->Add(new SniperEnemy(Vector3(+60.0f, 4.0f, 150.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 18));
-		objM->Add(new SniperEnemy(Vector3(-40.0f, 4.0f, 110.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 19));
-		objM->Add(new SniperEnemy(Vector3(+10.0f, 4.0f, 120.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 20));
-		objM->Add(new SniperEnemy(Vector3(-30.0f, 4.0f, 130.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle,21));
+		objM->Add(new SniperEnemy(Vector3(2.0f,   0.0f, 140.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 17));
+		objM->Add(new SniperEnemy(Vector3(+60.0f, 0.0f, 150.0f), Vector3(0.0f, 225.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 18));
+		objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 110.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 19));
+		objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 120.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 20));
+		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 130.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle,21));
 
-		objM->Add(new SniperEnemy(Vector3(+20.0f, 4.0f, 80.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 22));
-		objM->Add(new SniperEnemy(Vector3(0.0f,   4.0f, 90.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 23));
-		objM->Add(new SniperEnemy(Vector3(-20.0f, 4.0f, 60.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 24));
-		objM->Add(new BlowEnemy(Vector3(40.0f,    4.0f, 70.0f), Vector3(0, 90, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 25));
-		objM->Add(new BlowEnemy(Vector3(0.0f,     4.0f, 70.0f), Vector3(0, 180, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 26));
+		objM->Add(new SniperEnemy(Vector3(+20.0f, 0.0f, 80.0f), Vector3(0.0f, 135.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 22));
+		objM->Add(new SniperEnemy(Vector3(0.0f,   0.0f, 90.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 23));
+		objM->Add(new SniperEnemy(Vector3(-20.0f, 0.0f, 60.0f), Vector3(0.0f, 270.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 24));
+		objM->Add(new BlowEnemy(Vector3(40.0f,    0.0f, 70.0f), Vector3(0, 90, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 25));
+		objM->Add(new BlowEnemy(Vector3(0.0f,     0.0f, 70.0f), Vector3(0, 180, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 26));
 
 		spawnFlag3 = true;
 	}
@@ -368,7 +368,7 @@ void GamePlay::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 200.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 4.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
+	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
 	BaseScene::mModel->Draw("KabeR4", Vector3(-170.0f, 60.0f, -200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeL4", Vector3(170.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeR3", Vector3(-170.0f, 60.0f, 0.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
