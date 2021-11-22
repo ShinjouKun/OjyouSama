@@ -6,6 +6,7 @@
 #include"Garage.h"
 #include"BossScene.h"
 #include"Result.h"
+#include "Defense.h"
 #include "../Collision/Collision.h"
 #include "../Device/Input.h"
 #include "../Sound/Sound.h"
@@ -28,6 +29,7 @@ void Select::StartScene()
 	fade = 0;
 	fadeF1 = false;
 	fadeF2 = false;
+	fadeF3 = false;
 	SelectAlfa1 = 0.5f;
 	SelectAlfa2 = 0.5f;
 	SelectAlfa3 = 0.5f;
@@ -92,6 +94,14 @@ void Select::UpdateScene()
 		if (fade >= 1)
 		{
 			NextScene(std::make_shared<BossScene>());
+		}
+	}	
+	if (fadeF3)
+	{
+		fade += 0.01f;
+		if (fade >= 1)
+		{
+			NextScene(std::make_shared<Defense>());
 		}
 	}
 	mSound->playLoop();
@@ -177,7 +187,7 @@ void Select::UpdateScene()
 			SelectAlfa5 = 0.5f;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				NextScene(std::make_shared<Garage>());
+				NextScene(std::make_shared<Defense>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}
@@ -229,7 +239,7 @@ void Select::UpdateScene()
 			setumeiFlag = true;
 			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 			{
-				fadeF1 = true;
+				fadeF3 = true;
 				mDecisionSE->play();
 			}
 		}

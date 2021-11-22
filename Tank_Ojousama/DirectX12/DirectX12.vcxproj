@@ -197,6 +197,7 @@
     <ClCompile Include="Math\Easing.cpp" />
     <ClCompile Include="Actor\EnemyTank.cpp" />
     <ClCompile Include="Scene\BossScene.cpp" />
+    <ClCompile Include="Scene\Defense.cpp" />
     <ClCompile Include="Scene\GamePlay.cpp" />
     <ClCompile Include="Scene\Garage.cpp" />
     <ClCompile Include="Scene\Operation.cpp" />
@@ -484,6 +485,7 @@
     <ClInclude Include="Math\Easing.h" />
     <ClInclude Include="Actor\EnemyTank.h" />
     <ClInclude Include="Scene\BossScene.h" />
+    <ClInclude Include="Scene\Defense.h" />
     <ClInclude Include="Scene\GamePlay.h" />
     <ClInclude Include="Scene\Garage.h" />
     <ClInclude Include="Scene\Operation.h" />
