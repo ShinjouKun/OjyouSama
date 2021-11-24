@@ -345,7 +345,7 @@ void BossScene::Pose()
 			{
 				if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
 				{
-					NextScene(std::make_shared<Result>());
+					NextScene(std::make_shared<Select>());
 				}
 			}
 			if (selectposition.x == 820)
