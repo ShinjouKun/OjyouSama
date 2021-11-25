@@ -501,7 +501,7 @@ void Player::OnCollison(BaseCollider* col)
 void Player::ImGuiDebug()
 {
 
-	/*float pos[3] = { position.x,position.y,position.z };
+	float pos[3] = { position.x,position.y,position.z };
 	ImGui::SliderFloat3("PlayerPosition", pos, 0, 10000.0f);
 
 	float posC[3] = { CameraPos.x,CameraPos.y,CameraPos.z };
@@ -518,5 +518,5 @@ void Player::ImGuiDebug()
 	ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
 	ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
 	ImGui::SliderFloat("SPEED", &speed, 0, 100);
-	ImGui::SliderInt("SPEEDTime", &speedTime, 0, 100);*/
+	ImGui::SliderInt("SPEEDTime", &speedTime, 0, 100);
 }

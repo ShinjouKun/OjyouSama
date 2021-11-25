@@ -29,6 +29,13 @@ public:
 
 private:
 
+	void Wave1EnemySpown();
+	void Wave2EnemySpown();
+	void Wave3EnemySpown();
+	void Wave1();
+	void Wave2();
+	void Wave3();
+	
 	// BaseScene を介して継承されました
 	virtual void StartScene() override;
 
@@ -46,7 +53,18 @@ private:
 	Camera* camera;
 	std::shared_ptr<Sound> mSound;
 	std::shared_ptr<Sound> mSE;
-
+	//ウェーブ制御用
+	int interval;//次のウェーブまでの待機カウント
+	bool spown1;//エネミー出す用のフラグ
+	bool spown2;//エネミー出す用のフラグ
+	bool spown3;//エネミー出す用のフラグ
+	int enemyDeath;
+	int wave1EnemysCount;
+	int wave2EnemysCount;
+	int wave3EnemysCount;
+	bool wave1Clear;
+	bool wave2Clear;
+	bool wave3Clear;
 	//ポーズフラグ
 	bool pose = false;
 	//設定フラグ

@@ -208,3 +208,18 @@ BaseObject & ObjectManager::GetGolem() const
 	return *boss;
 }
 
+BaseObject & ObjectManager::GetEnemy() const
+{
+	BaseObject* enemy = nullptr;
+
+	for (auto& type : objectList)
+	{
+		if (type->GetType() == ObjectType::ENEMY)
+		{
+			enemy = type;
+		}
+	}
+
+	return *enemy;
+}
+

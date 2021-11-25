@@ -23,6 +23,8 @@ enum ObjectType//オブジェクトのタグ
 	ITEM,
 	CAMEAR,
 	ITEMBOX,
+	DEFENCEPOINT,
+	TREASURE,
 };
 
 class BaseObject

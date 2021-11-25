@@ -180,7 +180,7 @@ private:
 
 protected:
 
-	int HP;         //‘Ì—Í
+	//int HP;         //‘Ì—Í
 	int number;     //¯•Ê”Ô†
 	int warningTime;//Œx‰úŠÔ
 	int attackTime;	//UŒ‚ŠÔ
