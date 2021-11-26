@@ -645,7 +645,7 @@ void DirectXManager::PostEffctBegin()
 		cmdList->ClearRenderTargetView(handles[i], clearColor, 0, nullptr);//ここくさい
 	}
 
-//#ifdef DEBUG
+#ifdef _DEBUG
 
 	//imgui関連
 	ImGui_ImplDX12_NewFrame();
@@ -654,13 +654,13 @@ void DirectXManager::PostEffctBegin()
 	ImGui::Begin("Debug Window 1");
 	ImGui::SetWindowSize(ImVec2(400, 500), ImGuiCond_::ImGuiCond_FirstUseEver);
 
-//#endif  DEBUG
+#endif  _DEBUG
 
 }
 
 void DirectXManager::PostEffctEnd()
 {
-//#ifdef DEBUG
+#ifdef _DEBUG
 
 	ImGui::End();
 	ImGui::Render();
@@ -668,7 +668,7 @@ void DirectXManager::PostEffctEnd()
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList.Get());
 
-//#endif  DEBUG
+#endif  _DEBUG
 
 
 	//リソースバリアを戻す
