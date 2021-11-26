@@ -19,7 +19,7 @@ public:
 		const Vector3 & pos,
 		ObjectManager* objM,
 		std::shared_ptr<ModelRenderer> mRender,
-		const bool breadDraw
+		const bool breadDraw = false
 	);
 
 	~WayPointManager();

@@ -26,21 +26,24 @@ void Block::Init()
 	radius = 1.0f;
 
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x, position.y,position.z), radius);
-	
-	mModelRender->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
-	mModelRender->SetAncPoint(numName, -scale * 2.0f);//ここは約半径の二倍ずらす
+	SetCollidder(Vector3(position.x, position.y, position.z), radius);
+
+	//mModelRender->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
+	//mModelRender->SetAncPoint(numName, -scale * 2.0f);//ここは約半径の二倍ずらす
+
+	mModelRender->AddModel(numName, "Resouse/EnemyModel/Arrow/arrow.obj", "Resouse/EnemyModel/Arrow/arrow.png");
+	mModelRender->SetAncPoint(numName, Vector3(0, -2, 0));
 }
 
 void Block::Update()
 {
-	
+
 }
 
 void Block::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	mModelRender->Draw(numName, position, angle, scale);
+	mModelRender->Draw(numName, position, Vector3(angle.x, angle.y, rot += mRotValue), scale);
 }
 
 void Block::OnCollison(BaseCollider* col)

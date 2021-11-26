@@ -1,7 +1,7 @@
 #pragma once
-#include "BaseObject.h"
-#include"ObjectManager.h"
-#include "../Render/ModelRenderer.h"
+#include "../BaseObject.h"
+#include "../ObjectManager.h"
+#include "../../Render/ModelRenderer.h"
 
 /*–Ø‚Ìª‚Á‚±(UŒ‚—p)ƒNƒ‰ƒX*/
 class TreeRoot : public BaseObject

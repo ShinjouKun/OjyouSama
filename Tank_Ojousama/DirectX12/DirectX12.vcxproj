@@ -23,7 +23,7 @@
     <ProjectGuid>{B7A7B929-B38A-4988-AB51-95012006B0B8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DirectX12</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -151,29 +151,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Actor\AttackArea.cpp" />
-    <ClCompile Include="Actor\BaseEnemy.cpp" />
+    <ClCompile Include="Actor\Enemy\AttackArea.cpp" />
+    <ClCompile Include="Actor\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Actor\BaseObject.cpp" />
     <ClCompile Include="Actor\BetaTestBlock.cpp" />
-    <ClCompile Include="Actor\BlowEnemy.cpp" />
+    <ClCompile Include="Actor\Enemy\BirdEnemy.cpp" />
+    <ClCompile Include="Actor\Enemy\BlowEnemy.cpp" />
     <ClCompile Include="Actor\BreadCrumb.cpp" />
     <ClCompile Include="Actor\BreadCrumbCreater.cpp" />
     <ClCompile Include="Actor\CameraEye.cpp" />
-    <ClCompile Include="Actor\CEnemy.cpp" />
+    <ClCompile Include="Actor\Enemy\CEnemy.cpp" />
     <ClCompile Include="Actor\ElfRock.cpp" />
     <ClCompile Include="Actor\ElfTree.cpp" />
-    <ClCompile Include="Actor\EnemyAI.cpp" />
+    <ClCompile Include="Actor\Enemy\EnemyAI.cpp" />
     <ClCompile Include="Actor\GolemEnemy.cpp" />
-    <ClCompile Include="Actor\MemberEnemy.cpp" />
-    <ClCompile Include="Actor\MortarEnemy.cpp" />
-    <ClCompile Include="Actor\ReportArea.cpp" />
-    <ClCompile Include="Actor\SniperEnemy.cpp" />
-    <ClCompile Include="Actor\SummonEnemy.cpp" />
-    <ClCompile Include="Actor\TestBoss.cpp" />
+    <ClCompile Include="Actor\Enemy\MemberEnemy.cpp" />
+    <ClCompile Include="Actor\Enemy\MortarEnemy.cpp" />
+    <ClCompile Include="Actor\Enemy\ReportArea.cpp" />
+    <ClCompile Include="Actor\Enemy\SniperEnemy.cpp" />
+    <ClCompile Include="Actor\Enemy\SummonEnemy.cpp" />
+    <ClCompile Include="Actor\Enemy\ElfTreeBoss.cpp" />
     <ClCompile Include="Actor\TestBreadCrumb.cpp" />
     <ClCompile Include="Actor\TestEnemy.cpp" />
     <ClCompile Include="Actor\TestWayPoint.cpp" />
-    <ClCompile Include="Actor\TreeRoot.cpp" />
+    <ClCompile Include="Actor\Enemy\TreeRoot.cpp" />
     <ClCompile Include="Actor\WayPoint.cpp" />
     <ClCompile Include="Actor\WayPointManager.cpp" />
     <ClCompile Include="Collision\AABBCollider.cpp" />
@@ -430,28 +431,29 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Actor\AttackArea.h" />
-    <ClInclude Include="Actor\BaseEnemy.h" />
+    <ClInclude Include="Actor\Enemy\AttackArea.h" />
+    <ClInclude Include="Actor\Enemy\BaseEnemy.h" />
     <ClInclude Include="Actor\BetaTestBlock.h" />
     <ClInclude Include="Actor\BreadCrumb.h" />
     <ClInclude Include="Actor\BreadCrumbCreater.h" />
     <ClInclude Include="Actor\CameraEye.h" />
-    <ClInclude Include="Actor\CEnemy.h" />
+    <ClInclude Include="Actor\Enemy\BirdEnemy.h" />
+    <ClInclude Include="Actor\Enemy\CEnemy.h" />
     <ClInclude Include="Actor\ElfRock.h" />
     <ClInclude Include="Actor\ElfTree.h" />
-    <ClInclude Include="Actor\EnemyAI.h" />
+    <ClInclude Include="Actor\Enemy\EnemyAI.h" />
     <ClInclude Include="Actor\GolemEnemy.h" />
-    <ClInclude Include="Actor\MemberEnemy.h" />
-    <ClInclude Include="Actor\MortarEnemy.h" />
-    <ClInclude Include="Actor\ReportArea.h" />
-    <ClInclude Include="Actor\SniperEnemy.h" />
-    <ClInclude Include="Actor\SummonEnemy.h" />
-    <ClInclude Include="Actor\TestBoss.h" />
+    <ClInclude Include="Actor\Enemy\MemberEnemy.h" />
+    <ClInclude Include="Actor\Enemy\MortarEnemy.h" />
+    <ClInclude Include="Actor\Enemy\ReportArea.h" />
+    <ClInclude Include="Actor\Enemy\SniperEnemy.h" />
+    <ClInclude Include="Actor\Enemy\SummonEnemy.h" />
+    <ClInclude Include="Actor\Enemy\ElfTreeBoss.h" />
     <ClInclude Include="Actor\TestBreadCrumb.h" />
     <ClInclude Include="Actor\TestEnemy.h" />
     <ClInclude Include="Actor\TestItem.h" />
     <ClInclude Include="Actor\TestWayPoint.h" />
-    <ClInclude Include="Actor\TreeRoot.h" />
+    <ClInclude Include="Actor\Enemy\TreeRoot.h" />
     <ClInclude Include="Actor\WayPoint.h" />
     <ClInclude Include="Actor\WayPointManager.h" />
     <ClInclude Include="Collision\AABBCollider.h" />
@@ -462,7 +464,7 @@
     <ClInclude Include="Collision\RayCollison.h" />
     <ClInclude Include="Collision\WorldSpace.h" />
     <ClInclude Include="ConstInfomation\Enemy\EnemyConstInfo.h" />
-    <ClInclude Include="Actor\BlowEnemy.h" />
+    <ClInclude Include="Actor\Enemy\BlowEnemy.h" />
     <ClInclude Include="ConstInfomation\Enemy\BlowEnemyConstInfo.h" />
     <ClInclude Include="ConstInfomation\Enemy\GolemEnemyConstInfo.h" />
     <ClInclude Include="ConstInfomation\Enemy\SniperEnemyConstInfo.h" />

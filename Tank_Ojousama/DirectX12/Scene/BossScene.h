@@ -12,13 +12,13 @@
 #include "../Render/ParticleManager.h"
 #include "../Items/ItemHolder.h"
 #include "../Items/Repair.h"
-#include "../Actor/EnemyAI.h"
+#include "../Actor/Enemy/EnemyAI.h"
 
 class WayPointManager;
 class BreadCrumbCreater;
 class Sound;
 class Timer;
-class TestBoss;
+class ElfTreeBoss;
 
 class BossScene :public BaseScene
 {
@@ -72,5 +72,5 @@ private:
 	shared_ptr<EnemyAI> mEnemyAI;
 	std::shared_ptr<Timer> mTimer;
 
-	TestBoss * mBoss;
+	ElfTreeBoss * mBoss;
 };

@@ -1,9 +1,9 @@
 #include "SniperEnemy.h"
-#include "../Weapons/NormalBullet.h"
-#include "../Weapons/ElfBullet.h"
-#include "../Collision/SpherCollider.h"
-#include "../ConstInfomation/Enemy/EnemyConstInfo.h"
-#include "../ConstInfomation/Enemy/SniperEnemyConstInfo.h"
+#include "../../Weapons/NormalBullet.h"
+#include "../../Weapons/ElfBullet.h"
+#include "../../Collision/SpherCollider.h"
+#include "../../ConstInfomation/Enemy/EnemyConstInfo.h"
+#include "../../ConstInfomation/Enemy/SniperEnemyConstInfo.h"
 
 namespace ECI = EnemyConstInfo;
 namespace SECI = SniperEnemyConstInfo;

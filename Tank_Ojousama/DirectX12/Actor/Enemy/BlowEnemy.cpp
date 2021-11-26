@@ -1,9 +1,8 @@
 #include "BlowEnemy.h"
-#include "../Collision/SpherCollider.h"
-#include "../ConstInfomation/Enemy/EnemyConstInfo.h"
-#include "../ConstInfomation/Enemy/BlowEnemyConstInfo.h"
-
-#include "../Utility/Random.h"
+#include "../../Collision/SpherCollider.h"
+#include "../../ConstInfomation/Enemy/EnemyConstInfo.h"
+#include "../../ConstInfomation/Enemy/BlowEnemyConstInfo.h"
+#include "../../Utility/Random.h"
 
 namespace ECI = EnemyConstInfo;
 namespace BECI = BlowEnemyConstInfo;

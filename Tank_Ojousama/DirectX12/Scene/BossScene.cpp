@@ -11,12 +11,13 @@
 
 #include "../Actor/ElfRock.h"
 #include "../Actor/ElfTree.h"
-#include "../Actor/SniperEnemy.h"
-#include "../Actor/TestBoss.h"
-#include "../Actor/MortarEnemy.h"
+#include "../Actor/Enemy/SniperEnemy.h"
+#include "../Actor/Enemy/ElfTreeBoss.h"
+#include "../Actor/Enemy/MortarEnemy.h"
+#include "../Actor/Enemy/BirdEnemy.h"
 
 
-
+#include "../Actor/Block.h"
 #include "../Actor/BetaTestBlock.h"
 
 
@@ -200,12 +201,19 @@ void BossScene::StartScene()
 	//¶
 	mObjManager->Add(new BetaTestBlock(Vector3(-150, 0.0f, 0.0f), Vector3(90, 90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
 
-	//Šâ“Š‚°‚Ì“G
-	mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
-	mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+	////Šâ“Š‚°‚Ì“G
+	//mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+	//mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
 
-	//ƒ{ƒX
-	mBoss = new TestBoss(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++);
+	//mObjManager->Add(new SniperEnemy(Vector3(0,0,-50), Vector3(0,0,0), mObjManager, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, objectCount++));
+
+	mObjManager->Add(new BirdEnemy(Vector3(100, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+
+
+	//mObjManager->Add(new Block(Vector3(0, 0, -50), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, objectCount++));
+
+	////ƒ{ƒX
+	mBoss = new ElfTreeBoss(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++);
 	mObjManager->Add(mBoss);
 
 #pragma endregion
@@ -241,7 +249,7 @@ void BossScene::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
+	//BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
 	mObjManager->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 

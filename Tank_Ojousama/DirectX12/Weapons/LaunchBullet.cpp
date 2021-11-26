@@ -48,6 +48,7 @@ void LaunchBullet::Init()
 	mScale = Vector3().one;
 	mCircleScale = Vector3(8.0f, 8.0f, 8.0f);
 	mHalfLength = (mTargetPosition - position).Length() / 2.0f;
+	mDrawArea = false;
 
 	//コライダーのセット
 	SetCollidder(Vector3().zero, 1.5f);
@@ -70,7 +71,7 @@ void LaunchBullet::Init()
 	//落下地点用オブジェクト
 	numBlock = mBlockName + num;
 	mModelRender->AddModel(numBlock, "Resouse/maru.obj", "Resouse/marui.png");
-	//mModelRender->SetAncPoint(numBlock, -mScale * 2.0f);
+	mModelRender->SetColor(numBlock, Vector4(0, 0, 0, 0.2f));
 
 	//パーティクルの設定
 	mParticleEmitter = make_shared<ParticleEmitterBox>(mParticleManager);
@@ -98,7 +99,10 @@ void LaunchBullet::Rend()
 	else
 	{
 		mModelRender->Draw(numName, position, angle, mScale);
-		mModelRender->Draw(numBlock, Vector3(mTargetPosition.x, mTargetPosition.y - 4.5f, mTargetPosition.z), Vector3().zero, mCircleScale);
+		if (mDrawArea)
+		{
+			mModelRender->Draw(numBlock, Vector3(mTargetPosition.x, mTargetPosition.y - test, mTargetPosition.z), Vector3().zero, mCircleScale);
+		}
 	}
 }
 
@@ -144,11 +148,25 @@ void LaunchBullet::Move()
 		//距離が半分以上なら
 		if (length > mHalfLength)
 		{
+			mDrawArea = false;
 			//弾は上昇
 			distHold.y = mVelocityY;
 		}
 		else
 		{
+			mDrawArea = true;
+			//#1オフセットスケールを距離で割る
+			mCircleScale = Vector3(10.0f, 10.0f, 10.0f) / (length / 10.0f);
+
+			test = 4.5f / (length / 10);
+
+			//test += 0.01f;
+			//mCircleScale *= test;
+
+			if (mCircleScale.x < 1.0f) mCircleScale = Vector3().one;
+			if (mCircleScale.x > 8.0f)mCircleScale = Vector3(10, 10, 10);
+			if (test <= -4.5f) test = -4.5f;
+
 			//弾は下降
 			distHold.y = -mVelocityY;
 		}
@@ -166,6 +184,7 @@ void LaunchBullet::Move()
 	}
 	else
 	{
+		mDrawArea = false;
 		Vector3 distance = mTargetPosition - position;
 		float length = distance.Length();
 		distance = distance.normal();

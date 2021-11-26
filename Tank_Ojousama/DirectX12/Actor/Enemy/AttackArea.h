@@ -1,10 +1,10 @@
 #pragma once
-#include "ObjectManager.h"
-#include "BaseObject.h"
-#include "../Render/ModelRenderer.h"
-#include "../Collision/SpherCollider.h"
+#include "../ObjectManager.h"
+#include "../BaseObject.h"
+#include "../../Render/ModelRenderer.h"
+#include "../../Collision/SpherCollider.h"
 
-//敵の攻撃判定クラス(パーティクル出せるようにしたい)
+//敵の近距離攻撃判定クラス(パーティクル出せるようにしたい)
 class AttackArea : public BaseObject
 {
 public:
