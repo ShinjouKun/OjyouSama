@@ -5,7 +5,7 @@
 #include"Select.h"
 #include"Result.h"
 #include "../Sound/Sound.h"
-#include "../Actor/SniperEnemy.h"
+#include "../Actor/Enemy/SniperEnemy.h"
 #include "../Utility/Timer/Timer.h"
 #include"../Actor/CameraEye.h"
 #include "../Actor/WayPointManager.h"
@@ -14,7 +14,7 @@
 #include "../Actor/ElfTree.h"
 #include "../Actor/ElfRock.h"
 
-#include "../Actor/SniperEnemy.h"
+#include "../Actor/Enemy/SniperEnemy.h"
 
 Defense::Defense()
 	:mSound(nullptr)
