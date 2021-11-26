@@ -204,6 +204,7 @@
     <ClCompile Include="Scene\Operation.cpp" />
     <ClCompile Include="Scene\Option.cpp" />
     <ClCompile Include="Scene\Result.cpp" />
+    <ClCompile Include="Scene\Robbery.cpp" />
     <ClCompile Include="Scene\Select.cpp" />
     <ClCompile Include="Sound\3D\Emitter\DspSetter.cpp" />
     <ClCompile Include="Sound\3D\Emitter\Sound3DEmitter.cpp" />
@@ -493,6 +494,7 @@
     <ClInclude Include="Scene\Operation.h" />
     <ClInclude Include="Scene\Option.h" />
     <ClInclude Include="Scene\Result.h" />
+    <ClInclude Include="Scene\Robbery.h" />
     <ClInclude Include="Scene\Select.h" />
     <ClInclude Include="Sound\3D\DistanceCurve.h" />
     <ClInclude Include="Sound\3D\Emitter\DspSetter.h" />

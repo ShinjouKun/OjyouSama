@@ -5,6 +5,7 @@
 #include"Operation.h"
 #include"Garage.h"
 #include"BossScene.h"
+#include "Robbery.h"
 #include"Result.h"
 #include "Defense.h"
 #include "../Collision/Collision.h"
@@ -30,6 +31,7 @@ void Select::StartScene()
 	fadeF1 = false;
 	fadeF2 = false;
 	fadeF3 = false;
+	fadeF4 = false;
 	SelectAlfa1 = 0.5f;
 	SelectAlfa2 = 0.5f;
 	SelectAlfa3 = 0.5f;
@@ -102,6 +104,14 @@ void Select::UpdateScene()
 		if (fade >= 1)
 		{
 			NextScene(std::make_shared<Defense>());
+		}
+	}	
+	if (fadeF4)
+	{
+		fade += 0.01f;
+		if (fade >= 1)
+		{
+			NextScene(std::make_shared<Robbery>());
 		}
 	}
 	mSound->playLoop();
@@ -187,7 +197,7 @@ void Select::UpdateScene()
 			SelectAlfa5 = 0.5f;
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
-				NextScene(std::make_shared<Garage>());
+				NextScene(std::make_shared<Robbery>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}
@@ -257,7 +267,7 @@ void Select::UpdateScene()
 			setumeiBossFlag = true;
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
-				fadeF2 = true;
+				fadeF4 = true;
 				mDecisionSE->play();
 			}
 		}

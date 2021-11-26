@@ -36,6 +36,7 @@ private:
 	bool fadeF1;
 	bool fadeF2;
 	bool fadeF3;
+	bool fadeF4;
 	float fade;
 	bool selectFlag = false;
 	//
