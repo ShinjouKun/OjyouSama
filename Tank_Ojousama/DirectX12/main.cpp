@@ -260,7 +260,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	Input* input = new Input();//インプットインスタンス生成
 	input->Init(window->GetHWND());//インプット初期化
-	input->InitGamepad(window->GetHWND());
 
 	//サウンドシステムの生成
 	auto& s = SoundSystem::instance();

@@ -23,7 +23,7 @@ void Operation::UpdateScene()
 {
 	mTimer->update();
 	if (!mTimer->isTime()) return;
-	if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[3])
+	if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 	{
 		NextScene(std::make_shared<Select>());
 	}

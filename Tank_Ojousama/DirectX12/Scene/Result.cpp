@@ -81,7 +81,7 @@ void Result::UpdateScene()
 		}
 
 		if (!mTimer->isTime()) return;
-		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+		if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal < 0)
 		{
 			if (selectposition.y == 360)
 			{
@@ -91,7 +91,7 @@ void Result::UpdateScene()
 			mTimer->setTime(0.5f);
 		}
 
-		if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+		if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal > 0)
 		{
 			if (selectposition.y == 360)
 			{
@@ -103,14 +103,14 @@ void Result::UpdateScene()
 
 		if (selectposition.x == 180)
 		{
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				NextScene(std::make_shared<Select>());
 			}
 		}
 		if (selectposition.x == 820)
 		{
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				NextScene(std::make_shared<GamePlay>());
 			}

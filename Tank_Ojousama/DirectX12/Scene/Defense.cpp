@@ -333,12 +333,12 @@ void Defense::Pose()
 	if (pose == false && settingFlag == false)
 	{
 		objM->Update();
-		if (Input::KeyDown(DIK_E) || Input::KeyDown(BUTTON_A))
+		if (Input::getKey(KeyCode::E) || Input::getJoyDown(JoyCode::A))
 		{
 			itemHolder->UseItem(ItemNames::heal);
 		}
 
-		if (Input::KeyDown(DIK_RETURN) || Input::pad_data.rgbButtons[11])
+		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
 		{
 			pose = true;
 		}
@@ -353,7 +353,7 @@ void Defense::Pose()
 		{
 			selectposition.x = 180;
 		}
-		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+		if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
 		{
 			if (selectposition.y == 360)
 			{
@@ -363,7 +363,7 @@ void Defense::Pose()
 			mTimer->setTime(0.2f);
 		}
 
-		if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+		if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
 			if (selectposition.y == 360)
 			{
@@ -372,13 +372,13 @@ void Defense::Pose()
 			selectposition.x += 640;
 			mTimer->setTime(0.2f);
 		}
-		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
+		if (Input::getKeyDown(KeyCode::S) || Input::joyVertical() < 0)
 		{
 			selectposition.y = 360;
 			selectposition.x = 500;
 			mTimer->setTime(0.2f);
 		}
-		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
+		if (Input::getKeyDown(KeyCode::W) || Input::joyVertical() > 0)
 		{
 			selectposition.y = 180;
 			selectposition.x = 180;
@@ -386,14 +386,14 @@ void Defense::Pose()
 		}
 		if (selectposition.x == 180)
 		{
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
 			{
 				NextScene(std::make_shared<Select>());
 			}
 		}
 		if (selectposition.x == 820)
 		{
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
 			{
 				settingFlag = true;
 				pose = false;
@@ -401,12 +401,12 @@ void Defense::Pose()
 		}
 		if (selectposition.y == 360 && selectposition.x == 500)
 		{
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
 			{
 				NextScene(std::make_shared<GamePlay>());
 			}
 		}
-		if (Input::KeyDown(DIK_RETURN) || Input::KeyDown(DIK_NUMPADENTER))
+		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
 		{
 			pose = false;
 		}
@@ -425,12 +425,12 @@ void Defense::Setting()
 		{
 			optionPos.y = 540;
 		}
-		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
+		if (Input::getKeyDown(KeyCode::S) || Input::joyVertical() < 0)
 		{
 			optionPos += Vector3(0, 180.0f, 0);
 			mTimer->setTime(0.2f);
 		}
-		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
+		if (Input::getKeyDown(KeyCode::S) || Input::joyVertical() > 0)
 		{
 			optionPos -= Vector3(0, 180.0f, 0);
 			mTimer->setTime(0.2f);
@@ -441,7 +441,7 @@ void Defense::Setting()
 			OpFlag1 = true;
 			OpFlag2 = false;
 			OpFlag3 = false;
-			if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+			if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
 			{
 				BaseScene::mMasterSoundVol += 0.1f;
 				OpAim1.x += 48.0f;
@@ -457,7 +457,7 @@ void Defense::Setting()
 				}
 				mTimer->setTime(0.2f);
 			}
-			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+			if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
 			{
 				BaseScene::mMasterSoundVol -= 0.1f;
 				OpAim1.x -= 48.0f;
@@ -480,7 +480,7 @@ void Defense::Setting()
 			OpFlag1 = false;
 			OpFlag2 = true;
 			OpFlag3 = false;
-			if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+			if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
 			{
 				BaseScene::mBGMSoundVol += 0.1f;
 				OpAim2.x += 48.0f;
@@ -496,7 +496,7 @@ void Defense::Setting()
 				}
 				mTimer->setTime(0.2f);
 			}
-			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+			if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
 			{
 				BaseScene::mBGMSoundVol -= 0.1f;
 				OpAim2.x -= 48.0f;
@@ -519,7 +519,7 @@ void Defense::Setting()
 			OpFlag1 = false;
 			OpFlag2 = false;
 			OpFlag3 = true;
-			if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+			if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
 			{
 				BaseScene::mSESoundVol += 0.1f;
 				OpAim3.x += 48.0f;
@@ -536,7 +536,7 @@ void Defense::Setting()
 				}
 				mTimer->setTime(0.2f);
 			}
-			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+			if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
 			{
 				BaseScene::mSESoundVol -= 0.1f;
 				OpAim3.x -= 48.0f;
@@ -554,7 +554,7 @@ void Defense::Setting()
 				mTimer->setTime(0.2f);
 			}
 		}
-		if (Input::KeyDown(DIK_RETURN) || Input::KeyDown(DIK_NUMPADENTER))
+		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
 		{
 			settingFlag = false;
 		}

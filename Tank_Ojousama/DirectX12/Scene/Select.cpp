@@ -138,14 +138,14 @@ void Select::UpdateScene()
 		if (!mTimer->isTime()) return;
 		//AIM用キー処理
 
-		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
+		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
 			selectposition.y -= 64;
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}
 
-		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
+		if (Input::getKey(KeyCode::S) || Input::joyVertical() < 0)
 		{
 			selectposition.y += 64;
 			mSE->play();
@@ -158,7 +158,7 @@ void Select::UpdateScene()
 			SelectAlfa3 = 0.5f;
 			SelectAlfa4 = 0.5f;
 			SelectAlfa5 = 0.5f;
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				selectFlag = true;
 				mDecisionSE->play();
@@ -171,7 +171,7 @@ void Select::UpdateScene()
 			SelectAlfa3 = 0.5f;
 			SelectAlfa4 = 0.5f;
 			SelectAlfa5 = 0.5f;
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				NextScene(std::make_shared<Operation>());
 				mDecisionSE->play();
@@ -185,9 +185,9 @@ void Select::UpdateScene()
 			SelectAlfa3 = 1.0f;
 			SelectAlfa4 = 0.5f;
 			SelectAlfa5 = 0.5f;
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
-				NextScene(std::make_shared<Defense>());
+				NextScene(std::make_shared<Garage>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}
@@ -199,7 +199,7 @@ void Select::UpdateScene()
 			SelectAlfa3 = 0.5f;
 			SelectAlfa4 = 1.0f;
 			SelectAlfa5 = 0.5f;
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				mDecisionSE->play();
 				NextScene(std::make_shared<Option>());
@@ -212,7 +212,7 @@ void Select::UpdateScene()
 			SelectAlfa3 = 0.5f;
 			SelectAlfa4 = 0.5f;
 			SelectAlfa5 = 1.0f;
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				mDecisionSE->play();
 				NextScene(std::make_shared<Title>());
@@ -227,7 +227,7 @@ void Select::UpdateScene()
 		if (position.x >= targetPos1.x && position.x <= targetPos1.x + 64 && position.y >= targetPos1.y && position.y <= targetPos1.y + 64)
 		{
 			setumeiFlag = true;
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				fadeF1 = true;
 				mDecisionSE->play();
@@ -237,7 +237,7 @@ void Select::UpdateScene()
 		if (position.x >= targetPos2.x && position.x <= targetPos2.x + 64 && position.y >= targetPos2.y  && position.y <= targetPos2.y + 64)
 		{
 			setumeiFlag = true;
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				fadeF3 = true;
 				mDecisionSE->play();
@@ -246,7 +246,7 @@ void Select::UpdateScene()
 		if (position.x >= targetPos3.x && position.x <= targetPos3.x + 64 && position.y >= targetPos3.y && position.y <= targetPos3.y + 64)
 		{
 			setumeiBossFlag = true;
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				fadeF2 = true;
 				mDecisionSE->play();
@@ -255,14 +255,14 @@ void Select::UpdateScene()
 		if (position.x >= targetPos4.x && position.x <= targetPos4.x + 64 && position.y >= targetPos4.y && position.y <= targetPos4.y + 64)
 		{
 			setumeiBossFlag = true;
-			if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				fadeF2 = true;
 				mDecisionSE->play();
 			}
 		}
 
-		if (Input::KeyDown(DIK_B) || Input::pad_data.rgbButtons[3])
+		if (Input::getKeyDown(KeyCode::B) || Input::getJoyDown(JoyCode::A))
 		{
 			selectFlag = false;
 		}
@@ -273,21 +273,21 @@ void Select::UpdateScene()
 
 
 		//AIM用キー処理
-		if (Input::KeyState(DIK_W) || Input::pad_data.lY < 0)
+		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
 			position.y -= 10;
 		}
 
-		if (Input::KeyState(DIK_S) || Input::pad_data.lY > 0)
+		if (Input::getKey(KeyCode::S) || Input::joyVertical() < 0)
 		{
 			position.y += 10;
 		}
 
-		if (Input::KeyState(DIK_D) || Input::pad_data.lX > 0)
+		if (Input::getKey(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
 			position.x += 10;
 		}
-		if (Input::KeyState(DIK_A) || Input::pad_data.lX < 0)
+		if (Input::getKey(KeyCode::A) || Input::joyHorizontal() < 0)
 		{
 			position.x -= 10;
 		}

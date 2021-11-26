@@ -60,7 +60,7 @@ void Title::UpdateScene()
 	mSound->playLoop();
 	if (fade1 <= 0)
 	{
-		if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 		{
 			mSE->play();
 			fadeF = true;
