@@ -14,7 +14,7 @@
 #include "../Items/ItemHolder.h"
 #include "../Items/Repair.h"
 
-#include "../Actor/EnemyAI.h"
+#include "../Actor/Enemy/EnemyAI.h"
 
 class SniperEnemy;
 class BlowEnemy;

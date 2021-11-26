@@ -1,12 +1,12 @@
 #include "BaseEnemy.h"
-#include "../Collision/SpherCollider.h"
+#include "../../Collision/SpherCollider.h"
 
 #include "ReportArea.h"
-#include "TestWayPoint.h"
-#include "WayPointManager.h"
-#include "BreadCrumbCreater.h"
-#include "TestBreadCrumb.h"
-#include "../Utility/Timer/Timer.h"
+#include "../TestWayPoint.h"
+#include "../WayPointManager.h"
+#include "../BreadCrumbCreater.h"
+#include "../TestBreadCrumb.h"
+#include "../../Utility/Timer/Timer.h"
 
 BreadCrumbCreater* BaseEnemy::mBreadCreator = nullptr;
 EnemyAI* BaseEnemy::mEnemyAI = nullptr;

@@ -57,12 +57,14 @@ private:
 	Vector3 mCircleScale;
 
 	int BULLET_DAMAGE = 10;//ダメージ
+	float test = 0;
 
 	float MOVE_SPEED = 1.0f;//移動速度
 	float mVelocityY = 1.0f;//縦の移動量
 	float mHalfLength;//生成位置と目標位置の距離の半分を求める
 
 	bool mAppleFlag;
+	bool mDrawArea;//警告オブジェクトを描画するか
 
 	string PARTICLE_NAME = "Bom";//エフェクトの名前
 	string EXPLOSION = "ExBom";//プレイヤーに当たった時のエフェクト

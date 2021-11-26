@@ -4,8 +4,8 @@
 #include"Select.h"
 #include"Result.h"
 #include "../Sound/Sound.h"
-#include "../Actor/SniperEnemy.h"
-#include "../Actor/BlowEnemy.h"
+#include "../Actor/Enemy/SniperEnemy.h"
+#include "../Actor/Enemy/BlowEnemy.h"
 #include "../Actor/WayPointManager.h"
 #include "../Actor/BreadCrumbCreater.h"
 #include "../Utility/Timer/Timer.h"
@@ -13,8 +13,8 @@
 #include "../Actor/ElfTree.h"
 #include "../Actor/ElfRock.h"
 
-#include "../Actor/CEnemy.h"
-#include "../Actor/MortarEnemy.h"
+#include "../Actor/Enemy/CEnemy.h"
+#include "../Actor/Enemy/MortarEnemy.h"
 
 GamePlay::GamePlay()
 	:mSound(nullptr)

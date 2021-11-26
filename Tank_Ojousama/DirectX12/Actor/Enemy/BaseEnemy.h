@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
-#include "BaseObject.h"             //オブジェクトのひな型
-#include "ObjectManager.h"          //オブジェクト管理者
-#include "../Render/ModelRenderer.h"//モデル貼り付け
-#include "../Render/TexRenderer.h"	//ポリゴンの描画
+#include "../BaseObject.h"             //オブジェクトのひな型
+#include "../ObjectManager.h"          //オブジェクト管理者
+#include "../../Render/ModelRenderer.h"//モデル貼り付け
+#include "../../Render/TexRenderer.h"	//ポリゴンの描画
 #include "AttackArea.h"//子クラスで作ってるからここに書いてる
 
 #include "EnemyAI.h"

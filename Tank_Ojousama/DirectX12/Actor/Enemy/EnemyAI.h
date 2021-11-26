@@ -1,6 +1,6 @@
 #pragma once
-#include "../Math/Vector3.h"
-#include "ObjectManager.h"
+#include "../../Math/Vector3.h"
+#include "../ObjectManager.h"
 #include <memory>
 
 class TestWayPoint;

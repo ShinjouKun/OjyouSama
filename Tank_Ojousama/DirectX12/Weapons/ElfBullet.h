@@ -35,6 +35,6 @@ private:
 
 	const int ALIVE_COUNT = 50;
 
-	const float mRotValue = 0.0f;
+	const float mRotValue = 20.0f;
 	float rot = 0.0f;
 };

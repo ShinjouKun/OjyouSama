@@ -1,28 +1,24 @@
 #pragma once
 #include "BaseEnemy.h"
-#include "../Render/ParticleManager.h"
+#include "../../Render/ParticleManager.h"
 
-#include "EnemyAI.h"
-
-class Random;
-
-class BlowEnemy : public BaseEnemy
+class SniperEnemy : public BaseEnemy
 {
 public:
 
 	/// <summary>
-    /// コンストラクタ
-    /// </summary>
-    /// <param name="position">初期位置</param>
-    /// <param name="angle">初期角度</param>
-    /// <param name="objManager">オブジェクト管理者</param>
-    /// <param name="modelRender">モデル描画</param>
-    /// <param name="texRender">画像描画</param>
-    /// <param name="effect">エフェクト描画</param>
-    /// <param name="num">識別番号</param>
-	BlowEnemy(
-		const Vector3 & position,
-		const Vector3 & angle,
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="position">初期位置</param>
+	/// <param name="angle">初期角度</param>
+	/// <param name="objManager">オブジェクト管理者</param>
+	/// <param name="modelRender">モデル描画</param>
+	/// <param name="texRender">画像描画</param>
+	/// <param name="effect">エフェクト描画</param>
+	/// <param name="num">識別番号</param>
+	SniperEnemy(
+		const Vector3& position,
+		const Vector3& angle,
 		ObjectManager * objManager,
 		shared_ptr<ModelRenderer>modelRender,
 		shared_ptr<TexRenderer>texRender,
@@ -33,7 +29,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~BlowEnemy();
+	~SniperEnemy();
 
 private:
 
@@ -57,29 +53,18 @@ private:
 	virtual void Destruct() override;
 
 private:
-
-	/*オブジェクトを一度だけ生成する*/
-	void CreateOneObject();
-
-private:
 	ObjectManager* objManager;                //オブジェクト管理者
 	shared_ptr<ModelRenderer> modelRender;	  //モデル描画
 	shared_ptr<ParticleManager> effectManager;//エフェクト描画
 
-	AttackArea* attackArea;  //攻撃範囲クラス
-
-	Vector3 patrolPoint[4];
-	int pointCount;
-
-	bool onTrigger;
+	/*弾の識別番号*/
+	int bulletNumber = 0;
 
 	//歩行アニメーション関連
 	float mLegRotate = 0.0f;//脚の現在の回転量
 	const float LEG_SPEED = 1.5f; //脚の回転速度
 	const float LEG_RANGE = 15.0f;//脚の最大回転量
 	bool mRotDirection = false;   //回転方向
-
-	shared_ptr<EnemyAI> mEnemyAI;
 
 	string tankBarrel2;
 	string numBarrel2;

@@ -44,6 +44,7 @@ void ElfBullet::Init()
 	num = to_string(number);
 	numName = name + num;
 	mModelRender->AddModel(numName, "Resouse/EnemyModel/Arrow/arrow.obj", "Resouse/EnemyModel/Arrow/arrow.png");
+	mModelRender->SetAncPoint(numName, Vector3(0, -2.0f, 0));
 	mParticleEmitter = make_shared<ParticleEmitterBox>(mParticleManager);
 	mParticleEmitter->LoadAndSet("Bom", "Resouse/Bom.jpg");
 
@@ -67,7 +68,7 @@ void ElfBullet::Update()
 void ElfBullet::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	mModelRender->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, rot += mRotValue), Vector3(1, 1, 1));
+	mModelRender->Draw(numName, Vector3(position.x, position.y + 2.0f, position.z), Vector3(angle.x, angle.y, rot += mRotValue), Vector3(1, 1, 1));
 }
 
 void ElfBullet::ImGuiDebug()

@@ -1,14 +1,14 @@
-#include "TestBoss.h"
-#include "../Collision/SpherCollider.h"
-#include "../Weapons/LaunchBullet.h"
-#include "../Utility/Timer/Timer.h"
-#include "../Utility/Random.h"
-#include "../Sound/Sound.h"
-#include"../Scene/BaseScene.h"
+#include "ElfTreeBoss.h"
+#include "../../Collision/SpherCollider.h"
+#include "../../Weapons/LaunchBullet.h"
+#include "../../Utility/Timer/Timer.h"
+#include "../../Utility/Random.h"
+#include "../../Sound/Sound.h"
+#include "../../Scene/BaseScene.h"
 #include "SummonEnemy.h"
 #include "TreeRoot.h"
 
-TestBoss::TestBoss(
+ElfTreeBoss::ElfTreeBoss(
 	const Vector3 & pos,
 	const Vector3 & ang,
 	ObjectManager * objManager,
@@ -25,17 +25,17 @@ TestBoss::TestBoss(
 	number = num;
 }
 
-TestBoss::~TestBoss()
+ElfTreeBoss::~ElfTreeBoss()
 {
 	
 }
 
-bool TestBoss::GetDeadFlag()
+bool ElfTreeBoss::GetDeadFlag()
 {
 	return mDeadFlag;
 }
 
-void TestBoss::Init()
+void ElfTreeBoss::Init()
 {
 	HP = MAX_HP;
 	speed = MOVE_SPEED;
@@ -124,6 +124,7 @@ void TestBoss::Init()
 	//根っこ攻撃用警告
 	mRootCircleNum = mRootCircle + mStringNum;
 	mModelRender->AddModel(mRootCircleNum, "Resouse/maru.obj", "Resouse/marui.png");
+	mModelRender->SetColor(mRootCircleNum, Vector4(1, 0, 0, 0.2f));
 
 	//パーティクル1
 	mParticleEmitter = make_shared<ParticleEmitterBox>(mEffectManager);
@@ -148,7 +149,7 @@ void TestBoss::Init()
 
 }
 
-void TestBoss::Update()
+void ElfTreeBoss::Update()
 {
 	if (HP <= 0)
 	{
@@ -173,11 +174,11 @@ void TestBoss::Update()
 	/*死亡アニメーション*/
 	DeathAnimation();
 
-	/*攻撃*/
-	ChangeAttackState();
+	///*攻撃*/
+	//ChangeAttackState();
 }
 
-void TestBoss::Rend()
+void ElfTreeBoss::Rend()
 {
 	//爆発状態でない(仮死状態だったら)なら描画しない
 	if (mDeathStep != DeathAnimationStep::EXPLOSION) return;
@@ -204,11 +205,11 @@ void TestBoss::Rend()
 	}
 }
 
-void TestBoss::ImGuiDebug()
+void ElfTreeBoss::ImGuiDebug()
 {
 }
 
-void TestBoss::OnCollison(BaseCollider * col)
+void ElfTreeBoss::OnCollison(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
@@ -217,7 +218,7 @@ void TestBoss::OnCollison(BaseCollider * col)
 
 }
 
-void TestBoss::ChangeAttackState()
+void ElfTreeBoss::ChangeAttackState()
 {
 	if (mDeathAnimationFlag) return;
 
@@ -252,7 +253,7 @@ void TestBoss::ChangeAttackState()
 	}
 }
 
-void TestBoss::RapidFire()
+void ElfTreeBoss::RapidFire()
 {
 	if (!mActionFlag) return;
 
@@ -307,7 +308,7 @@ void TestBoss::RapidFire()
 	}
 }
 
-void TestBoss::Summon()
+void ElfTreeBoss::Summon()
 {
 	if (!mActionFlag) return;
 
@@ -348,14 +349,14 @@ void TestBoss::Summon()
 	}
 }
 
-void TestBoss::DeathAnimation()
+void ElfTreeBoss::DeathAnimation()
 {
 	//仮死状態 でないなら処理しない
 	if(!mDeathAnimationFlag) return;
 
 	switch (mDeathStep)
 	{
-	case TestBoss::EXPLOSION:
+	case ElfTreeBoss::EXPLOSION:
 
 		mExplosionTime->update();
 
@@ -404,7 +405,7 @@ void TestBoss::DeathAnimation()
 		}
 
 		break;
-	case TestBoss::DEATH_COUNT:
+	case ElfTreeBoss::DEATH_COUNT:
 
 		mExplosionTime->update();
 
@@ -419,25 +420,25 @@ void TestBoss::DeathAnimation()
 	}
 }
 
-void TestBoss::RootAttack()
+void ElfTreeBoss::RootAttack()
 {
 	if (!mActionFlag) return;
 
 	switch (mRootStep)
 	{
-	case TestBoss::PIERCE_HAND:
+	case ElfTreeBoss::PIERCE_HAND:
 		RootAtack_PierceHand();
 		break;
-	case TestBoss::CHASE_PLAYER:
+	case ElfTreeBoss::CHASE_PLAYER:
 		RootAtack_ChasePlayer();
 		break;
-	case TestBoss::WAIT:
+	case ElfTreeBoss::WAIT:
 		RootAtack_Wait();
 		break;
-	case TestBoss::GOUP_ROOT:
+	case ElfTreeBoss::GOUP_ROOT:
 		RootAtack_GoupRoot();
 		break;
-	case TestBoss::GODOWN_ROOT:
+	case ElfTreeBoss::GODOWN_ROOT:
 		RootAtack_GodownRoot();
 		break;
 	default:
@@ -445,7 +446,7 @@ void TestBoss::RootAttack()
 	}
 }
 
-void TestBoss::RootAtack_PierceHand()
+void ElfTreeBoss::RootAtack_PierceHand()
 {
 	mHandAngle = 90.0f;
 
@@ -459,7 +460,7 @@ void TestBoss::RootAtack_PierceHand()
 	}
 }
 
-void TestBoss::RootAtack_ChasePlayer()
+void ElfTreeBoss::RootAtack_ChasePlayer()
 {
 	//警告がプレイヤーを追いかける
 
@@ -492,7 +493,7 @@ void TestBoss::RootAtack_ChasePlayer()
 	}
 }
 
-void TestBoss::RootAtack_Wait()
+void ElfTreeBoss::RootAtack_Wait()
 {
 	mRootWaitTime->update();
 
@@ -504,7 +505,7 @@ void TestBoss::RootAtack_Wait()
 	}
 }
 
-void TestBoss::RootAtack_GoupRoot()
+void ElfTreeBoss::RootAtack_GoupRoot()
 {
 	if (mRootPosition.y >= 0.0f)
 	{
@@ -526,7 +527,7 @@ void TestBoss::RootAtack_GoupRoot()
 	}
 }
 
-void TestBoss::RootAtack_GodownRoot()
+void ElfTreeBoss::RootAtack_GodownRoot()
 {
 	//右手と左手を元に戻す
 	if (mRightHandPos.y >= mOffsetRightHand.y && mLeftHandPos.y >= mOffsetLeftHand.y)
@@ -567,7 +568,7 @@ void TestBoss::RootAtack_GodownRoot()
 	}
 }
 
-void TestBoss::CreateObject()
+void ElfTreeBoss::CreateObject()
 {
 	if (mCreateObject) return;
 
@@ -576,7 +577,7 @@ void TestBoss::CreateObject()
 	mCreateObject = true;
 }
 
-Vector3 TestBoss::AngleToVectorY(float angle) const
+Vector3 ElfTreeBoss::AngleToVectorY(float angle) const
 {
 	Vector3 vector = Vector3(0, 0, 0);
 

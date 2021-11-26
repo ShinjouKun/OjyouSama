@@ -35,21 +35,19 @@ WayPointManager::~WayPointManager()
 void WayPointManager::CreateWayPoint()
 {
 
-	if (mBreadDraw)
-	{
-		for (int i = 0; i < offsetWidth; i += interval)
-		{
-			for (int j = 0; j < offsetHeight; j += interval)
-			{
-				//ここでリストに追加する
-				Vector3 pos = position + Vector3(i - halfWidth, 0, j - halfHeight);
-				objectManager->Add(new WayPoint(pos, objectManager, modelRender, pointNumber));
-				pointNumber++;
-			}
-		}
-	}
-
-
+	//if (mBreadDraw)
+	//{
+	//	for (int i = 0; i < offsetWidth; i += interval)
+	//	{
+	//		for (int j = 0; j < offsetHeight; j += interval)
+	//		{
+	//			//ここでリストに追加する
+	//			Vector3 pos = position + Vector3(i - halfWidth, 0, j - halfHeight);
+	//			objectManager->Add(new WayPoint(pos, objectManager, modelRender, pointNumber));
+	//			pointNumber++;
+	//		}
+	//	}
+	//}
 
 	for (int i = 0; i < offsetWidth; i += interval)
 	{

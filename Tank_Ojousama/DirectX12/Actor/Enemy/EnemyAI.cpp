@@ -1,6 +1,6 @@
 #include "EnemyAI.h"
-#include "TestWayPoint.h"
-#include "WayPointManager.h"
+#include "../TestWayPoint.h"
+#include "../WayPointManager.h"
 #include "BaseEnemy.h"
 
 EnemyAI::EnemyAI(const shared_ptr<WayPointManager>& manager)
