@@ -81,7 +81,7 @@ void Result::UpdateScene()
 		}
 
 		if (!mTimer->isTime()) return;
-		if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal < 0)
+		if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
 		{
 			if (selectposition.y == 360)
 			{
@@ -91,7 +91,7 @@ void Result::UpdateScene()
 			mTimer->setTime(0.5f);
 		}
 
-		if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal > 0)
+		if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
 			if (selectposition.y == 360)
 			{
