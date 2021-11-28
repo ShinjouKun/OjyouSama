@@ -120,6 +120,21 @@ public:
 	//ジョイパッドが離れた瞬間
 	static bool getJoyUp(JoyCode joy);
 
+	//右-1,左1
+	static float getTrigger(float deadZone = 0.f);
+
+	static bool getLeftTrigger(float deadZone = 500.f);//>0
+
+	static bool getLeftTriggerDown(float deadZone = 500.f);
+
+	static bool getLeftTriggerUp(float deadZone = 500.f);
+
+	static bool getRightTrigger(float deadZone = 500.f);//<0
+
+	static bool getRightTriggerDown(float deadZone = 500.f);
+
+	static bool getRightTriggerUp(float deadZone = 500.f);
+
 	//縦
 	static int horizontal();
 	static int ArrowHorizontal();
