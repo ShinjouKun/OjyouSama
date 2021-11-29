@@ -11,12 +11,13 @@
 
 #include "../Actor/ElfRock.h"
 #include "../Actor/ElfTree.h"
-#include "../Actor/SniperEnemy.h"
-#include "../Actor/TestBoss.h"
-#include "../Actor/MortarEnemy.h"
+#include "../Actor/Enemy/SniperEnemy.h"
+#include "../Actor/Enemy/ElfTreeBoss.h"
+#include "../Actor/Enemy/MortarEnemy.h"
+#include "../Actor/Enemy/BirdEnemy.h"
 
 
-
+#include "../Actor/Block.h"
 #include "../Actor/BetaTestBlock.h"
 
 
@@ -200,12 +201,19 @@ void BossScene::StartScene()
 	//左
 	mObjManager->Add(new BetaTestBlock(Vector3(-150, 0.0f, 0.0f), Vector3(90, 90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
 
-	//岩投げの敵
-	mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
-	mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+	////岩投げの敵
+	//mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+	//mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
 
-	//ボス
-	mBoss = new TestBoss(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++);
+	//mObjManager->Add(new SniperEnemy(Vector3(0,0,-50), Vector3(0,0,0), mObjManager, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, objectCount++));
+
+	mObjManager->Add(new BirdEnemy(Vector3(100, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++));
+
+
+	//mObjManager->Add(new Block(Vector3(0, 0, -50), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, objectCount++));
+
+	////ボス
+	mBoss = new ElfTreeBoss(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 180.0f, 0.0f), mObjManager, BaseScene::mModel, BaseScene::mParticle, objectCount++);
 	mObjManager->Add(mBoss);
 
 #pragma endregion
@@ -241,7 +249,7 @@ void BossScene::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
+	//BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
 	mObjManager->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 
@@ -284,24 +292,263 @@ void BossScene::DrawScene()
 
 void BossScene::Pose()
 {
-
+	//ポーズ
+	if (pose == false && settingFlag == false)
 	{
-		//ポーズ
-		if (pose == false && settingFlag == false)
+		mObjManager->Update();
+		if (Input::getKey(KeyCode::E) || Input::getJoyDown(JoyCode::A))
 		{
-			mObjManager->Update();
-			if (Input::KeyDown(DIK_E) || Input::KeyDown(BUTTON_A))
-			{
-				itemHolder->UseItem(ItemNames::heal);
-			}
+			itemHolder->UseItem(ItemNames::heal);
+		}
 
-			if (Input::KeyDown(DIK_RETURN) || Input::pad_data.rgbButtons[11])
+		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
+		{
+			pose = true;
+		}
+	}
+	else if (pose)
+	{
+		if (selectposition.x <= 0)
+		{
+			selectposition.x = 820;
+		}
+		if (selectposition.x > 820)
+		{
+			selectposition.x = 180;
+		}
+		if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
+		{
+			if (selectposition.y == 360)
 			{
-				pose = true;
+				return;
+			}
+			selectposition.x -= 640;
+			mTimer->setTime(0.2f);
+		}
+
+		if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
+		{
+			if (selectposition.y == 360)
+			{
+				return;
+			}
+			selectposition.x += 640;
+			mTimer->setTime(0.2f);
+		}
+		if (Input::getKeyDown(KeyCode::S) || Input::joyVertical() < 0)
+		{
+			selectposition.y = 360;
+			selectposition.x = 500;
+			mTimer->setTime(0.2f);
+		}
+		if (Input::getKeyDown(KeyCode::W) || Input::joyVertical() > 0)
+		{
+			selectposition.y = 180;
+			selectposition.x = 180;
+			mTimer->setTime(0.2f);
+		}
+		if (selectposition.x == 180)
+		{
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+			{
+				NextScene(std::make_shared<Select>());
 			}
 		}
-		else if (pose)
+		if (selectposition.x == 820)
 		{
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+			{
+				settingFlag = true;
+				pose = false;
+			}
+		}
+		if (selectposition.y == 360 && selectposition.x == 500)
+		{
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+			{
+				NextScene(std::make_shared<GamePlay>());
+			}
+		}
+		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
+		{
+			pose = false;
+		}
+	}
+}
+
+void BossScene::Setting()
+{
+	if (settingFlag == true)
+	{
+		if (optionPos.y >= 541)
+		{
+			optionPos.y = 180;
+		}
+		if (optionPos.y <= 179)
+		{
+			optionPos.y = 540;
+		}
+		if (Input::getKeyDown(KeyCode::S) || Input::joyVertical() < 0)
+		{
+			optionPos += Vector3(0, 180.0f, 0);
+			mTimer->setTime(0.2f);
+		}
+		if (Input::getKeyDown(KeyCode::S) || Input::joyVertical() > 0)
+		{
+			optionPos -= Vector3(0, 180.0f, 0);
+			mTimer->setTime(0.2f);
+		}
+		//マスターボリューム
+		if (optionPos.y == 180)
+		{
+			OpFlag1 = true;
+			OpFlag2 = false;
+			OpFlag3 = false;
+			if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
+			{
+				BaseScene::mMasterSoundVol += 0.1f;
+				OpAim1.x += 48.0f;
+				OpAimA1.x += 48.0f;
+				if (OpAim1.x > 880 && OpAimA1.x > 880)
+				{
+					OpAim1.x = 880;
+					OpAimA1.x = 880;
+				}
+				if (BaseScene::mMasterSoundVol >= 1.0f)
+				{
+					BaseScene::mMasterSoundVol = 1.0f;
+				}
+				mTimer->setTime(0.2f);
+			}
+			if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
+			{
+				BaseScene::mMasterSoundVol -= 0.1f;
+				OpAim1.x -= 48.0f;
+				OpAimA1.x -= 48.0f;
+				if (OpAim1.x < 352 && OpAimA1.x < 352)
+				{
+					OpAim1.x = 352.0f;
+					OpAimA1.x = 352.0f;
+				}
+				if (BaseScene::mMasterSoundVol <= 0.0f)
+				{
+					BaseScene::mMasterSoundVol = 0.0f;
+				}
+				mTimer->setTime(0.2f);
+			}
+		}
+		//BGMボリューム
+		if (optionPos.y == 360)
+		{
+			OpFlag1 = false;
+			OpFlag2 = true;
+			OpFlag3 = false;
+			if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
+			{
+				BaseScene::mBGMSoundVol += 0.1f;
+				OpAim2.x += 48.0f;
+				OpAimA2.x += 48.0f;
+				if (OpAim2.x > 880 && OpAimA2.x > 880)
+				{
+					OpAim2.x = 880.0f;
+					OpAimA2.x = 880.0f;
+				}
+				if (BaseScene::mBGMSoundVol >= 1.0f)
+				{
+					BaseScene::mBGMSoundVol = 1.0f;
+				}
+				mTimer->setTime(0.2f);
+			}
+			if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
+			{
+				BaseScene::mBGMSoundVol -= 0.1f;
+				OpAim2.x -= 48.0f;
+				OpAimA2.x -= 48.0f;
+				if (OpAim2.x < 352 && OpAim2.x < 352)
+				{
+					OpAim2.x = 352.0f;
+					OpAimA2.x = 352.0f;
+				}
+				if (BaseScene::mBGMSoundVol <= 0.0f)
+				{
+					BaseScene::mBGMSoundVol = 0.0f;
+				}
+				mTimer->setTime(0.2f);
+			}
+		}
+		//SEボリューム
+		if (optionPos.y == 540)
+		{
+			OpFlag1 = false;
+			OpFlag2 = false;
+			OpFlag3 = true;
+			if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
+			{
+				BaseScene::mSESoundVol += 0.1f;
+				OpAim3.x += 48.0f;
+				OpAimA3.x += 48.0f;
+				if (OpAim3.x > 880 && OpAimA3.x > 880)
+				{
+					OpAim3.x = 880.0f;
+					OpAimA3.x = 880.0f;
+				}
+				if (BaseScene::mSESoundVol >= 1.0f)
+				{
+
+					BaseScene::mSESoundVol = 1.0f;
+				}
+				mTimer->setTime(0.2f);
+			}
+			if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
+			{
+				BaseScene::mSESoundVol -= 0.1f;
+				OpAim3.x -= 48.0f;
+				OpAimA3.x -= 48.0f;
+				if (OpAim3.x < 352 && OpAimA3.x < 352)
+				{
+					OpAim3.x = 352.0f;
+					OpAimA3.x = 352.0f;
+				}
+				if (BaseScene::mSESoundVol <= 0.0f)
+				{
+
+					BaseScene::mSESoundVol = 0.0f;
+				}
+				mTimer->setTime(0.2f);
+			}
+		}
+		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
+		{
+			settingFlag = false;
+		}
+
+		mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	}
+}
+
+void BossScene::ResultF()
+{
+
+	if (resultFlag == false)
+	{
+		if (mObjManager->GetGolem().GetHp() <= 0)
+		{
+			BaseScene::mMoney += 20000000;
+			NextScene(std::make_shared<Result>());
+		}
+	}
+	else if (resultFlag)
+	{
+
+		camera->GetEye();
+		camera->GetTarget();
+		camera->SetEye(camerapos);
+		camera->SetTarget(setcamerapos);
+		camerapos.x += 1;
+		time += 1;
+		if (time >= 300)
+		{
+			camerapos.x -= 1;
 			if (selectposition.x <= 0)
 			{
 				selectposition.x = 820;
@@ -310,284 +557,36 @@ void BossScene::Pose()
 			{
 				selectposition.x = 180;
 			}
-			if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+			if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
 			{
 				if (selectposition.y == 360)
 				{
 					return;
 				}
 				selectposition.x -= 640;
-				mTimer->setTime(0.2f);
 			}
 
-			if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+			if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
 			{
 				if (selectposition.y == 360)
 				{
 					return;
 				}
 				selectposition.x += 640;
-				mTimer->setTime(0.2f);
 			}
-			if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
-			{
-				selectposition.y = 360;
-				selectposition.x = 500;
-				mTimer->setTime(0.2f);
-			}
-			if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
-			{
-				selectposition.y = 180;
-				selectposition.x = 180;
-				mTimer->setTime(0.2f);
-			}
+
 			if (selectposition.x == 180)
 			{
-				if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
 				{
 					NextScene(std::make_shared<Select>());
 				}
 			}
 			if (selectposition.x == 820)
 			{
-				if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
-				{
-					settingFlag = true;
-					pose = false;
-				}
-			}
-			if (selectposition.y == 360 && selectposition.x == 500)
-			{
-				if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
 				{
 					NextScene(std::make_shared<GamePlay>());
-				}
-			}
-			if (Input::KeyDown(DIK_RETURN) || Input::KeyDown(DIK_NUMPADENTER))
-			{
-				pose = false;
-			}
-		}
-	}
-}
-
-void BossScene::Setting()
-{
-
-	{
-		if (settingFlag == true)
-		{
-			if (optionPos.y >= 541)
-			{
-				optionPos.y = 180;
-			}
-			if (optionPos.y <= 179)
-			{
-				optionPos.y = 540;
-			}
-			if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
-			{
-				optionPos += Vector3(0, 180.0f, 0);
-				mTimer->setTime(0.2f);
-			}
-			if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
-			{
-				optionPos -= Vector3(0, 180.0f, 0);
-				mTimer->setTime(0.2f);
-			}
-			//マスターボリューム
-			if (optionPos.y == 180)
-			{
-				OpFlag1 = true;
-				OpFlag2 = false;
-				OpFlag3 = false;
-				if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
-				{
-					BaseScene::mMasterSoundVol += 0.1f;
-					OpAim1.x += 48.0f;
-					OpAimA1.x += 48.0f;
-					if (OpAim1.x > 880 && OpAimA1.x > 880)
-					{
-						OpAim1.x = 880;
-						OpAimA1.x = 880;
-					}
-					if (BaseScene::mMasterSoundVol >= 1.0f)
-					{
-						BaseScene::mMasterSoundVol = 1.0f;
-					}
-					mTimer->setTime(0.2f);
-				}
-				if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
-				{
-					BaseScene::mMasterSoundVol -= 0.1f;
-					OpAim1.x -= 48.0f;
-					OpAimA1.x -= 48.0f;
-					if (OpAim1.x < 352 && OpAimA1.x < 352)
-					{
-						OpAim1.x = 352.0f;
-						OpAimA1.x = 352.0f;
-					}
-					if (BaseScene::mMasterSoundVol <= 0.0f)
-					{
-						BaseScene::mMasterSoundVol = 0.0f;
-					}
-					mTimer->setTime(0.2f);
-				}
-			}
-			//BGMボリューム
-			if (optionPos.y == 360)
-			{
-				OpFlag1 = false;
-				OpFlag2 = true;
-				OpFlag3 = false;
-				if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
-				{
-					BaseScene::mBGMSoundVol += 0.1f;
-					OpAim2.x += 48.0f;
-					OpAimA2.x += 48.0f;
-					if (OpAim2.x > 880 && OpAimA2.x > 880)
-					{
-						OpAim2.x = 880.0f;
-						OpAimA2.x = 880.0f;
-					}
-					if (BaseScene::mBGMSoundVol >= 1.0f)
-					{
-						BaseScene::mBGMSoundVol = 1.0f;
-					}
-					mTimer->setTime(0.2f);
-				}
-				if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
-				{
-					BaseScene::mBGMSoundVol -= 0.1f;
-					OpAim2.x -= 48.0f;
-					OpAimA2.x -= 48.0f;
-					if (OpAim2.x < 352 && OpAim2.x < 352)
-					{
-						OpAim2.x = 352.0f;
-						OpAimA2.x = 352.0f;
-					}
-					if (BaseScene::mBGMSoundVol <= 0.0f)
-					{
-						BaseScene::mBGMSoundVol = 0.0f;
-					}
-					mTimer->setTime(0.2f);
-				}
-			}
-			//SEボリューム
-			if (optionPos.y == 540)
-			{
-				OpFlag1 = false;
-				OpFlag2 = false;
-				OpFlag3 = true;
-				if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
-				{
-					BaseScene::mSESoundVol += 0.1f;
-					OpAim3.x += 48.0f;
-					OpAimA3.x += 48.0f;
-					if (OpAim3.x > 880 && OpAimA3.x > 880)
-					{
-						OpAim3.x = 880.0f;
-						OpAimA3.x = 880.0f;
-					}
-					if (BaseScene::mSESoundVol >= 1.0f)
-					{
-
-						BaseScene::mSESoundVol = 1.0f;
-					}
-					mTimer->setTime(0.2f);
-				}
-				if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
-				{
-					BaseScene::mSESoundVol -= 0.1f;
-					OpAim3.x -= 48.0f;
-					OpAimA3.x -= 48.0f;
-					if (OpAim3.x < 352 && OpAimA3.x < 352)
-					{
-						OpAim3.x = 352.0f;
-						OpAimA3.x = 352.0f;
-					}
-					if (BaseScene::mSESoundVol <= 0.0f)
-					{
-
-						BaseScene::mSESoundVol = 0.0f;
-					}
-					mTimer->setTime(0.2f);
-				}
-			}
-			if (Input::KeyDown(DIK_RETURN) || Input::KeyDown(DIK_NUMPADENTER))
-			{
-				settingFlag = false;
-			}
-
-			mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
-		}
-	}
-}
-
-void BossScene::ResultF()
-{
-
-	{
-
-		if (resultFlag == false)
-		{
-			if (mObjManager->GetGolem().GetHp() <= 0)
-			{
-				BaseScene::mMoney += 20000000;
-				NextScene(std::make_shared<Result>());
-			}
-		}
-		else if (resultFlag)
-		{
-
-			camera->GetEye();
-			camera->GetTarget();
-			camera->SetEye(camerapos);
-			camera->SetTarget(setcamerapos);
-			camerapos.x += 1;
-			time += 1;
-			if (time >= 300)
-			{
-				camerapos.x -= 1;
-				if (selectposition.x <= 0)
-				{
-					selectposition.x = 820;
-				}
-				if (selectposition.x > 820)
-				{
-					selectposition.x = 180;
-				}
-				if (Input::KeyDown(DIK_A) || Input::pad_data.lY < 0)
-				{
-					if (selectposition.y == 360)
-					{
-						return;
-					}
-					selectposition.x -= 640;
-				}
-
-				if (Input::KeyDown(DIK_D) || Input::pad_data.lY > 0)
-				{
-					if (selectposition.y == 360)
-					{
-						return;
-					}
-					selectposition.x += 640;
-				}
-
-				if (selectposition.x == 180)
-				{
-					if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
-					{
-						NextScene(std::make_shared<Select>());
-					}
-				}
-				if (selectposition.x == 820)
-				{
-					if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[2])
-					{
-						NextScene(std::make_shared<GamePlay>());
-					}
 				}
 			}
 		}

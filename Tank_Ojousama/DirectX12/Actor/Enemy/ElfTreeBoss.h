@@ -1,18 +1,18 @@
 #pragma once
-#include "BaseObject.h"
-#include"ObjectManager.h"
-#include "../Render/ModelRenderer.h"
-#include "../Render/ParticleManager.h"
+#include "../BaseObject.h"
+#include "../ObjectManager.h"
+#include "../../Render/ModelRenderer.h"
+#include "../../Render/ParticleManager.h"
 
 class Timer;
 class TreeRoot;
 class Sound;
 
-class TestBoss : public BaseObject
+class ElfTreeBoss : public BaseObject
 {
 public:
 
-	TestBoss(
+	ElfTreeBoss(
 		const Vector3 & position,
 		const Vector3 & angle,
 		ObjectManager * objManager,
@@ -21,7 +21,7 @@ public:
 		int num
 	);
 
-	~TestBoss();
+	~ElfTreeBoss();
 
 	bool GetDeadFlag();
 

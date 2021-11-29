@@ -1,6 +1,6 @@
 #include "CEnemy.h"
-#include "../Collision/SpherCollider.h"
-#include "../Utility/Timer/Timer.h"
+#include "../../Collision/SpherCollider.h"
+#include "../../Utility/Timer/Timer.h"
 #include "MemberEnemy.h"
 
 CEnemy::CEnemy(

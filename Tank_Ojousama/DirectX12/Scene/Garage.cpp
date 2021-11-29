@@ -102,25 +102,25 @@ void Garage::UpdateScene()
 	}
 	if (fadeF)
 	{
-		if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[3])
+		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 		{
 			fadeFB = true;
 			mSound->play();
 			mChanger->Save();
 		}
-		if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
+		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
 			keyflag -= 1;
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}		
-		if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
+		if (Input::getKey(KeyCode::S) || Input::joyVertical() < 0)
 		{
 			keyflag += 1;
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}
-		if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+		if (Input::getKey(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
 			if (ChangeFlag == false)
 			{
@@ -133,7 +133,7 @@ void Garage::UpdateScene()
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}		
-		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+		if (Input::getKey(KeyCode::A) || Input::joyHorizontal() < 0)
 		{
 			if (ChangeFlag == false)
 			{

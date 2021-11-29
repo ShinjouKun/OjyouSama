@@ -10,41 +10,42 @@
 #include "../Render/ModelRenderer.h"
 #include "../Render/TexRenderer.h"
 #include "../Render/ParticleManager.h"
+#include"../Actor/GolemEnemy.h"
 #include "../Items/ItemHolder.h"
 #include "../Items/Repair.h"
+
 #include "../Actor/Enemy/EnemyAI.h"
 
-class WayPointManager;
-class BreadCrumbCreater;
 class Sound;
 class Timer;
-class ElfTreeBoss;
+class WayPointManager;
+class BreadCrumbCreater;
 
-class BossScene :public BaseScene
+class Robbery :public BaseScene
 {
 public:
-	BossScene();
-	~BossScene();
+	Robbery();
+	~Robbery();
 
 private:
+
+	// BaseScene を介して継承されました
 	virtual void StartScene() override;
 
 	virtual void UpdateScene() override;
 
 	virtual void DrawScene() override;
+
 	//ポーズ
 	void Pose();
 	//音量設定
 	void Setting();
-	//リザルト画面
-	void ResultF();
 
-	ObjectManager* mObjManager;
-	Player* player;//プレイヤーの実体生成
 	Camera* camera;
+	ObjectManager* objM;
 	std::shared_ptr<Sound> mSound;
-	float x, y, z;
-	ItemHolder* itemHolder;
+	std::shared_ptr<Sound> mSE;
+	std::shared_ptr<Timer> mTimer;
 
 	//ポーズフラグ
 	bool pose = false;
@@ -57,8 +58,6 @@ private:
 	bool OpFlag1;
 	bool OpFlag2;
 	bool OpFlag3;
-	bool mBossDeadFlag;
-
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;
@@ -66,11 +65,9 @@ private:
 	Vector3 setcamerapos = Vector3(10, 0, 10);
 	Vector3 optionPos;
 
+	ItemHolder* itemHolder;
+
 	shared_ptr<BreadCrumbCreater>mBreadCreator;
 	shared_ptr<WayPointManager> mpointManager;
-
 	shared_ptr<EnemyAI> mEnemyAI;
-	std::shared_ptr<Timer> mTimer;
-
-	ElfTreeBoss * mBoss;
 };

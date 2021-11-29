@@ -34,4 +34,8 @@ private:
 	string name;   //キーワード登録
 	string num;    //複数用ナンバー
 	string numName;//キーワード+識別番号
+
+
+	const float mRotValue = 10.0f;
+	float rot = 0.0f;
 };

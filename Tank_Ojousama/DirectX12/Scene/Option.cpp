@@ -49,12 +49,12 @@ void Option::UpdateScene()
 	{
 		optionPos.y = 540;
 	}
-	if (Input::KeyDown(DIK_S) || Input::pad_data.lY > 0)
+	if (Input::getKeyDown(KeyCode::S) || Input::joyVertical()< 0)
 	{
 		optionPos += Vector3(0, 180.0f, 0);
 		mTimer->setTime(0.2f);
 	}
-	if (Input::KeyDown(DIK_W) || Input::pad_data.lY < 0)
+	if (Input::getKeyDown(KeyCode::W) || Input::joyVertical() > 0)
 	{
 		optionPos -= Vector3(0, 180.0f, 0);
 		mTimer->setTime(0.2f);
@@ -65,7 +65,7 @@ void Option::UpdateScene()
 		OpFlag1 = true;
 		OpFlag2 = false;
 		OpFlag3 = false;
-		if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+		if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
 			BaseScene::mMasterSoundVol += 0.1f;
 			OpAim1.x += 48.0f;
@@ -81,7 +81,7 @@ void Option::UpdateScene()
 			}
 			mTimer->setTime(0.2f);
 		}
-		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+		if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
 		{
 			BaseScene::mMasterSoundVol -= 0.1f;
 			OpAim1.x -= 48.0f;
@@ -104,7 +104,7 @@ void Option::UpdateScene()
 		OpFlag1 = false;
 		OpFlag2 = true;
 		OpFlag3 = false;
-		if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+		if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
 			BaseScene::mBGMSoundVol += 0.1f;
 			OpAim2.x += 48.0f;
@@ -120,7 +120,7 @@ void Option::UpdateScene()
 			}
 			mTimer->setTime(0.2f);
 		}
-		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+		if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
 		{
 			BaseScene::mBGMSoundVol -= 0.1f;
 			OpAim2.x -= 48.0f;
@@ -143,7 +143,7 @@ void Option::UpdateScene()
 		OpFlag1 = false;
 		OpFlag2 = false;
 		OpFlag3 = true;
-		if (Input::KeyDown(DIK_D) || Input::pad_data.lX > 0)
+		if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
 			BaseScene::mSESoundVol += 0.1f;
 			OpAim3.x += 48.0f;
@@ -160,7 +160,7 @@ void Option::UpdateScene()
 			}
 			mTimer->setTime(0.2f);
 		}
-		if (Input::KeyDown(DIK_A) || Input::pad_data.lX < 0)
+		if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
 		{
 			BaseScene::mSESoundVol -= 0.1f;
 			OpAim3.x -= 48.0f;
@@ -178,7 +178,7 @@ void Option::UpdateScene()
 			mTimer->setTime(0.2f);
 		}
 	}
-	if (Input::KeyDown(DIK_SPACE) || Input::pad_data.rgbButtons[3])
+	if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 	{
 		NextScene(std::make_shared<Select>());
 	}

@@ -1,8 +1,8 @@
 #pragma once
-#include "BaseObject.h"
-#include"ObjectManager.h"
-#include "../Render/ModelRenderer.h"
-#include "../Render/ParticleManager.h"
+#include "../BaseObject.h"
+#include"../ObjectManager.h"
+#include "../../Render/ModelRenderer.h"
+#include "../../Render/ParticleManager.h"
 
 class Timer;
 

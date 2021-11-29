@@ -25,11 +25,11 @@ void CameraEye::Update()
 {
 	ImGuiDebug();
 	velocity = Vector3(0, 0, 0);
-	if (Input::KeyState(DIK_RIGHT) || Input::pad_data.lZ > 0)
+	if (Input::getKey(KeyCode::RIGHTARROW) || Input::joyRightHorizontal() > 0)
 	{
 		angle.y += 1.0f;
 	}
-	if (Input::KeyState(DIK_LEFT) || Input::pad_data.lZ < 0)
+	if (Input::getKey(KeyCode::RIGHTARROW) || Input::joyRightHorizontal() < 0)
 	{
 		angle.y -= 1.0f;
 	}

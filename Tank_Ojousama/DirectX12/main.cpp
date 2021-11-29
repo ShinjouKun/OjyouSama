@@ -260,7 +260,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	Input* input = new Input();//インプットインスタンス生成
 	input->Init(window->GetHWND());//インプット初期化
-	input->InitGamepad(window->GetHWND());
 
 	//サウンドシステムの生成
 	auto& s = SoundSystem::instance();
@@ -283,12 +282,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//描画
 		mScene->Update();
 
-//#ifdef DEBUG
+#ifdef _DEBUG
 
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
 			1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-//#endif  DEBUG
+#endif  _DEBUG
 
 		s.update();//各updateが終わった後に音の処理を入れる
 		DirectXManager::GetInstance()->SetDrawComnd();

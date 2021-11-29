@@ -211,7 +211,7 @@ void Player::Update()
 			position -= velocity;
 		}
 		//キー押し処理
-		if (Input::KeyState(DIK_W) || Input::pad_data.lY < 0)
+		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
 			speedTime++;
 			if (speedTime >= speedLimitTime)
@@ -222,7 +222,7 @@ void Player::Update()
 			BackMove = false;
 			moveFlag = true;
 		}
-		else if (Input::KeyState(DIK_S) || Input::pad_data.lY > 0)
+		else if (Input::getKey(KeyCode::S) || Input::joyVertical() < 0)
 		{
 			speedTime++;
 			if (speedTime >= speedLimitTime)
@@ -241,17 +241,17 @@ void Player::Update()
 			}
 
 		}
-		if (Input::KeyState(DIK_D) || Input::pad_data.lX > 0)
+		if (Input::getKey(KeyCode::D)|| Input::joyHorizontal() > 0)
 		{
 			angle.y += 1.0f;
 		}
-		if (Input::KeyState(DIK_A) || Input::pad_data.lX < 0)
+		if (Input::getKey(KeyCode::A) || Input::joyHorizontal()< 0)
 		{
 			angle.y -= 1.0f;
 		}
 
 		//砲塔
-		if (Input::KeyState(DIK_UP) || Input::pad_data.lRz < 0)
+		if (Input::getKey(KeyCode::UPARROW) || Input::joyRightVertical() > 0)
 		{
 			aimPos_Y -= 4.5f;
 			CamPos_Y -= 0.04f;
@@ -271,7 +271,7 @@ void Player::Update()
 			TargetPos.y = 3.0f;
 			CamPos_Y = 1.6f;
 		}
-		if (Input::KeyState(DIK_DOWN) || Input::pad_data.lRz > 0)
+		if (Input::getKey(KeyCode::DOWNARROW) || Input::joyRightVertical()<0)
 		{
 			aimPos_Y += 4.5f;
 			CamPos_Y += 0.04f;
@@ -291,11 +291,11 @@ void Player::Update()
 			CamPos_Y = 2.5f;
 			TargetPos.y = 2.5f;
 		}
-		if (Input::KeyState(DIK_RIGHT) || Input::pad_data.lZ > 0)
+		if (Input::getKey(KeyCode::RIGHTARROW) || Input::joyRightHorizontal()>0)
 		{
 			atkAngle += cameraSpeed;
 		}
-		if (Input::KeyState(DIK_LEFT) || Input::pad_data.lZ < 0)
+		if (Input::getKey(KeyCode::LEFTARROW)|| Input::joyRightHorizontal()<0)
 		{
 			atkAngle -= cameraSpeed;
 		}
@@ -323,7 +323,7 @@ void Player::Update()
 		//カメラ更新
 		
 		
-		if(Input::KeyState(DIK_8)|| Input::pad_data.rgbButtons[4])
+		if(Input::getKeyDown(KeyCode::Q)|| Input::getJoyDown(JoyCode::LeftButton))
 		{
 			if (mTimer->isTime()) {
 				sniperShotFlag = !sniperShotFlag;
@@ -360,7 +360,7 @@ void Player::Update()
 		}
 		else
 		{
-			if (Input::KeyState(DIK_SPACE) || Input::pad_data.rgbButtons[7])//Rトリガー
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::RightButton))//Rトリガー
 			{
 				UseWeapon1();
 				bulletStock++;
@@ -379,7 +379,7 @@ void Player::Update()
 		}
 		else
 		{
-			if (Input::KeyState(DIK_LSHIFT) || Input::pad_data.rgbButtons[1])//Yボタン
+			if (Input::getKeyDown(KeyCode::LEFTSHIFT) || Input::getJoyDown(JoyCode::Y))//Yボタン
 			{
 				UseWeapon2();
 				bulletStock++;
@@ -500,6 +500,9 @@ void Player::OnCollison(BaseCollider* col)
 
 void Player::ImGuiDebug()
 {
+#ifdef _DEBUG
+
+
 
 	float pos[3] = { position.x,position.y,position.z };
 	ImGui::SliderFloat3("PlayerPosition", pos, 0, 10000.0f);
@@ -519,4 +522,6 @@ void Player::ImGuiDebug()
 	ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
 	ImGui::SliderFloat("SPEED", &speed, 0, 100);
 	ImGui::SliderInt("SPEEDTime", &speedTime, 0, 100);
+
+#endif  _DEBUG
 }

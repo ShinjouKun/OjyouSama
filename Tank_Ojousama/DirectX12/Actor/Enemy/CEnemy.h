@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseEnemy.h"
-#include "../Render/ParticleManager.h"
+#include "../../Render/ParticleManager.h"
 
 class Timer;
 class MemberEnemy;
