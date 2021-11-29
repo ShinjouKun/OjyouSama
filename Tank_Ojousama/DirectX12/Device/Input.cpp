@@ -22,6 +22,7 @@ LPDIRECTINPUTEFFECT Input::mEffectDevice = nullptr;
 DWORD Input::mEffectNumForceedbackAxis;
 
 HWND Input::mHwnd;
+int Input::frameCount = 0;
 //
 
 ComPtr<IDirectInputDevice8> Input::devKeyboard = nullptr;
@@ -122,7 +123,11 @@ void Input::Update()
 	}
 	else
 	{
-		joyInit();
+		if (60 < frameCount++)
+		{
+			frameCount = 0;
+			joyInit();
+		}
 	}
 
 	return;

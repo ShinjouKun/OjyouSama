@@ -222,6 +222,8 @@ private:
 	//コントローラー初期化
 	static HRESULT joyInit();
 
+	static int frameCount;
+
 public:
 	static LPDIRECTINPUT8 mDinput;//キーボードデバイス
 	static LPDIRECTINPUTDEVICE8 mPadDevice;//ゲームパッドデバイス
