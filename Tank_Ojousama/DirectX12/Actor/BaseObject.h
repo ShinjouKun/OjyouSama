@@ -25,6 +25,7 @@ enum ObjectType//オブジェクトのタグ
 	ITEMBOX,
 	DEFENCEPOINT,
 	TREASURE,
+	SMOKE,
 };
 
 class BaseObject
