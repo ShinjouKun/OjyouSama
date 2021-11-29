@@ -203,7 +203,7 @@ bool Input::getLeftTriggerUp(float deadZone)
 
 bool Input::getRightTrigger(float deadZone)
 {
-	if (static_cast<float>(mCurrentJoyState.lZ) < deadZone)
+	if (static_cast<float>(mCurrentJoyState.lZ) < -deadZone)
 	{
 		return true;
 	}
@@ -212,12 +212,12 @@ bool Input::getRightTrigger(float deadZone)
 
 bool Input::getRightTriggerDown(float deadZone)
 {
-	return (static_cast<float>(mCurrentJoyState.lZ) < deadZone && !(static_cast<float>(mPreviousJoyState.lZ) < deadZone));
+	return (static_cast<float>(mCurrentJoyState.lZ) < -deadZone && !(static_cast<float>(mPreviousJoyState.lZ) < -deadZone));
 }
 
 bool Input::getRightTriggerUp(float deadZone)
 {
-	return (!(static_cast<float>(mCurrentJoyState.lZ) < deadZone) && static_cast<float>(mPreviousJoyState.lZ) < deadZone);
+	return (!(static_cast<float>(mCurrentJoyState.lZ) < -deadZone) && static_cast<float>(mPreviousJoyState.lZ) < -deadZone);
 }
 
 int Input::horizontal()
