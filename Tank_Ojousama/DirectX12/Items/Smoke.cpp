@@ -1,4 +1,5 @@
 #include "Smoke.h"
+#include "../Collision/SpherCollider.h"
 
 Smoke::Smoke(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, ItemHolder * holder, ItemState itemStates, int num, int maxAlive, int addHp)
 {
@@ -73,6 +74,11 @@ void Smoke::ImGuiDebug()
 
 void Smoke::OnCollison(BaseCollider * col)
 {
+	if (col->GetColObject()->GetType() == ObjectType::PLAYER)
+	{
+		itemHolder->AddItem(itemName);
+		isGet = true;
+	}
 }
 
 void Smoke::Smoker()
