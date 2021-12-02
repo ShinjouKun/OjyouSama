@@ -84,7 +84,7 @@ void Robbery::StartScene()
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 
-	objM->Add(new Player(Vector3(0.0f, 0.0f, 70.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	objM->Add(new Player(Vector3(0.0f, 0.0f, 70.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,2));
 	objM->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), objM));
 	mTimer = std::make_shared<Timer>(0.01f);
 }

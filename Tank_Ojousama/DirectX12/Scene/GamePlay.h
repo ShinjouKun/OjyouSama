@@ -80,7 +80,7 @@ private:
 	shared_ptr<EnemyAI> mEnemyAI;
 	std::shared_ptr<Timer> mTimer;
 
-
+	Camera* cam;
 	bool spawnFlag;//ˆê”Ô–Ú
 	bool spawnFlag2;//“ñ”Ô
 	bool spawnFlag3;//ŽO”Ô

@@ -17,22 +17,80 @@
 #include"../Utility/Sequence/Sequence.h"
 #include"../Utility/ModelChanger.h"
 #define ToRad(deg)((deg)*(PI/180.0f))
-Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
+Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s,int sceneE)
 	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
 	listener(std::make_shared<Listener>())
 {
 	position = pos;
 	angle = ang;
 	objM = obj;
+	sceneEffectNum = sceneE;
 }
 
 Player::~Player()
 {
 }
 
-void Player::SetCamEye()
+void Player::StartCamScene()
+{
+	sceneCount++;
+	switch (sceneEffectNum)
+	{
+	case 1:
+		//殲滅戦
+		position = Vector3(0, 0, -130);
+		sceneCamPos = Vector3(120, 80, -130);
+		camera->SetEye(Vector3(sceneCamPos.x,sceneCamPos.y,position.z));
+		camera->SetTarget(Vector3(0, 0, position.z));
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	default:
+		break;
+	}
+	
+}
+
+void Player::SceneCamMove1()
 {
 	
+	if (position.z >= 520)
+	{
+		sceneCamPlayerOk = true;
+		if (sceneCamPos.x <= 0)
+		{
+			sceneCamOk = true;
+		}
+		else
+		{
+			sceneCamPos.x -= 3.0f;
+			sceneCamPos.y -= 2.0f;
+			camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
+			camera->SetTarget(Vector3(0, 0, position.z));
+		}
+	}
+	else
+	{
+		position.z += 4.0f;
+		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
+		camera->SetTarget(Vector3(0, 0, position.z));
+	}
+}
+
+void Player::SceneCamMove2()
+{
+}
+
+void Player::SceneCamMove3()
+{
+}
+
+void Player::SceneCamMove4()
+{
 }
 
 
@@ -135,7 +193,8 @@ void Player::Init()
 	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
 	//playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
 	//HP
-	HP = 100;
+	maxHP = 100;
+	HP = maxHP;
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");
@@ -161,7 +220,9 @@ void Player::Init()
 	HitFlag = false;
 	sniperShotFlag = false;
 	HitCount = 0;
-	
+	sceneCount = 0;
+	sceneCamOk = false;
+	sceneCamPlayerOk = false;
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 
 	//コライダーの情報をセット
@@ -169,6 +230,8 @@ void Player::Init()
 	ojyouY = 0.0f;
 	ojyouXR = 0.0f;
 	ojyouXL = 0.0f;
+
+	StartCamScene();//演出決定
 	//SetCollidder(Vector3(position.x, position.y, position.z), Vector3(2.0f,2.0f,2.0f));
 }
 
@@ -177,7 +240,29 @@ void Player::Update()
 	mTimer->update();
 
 	mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
-	if (!GameOver)
+	//シーン演出 
+#pragma region シーン
+	switch (sceneEffectNum&&!sceneCamOk)
+	{
+	case 1:
+		SceneCamMove1();
+		break;
+	case 2:
+		SceneCamMove2();
+		break;
+	case 3:
+		SceneCamMove3();
+		break;
+	case 4:
+		SceneCamMove4();
+		break;
+	default:
+		break;
+	}
+#pragma endregion
+	
+	
+	if (!GameOver&&sceneCamOk)
 	{
 		if (HP <= 0)
 		{
@@ -406,7 +491,7 @@ void Player::Rend()
 	ojyouXL += 10.0f;
 	ojyouY -= 10.0f;
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	if (!sniperShotFlag)
+	if (!sniperShotFlag&&sceneCamPlayerOk)
 	{
 		playerModel->Draw(modelChanger->GetModelName(3), Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 		playerModel->Draw(modelChanger->GetModelName(4), Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
@@ -433,28 +518,7 @@ void Player::Rend()
 	{
 		playerSprite->Draw("AIM_S", Vector3(0,0,0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
-	//playerSprite->Draw("UI", Vector3(0, 0, 0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
-	/*
-		switch (HP)
-		{
-		case 3:
-			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			playerSprite->Draw("Life2", Vector3(45, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			playerSprite->Draw("Life3", Vector3(90, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			break;
-		case 2:
-			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			playerSprite->Draw("Life2", Vector3(45, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			break;
-		case 1:
-			playerSprite->Draw("Life1", Vector3(0, 20, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-			break;
-		case 0:
-			GameOver = true;
-			break;
-		default:
-			break;
-		}*/
+	
 	if (GameOver)
 	{
 		

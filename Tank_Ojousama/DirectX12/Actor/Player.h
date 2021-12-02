@@ -17,9 +17,14 @@ using namespace std;
 class Player :public BaseObject
 {
 public:
-	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p,shared_ptr<TexRenderer>s);
+	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p,shared_ptr<TexRenderer>s,int sceneEffect);
 	~Player();
-	void SetCamEye();
+	void StartCamScene();
+	void SceneCamMove1();//殲滅
+	void SceneCamMove2();//強奪
+	void SceneCamMove3();//防衛
+	void SceneCamMove4();//ボス
+
 	void UseWeapon1();//兵装１
 	void UseWeapon2();//兵装２
 	void UseULT();//アルティメット
@@ -60,6 +65,7 @@ private:
 	Vector3 AIMPos;
 	//ステータス
 	//int HP;
+	int maxHP;
 	bool GameOver = false;
 	int bulletStock;//弾をいっぱいだすため
 	float atkAngle;//砲塔用//描画
@@ -74,8 +80,11 @@ private:
 	float ojyouXR;
 	float ojyouXL;
 	float aimPos_Y;
-	
-	
+	int sceneEffectNum;
+	int sceneCount;
+	bool sceneCamOk;
+	Vector3 sceneCamPos;
+	bool sceneCamPlayerOk;
 	//サウンド
 
 	// BaseObject を介して継承されました
