@@ -22,6 +22,7 @@ LPDIRECTINPUTEFFECT Input::mEffectDevice = nullptr;
 DWORD Input::mEffectNumForceedbackAxis;
 
 HWND Input::mHwnd;
+int Input::frameCount = 0;
 //
 
 ComPtr<IDirectInputDevice8> Input::devKeyboard = nullptr;
@@ -122,7 +123,11 @@ void Input::Update()
 	}
 	else
 	{
-		joyInit();
+		if (60 < frameCount++)
+		{
+			frameCount = 0;
+			joyInit();
+		}
 	}
 
 	return;
@@ -169,6 +174,55 @@ bool Input::getJoy(JoyCode joy)
 bool Input::getJoyUp(JoyCode joy)
 {
 	return (!(mCurrentJoyState.rgbButtons[static_cast<int>(joy)] & 0x80) && mPreviousJoyState.rgbButtons[static_cast<int>(joy)] & 0x80);
+}
+
+float Input::getTrigger(float deadZone)
+{
+	//ç≈ëÂ1Ç≈ï‘Ç∑ÇΩÇﬂ1000Ç≈äÑÇÈ
+	if (Math::abs(static_cast<float>(mCurrentJoyState.lZ)) > deadZone)
+	{
+		return mCurrentJoyState.lZ / 1000.f;
+	}
+	return 0.f;
+}
+
+bool Input::getLeftTrigger(float deadZone)
+{
+	//ç≈ëÂ1Ç≈ï‘Ç∑ÇΩÇﬂ1000Ç≈äÑÇÈ
+	if (static_cast<float>(mCurrentJoyState.lZ) > deadZone)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Input::getLeftTriggerDown(float deadZone)
+{
+	return (static_cast<float>(mCurrentJoyState.lZ) > deadZone && !(static_cast<float>(mPreviousJoyState.lZ) > deadZone));
+}
+
+bool Input::getLeftTriggerUp(float deadZone)
+{
+	return (!(static_cast<float>(mCurrentJoyState.lZ) > deadZone) && static_cast<float>(mPreviousJoyState.lZ) > deadZone);
+}
+
+bool Input::getRightTrigger(float deadZone)
+{
+	if (static_cast<float>(mCurrentJoyState.lZ) < -deadZone)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Input::getRightTriggerDown(float deadZone)
+{
+	return (static_cast<float>(mCurrentJoyState.lZ) < -deadZone && !(static_cast<float>(mPreviousJoyState.lZ) < -deadZone));
+}
+
+bool Input::getRightTriggerUp(float deadZone)
+{
+	return (!(static_cast<float>(mCurrentJoyState.lZ) < -deadZone) && static_cast<float>(mPreviousJoyState.lZ) < -deadZone);
 }
 
 int Input::horizontal()
@@ -223,40 +277,40 @@ int Input::ArrowVertical()
 	}
 }
 
-float Input::joyHorizontal(float num)
+float Input::joyHorizontal(float deadZone)
 {
 	//ç≈ëÂ1Ç≈ï‘Ç∑ÇΩÇﬂ1000Ç≈äÑÇÈ
-	if (Math::abs(static_cast<float>(mCurrentJoyState.lX)) > num)
+	if (Math::abs(static_cast<float>(mCurrentJoyState.lX)) > deadZone)
 	{
 		return mCurrentJoyState.lX / 1000.f;
 	}
 	return 0.f;
 }
 
-float Input::joyVertical(float num)
+float Input::joyVertical(float deadZone)
 {
 	//Ç»Ç∫Ç©îΩì]ÇµÇƒÇÈÇ©ÇÁ
-	if (Math::abs(static_cast<float>(mCurrentJoyState.lY)) > num)
+	if (Math::abs(static_cast<float>(mCurrentJoyState.lY)) > deadZone)
 	{
 		return -mCurrentJoyState.lY / 1000.f;
 	}
 	return 0.f;
 }
 
-float Input::joyRightHorizontal(float num)
+float Input::joyRightHorizontal(float deadZone)
 {
 	//ç≈ëÂ1Ç≈ï‘Ç∑ÇΩÇﬂ1000Ç≈äÑÇÈ
-	if (Math::abs(static_cast<float>(mCurrentJoyState.lRx)) > num)
+	if (Math::abs(static_cast<float>(mCurrentJoyState.lRx)) > deadZone)
 	{
 		return mCurrentJoyState.lRx / 1000.f;
 	}
 	return 0.f;
 }
 
-float Input::joyRightVertical(float num)
+float Input::joyRightVertical(float deadZone)
 {
 	//Ç»Ç∫Ç©îΩì]ÇµÇƒÇÈÇ©ÇÁ
-	if (Math::abs(static_cast<float>(mCurrentJoyState.lRy)) > num)
+	if (Math::abs(static_cast<float>(mCurrentJoyState.lRy)) > deadZone)
 	{
 		return -mCurrentJoyState.lRy / 1000.f;
 	}
