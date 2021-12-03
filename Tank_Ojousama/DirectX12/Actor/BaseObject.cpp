@@ -111,6 +111,11 @@ void BaseObject::SetID(size_t id)
 	AiID = id;
 }
 
+void BaseObject::SetTresureGet(bool val)
+{
+	getTreasure = val;
+}
+
 void BaseObject::SetActive(bool val)
 {
 	IsActive = val;

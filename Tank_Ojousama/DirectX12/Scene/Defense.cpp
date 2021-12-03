@@ -155,7 +155,7 @@ void Defense::StartScene()
 
 
 
-	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,3));
 	objM->Add(new CameraEye(Vector3(0, 0.0f, 180), Vector3(0, 0, 0), objM));
 
 }
@@ -178,7 +178,6 @@ void Defense::UpdateScene()
 	{
 		Wave3();
 	}
-	ImGui::SliderInt("Death", &enemyDeath, 0, 10000);
 	mTimer->update();
 	if (!mTimer->isTime()) return;
 	Pose();
@@ -333,11 +332,6 @@ void Defense::Pose()
 	if (pose == false && settingFlag == false)
 	{
 		objM->Update();
-		if (Input::getKey(KeyCode::E) || Input::getJoyDown(JoyCode::A))
-		{
-			itemHolder->UseItem(ItemNames::heal);
-		}
-
 		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
 		{
 			pose = true;

@@ -59,6 +59,8 @@ public:
 	virtual Vector3 GetPosition() { return position; }
 	virtual Vector3 GetAngle() { return angle; }
 	virtual bool GetActive() { return IsActive; }
+	virtual bool GetTreasure() {return getTreasure;}
+	void SetTresureGet(bool val);
 	void SetActive(bool val);
 	void SetNumber(int num);
 	int GetNumber();
@@ -70,6 +72,7 @@ public:
 	void SetID(size_t id);
 	size_t AiID;//AI番号
 protected:
+	bool getTreasure;//クリアに必要なアイテムを確保したか？
 	ObjectType objType;
 	int HP;
 	bool death;//死んでいるか

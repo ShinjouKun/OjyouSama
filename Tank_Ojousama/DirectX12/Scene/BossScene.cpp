@@ -218,7 +218,7 @@ void BossScene::StartScene()
 
 #pragma endregion
 
-	mObjManager->Add(new Player(Vector3(0.0f, 0.0f, 70.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	mObjManager->Add(new Player(Vector3(0.0f, 0.0f, 70.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,4));
 	mObjManager->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), mObjManager));
 	mTimer = std::make_shared<Timer>(0.01f);
 }
@@ -296,10 +296,7 @@ void BossScene::Pose()
 	if (pose == false && settingFlag == false)
 	{
 		mObjManager->Update();
-		if (Input::getKey(KeyCode::E) || Input::getJoyDown(JoyCode::A))
-		{
-			itemHolder->UseItem(ItemNames::heal);
-		}
+		
 
 		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
 		{

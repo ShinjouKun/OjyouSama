@@ -70,12 +70,14 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	{
 		if (state[1] != "Midium")
 		{
+			SetHP(150);
 			body = BodyState::Heavy;
 			playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
 			modelKey[3] = "TankA";
 		}
 		else
 		{
+			SetHP(100);
 			body = BodyState::Midium;
 			playerModel->AddModel("TankPlayerC", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
 			modelKey[3] = "TankPlayerC";
@@ -83,6 +85,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	}
 	else
 	{
+		SetHP(70);
 		body = BodyState::Light;
 		playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
 		modelKey[3] = "TankA";
@@ -93,12 +96,14 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	{
 		if (state[2] != "Midium_b")
 		{
+			SetSpeed(0.3f);
 			bottom = BottomState::Heavy_b;
 			playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
 			modelKey[4] = "TankB";
 		}
 		else
 		{
+			SetSpeed(0.5f);
 			bottom = BottomState::Midium_b;
 			playerModel->AddModel("TankPlayerD", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
 			modelKey[4] = "TankPlayerD";
@@ -106,6 +111,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	}
 	else
 	{
+		SetSpeed(0.8f);
 		bottom = BottomState::Light_b;
 		playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
 		modelKey[4] = "TankB";
@@ -152,12 +158,15 @@ void ModelChanger::Save()
 	{
 	case Light_b:
 		state[2] = "Light_b";
+		
 		break;
 	case Midium_b:
 		state[2] = "Midium_b";
+	
 		break;
 	case Heavy_b:
 		state[2] = "Heavy_b";
+		
 		break;
 	default:
 		state[2] = "Light_b";
@@ -182,6 +191,16 @@ void ModelChanger::ChangeBody(BodyState bodyState)
 void ModelChanger::ChangeBottom(BottomState bottomState)
 {
 	bottom = bottomState;
+}
+
+void ModelChanger::SetHP(int value)
+{
+	hp = value;
+}
+
+void ModelChanger::SetSpeed(float value)
+{
+	speed = value;
 }
 
 string ModelChanger::GetModelName(int num)
