@@ -10,9 +10,7 @@ public:
 	ItemHolder();
 	~ItemHolder();
 
-	void Init();
-	void Update();
-	void Reset();
+	static ItemHolder* GetInstance();
 	void UseItem();
 	void AddItem(ItemNames item);
 	void UseUlt();
@@ -20,6 +18,13 @@ public:
 
 	void SetUseFlag(bool value);
 	bool GetUseFlag() { return useItems; };
+
+private:
+
+	void Init();
+	void Update();
+	void Reset();
+	
 
 private:
 	//ƒAƒCƒeƒ€‚Ì•Û”

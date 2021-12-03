@@ -1,7 +1,7 @@
 #include "Repair.h"
 #include "../Collision/SpherCollider.h"
 
-Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemState itemStates, int number, int maxAlive, int addHp):ItemModel(m)
+Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemState itemStates, int number, int maxAlive, int addHp):ItemModel(m)
 {
 	position = pos;
 	angle = ang;
@@ -9,7 +9,6 @@ Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, share
 	objType = ObjectType::ITEM;
 	itemName = ItemNames::heal;
 	itemState = itemStates;
-	itemHolder = holder;
 	alive_max = maxAlive;
 	healPoint = addHp;
 	num = number;
@@ -52,7 +51,7 @@ void Repair::Update()
 		death = true;
 	}
 
-	if (itemHolder->GetUseFlag())
+	if (ItemHolder::GetInstance()->GetUseFlag())
 	{
 		active = true;
 	}
@@ -77,7 +76,7 @@ void Repair::OnCollison(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::PLAYER)
 	{
-		itemHolder->AddItem(itemName);
+		ItemHolder::GetInstance()->AddItem(itemName);
 		isGet = true;
 	}
 }
@@ -93,6 +92,6 @@ void Repair::Heal()
 	
 	objM->GetPlayer().SetHP(saveHP);
 	active = false;
-	itemHolder->SetUseFlag(false);
+	ItemHolder::GetInstance()->SetUseFlag(false);
 	death = true;
 }

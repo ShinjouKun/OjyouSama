@@ -58,16 +58,16 @@ void ItemBox::ItemSpawn()
 	switch (itemNum)
 	{
 	case 1:
-		objM->Add(new Repair(position, angle, objM, ItemModel, iHolder, Low, number, itemAlive, addHp));
+		objM->Add(new Repair(position, angle, objM, ItemModel, Low, number, itemAlive, addHp));
 		break;
 	case 2:
-		objM->Add(new Repair(position, angle, objM, ItemModel, iHolder, High, number, itemAlive, addHp));
+		objM->Add(new Repair(position, angle, objM, ItemModel, High, number, itemAlive, addHp));
 		break;
 	case 3:
-		objM->Add(new Shield(position, angle, objM, ItemModel, iHolder, Low, number, itemAlive, addHp));
+		objM->Add(new Shield(position, angle, objM, ItemModel, Low, number, itemAlive, addHp));
 		break;
 	case 4:
-		objM->Add(new Shield(position, angle, objM, ItemModel, iHolder, High, number, itemAlive, addHp));
+		objM->Add(new Shield(position, angle, objM, ItemModel, High, number, itemAlive, addHp));
 		break;
 	default:
 		break;
