@@ -45,10 +45,17 @@ public:
 	BodyState GetBodyState() { return body; }
 	BottomState GetBottomState() { return bottom; }
 
+	void SetHP(int value);//体力
+	int GetHP() { return hp; }
+	void SetSpeed(float value);//速度
+	float GetSpeed() { return speed; }
+
 	string GetModelName(int num);//0～2お嬢様,3戦車(砲塔）,4戦車(車体）
 
-
+	int hp;
+	float speed;
 private:
+	
 	std::vector<std::string> state{ 3 };
 	std::vector<std::string> modelKey{ 5 };
 	HeadState head;

@@ -332,11 +332,6 @@ void Defense::Pose()
 	if (pose == false && settingFlag == false)
 	{
 		objM->Update();
-		if (Input::getKey(KeyCode::E) || Input::getJoyDown(JoyCode::A))
-		{
-			itemHolder->UseItem(ItemNames::heal);
-		}
-
 		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
 		{
 			pose = true;

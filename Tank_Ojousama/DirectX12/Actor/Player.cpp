@@ -121,7 +121,7 @@ void Player::UseULT()
 
 void Player::Item()
 {
-	item->SetUseFlag(true);
+	item->UseItem();
 }
 
 void Player::AngleReset()
@@ -178,9 +178,9 @@ void Player::Init()
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
 	//HP
-	maxHP = 100;
+	maxHP = modelChanger->GetHP();
 	HP = maxHP;
-	maxSpeed = 0.5f;
+	maxSpeed = modelChanger->GetSpeed();
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");
@@ -390,8 +390,11 @@ void Player::Update()
 		{
 			position.z = -250;
 		}
-		//ÉJÉÅÉâçXêV
-		
+	
+		if (Input::getKeyDown(KeyCode::E) || Input::getJoyDown(JoyCode::X))
+		{
+			Item();
+		}
 		
 		if(Input::getKeyDown(KeyCode::Q)|| Input::getJoyDown(JoyCode::LeftButton))
 		{

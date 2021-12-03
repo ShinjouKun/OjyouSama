@@ -428,9 +428,9 @@ void GamePlay::Pose()
 	if (pose == false && settingFlag == false)
 	{
 		objM->Update();
-	/*	if (Input::getKey(KeyCode::E) || Input::getJoyDown(JoyCode::A))
+		/*if (Input::getKey(KeyCode::E) || Input::getJoyDown(JoyCode::A))
 		{
-			itemHolder->UseItem(ItemNames::heal);
+			itemHolder->UseItem();
 		}*/
 
 		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
