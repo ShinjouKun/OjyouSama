@@ -28,6 +28,9 @@ public:
 	~Robbery();
 
 private:
+	void StartWayEnemySpown();//行き道
+	void BackWayEnemySpown();//帰り道(帰りは複数で激し目でもいい)
+
 
 	// BaseScene を介して継承されました
 	virtual void StartScene() override;
@@ -46,7 +49,12 @@ private:
 	std::shared_ptr<Sound> mSound;
 	std::shared_ptr<Sound> mSE;
 	std::shared_ptr<Timer> mTimer;
-
+	//ゲーム進行管理用
+	bool treasureGet = false;//目標を入力しているか？
+	bool goalFlag = false;//ゴールにいるか？
+	float goalLine;//ゴールのZ地点
+	bool startSpownFlag = false;
+	bool backSpownFlag = false;
 	//ポーズフラグ
 	bool pose = false;
 	//設定フラグ

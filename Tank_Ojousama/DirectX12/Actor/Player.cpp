@@ -16,6 +16,7 @@
 #include"../Scene/BaseScene.h"
 #include"../Utility/Sequence/Sequence.h"
 #include"../Utility/ModelChanger.h"
+#include"../Items/ItemHolder.h"
 #define ToRad(deg)((deg)*(PI/180.0f))
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s,int sceneE)
 	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
@@ -120,6 +121,7 @@ void Player::UseULT()
 
 void Player::Item()
 {
+	item->SetUseFlag(true);
 }
 
 void Player::AngleReset()
@@ -173,37 +175,19 @@ void Player::Init()
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
 	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
 	//model
-	//戦車
-	//playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
-	//playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
-	///*playerModel->AddModel("TankA", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
-	//playerModel->AddModel("TankB", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");*/
-	////お嬢様
-	//playerModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
-	//playerModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
-	//playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
-	//playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
-	//playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
-	//playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
-
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
-
-	//playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
-	//playerParticleBox->LoadAndSet("KemuriL","Resouse/tuti.jpg");
-	//playerParticleBox->LoadAndSet("KemuriR", "Resouse/tuti.jpg");
 	//HP
 	maxHP = 100;
 	HP = maxHP;
+	maxSpeed = 0.5f;
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	playerSprite->AddTexture("AIM_S", "Resouse/croshear.png");
-	/*playerSprite->AddTexture("Life1", "Resouse/TankAicn.png");
-	playerSprite->AddTexture("Life2", "Resouse/TankAicn.png");
-	playerSprite->AddTexture("Life3", "Resouse/TankAicn.png");
-	playerSprite->AddTexture("HIT", "Resouse/hit.png");*/
+	
 	death = false;
+	SetTresureGet(false);//宝未入手
 	objType = ObjectType::PLAYER;
 	CamPos_Y = 2.5f;
 	TargetPos.y = 2.5f;
@@ -212,7 +196,7 @@ void Player::Init()
 	aimPos_Y = 360.0f;
 	fireAngle = 0.0f;
 	speed = 0.0f;
-	maxSpeed = 0.5f;
+	
 	speedTime = 0.0f;
 	speedLimitTime = 10.0f;
 	cameraSpeed = 1.0f;
@@ -231,6 +215,7 @@ void Player::Init()
 	ojyouXR = 0.0f;
 	ojyouXL = 0.0f;
 
+	item = new ItemHolder();
 	StartCamScene();//演出決定
 	//SetCollidder(Vector3(position.x, position.y, position.z), Vector3(2.0f,2.0f,2.0f));
 }
@@ -501,11 +486,6 @@ void Player::Rend()
 		playerModel->Draw(modelChanger->GetModelName(2), Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
 	}
 
-	//if (moveFlag)
-	//{
-	//	playerParticleBox->EmitterUpdateUpGas("KemuriL", Vector3(position.x - 0.8f, position.y+0.5f, position.z + 1.8f), Vector3(angle.x, angle.y, angle.z));
-	//	playerParticleBox->EmitterUpdateUpGas("KemuriR", Vector3(position.x + 0.8f, position.y+0.5f, position.z + 1.8f), Vector3(angle.x, angle.y, angle.z));
-	//}
 
 	DirectXManager::GetInstance()->SetData2D();
 	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
@@ -557,8 +537,11 @@ void Player::OnCollison(BaseCollider* col)
 		{
 			position += velocity;//後方移動のみ
 		}
-		DirectXManager::GetInstance()->SetData2D();
+	}
 
+	if (!getTreasure&&col->GetColObject()->GetType() == ObjectType::TREASURE)
+	{
+		SetTresureGet(true);//宝ゲット
 	}
 }
 

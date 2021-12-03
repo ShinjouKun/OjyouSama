@@ -26,6 +26,16 @@ Robbery::~Robbery()
 	delete objM;//重要
 }
 
+void Robbery::StartWayEnemySpown()
+{
+	startSpownFlag = true;
+}
+
+void Robbery::BackWayEnemySpown()
+{
+	backSpownFlag = true;
+}
+
 void Robbery::StartScene()
 {
 	objM = new ObjectManager();
@@ -83,8 +93,17 @@ void Robbery::StartScene()
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	//フラグ系
+	goalFlag = false;
+	treasureGet = false;
+	startSpownFlag = false;
+	backSpownFlag = false;
 
-	objM->Add(new Player(Vector3(0.0f, 0.0f, 70.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,2));
+	goalLine = 500.0f;
+	//とりあえず行きのスポーン
+	StartWayEnemySpown();
+
+	objM->Add(new Player(Vector3(0.0f, 0.0f, 450.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,2));
 	objM->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), objM));
 	mTimer = std::make_shared<Timer>(0.01f);
 }
@@ -96,9 +115,28 @@ void Robbery::UpdateScene()
 	mBreadCreator->DropBreadCrumb();
 	mEnemyAI->Update();
 	mTimer->update();
+	
 	if (!mTimer->isTime()) return;
 	Pose();
 	Setting();
+
+	if (objM->GetPlayer().GetTreasure())
+	{
+		treasureGet = true;//宝をゲット
+	}
+	if (treasureGet && !backSpownFlag)
+	{
+		BackWayEnemySpown();//帰り道
+	}
+	if (treasureGet&&objM->GetPlayer().GetPosition().z >= goalLine)
+	{
+		goalFlag = true;
+	}
+	//シーン処理
+	if (goalFlag)
+	{
+		//クリア
+	}
 }
 
 void Robbery::DrawScene()
@@ -108,12 +146,16 @@ void Robbery::DrawScene()
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
 
 
-	BaseScene::mModel->Draw("KabeR2", Vector3(-160.0f, 60.0f, 200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL2", Vector3(160.0f, 60.0f, 200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeR", Vector3(-160.0f, 60.0f, 400.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL", Vector3(160.0f, 60.0f, 400.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeF", Vector3(100.0f, 60.0f, 180.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeF2", Vector3(-100.0f, 60.0f, 180.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR4", Vector3(-170.0f, 60.0f, -200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL4", Vector3(170.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR3", Vector3(-170.0f, 60.0f, 0.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL3", Vector3(170.0f, 60.0f, 0.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR2", Vector3(-170.0f, 60.0f, 200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL2", Vector3(170.0f, 60.0f, 200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR", Vector3(-170.0f, 60.0f, 400.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL", Vector3(170.0f, 60.0f, 400.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeF", Vector3(100.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeF2", Vector3(-100.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
 
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
