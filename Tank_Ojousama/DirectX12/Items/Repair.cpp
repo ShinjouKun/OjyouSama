@@ -94,4 +94,5 @@ void Repair::Heal()
 	objM->GetPlayer().SetHP(saveHP);
 	active = false;
 	itemHolder->SetUseFlag(false);
+	death = true;
 }

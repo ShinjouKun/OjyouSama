@@ -97,6 +97,7 @@ void Shield::Guade()
 	if (guadePoint <= 0)
 	{
 		active = false;
+		death = true;
 	}
 
 }
