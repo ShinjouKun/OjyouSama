@@ -1,8 +1,6 @@
 #include "BlowEnemy.h"
-#include "../../Collision/SpherCollider.h"
 #include "../../ConstInfomation/Enemy/EnemyConstInfo.h"
 #include "../../ConstInfomation/Enemy/BlowEnemyConstInfo.h"
-#include "../../Utility/Random.h"
 
 namespace ECI = EnemyConstInfo;
 namespace BECI = BlowEnemyConstInfo;
@@ -10,17 +8,16 @@ namespace BECI = BlowEnemyConstInfo;
 BlowEnemy::BlowEnemy(
 	const Vector3 & pos,
 	const Vector3 & ang,
-	ObjectManager * objM,
-	shared_ptr<ModelRenderer> modelRender,
-	shared_ptr<TexRenderer> texRender,
-	shared_ptr<ParticleManager> effect,
-	int num
-) :modelRender(modelRender), effectManager(effect)
+	int num,
+	bool advanceFlag,
+	const Vector3& advanceDirection
+)
 {
 	position = pos;
 	angle = ang;
-	objManager = objM;
-	number = num;
+	mOriginNumber = num;
+	mAdvanceFlag = advanceFlag;
+	mAdvanceDirection = advanceDirection;
 }
 
 BlowEnemy::~BlowEnemy()
@@ -37,11 +34,11 @@ void BlowEnemy::EnemyInit()
 	attackTime = ECI::ATTACK_TIME * BECI::ATTACK_TIME * 60;
 
 	speed = ECI::MOVE_SPEED * BECI::MOVE_SPEED;
-	radius = ECI::RADIUS * BECI::RADIUS;
-	swingRange = ECI::SWING_RANGE * BECI::SWING_RANGE;
-	barrelAngle = BECI::FAN_RANGE;
-	turretAngle = 0.0f;
-	attackLength = ECI::ATTACK_LENGTH * BECI::ATTACK_LENGTH;
+	mRadius = ECI::RADIUS * BECI::RADIUS;
+	mSwingRange = ECI::SWING_RANGE * BECI::SWING_RANGE;
+	mFireAngle = BECI::FAN_RANGE;
+	//turretAngle = 0.0f;
+	mAttackLength = ECI::ATTACK_LENGTH * BECI::ATTACK_LENGTH;
 
 	death = false;
 	damage = 5;
@@ -54,24 +51,23 @@ void BlowEnemy::EnemyInit()
 	scale = BECI::SCALE;
 
 	objType = ObjectType::ENEMY;
-	//SetCollidder(new SphereCollider(Vector3(position.x, position.y, position.z), radius));
-	SetCollidder(new SphereCollider(Vector3().zero, radius));
+	SetCollidder(Vector3().zero, mRadius);
 
 	//ƒZƒ“ƒT[‚Ì‰Šú‰»----------------
-	fanRotateOrigin = -angle.y - 90.0f;
+	mFanRotateOrigin = -angle.y - 90.0f;
 	fanInfo.position = Vector3(position.x, position.y, position.z);//ˆÊ’u
-	fanInfo.fanRange = 240.0f;									   //ƒÆ‚ÌŠp“x
-	fanInfo.length = 60.0f;										   //’·‚³
-	fanInfo.rotate = fanRotateOrigin;							   //‰ñ“]Šp
+	fanInfo.fanRange = 200.0f;									   //ƒÆ‚ÌŠp“x
+	fanInfo.length = 30.0f;										   //’·‚³
+	fanInfo.rotate = mFanRotateOrigin;							   //‰ñ“]Šp
 	//--------------------------------
 
 	//Å‰‚Íõ“Gó‘Ô
-	actionState = ActionState::SEARCH;
+	mMoveState = MoveState::NOT_FIND;
 
 	//ƒ}ƒbƒv‚ÌƒNƒŠƒA
 	breadMap.clear();
 
-	attackArea = new AttackArea(position, angle, objManager, modelRender, number);
+	attackArea = new AttackArea(position, angle, mManager, mRend, mOriginNumber);
 	attackArea->SetActive(false);
 
 	//„‰ñƒ|ƒCƒ“ƒg‚Ì‰Šú‰»------------------------------------
@@ -84,9 +80,6 @@ void BlowEnemy::EnemyInit()
 
 	onTrigger = false;
 
-	//‰Šú‰»‚·‚é‚Æƒpƒ^[ƒ“‚ª•Ï‚í‚éBŽg‚¤’¼‘O‚É‚â‚é‚Æ‚¢‚¢
-	Random::initialize();
-
 #pragma endregion
 
 #pragma region ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý
@@ -98,16 +91,16 @@ void BlowEnemy::EnemyInit()
 	//modelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
 	//modelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//’†S“_‚Ì•ÏX
 
-	num = to_string(number);
+	mMyNumber = to_string(mOriginNumber);
 
-	tankBarrel =  BECI::TANK_RLEG_NAME;
-	tankBarrel2 = BECI::TANK_LREG_NAME;
-	numBarrel = tankBarrel + num;
-	numBarrel2 = tankBarrel2 + num;
-	modelRender->AddModel(numBarrel,  "Resouse/EnemyModel/Elf_B/leg_R_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
-	modelRender->AddModel(numBarrel2, "Resouse/EnemyModel/Elf_B/leg_L_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
-	modelRender->SetAncPoint(numBarrel, Vector3(0.0f, -2.0f, 0.0f));
-	modelRender->SetAncPoint(numBarrel2, Vector3(0.0f, -2.0f, 0.0f));
+	mRightLeg =  BECI::TANK_RLEG_NAME;
+	mLeftLeg = BECI::TANK_LREG_NAME;
+	mRLegNumber = mRightLeg + mMyNumber;
+	mLLegNumber = mLeftLeg + mMyNumber;
+	mRend->AddModel(mRLegNumber,  "Resouse/EnemyModel/Elf_B/leg_R_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
+	mRend->AddModel(mLLegNumber, "Resouse/EnemyModel/Elf_B/leg_L_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
+	mRend->SetAncPoint(mRLegNumber, Vector3(0.0f, -2.0f, 0.0f));
+	mRend->SetAncPoint(mLLegNumber, Vector3(0.0f, -2.0f, 0.0f));
 
 	////íŽÔ‚Ì–C“ƒ(ã‚Ì•”•ª)Turret
 	//tankTurret = BECI::TANK_TURRET_NAME;
@@ -117,9 +110,9 @@ void BlowEnemy::EnemyInit()
 	//modelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
 
 	//íŽÔ‚Ì–C“ƒ(ã‚Ì•”•ª)Turret
-	tankTurret = BECI::TANK_HEAD_NAME;
-	numTurret = tankTurret + num;
-	modelRender->AddModel(numTurret, "Resouse/EnemyModel/Elf_B/elf_head2.obj", "Resouse/EnemyModel/Elf_B/face_color2.png");
+	mHead = BECI::TANK_HEAD_NAME;
+	mHeadNumber = mHead + mMyNumber;
+	mRend->AddModel(mHeadNumber, "Resouse/EnemyModel/Elf_B/elf_head2.obj", "Resouse/EnemyModel/Elf_B/face_color2.png");
 
 	////íŽÔ‚ÌŽÔ‘Ì(‰º‚Ì•”•ª)Body
 	//tankBody = BECI::TANK_BODY_NAME;
@@ -129,9 +122,9 @@ void BlowEnemy::EnemyInit()
 	//modelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
 
 	//íŽÔ‚ÌŽÔ‘Ì(‰º‚Ì•”•ª)Body
-	tankBody = BECI::TANK_BODY_NAME;
-	numBody = tankBody + num;
-	modelRender->AddModel(numBody, "Resouse/EnemyModel/Elf_B/elf_body2.obj", "Resouse/EnemyModel/Elf_B/hand_bow_color2.png");
+	mBody = BECI::TANK_BODY_NAME;
+	mBodyNumber = mBody + mMyNumber;
+	mRend->AddModel(mBodyNumber, "Resouse/EnemyModel/Elf_B/elf_body2.obj", "Resouse/EnemyModel/Elf_B/hand_bow_color2.png");
 
 #pragma endregion
 }
@@ -149,13 +142,12 @@ void BlowEnemy::EnemyUpdate()
 	////Invincible(ECI::REPORT_INTERVAL);//–³“GŽžŠÔ
 	Invincible(2);
 
-	//int debugHP = GetID();
-	//ImGui::SliderInt("MP-------------------", &debugHP, 0, 500);
+	/*‹¤’Ê‚Ì—v‘f*/
+	ChangeState(); //ó‘Ô•ÏX
+	SearchObject();//ƒpƒ“‚­‚¸‚âƒvƒŒƒCƒ„[‚ð’T‚·
+	
 
-
-	//searchPlayerState = true;
-
-	if (actionState == ActionState::WARNING)
+	if (moveFlag)
 	{
 		if (mRotDirection)
 		{
@@ -178,25 +170,48 @@ void BlowEnemy::EnemyUpdate()
 	{
 		mLegRotate = 0.0f;
 	}
+
+	if (mAttackFlag)
+	{
+		Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * mAttackLength;
+		attackArea->SetActive(true, position + areaPos, -angle);
+
+		attackCount++;
+
+		//”•b‚²‚Æ‚É“–‚½‚è”»’è‚ðŽ©•ª‚Ì‘O•û‚É•\Ž¦‚·‚é
+		if (attackCount > attackTime)
+		{
+			attackCount = 0;
+			attackArea->SetActive(false);
+
+			//UŒ‚‚ªI‚í‚Á‚½‚çŒx‰úó‘Ô‚É–ß‚·
+			/*mMoveState = MoveState::WARNING;*/
+			mAttackFlag = false;
+			mMoveState = MoveState::NOT_FIND;
+		}
+	}
+	else
+	{
+		TrackingObject();//ˆÚ“®ŠÖ˜A
+	}
 }
 
 void BlowEnemy::EnemyRend()
 {
 	//ƒ‚ƒfƒ‹‚Ì•`‰æ
 	DirectXManager::GetInstance()->SetData3D();
-	modelRender->Draw(numBarrel,  Vector3(position.x, position.y + 2.0f, position.z), Vector3(+mLegRotate, barrelAngle, 0), scale);
-	modelRender->Draw(numBarrel2, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, barrelAngle, 0), scale);
-	modelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
-	modelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
-
+	mRend->Draw(mRLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(+mLegRotate, mFireAngle, 0), scale);
+	mRend->Draw(mLLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, mFireAngle, 0), scale);
+	mRend->Draw(mHeadNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);
+	mRend->Draw(mBodyNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);
 }
 
 void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 {
-	if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
-	{
-		trackingBreadcrumb = false;
-	}
+	//if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
+	//{
+	//	mTrackingBreadcrumb = false;
+	//}
 
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
@@ -221,9 +236,19 @@ void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 		}
 	}
 
+	if (mAdvanceFlag && col->GetColObject()->GetType() == ObjectType::BORDER_LINE)
+	{
+		mHitBorderLine = true;
+	}
+
 	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
 	{
 		position = mPreviousPosition;
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::DEFENCEPOINT)
+	{
+		mHitSmokeFlag = true;
 	}
 }
 
@@ -246,43 +271,36 @@ void BlowEnemy::EnemyImGuiDebug()
 void BlowEnemy::Search()
 {
 	//PatrolPoint(patrolPoint,pointCount);
-	SwingDirection(swingRange);
+	//SwingDirection(swingRange);
 }
 
 void BlowEnemy::Warning()
 {
 	//ImGui::Text("ActionState == WARNING");
 
-	attackArea->SetActive(false);
+	//attackArea->SetActive(false);
 
-	TrackingObject();
+	//TrackingObject();
 }
 
 void BlowEnemy::Attack()
 {
 	//ImGui::Text("ActionState == ATTACK");
 
-	Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
-	attackArea->SetActive(true, position + areaPos, -angle);
+	//Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
+	//attackArea->SetActive(true, position + areaPos, -angle);
 
-	attackCount++;
+	//attackCount++;
 
-	//”•b‚²‚Æ‚É“–‚½‚è”»’è‚ðŽ©•ª‚Ì‘O•û‚É•\Ž¦‚·‚é
-	if (attackCount > attackTime)
-	{
-		attackCount = 0;
-		attackArea->SetActive(false);
+	////”•b‚²‚Æ‚É“–‚½‚è”»’è‚ðŽ©•ª‚Ì‘O•û‚É•\Ž¦‚·‚é
+	//if (attackCount > attackTime)
+	//{
+	//	attackCount = 0;
+	//	attackArea->SetActive(false);
 
-		//UŒ‚‚ªI‚í‚Á‚½‚çŒx‰úó‘Ô‚É–ß‚·
-		actionState = ActionState::WARNING;
-	}
-}
-
-void BlowEnemy::Destruct()
-{
-	//ImGui::Text("ActionState == DESTRUCT");
-
-	DestructAction(modelRender);
+	//	//UŒ‚‚ªI‚í‚Á‚½‚çŒx‰úó‘Ô‚É–ß‚·
+	//	actionState = ActionState::WARNING;
+	//}
 }
 
 void BlowEnemy::CreateOneObject()
@@ -290,7 +308,7 @@ void BlowEnemy::CreateOneObject()
 	//“–‚½‚è”»’èƒIƒuƒWƒFƒNƒg‚ðˆê“x‚¾‚¯¶¬
 	if (!onTrigger)
 	{
-		objManager->Add(attackArea);
+		mManager->Add(attackArea);
 		attackArea->SetActive(false);
 		onTrigger = true;
 	}

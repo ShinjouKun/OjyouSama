@@ -8,7 +8,7 @@ SummonEnemy::SummonEnemy(
 	const Vector3 & pos,
 	const Vector3 & ang,
 	ObjectManager * objManager,
-	shared_ptr<ModelRenderer> modelRender,
+	std::shared_ptr<ModelRenderer> modelRender,
 	shared_ptr<ParticleManager> effectManager,
 	int num)
 {

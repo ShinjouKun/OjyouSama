@@ -1,13 +1,14 @@
 #include "AttackArea.h"
 //#include "../Collision/SpherCollider.h"
 
-AttackArea::AttackArea(const Vector3& pos, const Vector3& ang, ObjectManager * objM, shared_ptr<ModelRenderer> modelR, int num)
-	:modelRender(modelR)
+AttackArea::AttackArea(const Vector3& pos, const Vector3& ang, ObjectManager * objM, std::shared_ptr<ModelRenderer> modelRender, int num)
+
 {
 	position = pos;
 	angle = ang;
 	objManager = objM;
 	number = num;
+	mModelRender = modelRender;
 
 	Init();
 }
@@ -44,8 +45,8 @@ void AttackArea::Init()
 	key = to_string(number);
 	keyname = name + key;
 
-	modelRender->AddModel(keyname, "Resouse/bill.obj", "Resouse/bill.png");
-	modelRender->SetAncPoint(keyname, Vector3(-2.0f, -2.0f, -2.0f));
+	mModelRender->AddModel(keyname, "Resouse/bill.obj", "Resouse/bill.png");
+	mModelRender->SetAncPoint(keyname, Vector3(-2.0f, -2.0f, -2.0f));
 
 #pragma endregion
 
@@ -83,7 +84,7 @@ void AttackArea::Rend()
 	if (!isActive) return;
 
 	DirectXManager::GetInstance()->SetData3D();
-	//modelRender->Draw(keyname, position,Vector3(angle.x, -angle.y, angle.z) , scale);
+	mModelRender->Draw(keyname, position,Vector3(angle.x, -angle.y, angle.z) , scale);
 }
 
 void AttackArea::OnCollison(BaseCollider* info)

@@ -10,7 +10,7 @@ MemberEnemy::MemberEnemy(
 	const Vector3 & pos,
 	const Vector3 & ang,
 	ObjectManager * objManager,
-	shared_ptr<ModelRenderer> modelRender,
+	std::shared_ptr<ModelRenderer> modelRender,
 	shared_ptr<ParticleManager> effectManager,
 	int num
 )
@@ -42,7 +42,7 @@ void MemberEnemy::MoveTarget(const Vector3 & targetPosition, const float distanc
 	float radian = atan2(dist.x, dist.z);
 	//‰ñ“]‚ð”½‰f
 	angle.y = Math::toDegrees(radian) + 180.0f;
-	barrelAngle = -Math::toDegrees(radian) - 180.0f;
+	mFireAngle = -Math::toDegrees(radian) - 180.0f;
 
 	velocity = dist * speed;
 	position += velocity;
@@ -93,7 +93,7 @@ void MemberEnemy::AttackStep_AIMING()
 	Vector3 dist = mAttackTarget - position;
 	dist = dist.normal();
 	float radian = atan2(dist.x, dist.z);
-	barrelAngle = -Math::toDegrees(radian) - 180.0f;
+	mFireAngle = -Math::toDegrees(radian) - 180.0f;
 
 	if (mAimingTime->isTime())
 	{
@@ -105,8 +105,8 @@ void MemberEnemy::AttackStep_AIMING()
 void MemberEnemy::AttackStep_FIRE()
 {
 	//’e”­ŽË
-	Vector3 firePosition = AngleToVectorY(barrelAngle);
-	mObjManager->Add(new ElfBullet(position + firePosition, Vector3(0.0f, barrelAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+	Vector3 firePosition = AngleToVectorY(mFireAngle);
+	mObjManager->Add(new ElfBullet(position + firePosition, Vector3(0.0f, mFireAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
 	//mObjManager->Add(new LaunchBullet(position + firePosition, mAttackTarget, mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
 	mAttackStep = AttackStep::RELOAD;
 }
@@ -166,8 +166,8 @@ void MemberEnemy::Init()
 	speed = 0.2f;
 	damage = 5;
 	radius = 1.0f;
-	barrelAngle = angle.y;
-	turretAngle = 0.0f;
+	mFireAngle = angle.y;
+	//turretAngle = 0.0f;
 	mBulletNumber = 0;
 	mMoveDirection = 0;
 
@@ -202,45 +202,30 @@ void MemberEnemy::Init()
 
 #pragma region ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý
 
-	num = to_string(number);
+	//”Ô†‚ðint‚©‚çstring‚É•ÏŠ·
+	mMyNumber = to_string(number);
 
-	////íŽÔ‚Ì–Cg(ã‰º‚ÉˆÚ“®‚·‚é•”•ª)Barrel
-	//tankBarrel = "MemberBarrel";
-	//num = to_string(number);
-	//numBarrel = tankBarrel + num;
-	//mModelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
-	//mModelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//’†S“_‚Ì•ÏX
+	//‰E‘«î•ñ“o˜^
+	mRightLeg = "MemberLegR";
+	mRLegNumber = mRightLeg + mMyNumber;
+	mModelRender->AddModel(mRLegNumber, "Resouse/EnemyModel/Elf_B/leg_R_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
+	mModelRender->SetAncPoint(mRLegNumber, Vector3(0.0f, -2.0f, 0.0f));
 
-	tankBarrel =  "MemberLegR";
-	tankBarrel2 = "MemberLegL";
-	numBarrel = tankBarrel + num;
-	numBarrel2 = tankBarrel2 + num;
-	mModelRender->AddModel(numBarrel,  "Resouse/EnemyModel/Elf_B/leg_R_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
-	mModelRender->AddModel(numBarrel2, "Resouse/EnemyModel/Elf_B/leg_L_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
-	mModelRender->SetAncPoint(numBarrel, Vector3(0.0f, -2.0f, 0.0f));
-	mModelRender->SetAncPoint(numBarrel2, Vector3(0.0f, -2.0f, 0.0f));
+	//¶‘«î•ñ“o˜^
+	mLeftLeg = "MemberLegL";
+	mLLegNumber = mLeftLeg + mMyNumber;
+	mModelRender->AddModel(mLLegNumber, "Resouse/EnemyModel/Elf_B/leg_L_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
+	mModelRender->SetAncPoint(mLLegNumber, Vector3(0.0f, -2.0f, 0.0f));
 
-	////íŽÔ‚Ì–C“ƒ(ã‚Ì•”•ª)Turret
-	//tankTurret = "MemberTurret";
-	//num = to_string(number);
-	//numTurret = tankTurret + num;
-	//mModelRender->AddModel(numTurret, "Resouse/BoxTankATKBR.obj", "Resouse/BoxTankATKBR.png");
-	//mModelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
+	//“ªî•ñ“o˜^
+	mHead = "MemberHead";
+	mHeadNumber = mHead + mMyNumber;
+	mModelRender->AddModel(mHeadNumber, "Resouse/EnemyModel/Elf_B/elf_head2.obj", "Resouse/EnemyModel/Elf_B/face_color2.png");
 
-	tankTurret = "MemberHead";
-	numTurret = tankTurret + num;
-	mModelRender->AddModel(numTurret, "Resouse/EnemyModel/Elf_B/elf_head2.obj", "Resouse/EnemyModel/Elf_B/face_color2.png");
-
-	////íŽÔ‚ÌŽÔ‘Ì(‰º‚Ì•”•ª)Body
-	//tankBody = "MemberBody";
-	//num = to_string(number);
-	//numBody = tankBody + num;
-	//mModelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
-	//mModelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
-
-	tankBody = "MemberBody";
-	numBody = tankBody + num;
-	mModelRender->AddModel(numBody, "Resouse/EnemyModel/Elf_B/elf_body2.obj", "Resouse/EnemyModel/Elf_B/hand_bow_color2.png");
+	//‘Ìî•ñ“o˜^
+	mBody = "MemberBody";
+	mBodyNumber = mBody + mMyNumber;
+	mModelRender->AddModel(mBodyNumber, "Resouse/EnemyModel/Elf_B/elf_body2.obj", "Resouse/EnemyModel/Elf_B/hand_bow_color2.png");
 #pragma endregion
 }
 
@@ -387,10 +372,10 @@ void MemberEnemy::Rend()
 	//mModelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
 	//mModelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), scale);
 
-	mModelRender->Draw(numBarrel, Vector3(position.x,  position.y + 2.0f, position.z), Vector3(+mLegRotate, barrelAngle, 0), scale);
-	mModelRender->Draw(numBarrel2, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, barrelAngle, 0), scale);
-	mModelRender->Draw(numTurret, Vector3(position.x, position.y, position.z), Vector3(turretAngle, barrelAngle, 0), scale);
-	mModelRender->Draw(numBody, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), scale);
+	mModelRender->Draw(mRLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(+mLegRotate, mFireAngle, 0), scale);//‰E‹r
+	mModelRender->Draw(mLLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, mFireAngle, 0), scale);//¶‹r
+	mModelRender->Draw(mHeadNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);//“ª‚ÆŽè
+	mModelRender->Draw(mBodyNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);//‘Ì‚Æ‹|
 }
 
 void MemberEnemy::ImGuiDebug()

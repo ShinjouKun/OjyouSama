@@ -4,19 +4,19 @@
 #include "../../Render/ModelRenderer.h"
 #include "../../Render/ParticleManager.h"
 
+#include "BaseEnemy.h"
+
 class Timer;
 class TreeRoot;
 class Sound;
 
-class ElfTreeBoss : public BaseObject
+class ElfTreeBoss : public BaseEnemy
 {
 public:
 
 	ElfTreeBoss(
 		const Vector3 & position,
 		const Vector3 & angle,
-		ObjectManager * objManager,
-		shared_ptr<ModelRenderer>modelRender,
 		shared_ptr<ParticleManager> effectManager,
 		int num
 	);
@@ -27,11 +27,27 @@ public:
 
 private:
 
-	virtual void Init() override;
-	virtual void Update() override;
-	virtual void Rend() override;
-	virtual void ImGuiDebug() override;
-	virtual void OnCollison(BaseCollider * col) override;
+	//virtual void Init() override;
+	//virtual void Update() override;
+	//virtual void Rend() override;
+	//virtual void ImGuiDebug() override;
+	//virtual void OnCollison(BaseCollider * col) override;
+
+	//BaseEnemy‚©‚çŒp³
+	virtual void EnemyInit() override;
+	virtual void EnemyUpdate() override;
+	virtual void EnemyRend() override;
+	virtual void EnemyOnCollision(BaseCollider* col) override;
+	virtual void EnemyImGuiDebug() override;
+
+	/*õ“Gó‘Ô*/
+	virtual void Search() override;
+
+	/*’ÇÕó‘Ô*/
+	virtual void Warning() override;
+
+	/*UŒ‚ó‘Ô*/
+	virtual void Attack() override;
 
 	/*UŒ‚ƒpƒ^[ƒ“‚ÌŒˆ’è*/
 	void ChangeAttackState();

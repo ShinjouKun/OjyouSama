@@ -11,16 +11,12 @@
 ElfTreeBoss::ElfTreeBoss(
 	const Vector3 & pos,
 	const Vector3 & ang,
-	ObjectManager * objManager,
-	shared_ptr<ModelRenderer> modelRender,
 	shared_ptr<ParticleManager> effectManager,
 	int num
 )
 {
 	position = pos;
 	angle = ang;
-	mObjManager = objManager;
-	mModelRender = modelRender;
 	mEffectManager = effectManager;
 	number = num;
 }
@@ -35,188 +31,188 @@ bool ElfTreeBoss::GetDeadFlag()
 	return mDeadFlag;
 }
 
-void ElfTreeBoss::Init()
-{
-	HP = MAX_HP;
-	speed = MOVE_SPEED;
-	objType = ObjectType::ENEMY;
-
-	damage = 5;
-	mBulletCount = 0;
-	mEnemyNumber = 0;
-	mCircleCount = 0;
-	mActionCount = 0;
-
-	mRootSpeed = 1.5f;
-	mSummonRotate = 0.0f;
-	mHandAngle = 0.0f;
-
-	death = false;
-	mShotBullet = false;
-	mSummonEnemy = false;
-	mDrawSummonPoint = false;
-	mCreateObject = false;
-	mFinishHandReturn = false;
-	mFinishRootReturn = false;
-
-	mActionFlag = false;
-	mDeathAnimationFlag = false;
-	mDeadFlag = false;
-
-	//各オブジェクトの初期位置をセット
-	mOffsetRightHand = Vector3(position.x /*- 10.0f*/, position.y + 15.0f, position.z);
-	mOffsetLeftHand = Vector3(position.x  /*+ 10.0f*/, position.y + 15.0f, position.z);
-	mOffsetRootPos = Vector3(position.x, position.y - 20.0f, position.z);
-	mRightHandPos = mOffsetRightHand;
-	mLeftHandPos = mOffsetLeftHand;
-	mRootPosition = mOffsetRootPos;
-
-	//根っこオブジェクト生成
-	mTreeRoot = new TreeRoot(mRootPosition, angle, mObjManager, mModelRender, number);
-
-	//サウンドの設定
-	mSmallExplosion = std::make_shared<Sound>("Small_Explosion.wav", false);
-	mBigExplosion =   std::make_shared<Sound>("Big_Explosion.mp3", false);
-
-	//各種タイマー初期化
-	mAimingTime = std::make_shared<Timer>();
-	mAimingTime->setTime(AIMING_TIME);
-	mReloadTime = std::make_shared<Timer>();
-	mReloadTime->setTime(RELOAD_TIME);
-	mSummonTime = std::make_shared<Timer>();
-	mSummonTime->setTime(SUMMON_TIME);
-	mRootWaitTime = std::make_shared<Timer>();
-	mRootWaitTime->setTime(0.5f);
-	mEffectInterval = std::make_shared<Timer>();
-	mEffectInterval->setTime(0.5f);
-	mExplosionTime = std::make_shared<Timer>();
-	mExplosionTime->setTime(3.0f);
-
-	//根っこ攻撃状態を初期化
-	mRootStep = RootAttackStep::PIERCE_HAND;
-	//死亡アニメーション状態の初期化
-	mDeathStep = DeathAnimationStep::EXPLOSION;
-
-	//四角の当たり判定(使い方を教わる)
-	SetCollidder(Vector3(-10.0f, -10.0f, -10.0f), Vector3(10.0f, 3.0f, 10.0f));
-	//SetCollidder(new AABBCollider(position, Vector3(10.0f, 10.0f, 10.0f)));
-	//SetCollidder(Vector3().zero, 2.0f);
-
-
-#pragma region モデル読み込み + α
-
-	mStringNum = to_string(number);
-
-	//胴体
-	mModelNumName01 = mModelName01 + mStringNum;
-	mModelRender->AddModel(mModelNumName01, "Resouse/EnemyModel/TreeBoss/wood_body.obj", "Resouse/EnemyModel/TreeBoss/wood_body.png");
-
-	//右手
-	mHandRightNum = mHandRight + mStringNum;
-	mModelRender->AddModel(mHandRightNum, "Resouse/EnemyModel/TreeBoss/wood_hands_R.obj", "Resouse/EnemyModel/TreeBoss/wood_hand.png");
-	mModelRender->SetAncPoint(mHandRightNum, Vector3(0.0f, -3.0f, 0.0f));
-
-	//左手
-	mHandLeftNum = mHandLeft + mStringNum;
-	mModelRender->AddModel(mHandLeftNum, "Resouse/EnemyModel/TreeBoss/wood_hands_L.obj", "Resouse/EnemyModel/TreeBoss/wood_hand.png");
-	mModelRender->SetAncPoint(mHandLeftNum, Vector3(0.0f, -3.0f, 0.0f));
-
-	//根っこ攻撃用警告
-	mRootCircleNum = mRootCircle + mStringNum;
-	mModelRender->AddModel(mRootCircleNum, "Resouse/maru.obj", "Resouse/marui.png");
-	mModelRender->SetColor(mRootCircleNum, Vector4(1, 0, 0, 0.2f));
-
-	//パーティクル1
-	mParticleEmitter = make_shared<ParticleEmitterBox>(mEffectManager);
-	mParticleEmitter->LoadAndSet(PARTICLE_EFFECT, "Resouse/effect.png");
-	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
-
-	//配列の初期化
-	mSummonPoint.resize(SUMMON_COUNT);
-	testNum.resize(SUMMON_COUNT);
-	testNumName.resize(SUMMON_COUNT);
-	for (int i = 0, end = static_cast<int>(mSummonPoint.size()); i < end; i++)
-	{
-		mSummonPoint[i] = position + AngleToVectorY(360.0f / end * i) * 30.0f;
-
-		//召喚する数分、召喚場所標示用オブジェクトを生成する。
-		testNum[i] = to_string(i);
-		testNumName[i] = mSummonCircle + testNum[i];
-		mModelRender->AddModel(testNumName[i], "Resouse/maru.obj", "Resouse/marui.png");
-	}
-
-#pragma endregion
-
-}
-
-void ElfTreeBoss::Update()
-{
-	if (HP <= 0)
-	{
-		mDeathAnimationFlag = true;
-	}
-
-	if (mDeadFlag)
-	{
-		death = true;
-	}
-
-	//プレイヤーの位置を取得！
-	mPlayerPosition = mObjManager->GetPlayer().GetPosition();
-
-	//音量の調整
-	mSmallExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
-	mBigExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
-
-	/*一度だけオブジェクトを生成*/
-	CreateObject();
-
-	/*死亡アニメーション*/
-	DeathAnimation();
-
-	///*攻撃*/
-	//ChangeAttackState();
-}
-
-void ElfTreeBoss::Rend()
-{
-	//爆発状態でない(仮死状態だったら)なら描画しない
-	if (mDeathStep != DeathAnimationStep::EXPLOSION) return;
-
-	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	mModelRender->Draw(mModelNumName01, position, Vector3(angle.x, angle.y, angle.z), Vector3(5.0f, 5.0f, 5.0f));
-	mModelRender->Draw(mHandRightNum, mRightHandPos, Vector3(mHandAngle, angle.y, angle.z), Vector3(5.0f, 5.0f, 5.0f));
-	mModelRender->Draw(mHandLeftNum, mLeftHandPos, Vector3(mHandAngle, angle.y, angle.z), Vector3(5.0f, 5.0f, 5.0f));
-
-	//根っこがプレイヤーを追跡している時のみ表示
-	if (mRootStep == RootAttackStep::CHASE_PLAYER ||
-		mRootStep == RootAttackStep::WAIT)
-	{
-		mModelRender->Draw(mRootCircleNum, Vector3(mRootPosition.x, position.y - 3, mRootPosition.z), angle, Vector3(5, 5, 5));
-	}
-
-	//表示状態の時だけ、警告を表示
-	if (mDrawSummonPoint)
-	{
-		for (int i = 0, end = static_cast<int>(mSummonPoint.size()); i < end; i++)
-		{
-			mModelRender->Draw(testNumName[i], mSummonPoint[i], Vector3(0.0f, mSummonRotate += 10.0f, 0.0f), Vector3(2, 2, 2));
-		}
-	}
-}
-
-void ElfTreeBoss::ImGuiDebug()
-{
-}
-
-void ElfTreeBoss::OnCollison(BaseCollider * col)
-{
-	if (col->GetColObject()->GetType() == ObjectType::BULLET)
-	{
-		HP -= col->GetColObject()->GetDamage();
-	}
-
-}
+//void ElfTreeBoss::Init()
+//{
+//	HP = MAX_HP;
+//	speed = MOVE_SPEED;
+//	objType = ObjectType::ENEMY;
+//
+//	damage = 5;
+//	mBulletCount = 0;
+//	mEnemyNumber = 0;
+//	mCircleCount = 0;
+//	mActionCount = 0;
+//
+//	mRootSpeed = 1.5f;
+//	mSummonRotate = 0.0f;
+//	mHandAngle = 0.0f;
+//
+//	death = false;
+//	mShotBullet = false;
+//	mSummonEnemy = false;
+//	mDrawSummonPoint = false;
+//	mCreateObject = false;
+//	mFinishHandReturn = false;
+//	mFinishRootReturn = false;
+//
+//	mActionFlag = false;
+//	mDeathAnimationFlag = false;
+//	mDeadFlag = false;
+//
+//	//各オブジェクトの初期位置をセット
+//	mOffsetRightHand = Vector3(position.x /*- 10.0f*/, position.y + 15.0f, position.z);
+//	mOffsetLeftHand = Vector3(position.x  /*+ 10.0f*/, position.y + 15.0f, position.z);
+//	mOffsetRootPos = Vector3(position.x, position.y - 20.0f, position.z);
+//	mRightHandPos = mOffsetRightHand;
+//	mLeftHandPos = mOffsetLeftHand;
+//	mRootPosition = mOffsetRootPos;
+//
+//	//根っこオブジェクト生成
+//	mTreeRoot = new TreeRoot(mRootPosition, angle, mObjManager, mModelRender, number);
+//
+//	//サウンドの設定
+//	mSmallExplosion = std::make_shared<Sound>("Small_Explosion.wav", false);
+//	mBigExplosion =   std::make_shared<Sound>("Big_Explosion.mp3", false);
+//
+//	//各種タイマー初期化
+//	mAimingTime = std::make_shared<Timer>();
+//	mAimingTime->setTime(AIMING_TIME);
+//	mReloadTime = std::make_shared<Timer>();
+//	mReloadTime->setTime(RELOAD_TIME);
+//	mSummonTime = std::make_shared<Timer>();
+//	mSummonTime->setTime(SUMMON_TIME);
+//	mRootWaitTime = std::make_shared<Timer>();
+//	mRootWaitTime->setTime(0.5f);
+//	mEffectInterval = std::make_shared<Timer>();
+//	mEffectInterval->setTime(0.5f);
+//	mExplosionTime = std::make_shared<Timer>();
+//	mExplosionTime->setTime(3.0f);
+//
+//	//根っこ攻撃状態を初期化
+//	mRootStep = RootAttackStep::PIERCE_HAND;
+//	//死亡アニメーション状態の初期化
+//	mDeathStep = DeathAnimationStep::EXPLOSION;
+//
+//	//四角の当たり判定(使い方を教わる)
+//	SetCollidder(Vector3(-10.0f, -10.0f, -10.0f), Vector3(10.0f, 3.0f, 10.0f));
+//	//SetCollidder(new AABBCollider(position, Vector3(10.0f, 10.0f, 10.0f)));
+//	//SetCollidder(Vector3().zero, 2.0f);
+//
+//
+//#pragma region モデル読み込み + α
+//
+//	mStringNum = to_string(number);
+//
+//	//胴体
+//	mModelNumName01 = mModelName01 + mStringNum;
+//	mModelRender->AddModel(mModelNumName01, "Resouse/EnemyModel/TreeBoss/wood_body.obj", "Resouse/EnemyModel/TreeBoss/wood_body.png");
+//
+//	//右手
+//	mHandRightNum = mHandRight + mStringNum;
+//	mModelRender->AddModel(mHandRightNum, "Resouse/EnemyModel/TreeBoss/wood_hands_R.obj", "Resouse/EnemyModel/TreeBoss/wood_hand.png");
+//	mModelRender->SetAncPoint(mHandRightNum, Vector3(0.0f, -3.0f, 0.0f));
+//
+//	//左手
+//	mHandLeftNum = mHandLeft + mStringNum;
+//	mModelRender->AddModel(mHandLeftNum, "Resouse/EnemyModel/TreeBoss/wood_hands_L.obj", "Resouse/EnemyModel/TreeBoss/wood_hand.png");
+//	mModelRender->SetAncPoint(mHandLeftNum, Vector3(0.0f, -3.0f, 0.0f));
+//
+//	//根っこ攻撃用警告
+//	mRootCircleNum = mRootCircle + mStringNum;
+//	mModelRender->AddModel(mRootCircleNum, "Resouse/maru.obj", "Resouse/marui.png");
+//	mModelRender->SetColor(mRootCircleNum, Vector4(1, 0, 0, 0.2f));
+//
+//	//パーティクル1
+//	mParticleEmitter = make_shared<ParticleEmitterBox>(mEffectManager);
+//	mParticleEmitter->LoadAndSet(PARTICLE_EFFECT, "Resouse/effect.png");
+//	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
+//
+//	//配列の初期化
+//	mSummonPoint.resize(SUMMON_COUNT);
+//	testNum.resize(SUMMON_COUNT);
+//	testNumName.resize(SUMMON_COUNT);
+//	for (int i = 0, end = static_cast<int>(mSummonPoint.size()); i < end; i++)
+//	{
+//		mSummonPoint[i] = position + AngleToVectorY(360.0f / end * i) * 30.0f;
+//
+//		//召喚する数分、召喚場所標示用オブジェクトを生成する。
+//		testNum[i] = to_string(i);
+//		testNumName[i] = mSummonCircle + testNum[i];
+//		mModelRender->AddModel(testNumName[i], "Resouse/maru.obj", "Resouse/marui.png");
+//	}
+//
+//#pragma endregion
+//
+//}
+//
+//void ElfTreeBoss::Update()
+//{
+//	if (HP <= 0)
+//	{
+//		mDeathAnimationFlag = true;
+//	}
+//
+//	if (mDeadFlag)
+//	{
+//		death = true;
+//	}
+//
+//	//プレイヤーの位置を取得！
+//	mPlayerPosition = mObjManager->GetPlayer().GetPosition();
+//
+//	//音量の調整
+//	mSmallExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+//	mBigExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+//
+//	/*一度だけオブジェクトを生成*/
+//	CreateObject();
+//
+//	/*死亡アニメーション*/
+//	DeathAnimation();
+//
+//	///*攻撃*/
+//	//ChangeAttackState();
+//}
+//
+//void ElfTreeBoss::Rend()
+//{
+//	//爆発状態でない(仮死状態だったら)なら描画しない
+//	if (mDeathStep != DeathAnimationStep::EXPLOSION) return;
+//
+//	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
+//	mModelRender->Draw(mModelNumName01, position, Vector3(angle.x, angle.y, angle.z), Vector3(5.0f, 5.0f, 5.0f));
+//	mModelRender->Draw(mHandRightNum, mRightHandPos, Vector3(mHandAngle, angle.y, angle.z), Vector3(5.0f, 5.0f, 5.0f));
+//	mModelRender->Draw(mHandLeftNum, mLeftHandPos, Vector3(mHandAngle, angle.y, angle.z), Vector3(5.0f, 5.0f, 5.0f));
+//
+//	//根っこがプレイヤーを追跡している時のみ表示
+//	if (mRootStep == RootAttackStep::CHASE_PLAYER ||
+//		mRootStep == RootAttackStep::WAIT)
+//	{
+//		mModelRender->Draw(mRootCircleNum, Vector3(mRootPosition.x, position.y - 3, mRootPosition.z), angle, Vector3(5, 5, 5));
+//	}
+//
+//	//表示状態の時だけ、警告を表示
+//	if (mDrawSummonPoint)
+//	{
+//		for (int i = 0, end = static_cast<int>(mSummonPoint.size()); i < end; i++)
+//		{
+//			mModelRender->Draw(testNumName[i], mSummonPoint[i], Vector3(0.0f, mSummonRotate += 10.0f, 0.0f), Vector3(2, 2, 2));
+//		}
+//	}
+//}
+//
+//void ElfTreeBoss::ImGuiDebug()
+//{
+//}
+//
+//void ElfTreeBoss::OnCollison(BaseCollider * col)
+//{
+//	if (col->GetColObject()->GetType() == ObjectType::BULLET)
+//	{
+//		HP -= col->GetColObject()->GetDamage();
+//	}
+//
+//}
 
 void ElfTreeBoss::ChangeAttackState()
 {
@@ -293,7 +289,7 @@ void ElfTreeBoss::RapidFire()
 			mFireAngle = -Math::toDegrees(radian) - 180.0f;
 			angle.y = mFireAngle;
 
-			mObjManager->Add(new LaunchBullet(position, mPlayerPosition, mObjManager, mModelRender, mEffectManager, objType, mBulletCount++,true));
+			mManager->Add(new LaunchBullet(position, mPlayerPosition, mManager, mRend, mEffectManager, objType, mBulletCount++,true));
 
 			//指定数連続で射撃する
 			if (mBulletCount >= RAPIDFIRE_COUNT)
@@ -338,7 +334,7 @@ void ElfTreeBoss::Summon()
 		//最初に用意した位置に、敵を生成
 		for (int i = 0, end = static_cast<int>(mSummonPoint.size()); i < end; i++)
 		{
-			mObjManager->Add(new SummonEnemy(mSummonPoint[i], angle, mObjManager, mModelRender, mEffectManager, mEnemyNumber++));
+			mManager->Add(new SummonEnemy(mSummonPoint[i], angle, mManager, mRend, mEffectManager, mEnemyNumber++));
 		}
 
 		//召喚が終わったらフラグを戻す
@@ -572,7 +568,7 @@ void ElfTreeBoss::CreateObject()
 {
 	if (mCreateObject) return;
 
-	mObjManager->Add(mTreeRoot);
+	mManager->Add(mTreeRoot);
 
 	mCreateObject = true;
 }
@@ -588,4 +584,197 @@ Vector3 ElfTreeBoss::AngleToVectorY(float angle) const
 	float z = sinf(radian);
 
 	return Vector3(x, 0, z).normal();
+}
+
+void ElfTreeBoss::EnemyInit()
+{
+	HP = MAX_HP;
+	speed = MOVE_SPEED;
+	objType = ObjectType::ENEMY;
+
+	damage = 5;
+	mBulletCount = 0;
+	mEnemyNumber = 0;
+	mCircleCount = 0;
+	mActionCount = 0;
+
+	mRootSpeed = 1.5f;
+	mSummonRotate = 0.0f;
+	mHandAngle = 0.0f;
+
+	death = false;
+	mShotBullet = false;
+	mSummonEnemy = false;
+	mDrawSummonPoint = false;
+	mCreateObject = false;
+	mFinishHandReturn = false;
+	mFinishRootReturn = false;
+
+	mActionFlag = false;
+	mDeathAnimationFlag = false;
+	mDeadFlag = false;
+
+	//各オブジェクトの初期位置をセット
+	mOffsetRightHand = Vector3(position.x /*- 10.0f*/, position.y + 15.0f, position.z);
+	mOffsetLeftHand = Vector3(position.x  /*+ 10.0f*/, position.y + 15.0f, position.z);
+	mOffsetRootPos = Vector3(position.x, position.y - 20.0f, position.z);
+	mRightHandPos = mOffsetRightHand;
+	mLeftHandPos = mOffsetLeftHand;
+	mRootPosition = mOffsetRootPos;
+
+	//根っこオブジェクト生成
+	mTreeRoot = new TreeRoot(mRootPosition, angle, mManager, mRend, number);
+
+	//サウンドの設定
+	mSmallExplosion = std::make_shared<Sound>("Small_Explosion.wav", false);
+	mBigExplosion = std::make_shared<Sound>("Big_Explosion.mp3", false);
+
+	//各種タイマー初期化
+	mAimingTime = std::make_shared<Timer>();
+	mAimingTime->setTime(AIMING_TIME);
+	mReloadTime = std::make_shared<Timer>();
+	mReloadTime->setTime(RELOAD_TIME);
+	mSummonTime = std::make_shared<Timer>();
+	mSummonTime->setTime(SUMMON_TIME);
+	mRootWaitTime = std::make_shared<Timer>();
+	mRootWaitTime->setTime(0.5f);
+	mEffectInterval = std::make_shared<Timer>();
+	mEffectInterval->setTime(0.5f);
+	mExplosionTime = std::make_shared<Timer>();
+	mExplosionTime->setTime(3.0f);
+
+	//根っこ攻撃状態を初期化
+	mRootStep = RootAttackStep::PIERCE_HAND;
+	//死亡アニメーション状態の初期化
+	mDeathStep = DeathAnimationStep::EXPLOSION;
+
+	//四角の当たり判定(使い方を教わる)
+	SetCollidder(Vector3(-10.0f, -10.0f, -10.0f), Vector3(10.0f, 3.0f, 10.0f));
+	//SetCollidder(new AABBCollider(position, Vector3(10.0f, 10.0f, 10.0f)));
+	//SetCollidder(Vector3().zero, 2.0f);
+
+
+#pragma region モデル読み込み + α
+
+	mStringNum = to_string(number);
+
+	//胴体
+	mModelNumName01 = mModelName01 + mStringNum;
+	mRend->AddModel(mModelNumName01, "Resouse/EnemyModel/TreeBoss/wood_body.obj", "Resouse/EnemyModel/TreeBoss/wood_body.png");
+
+	//右手
+	mHandRightNum = mHandRight + mStringNum;
+	mRend->AddModel(mHandRightNum, "Resouse/EnemyModel/TreeBoss/wood_hands_R.obj", "Resouse/EnemyModel/TreeBoss/wood_hand.png");
+	mRend->SetAncPoint(mHandRightNum, Vector3(0.0f, -3.0f, 0.0f));
+
+	//左手
+	mHandLeftNum = mHandLeft + mStringNum;
+	mRend->AddModel(mHandLeftNum, "Resouse/EnemyModel/TreeBoss/wood_hands_L.obj", "Resouse/EnemyModel/TreeBoss/wood_hand.png");
+	mRend->SetAncPoint(mHandLeftNum, Vector3(0.0f, -3.0f, 0.0f));
+
+	//根っこ攻撃用警告
+	mRootCircleNum = mRootCircle + mStringNum;
+	mRend->AddModel(mRootCircleNum, "Resouse/maru.obj", "Resouse/marui.png");
+	mRend->SetColor(mRootCircleNum, Vector4(1, 0, 0, 0.2f));
+
+	//パーティクル1
+	mParticleEmitter = make_shared<ParticleEmitterBox>(mEffectManager);
+	mParticleEmitter->LoadAndSet(PARTICLE_EFFECT, "Resouse/effect.png");
+	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
+
+	//配列の初期化
+	mSummonPoint.resize(SUMMON_COUNT);
+	testNum.resize(SUMMON_COUNT);
+	testNumName.resize(SUMMON_COUNT);
+	for (int i = 0, end = static_cast<int>(mSummonPoint.size()); i < end; i++)
+	{
+		mSummonPoint[i] = position + AngleToVectorY(360.0f / end * i) * 30.0f;
+
+		//召喚する数分、召喚場所標示用オブジェクトを生成する。
+		testNum[i] = to_string(i);
+		testNumName[i] = mSummonCircle + testNum[i];
+		mRend->AddModel(testNumName[i], "Resouse/maru.obj", "Resouse/marui.png");
+	}
+
+#pragma endregion
+}
+
+void ElfTreeBoss::EnemyUpdate()
+{
+	if (HP <= 0)
+	{
+		mDeathAnimationFlag = true;
+	}
+
+	if (mDeadFlag)
+	{
+		death = true;
+	}
+
+	//プレイヤーの位置を取得！
+	mPlayerPosition = mManager->GetPlayer().GetPosition();
+
+	//音量の調整
+	mSmallExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+	mBigExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+
+	/*一度だけオブジェクトを生成*/
+	CreateObject();
+
+	/*死亡アニメーション*/
+	DeathAnimation();
+
+	/*攻撃*/
+	ChangeAttackState();
+}
+
+void ElfTreeBoss::EnemyRend()
+{
+	//爆発状態でない(仮死状態だったら)なら描画しない
+	if (mDeathStep != DeathAnimationStep::EXPLOSION) return;
+
+	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
+	mRend->Draw(mModelNumName01, position, Vector3(angle.x, angle.y, angle.z), Vector3(5.0f, 5.0f, 5.0f));
+	mRend->Draw(mHandRightNum, mRightHandPos, Vector3(mHandAngle, angle.y, angle.z), Vector3(5.0f, 5.0f, 5.0f));
+	mRend->Draw(mHandLeftNum, mLeftHandPos, Vector3(mHandAngle, angle.y, angle.z), Vector3(5.0f, 5.0f, 5.0f));
+
+	//根っこがプレイヤーを追跡している時のみ表示
+	if (mRootStep == RootAttackStep::CHASE_PLAYER ||
+		mRootStep == RootAttackStep::WAIT)
+	{
+		mRend->Draw(mRootCircleNum, Vector3(mRootPosition.x, position.y - 3, mRootPosition.z), angle, Vector3(5, 5, 5));
+	}
+
+	//表示状態の時だけ、警告を表示
+	if (mDrawSummonPoint)
+	{
+		for (int i = 0, end = static_cast<int>(mSummonPoint.size()); i < end; i++)
+		{
+			mRend->Draw(testNumName[i], mSummonPoint[i], Vector3(0.0f, mSummonRotate += 10.0f, 0.0f), Vector3(2, 2, 2));
+		}
+	}
+}
+
+void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
+{
+	if (col->GetColObject()->GetType() == ObjectType::BULLET)
+	{
+		HP -= col->GetColObject()->GetDamage();
+	}
+}
+
+void ElfTreeBoss::EnemyImGuiDebug()
+{
+}
+
+void ElfTreeBoss::Search()
+{
+}
+
+void ElfTreeBoss::Warning()
+{
+}
+
+void ElfTreeBoss::Attack()
+{
 }

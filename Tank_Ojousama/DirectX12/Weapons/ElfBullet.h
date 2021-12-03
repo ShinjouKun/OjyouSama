@@ -10,7 +10,7 @@ public:
 		const Vector3& pos,
 		const Vector3& ang,
 		ObjectManager* objManager,
-		shared_ptr<ModelRenderer>modelRender,
+		std::shared_ptr<ModelRenderer> modelRender,
 		shared_ptr<ParticleManager>particleManager,
 		ObjectType objectType,
 		int num
@@ -29,7 +29,7 @@ private:
 private:
 
 	ObjectManager* mObjManager;
-	shared_ptr<ModelRenderer> mModelRender;
+	std::shared_ptr<ModelRenderer> mModelRender;
 	shared_ptr<ParticleManager> mParticleManager;
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
 

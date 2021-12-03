@@ -5,7 +5,7 @@ LaunchBullet::LaunchBullet(
 	const Vector3 & pos, 
 	const Vector3 & targetPosition, 
 	ObjectManager * objectManager, 
-	shared_ptr<ModelRenderer> modelRender, 
+	std::shared_ptr<ModelRenderer> modelRender,
 	shared_ptr<ParticleManager> particleManager,
 	ObjectType objectType, 
 	int num,

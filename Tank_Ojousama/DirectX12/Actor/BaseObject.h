@@ -19,12 +19,13 @@ enum ObjectType//オブジェクトのタグ
 	ENEMYBULLET,
 	BOSS,
 	BLOCK,
-	BREADCRUMB,
+	BREADCRUMB,//プレイヤーが落としているパンくず
 	ITEM,
 	CAMEAR,
 	ITEMBOX,
 	DEFENCEPOINT,
 	TREASURE,
+	BORDER_LINE,//拠点進攻モードの境界線
 };
 
 class BaseObject
