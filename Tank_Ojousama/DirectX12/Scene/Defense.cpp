@@ -42,15 +42,11 @@ void Defense::StartScene()
 	mpointManager = std::make_shared<WayPointManager>(Vector3(100.0f, 0.0f, -100.0f), objM, BaseScene::mModel, false);
 	//敵AIシステム生成
 	mEnemyAI = std::make_shared<EnemyAI>(mpointManager);
-
-	//敵にマネージャーセット
-	BaseEnemy::SetObjectManager(objM);
-	//敵にパンくずセット
-	BaseEnemy::SetBreadCreator(mBreadCreator.get());
+	BaseEnemy::SetImportantObject(objM, BaseScene::mModel, BaseScene::mParticle, mBreadCreator);
 	//敵にAIセット
 	BaseEnemy::SetEnemyAi(mEnemyAI.get());
 
-	
+	BaseEnemy::SetAttackTarget(Vector3(0.0f,0.0f,500.0f));
 
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
@@ -243,7 +239,7 @@ void Defense::Wave1EnemySpown()
 {
 	enemyDeath = 0;
 	//ここの下からadd
-	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 450.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
+	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 450.0f), Vector3(0.0f, 180.0f, 0.0f), 0));
 	spown1 = true;
 }
 
@@ -251,7 +247,7 @@ void Defense::Wave2EnemySpown()
 {
 	enemyDeath = 0;
 	//ここの下からadd
-	objM->Add(new SniperEnemy(Vector3(6.0f, 0.0f, 450.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
+	objM->Add(new SniperEnemy(Vector3(6.0f, 0.0f, 450.0f), Vector3(0.0f, 180.0f, 0.0f), 0));
 	spown2 = true;
 }
 

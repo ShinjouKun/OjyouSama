@@ -33,7 +33,7 @@ void MashinGun::Init()
 	death = false;
 	speed = 3.5f;
 	//コライダーの情報をセット
-	SetCollidder(Vector3(0.0f,0.0f,0.0f), 0.2f);
+	SetCollidder(Vector3(0.0f,0.0f,0.0f), 0.4f);
 	random_device rnd;
 	default_random_engine eng(rnd());
 	uniform_int_distribution<int>dist(-4.0f, 4.0f);
@@ -59,7 +59,7 @@ void MashinGun::Update()
 void MashinGun::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	Model->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(0.2f, 0.2f, 0.2f));
+	Model->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(0.4f, 0.4f, 0.4f));
 }
 
 void MashinGun::ImGuiDebug()

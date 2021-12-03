@@ -36,6 +36,7 @@ using namespace DirectX;
 //モデル
 #include "Render/ModelLoader.h"//ロード用
 #include "Render/TexRenderer.h"
+#include"../DirectX12/Utility/ModelChanger.h"
 //ウィンドウ
 #include "Device/Window.h"
 //カメラ
@@ -85,7 +86,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipeLine->SetPipeline3D("unti");
 	pipeLine->SetPipelineParticle("untiP");
 	pipeLine->SetPipelineSequence("ahokusa");
-
+	//モデル
+	
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hit.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/sougen.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/AIM64.png");

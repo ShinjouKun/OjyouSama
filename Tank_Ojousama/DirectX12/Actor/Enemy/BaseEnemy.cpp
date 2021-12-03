@@ -41,11 +41,11 @@ void BaseEnemy::Update()
 	AliveSurveillance();
 
 	//if (mAdvanceFlag)
-	{
+	/*{
 		int t = static_cast<int>(mMoveState);
 
 		ImGui::SliderInt("MoveState", &t, 0, 20);
-	}
+	}*/
 
 
 
@@ -458,7 +458,7 @@ void BaseEnemy::SmokeBlind()
 	//ƒXƒ‚[ƒN‚ÉG‚ê‚Ä‚¢‚È‚¯‚ê‚Îˆ—‚µ‚È‚¢
 	if (!mHitSmokeFlag) return;
 
-	ImGui::Checkbox("----------------------------", &mHitSmokeFlag);
+	//ImGui::Checkbox("----------------------------", &mHitSmokeFlag);
 
 	mSmokeTimer->update();
 

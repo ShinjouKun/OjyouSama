@@ -26,6 +26,7 @@ enum ObjectType//オブジェクトのタグ
 	DEFENCEPOINT,
 	TREASURE,
 	SMOKE,
+	BORDER_LINE,
 };
 
 class BaseObject

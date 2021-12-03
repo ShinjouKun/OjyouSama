@@ -20,7 +20,7 @@ ShotGunBullet::~ShotGunBullet()
 void ShotGunBullet::Init()
 {
 	SetBulletType();
-	damage = 2;
+	damage = 3;
 	objM->SetReloadTime(60);
 	name = "ShotGun";
 	num = to_string(number);
@@ -32,7 +32,7 @@ void ShotGunBullet::Init()
 	death = false;
 	speed = 2.5f;
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x, position.y, position.z), 0.6f);
+	SetCollidder(Vector3(0.0f,0.0f,0.0f), 0.6f);
 }
 
 void ShotGunBullet::Update()

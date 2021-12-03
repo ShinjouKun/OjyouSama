@@ -349,7 +349,7 @@ void BirdEnemy::EnemyUpdate()
 	}
 
 
-	ImGui::SliderFloat("-------------------------", &mLegRotate, -500, 500);
+	//ImGui::SliderFloat("-------------------------", &mLegRotate, -500, 500);
 
 	switch (mActionStep)
 	{

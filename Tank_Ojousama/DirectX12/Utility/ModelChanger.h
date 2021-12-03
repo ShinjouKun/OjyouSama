@@ -55,9 +55,9 @@ public:
 	int hp;
 	float speed;
 private:
-	
-	std::vector<std::string> state{ 3 };
-	std::vector<std::string> modelKey{ 5 };
+
+	std::vector<std::string> state{ 3, "0" };
+	std::vector<std::string> modelKey{5, "0"};
 	HeadState head;
 	BodyState body;
 	BottomState bottom;
