@@ -20,6 +20,10 @@ void Title::StartScene()
 	fade1 = 1;
 	fade2 = 0;
 	fadeF = false;
+	kakudai = 0;
+	kakudai2 = 0;
+	kakudai3 = 0;
+	kakudai4 = 0;
 	ojyouY = 0.0f;
 	ojyouXR = 0.0f;
 	ojyouXL = 0.0f;
@@ -52,6 +56,10 @@ void Title::StartScene()
 
 void Title::UpdateScene()
 {
+	kakudai += 70;
+	kakudai2 += 103;
+	kakudai3 += 130;
+	kakudai4 += 197.8f;
 	fade1 -= 0.01f;
 	if (fade1 < 0)
 	{
@@ -92,8 +100,9 @@ void Title::DrawScene()
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("Title", Vector3(100, 100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Push", Vector3(600, 300, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	//BaseScene::mSprite->SetSize("Fade", Vector2(560-fade, 0-fade));
+	//BaseScene::mSprite->SetSize("Heart", Vector2(1280+kakudai3, 720+kakudai));
+	//BaseScene::mSprite->SetAncPoint("Heart", Vector2(640.0f+kakudai3, 360.0f+kakudai));
+	//BaseScene::mSprite->Draw("Heart",Vector3(-640.0f-kakudai4, -360.0f-kakudai2, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Fade1",Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade1));
 	BaseScene::mSprite->Draw("Fade2", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade2));
-	//BaseScene::mSprite->Draw("Heart", Vector3(0, 0, 0), 0.0f, Vector2(100, 1), Vector4(1, 1, 1, 1));
 }

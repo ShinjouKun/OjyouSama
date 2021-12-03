@@ -46,6 +46,7 @@ private:
 	float SelectAlfa3;
 	float SelectAlfa4;
 	float SelectAlfa5;
+	float angle;
 	//à–¾—pƒtƒ‰ƒO
 	bool setumeiFlag = false;
 	bool setumeiBossFlag = false;
