@@ -16,7 +16,7 @@ Block::~Block()
 void Block::Init()
 {
 	death = false;
-	objType = ObjectType::BLOCK;
+	objType = ObjectType::DEFENCEPOINT;
 	angle = Vector3(0, 90, 0);
 
 	name = "Block";
@@ -26,13 +26,11 @@ void Block::Init()
 	radius = 1.0f;
 
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x, position.y, position.z), radius);
+	//SetCollidder(Vector3().zero, radius);
+	SetCollidder(Vector3(-150.0f, -2.0f, -2.0f), Vector3(150.0f, 2.0f, 1.0f));
 
-	//mModelRender->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
-	//mModelRender->SetAncPoint(numName, -scale * 2.0f);//ここは約半径の二倍ずらす
-
-	mModelRender->AddModel(numName, "Resouse/EnemyModel/Arrow/arrow.obj", "Resouse/EnemyModel/Arrow/arrow.png");
-	mModelRender->SetAncPoint(numName, Vector3(0, -2, 0));
+	mModelRender->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
+	mModelRender->SetAncPoint(numName, -scale * 2.0f);//ここは約半径の二倍ずらす
 }
 
 void Block::Update()
@@ -43,7 +41,7 @@ void Block::Update()
 void Block::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	mModelRender->Draw(numName, position, Vector3(angle.x, angle.y, rot += mRotValue), scale);
+	mModelRender->Draw(numName, position, Vector3(angle.x, angle.y, /*rot += mRotValue*/0), scale);
 }
 
 void Block::OnCollison(BaseCollider* col)

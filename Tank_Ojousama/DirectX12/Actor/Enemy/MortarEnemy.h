@@ -4,19 +4,18 @@
 #include "../../Render/ModelRenderer.h"
 #include "../../Render/ParticleManager.h"
 
+#include "BaseEnemy.h"
+
 class Timer;
 
 //ŒÅ’è–C‘ä‚Ì“G
-class MortarEnemy :public BaseObject
+class MortarEnemy :public BaseEnemy
 {
 public:
 
 	MortarEnemy(
 		const Vector3& pos,
 		const Vector3& ang,
-		ObjectManager * objectManager,
-		shared_ptr<ModelRenderer> modelRender,
-		shared_ptr<ParticleManager> effectManager,
 		int num
 	);
 
@@ -24,11 +23,29 @@ public:
 
 private:
 
-	virtual void Init() override;
-	virtual void Update() override;
-	virtual void Rend() override;
-	virtual void ImGuiDebug() override;
-	virtual void OnCollison(BaseCollider * col) override;
+	//virtual void Init() override;
+	//virtual void Update() override;
+	//virtual void Rend() override;
+	//virtual void ImGuiDebug() override;
+	//virtual void OnCollison(BaseCollider * col) override;
+
+	//BaseEnemy‚©‚çŒp³
+	virtual void EnemyInit() override;
+	virtual void EnemyUpdate() override;
+	virtual void EnemyRend() override;
+	virtual void EnemyOnCollision(BaseCollider* col) override;
+	virtual void EnemyImGuiDebug() override;
+
+	/*õ“Gó‘Ô*/
+	virtual void Search() override;
+
+	/*’ÇÕó‘Ô*/
+	virtual void Warning() override;
+
+	/*UŒ‚ó‘Ô*/
+	virtual void Attack() override;
+
+
 
 	void AttackStep_AIMING();
 	void AttackStep_FIRE();
@@ -38,9 +55,9 @@ private:
 	Vector3 AngleToVectorY(float angle)const;
 
 private:
-	ObjectManager * mObjManager;
-	shared_ptr<ModelRenderer> mModelRender;
-	shared_ptr<ParticleManager> mEffectManager;
+	//ObjectManager * mObjManager;
+	//shared_ptr<ModelRenderer> mModelRender;
+	//shared_ptr<ParticleManager> mEffectManager;
 
 	shared_ptr<Timer> mAimingTime;//‘_‚¤ŠÔ
 	shared_ptr<Timer> mReloadTime;//ƒŠƒ[ƒhŠÔ

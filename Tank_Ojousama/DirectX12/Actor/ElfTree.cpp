@@ -22,7 +22,7 @@ void ElfTree::Init()
 
 	name = "ElfTree";
 	num = to_string(number);
-	numName = name + num;
+ 	numName = name + num;
 	scale = Vector3(2.0f, 2.0f, 2.0f);
 	radius = 1.2f;
 	

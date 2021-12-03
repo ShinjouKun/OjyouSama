@@ -16,7 +16,7 @@ public:
 		const Vector3 & position,
 		const Vector3 & angle,
 		ObjectManager * objManager,
-		shared_ptr<ModelRenderer>modelRender,
+		std::shared_ptr<ModelRenderer> modelRender,
 		shared_ptr<ParticleManager> effectManager,
 		int num
 	);
@@ -48,7 +48,7 @@ private:
 	AttackStep mAttackStep;
 
 	ObjectManager * mObjManager;
-	shared_ptr<ModelRenderer> mModelRender;
+	std::shared_ptr<ModelRenderer> mModelRender;
 	shared_ptr<ParticleManager> mEffectManager;
 
 	shared_ptr<AttackArea> mAttackArea;

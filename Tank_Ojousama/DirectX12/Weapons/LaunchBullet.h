@@ -21,7 +21,7 @@ public:
 		const Vector3& position,
 		const Vector3& targetPosition,
 		ObjectManager * objectManager,
-		shared_ptr<ModelRenderer> modelRender,
+		std::shared_ptr<ModelRenderer> modelRender,
 		shared_ptr<ParticleManager> particleManager,
 		ObjectType objectType,
 		int num,
@@ -48,7 +48,7 @@ private:
 private:
 
 	ObjectManager * mObjectManager;
-	shared_ptr<ModelRenderer> mModelRender;
+	std::shared_ptr<ModelRenderer> mModelRender;
 	shared_ptr<ParticleManager> mParticleManager;
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
 

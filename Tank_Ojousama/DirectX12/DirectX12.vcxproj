@@ -23,7 +23,7 @@
     <ProjectGuid>{B7A7B929-B38A-4988-AB51-95012006B0B8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DirectX12</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Enemy\AdvanceBorderLine.cpp" />
     <ClCompile Include="Actor\Enemy\AttackArea.cpp" />
     <ClCompile Include="Actor\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Actor\BaseObject.cpp" />
@@ -434,6 +435,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Enemy\AdvanceBorderLine.h" />
     <ClInclude Include="Actor\Enemy\AttackArea.h" />
     <ClInclude Include="Actor\Enemy\BaseEnemy.h" />
     <ClInclude Include="Actor\BetaTestBlock.h" />

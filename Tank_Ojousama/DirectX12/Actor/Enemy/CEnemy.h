@@ -8,13 +8,21 @@ class MemberEnemy;
 class CEnemy : public BaseEnemy
 {
 public:
+
+	/// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <param name="position">初期位置</param>
+    /// <param name="angle">初期角度</param>
+    /// <param name="num">識別番号</param>
+    /// <param name="advanceFlag">拠点進行モードか？</param>
+    /// <param name="advanceDirection">拠点進行時に進む方向</param>
 	CEnemy(
 		const Vector3 & position,
 		const Vector3 & angle,
-		ObjectManager * objManager,
-		shared_ptr<ModelRenderer>modelRender,
-		shared_ptr<ParticleManager> effectManager,
-		int num
+		int num,
+		bool advanceFlag = false,
+		const Vector3& advanceDirection = Vector3(0.0f, 0.0f, 1.0f)
 	);
 
 	~CEnemy();
@@ -29,7 +37,6 @@ public:
 	virtual void Search() override;
 	virtual void Warning() override;
 	virtual void Attack() override;
-	virtual void Destruct() override;
 
 private:
 
@@ -41,9 +48,9 @@ private:
 
 private:
 
-	ObjectManager * mObjManager;
-	shared_ptr<ModelRenderer> mModelRender;
-	shared_ptr<ParticleManager> mEffectManager;
+	//ObjectManager * mObjManager;
+	//shared_ptr<ModelRenderer> mModelRender;
+	//shared_ptr<ParticleManager> mEffectManager;
 	shared_ptr<Timer> mSearchTimer;//メンバーがプレイヤーを検索する時間
 
 	std::vector<MemberEnemy*> mMemberList;     //隊員リスト
@@ -66,15 +73,14 @@ private:
 	bool mSearchCommand;  //索敵指令
 	bool mSearchResult;   //索敵の結果を受け取る
 
+		/*弾の識別番号*/
+	int bulletNumber = 0;
 	int mEnemyNumber;//モデル描画用の番号
 
 	const int MEMBER_COUNT = 2;//隊員の数
 
 	const float SEARCH_INTERVAL = 1.5f;
-	const float MEMBER_DISTANCE = 30.0f;//メンバーとの距離
-
-	string mCircle;      //円のモデル
-	string mCircleNumber;//円のモデル
+	const float MEMBER_DISTANCE = 25.0f;//メンバーとの距離
 
 	//歩行アニメーション関連
 	float mLegRotate = 0.0f;//脚の現在の回転量
@@ -82,6 +88,12 @@ private:
 	const float LEG_RANGE = 15.0f;//脚の最大回転量
 	bool mRotDirection = false;   //回転方向
 
-	string tankBarrel2;
-	string numBarrel2;
+	string mLeftLeg;   //左足のモデル名
+	string mLLegNumber;//左足 + 識別番号
+	string mRightLeg;  //右足のモデル名
+	string mRLegNumber;//右足 + 識別番号
+	string mHead;      //頭の名前
+	string mHeadNumber;//頭 + 識別番号
+	string mBody;      //体の名前
+	string mBodyNumber;//体 + 識別番号
 };

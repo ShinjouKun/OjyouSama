@@ -14,7 +14,7 @@ public:
 		const Vector3 & position,
 		const Vector3 & angle,
 		ObjectManager * objManager,
-		shared_ptr<ModelRenderer>modelRender,
+		std::shared_ptr<ModelRenderer> modelRender,
 		shared_ptr<ParticleManager> effectManager,
 		int num
 	);
@@ -81,7 +81,7 @@ private:
 	AttackStep mAttackStep;
 
 	ObjectManager * mObjManager;
-	shared_ptr<ModelRenderer> mModelRender;
+	std::shared_ptr<ModelRenderer> mModelRender;
 	shared_ptr<ParticleManager> mEffectManager;
 
 	shared_ptr<Timer> mAimingTime;//‘_‚¤ŠÔ
@@ -97,7 +97,7 @@ private:
 	Vector3 mPreviousPosition;
 
 	float radius;//”¼Œa
-	float barrelAngle;
+	float mFireAngle;
 	float turretAngle;
 	const float SEARCH_RANGE = 30.0f;//õ“G”ÍˆÍ(‰~)
 
@@ -116,13 +116,13 @@ private:
 	const float LEG_RANGE = 15.0f;//‹r‚ÌÅ‘å‰ñ“]—Ê
 	bool mRotDirection = false;   //‰ñ“]•ûŒü
 
-	string tankBarrel;//–Cg‚Ì–¼‘O“o˜^
-	string tankBarrel2;
-	string tankTurret;//–C“ƒ‚Ì–¼‘O“o˜^
-	string tankBody;  //Ô‘Ì‚Ì–¼‘O“o˜^
-	string num;       //stringŒ^‚Ì¯•Ê”Ô†
-	string numBarrel; //¯•Ê”Ô†+–Cg‚Ì–¼‘O
-	string numBarrel2;
-	string numTurret; //¯•Ê”Ô†+–C“ƒ‚Ì–¼‘O
-	string numBody;	  //¯•Ê”Ô†+Ô‘Ì‚Ì–¼‘O
+	string mMyNumber;  //¯•Ê”Ô†
+	string mLeftLeg;   //¶‘«‚Ìƒ‚ƒfƒ‹–¼
+	string mLLegNumber;//¶‘« + ¯•Ê”Ô†
+	string mRightLeg;  //‰E‘«‚Ìƒ‚ƒfƒ‹–¼
+	string mRLegNumber;//‰E‘« + ¯•Ê”Ô†
+	string mHead;      //“ª‚Ì–¼‘O
+	string mHeadNumber;//“ª + ¯•Ê”Ô†
+	string mBody;      //‘Ì‚Ì–¼‘O
+	string mBodyNumber;//‘Ì + ¯•Ê”Ô†
 };
