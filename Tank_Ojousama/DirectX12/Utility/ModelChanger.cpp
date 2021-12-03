@@ -2,6 +2,10 @@
 
 ModelChanger::ModelChanger()
 {
+	state.clear();
+	modelKey.clear();
+	state.resize(3);
+	modelKey.resize(5);
 }
 
 ModelChanger::~ModelChanger()
@@ -176,6 +180,7 @@ void ModelChanger::Save()
 
 	editor->Write("Resouse/ModelState.txt", state);
 	state.clear();
+	state.resize(3);
 }
 
 
