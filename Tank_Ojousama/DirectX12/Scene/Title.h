@@ -34,6 +34,10 @@ private:
 
 	float fade1;
 	float fade2;
+	float kakudai;
+	float kakudai2;
+	float kakudai3;
+	float kakudai4;
 	bool fadeF;
 	Vector3 ojoP;
 

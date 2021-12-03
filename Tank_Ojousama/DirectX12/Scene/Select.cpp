@@ -8,6 +8,7 @@
 #include "Robbery.h"
 #include"Result.h"
 #include "Defense.h"
+#include "GameOver.h"
 #include "../Collision/Collision.h"
 #include "../Device/Input.h"
 #include "../Sound/Sound.h"
@@ -69,6 +70,9 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("SetumeiBoss", "Resouse/setumeibos.png");
 	BaseScene::mSprite->AddTexture("Sentaku", "Resouse/sentaku.png");
 	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
+
+	BaseScene::mSprite->AddTexture("test", "Resouse/testend.png");
+
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSE = std::make_shared<Sound>("SelectSE.mp3", false);
 	mDecisionSE = std::make_shared<Sound>("OkSE.mp3", false);
@@ -197,7 +201,7 @@ void Select::UpdateScene()
 			SelectAlfa5 = 0.5f;
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
-				NextScene(std::make_shared<Garage>());
+				NextScene(std::make_shared<GameOver>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}
@@ -320,8 +324,8 @@ void Select::UpdateScene()
 
 void Select::DrawScene()
 {
-	DirectXManager::GetInstance()->SetData3D();
-	BaseScene::mModel->Draw("Sora", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
+	//DirectXManager::GetInstance()->SetData3D();
+	//BaseScene::mModel->Draw("Sora", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	DirectXManager::GetInstance()->SetData2D();
 
 	BaseScene::mSprite->Draw("Sentaku", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
