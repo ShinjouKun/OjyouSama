@@ -15,6 +15,7 @@ void ModelChanger::Init()
 	bottom = BottomState::Light_b;
 	editor = new TextEditor();
 	editor->Init();
+	Save();
 	
 }
 
