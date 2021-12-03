@@ -13,9 +13,9 @@ public:
 	void Init();
 	void Update();
 	void Reset();
-	void UseItem(ItemNames item);
+	void UseItem();
 	void AddItem(ItemNames item);
-	void UseUlt(ItemNames item);
+	void UseUlt();
 	void AddUlt(ItemNames item);
 
 	void SetUseFlag(bool value);
@@ -27,4 +27,6 @@ private:
 	unordered_map<ItemNames, int> ults;
 	int count;
 	bool useItems;
+	ItemNames itemName;
+	ItemNames ultName;
 };

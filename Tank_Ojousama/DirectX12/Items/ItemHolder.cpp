@@ -26,10 +26,10 @@ void ItemHolder::Reset()
 }
 
 //Žg‚¤Žž
-void ItemHolder::UseItem(ItemNames item)
+void ItemHolder::UseItem()
 {
 	
-	count = items[item]-1;
+	count = items[itemName]-1;
 
 	if (count < 0)
 	{
@@ -37,7 +37,7 @@ void ItemHolder::UseItem(ItemNames item)
 	}
 	
 	
-	items.insert_or_assign(item, count);
+	items.insert_or_assign(itemName, count);
 
 	SetUseFlag(true);
 }
@@ -46,13 +46,14 @@ void ItemHolder::UseItem(ItemNames item)
 void ItemHolder::AddItem(ItemNames item)
 {
 	count = items.count(item)+1;
+	itemName = item;
 
 	items.insert_or_assign( item, count );
 }
 
-void ItemHolder::UseUlt(ItemNames item)
+void ItemHolder::UseUlt()
 {
-	count = ults[item] - 1;
+	count = ults[ultName] - 1;
 
 	if (count < 0)
 	{
@@ -60,7 +61,7 @@ void ItemHolder::UseUlt(ItemNames item)
 	}
 
 
-	ults.insert_or_assign(item, count);
+	ults.insert_or_assign(ultName, count);
 
 	SetUseFlag(true);
 }
@@ -68,8 +69,9 @@ void ItemHolder::UseUlt(ItemNames item)
 void ItemHolder::AddUlt(ItemNames item)
 {
 	count = ults.count(item) + 1;
+	ultName = item;
 
-	ults.insert_or_assign(item, count);
+	ults.insert_or_assign(ultName, count);
 }
 
 void ItemHolder::SetUseFlag(bool value)
