@@ -60,8 +60,7 @@ void Robbery::StartScene()
 	//“G‚ÉAIƒZƒbƒg
 	BaseEnemy::SetEnemyAi(mEnemyAI.get());
 
-	itemHolder = new ItemHolder();
-	itemHolder->Init();
+	
 
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");

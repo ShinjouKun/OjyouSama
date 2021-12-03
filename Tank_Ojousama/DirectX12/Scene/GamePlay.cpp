@@ -43,8 +43,6 @@ void GamePlay::StartScene()
 	optionPos = Vector3(180, 180, 0);
 	//障害物
 
-
-
 	//パンくず生成機作成
 	//mBreadCreator = new BreadCrumbCreater(objM);
 	mBreadCreator = std::make_shared<BreadCrumbCreater>(objM);
@@ -198,8 +196,7 @@ void GamePlay::StartScene()
 
 #pragma endregion
 
-	itemHolder = new ItemHolder();
-	itemHolder->Init();
+	
 
 
 	/*30体表示(この数をベースに考える)*/
@@ -265,7 +262,7 @@ void GamePlay::StartScene()
 	objM->Add(new GolemEnemy(Vector3(0.0f, 4.0f, -110.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,1));
 	objM->Add(new CameraEye(Vector3(0,  0.0f, 180), Vector3(0, 0, 0), objM));
-	objM->Add(new Repair(Vector3(20.0f, 0.0f, 480.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, itemHolder, ItemState::Low, 0, 50000, 20));
+	objM->Add(new Repair(Vector3(20.0f, 0.0f, 480.0f), Vector3(0, 0, 0), objM, BaseScene::mModel,  ItemState::Low, 0, 50000, 20));
 
 	mTimer = std::make_shared<Timer>(0.01f);
 	

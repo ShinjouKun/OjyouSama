@@ -51,7 +51,7 @@ void Shield::Update()
 		death = true;
 	}
 
-	if (ItemHolder::GetInstance()->GetUseFlag)
+	if (ItemHolder::GetInstance()->GetUseFlag())
 	{
 		active = true;
 	}

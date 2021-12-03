@@ -104,9 +104,9 @@ void Player::UseWeapon1()
 
 void Player::UseWeapon2()
 {
-	//objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
 	//objM->Add(new MissileBullet(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
-	objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0,0,0), objM, playerModel, playerParticle, objType, bulletStock));
+	//objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0,0,0), objM, playerModel, playerParticle, objType, bulletStock));
 	/*objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock));
 	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+1));
 	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock+2));
@@ -121,7 +121,7 @@ void Player::UseULT()
 
 void Player::Item()
 {
-	item->UseItem();
+	ItemHolder::GetInstance()->UseItem();
 }
 
 void Player::AngleReset()
@@ -433,7 +433,7 @@ void Player::Update()
 		}
 		else
 		{
-			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::RightButton))//Rトリガー
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getRightTriggerDown())//Rトリガー
 			{
 				UseWeapon1();
 				bulletStock++;
@@ -452,7 +452,7 @@ void Player::Update()
 		}
 		else
 		{
-			if (Input::getKeyDown(KeyCode::LEFTSHIFT) || Input::getJoyDown(JoyCode::Y))//Yボタン
+			if (Input::getKey(KeyCode::LEFTSHIFT) || Input::getJoy(JoyCode::RightButton))//Yボタン
 			{
 				UseWeapon2();
 				bulletStock++;

@@ -54,8 +54,8 @@ void BossScene::StartScene()
 	//“G‚ÉAIƒZƒbƒg
 	BaseEnemy::SetEnemyAi(mEnemyAI.get());
 
-	itemHolder = new ItemHolder();
-	itemHolder->Init();
+	
+
 
 #pragma region ‰æ‘œ‚Ì“Ç‚İ‚İ
 
