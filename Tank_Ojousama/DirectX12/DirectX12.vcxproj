@@ -187,6 +187,7 @@
     <ClCompile Include="Items\ItemHolder.cpp" />
     <ClCompile Include="Items\Repair.cpp" />
     <ClCompile Include="Items\Shield.cpp" />
+    <ClCompile Include="Items\Smoke.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
@@ -475,6 +476,7 @@
     <ClInclude Include="Items\ItemHolder.h" />
     <ClInclude Include="Items\Repair.h" />
     <ClInclude Include="Items\Shield.h" />
+    <ClInclude Include="Items\Smoke.h" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />

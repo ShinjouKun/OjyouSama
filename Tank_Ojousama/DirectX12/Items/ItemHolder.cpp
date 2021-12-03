@@ -8,6 +8,12 @@ ItemHolder::~ItemHolder()
 {
 }
 
+ItemHolder * ItemHolder::GetInstance()
+{
+	static ItemHolder instance;
+	return &instance;
+}
+
 //‰Šú‰»
 void ItemHolder::Init()
 {
