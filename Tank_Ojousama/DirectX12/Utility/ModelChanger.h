@@ -49,14 +49,12 @@ public:
 	void ChangeBody(BodyState bodyState);
 	void ChangeBottom(BottomState bottomState);
 	void ChangeWeapons1(WeaponsState weaponState);
-	void ChangeWeapons2(WeaponsState weaponState);
 
 
 	HeadState GetHeadState() { return head; }
 	BodyState GetBodyState() { return body; }
 	BottomState GetBottomState() { return bottom; }
 	WeaponsState GetWeaponState1() { return weapons1; }
-	WeaponsState GetWeaponState2() { return weapons2; }
 
 	void SetHP(int value);//‘Ì—Í
 	int GetHP() { return hp; }
@@ -75,6 +73,5 @@ private:
 	BodyState body;
 	BottomState bottom;
 	WeaponsState weapons1;
-	WeaponsState weapons2;
 	TextEditor* editor;
 };
