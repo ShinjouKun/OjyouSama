@@ -206,7 +206,7 @@ void Select::UpdateScene()
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				//NextScene(std::make_shared<GameOver>());
-				NextScene(std::make_shared<Result>());
+				NextScene(std::make_shared<Garage>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}

@@ -61,6 +61,8 @@ public:
 	virtual Vector3 GetAngle() { return angle; }
 	virtual bool GetActive() { return IsActive; }
 	virtual bool GetTreasure() {return getTreasure;}
+	virtual int GetShotCount() { return shotMoney; }
+	void SetShotCount(int money);
 	void SetTresureGet(bool val);
 	void SetActive(bool val);
 	void SetNumber(int num);
@@ -73,6 +75,7 @@ public:
 	void SetID(size_t id);
 	size_t AiID;//AI番号
 protected:
+	int shotMoney;//一発ごとの値段
 	bool getTreasure;//クリアに必要なアイテムを確保したか？
 	ObjectType objType;
 	int HP;
