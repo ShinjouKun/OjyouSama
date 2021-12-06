@@ -86,9 +86,6 @@ private:
 	/*一度だけオブジェクトを生成*/
 	void CreateObject();
 
-	/*角度をベクトルに変換*/
-	Vector3 AngleToVectorY(float angle)const;
-
 private:
 
 	//根っこ攻撃の状態遷移
