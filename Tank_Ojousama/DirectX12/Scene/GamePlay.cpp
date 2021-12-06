@@ -345,10 +345,13 @@ void GamePlay::UpdateScene()
 	if (objM->GetGolem().GetHp() <= 0)
 	{
 		BaseScene::mStageFlag1 = true;
+		int s = objM->GetPlayer().GetShotCount();
+		BaseScene::mMoney -= s;
 		NextScene(std::make_shared<Result>());
 	}
 	if (objM->GetPlayer().GetHp() <= 0)
 	{
+		BaseScene::mMoney -= 3000000;
 		NextScene(std::make_shared<GameOver>());
 	}
 	
@@ -657,7 +660,7 @@ void GamePlay::ResultF()
 	{
 		if (objM->GetGolem().GetHp() <= 0)
 		{
-			BaseScene::mMoney += 20000000;
+			
 			NextScene(std::make_shared<Result>());
 		}
 	}
