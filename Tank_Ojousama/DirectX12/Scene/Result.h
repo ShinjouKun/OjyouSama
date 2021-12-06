@@ -38,11 +38,13 @@ private:
 	Vector3 selectposition;
 	Vector3 camerapos = Vector3(0, 0, 0);
 	Vector3 setcamerapos = Vector3(10, 0, 10);
-	int speed;
+	float speed;
 	float ojyouZ;
 	float ojyouY;
 	float ojyouXR;
 	float ojyouXL;
+	float angle;
+	float zensin;
 
 	std::shared_ptr<Timer> mTimer;
 };

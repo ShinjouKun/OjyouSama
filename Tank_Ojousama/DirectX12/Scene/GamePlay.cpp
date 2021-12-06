@@ -252,7 +252,9 @@ void GamePlay::StartScene()
 	BaseScene::mModel->AddModel("KabeF", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeF2", "Resouse/Plane.obj", "Resouse/kabe.png");
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
+    mHidan = std::make_shared<Sound>("down.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	mHidan->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	//プレイヤーは最後に、又はUIクラスを作る
 	objM->Add(new GolemEnemy(Vector3(0.0f, 4.0f, -110.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,1));
@@ -277,11 +279,6 @@ void GamePlay::UpdateScene()
 
 #endif  _DEBUG
 
-
-	
-	
-	
-	
 	if (Input::getKeyDown(KeyCode::Alpha1))
 	{
 		NextScene(std::make_shared<Title>());
@@ -347,6 +344,7 @@ void GamePlay::UpdateScene()
 	}
 	if (objM->GetGolem().GetHp() <= 0)
 	{
+		BaseScene::mStageFlag1 = true;
 		NextScene(std::make_shared<Result>());
 	}
 	if (objM->GetPlayer().GetHp() <= 0)
@@ -354,7 +352,10 @@ void GamePlay::UpdateScene()
 		NextScene(std::make_shared<GameOver>());
 	}
 	
-
+	//if (objM->GetEnemy().GetHP() <= 0)
+	//{
+	//	mHidan->play();
+	//}
 }
 
 void GamePlay::DrawScene()

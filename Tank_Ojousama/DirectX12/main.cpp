@@ -134,6 +134,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpUI.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/title_rogo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeibos.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeiDe.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeiRo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/gameover.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/testend.png");
 
@@ -144,6 +146,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item_box.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item1.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item2.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/wave1.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/wave2.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/wave3.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/redflo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/blueflo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/greenflo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/pinkflo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpgage.png");
 
 	//Player
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTM.obj");

@@ -50,6 +50,8 @@ private:
 	//説明用フラグ
 	bool setumeiFlag = false;
 	bool setumeiBossFlag = false;
+	bool setumeiDefFlag = false;
+	bool setumeiRobFlag = false;
 	//ターゲット１
 	Vector3 targetPos1;
 	//ターゲット２

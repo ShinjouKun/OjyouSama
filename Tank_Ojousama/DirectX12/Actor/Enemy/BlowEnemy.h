@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseEnemy.h"
 
+class Sound;
 //‹ß‹——£UŒ‚‚Ì“G
 class BlowEnemy : public BaseEnemy
 {
@@ -76,4 +77,7 @@ private:
 	string mHeadNumber;//“ª + ¯•Ê”Ô†
 	string mBody;      //‘Ì‚Ì–¼‘O
 	string mBodyNumber;//‘Ì + ¯•Ê”Ô†
+
+	std::shared_ptr<Sound> mSound;
+	std::shared_ptr<Sound> mSE;
 };

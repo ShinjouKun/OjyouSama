@@ -1,6 +1,8 @@
 #include "BlowEnemy.h"
 #include "../../ConstInfomation/Enemy/EnemyConstInfo.h"
 #include "../../ConstInfomation/Enemy/BlowEnemyConstInfo.h"
+#include "../../Sound/Sound.h"
+#include"../../Scene/BaseScene.h"
 
 namespace ECI = EnemyConstInfo;
 namespace BECI = BlowEnemyConstInfo;
@@ -127,6 +129,9 @@ void BlowEnemy::EnemyInit()
 	mRend->AddModel(mBodyNumber, "Resouse/EnemyModel/Elf_B/elf_body2.obj", "Resouse/EnemyModel/Elf_B/hand_bow_color2.png");
 
 #pragma endregion
+	mSE = std::make_shared<Sound>("punti.mp3", false);
+	//mSound->play();
+	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
 void BlowEnemy::EnemyUpdate()
@@ -183,7 +188,7 @@ void BlowEnemy::EnemyUpdate()
 		{
 			attackCount = 0;
 			attackArea->SetActive(false);
-
+			mSE->play();
 			//UŒ‚‚ªI‚í‚Á‚½‚çŒx‰úó‘Ô‚É–ß‚·
 			/*mMoveState = MoveState::WARNING;*/
 			mAttackFlag = false;

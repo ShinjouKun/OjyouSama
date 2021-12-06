@@ -4,6 +4,8 @@
 #include "../../Collision/SpherCollider.h"
 #include "../../ConstInfomation/Enemy/EnemyConstInfo.h"
 #include "../../ConstInfomation/Enemy/SniperEnemyConstInfo.h"
+#include "../../Sound/Sound.h"
+#include"../../Scene/BaseScene.h"
 
 namespace ECI = EnemyConstInfo;
 namespace SECI = SniperEnemyConstInfo;
@@ -103,6 +105,11 @@ void SniperEnemy::EnemyInit()
 	mRend->AddModel(mBodyNumber, "Resouse/EnemyModel/Elf_A/elf_body.obj", "Resouse/EnemyModel/Elf_A/hand_bow_color.png");
 
 #pragma endregion
+
+	mSE = std::make_shared<Sound>("hirai.mp3", false);
+	//mSound->play();
+	//mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
 void SniperEnemy::EnemyUpdate()
@@ -202,6 +209,7 @@ void SniperEnemy::EnemyUpdate()
 			bulletNumber++;
 			mAttackFlag = false;
 			mMoveState = MoveState::NOT_FIND;
+			mSE->play();
 		}
 	}
 	else

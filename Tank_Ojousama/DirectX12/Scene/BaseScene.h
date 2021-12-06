@@ -30,6 +30,9 @@ public:
 	static float mBGMSoundVol;
 	static float mSESoundVol;
 	static int mMoney;
+	static bool mStageFlag1;
+	static bool mStageFlag2;
+	static bool mStageFlag3;
 	static Vector3 OpAim1;
 	static Vector3 OpAim2;
 	static Vector3 OpAim3;

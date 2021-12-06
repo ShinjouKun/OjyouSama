@@ -172,6 +172,7 @@ void Player::Init()
 
 
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
+	playerSprite->AddTexture("HpGage", "Resouse/hpgage.png");
 	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
 	//model
 	modelChanger = new ModelChanger();
@@ -491,6 +492,7 @@ void Player::Rend()
 
 	DirectXManager::GetInstance()->SetData2D();
 	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("WeponUi", Vector3(1280 -180, 720-180, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	if (!sniperShotFlag)
 	{
