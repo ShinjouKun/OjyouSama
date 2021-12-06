@@ -156,13 +156,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensha_body.obj");//Ô‘Ì
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/houtou.obj");//–C“ƒ
 
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Type2_head.obj");//–C“ƒ
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Typ2_body.obj");//–C“ƒ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Type2_head.obj");//–C“ƒ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Typ2_body.obj");//–C“ƒ
 
 	//‚¨ì—l
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_body.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle.obj");
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle_b.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojousama_body_black.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle_b.obj");
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle_r.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojousama_body_red.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle_r.obj");
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTMR.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKAR.obj");//–C“ƒ
@@ -255,6 +265,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//’¹‚Ì“G
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_leg.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_body.obj");
+
+	//–h‰q‹’“_
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 
 	//ƒXƒvƒ‰ƒCƒg
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
