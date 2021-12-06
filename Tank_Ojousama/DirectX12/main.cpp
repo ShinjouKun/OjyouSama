@@ -144,7 +144,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item_box.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item1.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item2.png");
-
+	
+	//–h‰q‹’“_
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 	//Player
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTM.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKA.obj");//–C“ƒ
@@ -156,13 +158,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensha_body.obj");//ŽÔ‘Ì
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/houtou.obj");//–C“ƒ
 
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Type2_head.obj");//–C“ƒ
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Typ2_body.obj");//–C“ƒ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Type2_head.obj");//–C“ƒ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Typ2_body.obj");//–C“ƒ
 
 	//‚¨ì—l
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_body.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands.obj");
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle.obj");
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTMR.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKAR.obj");//–C“ƒ

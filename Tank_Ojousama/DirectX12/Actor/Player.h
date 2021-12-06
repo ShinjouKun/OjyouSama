@@ -80,7 +80,9 @@ private:
 	int HitCount;
 	float ojyouY;
 	float ojyouXR;
+	float ojyouZR;
 	float ojyouXL;
+	float ojyouZL;
 	float aimPos_Y;
 	int sceneEffectNum;
 	int sceneCount;

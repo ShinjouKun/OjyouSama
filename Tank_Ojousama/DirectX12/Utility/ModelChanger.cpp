@@ -60,15 +60,15 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	else
 	{
 		head = HeadState::Normal;
-		playerModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
-		playerModel->SetAncPoint("ArmR", Vector3(0.0f, -2.1f, -0.1f));
+		playerModel->AddModel("ArmRRifle", "Resouse/R_hands_rifle.obj", "Resouse/rifle_hands.png");
+		playerModel->SetAncPoint("ArmRRifle", Vector3(0.0f, -2.1f, -0.1f));
 		playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
 		playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
-		playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
-		playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
-		modelKey[0] = "ArmR";
+		playerModel->AddModel("ArmLRifle", "Resouse/L_hands_rifle.obj", "Resouse/rifle_hands.png");
+		playerModel->SetAncPoint("ArmLRifle", Vector3(0.0f, -2.1f, -0.1f));
+		modelKey[0] = "ArmRRifle";
 		modelKey[1] = "OjyouSama";
-		modelKey[2] = "ArmL";
+		modelKey[2] = "ArmLRifle";
 	}
 
 	if (state[1] != "Light")

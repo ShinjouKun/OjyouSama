@@ -5,6 +5,7 @@
 #include"Select.h"
 #include"Result.h"
 #include "../Sound/Sound.h"
+#include"../Actor/Castle.h"
 #include "../Actor/Enemy/SniperEnemy.h"
 #include "../Utility/Timer/Timer.h"
 #include"../Actor/CameraEye.h"
@@ -149,7 +150,7 @@ void Defense::StartScene()
 #pragma endregion
 
 
-
+	objM->Add(new Castle(Vector3(0.0f, -10.0f, 550.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle));
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,3));
 	objM->Add(new CameraEye(Vector3(0, 0.0f, 180), Vector3(0, 0, 0), objM));
 
