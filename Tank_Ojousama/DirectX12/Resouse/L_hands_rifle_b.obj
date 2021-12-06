@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib L_hands_rifle.mtl
+mtllib L_hands_rifle_b.mtl
 g default
 v 0.212688 1.833620 0.350519
 v 0.225521 1.833620 0.350519
@@ -86,7 +86,7 @@ vn -1.000000 -0.000000 0.000000
 vn -1.000000 -0.000001 0.000000
 s 1
 g pasted__pasted__pCube3 pasted__pasted__group1 pasted__group group3 L
-usemtl blinn14SG
+usemtl blinn12SG
 f 1/1/1 2/2/2 3/3/3
 f 3/3/3 2/2/2 4/4/4
 f 3/3/3 4/4/4 5/5/5
@@ -269,7 +269,7 @@ vn -1.000000 0.000001 0.000000
 vn -1.000000 0.000001 0.000000
 s 1
 g pasted__pasted__group1 pasted__group group3 L pasted__pasted__pCube2
-usemtl blinn14SG
+usemtl blinn12SG
 f 17/27/41 18/28/42 19/29/43
 f 19/29/43 18/28/42 20/30/44
 s 2
@@ -1322,7 +1322,7 @@ vn -0.000002 -0.973580 -0.228346
 vn -0.000008 -0.973578 -0.228355
 s 1
 g pasted__pasted__group1 pasted__group group3 L pasted__pasted__pCube1
-usemtl blinn14SG
+usemtl blinn12SG
 f 274/82/105 207/83/106 273/81/107
 f 273/81/107 207/83/106 208/84/108
 f 274/82/105 275/85/109 207/83/106
@@ -2024,7 +2024,7 @@ vn 0.000002 0.571219 0.820798
 vn 0.000001 0.571217 0.820799
 s 1
 g L pCylinder2 group2 L
-usemtl blinn14SG
+usemtl blinn12SG
 f 312/406/505 318/413/506 313/407/507
 f 318/413/506 319/414/508 313/407/507
 s 2
@@ -2287,7 +2287,7 @@ vn -0.273082 -0.961935 0.010308
 vn -0.080808 -0.976407 0.200249
 s 1
 g L group2 L pasted__pCube7
-usemtl blinn14SG
+usemtl blinn12SG
 f 374/441/571 342/444/572 375/442/573
 f 375/442/573 342/444/572 343/443/574
 f 375/442/573 343/443/574 376/445/575
@@ -2755,7 +2755,7 @@ vn -0.648150 -0.745871 0.153551
 vn -0.449220 -0.807175 -0.382975
 s 1
 g L L pasted__pasted__pasted__pCube3 pasted__pasted__head_hand pasted__group1 group
-usemtl blinn14SG
+usemtl blinn12SG
 f 447/573/637 446/574/638 411/504/639
 f 446/574/638 418/505/640 411/504/639
 s 2

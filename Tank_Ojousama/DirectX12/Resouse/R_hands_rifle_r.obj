@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib R_hands_rifle.mtl
+mtllib R_hands_rifle_r.mtl
 g default
 v -0.210425 1.833620 0.350519
 v -0.197592 1.833620 0.350519

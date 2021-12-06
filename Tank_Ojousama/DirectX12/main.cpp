@@ -163,8 +163,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//お嬢様
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_body.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle.obj");
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle_b.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojousama_body_black.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle_b.obj");
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle_r.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojousama_body_red.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle_r.obj");
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle.obj");
@@ -260,6 +270,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//鳥の敵
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_leg.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_body.obj");
+
+	//防衛拠点
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
