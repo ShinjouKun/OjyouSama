@@ -78,7 +78,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 			SetHP(150);
 			body = BodyState::Heavy;
 			playerModel->AddModel("TankE", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2_B.png");
-			modelKey[3] = "TankA";
+			modelKey[3] = "TankE";
 		}
 		else
 		{
@@ -104,7 +104,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 			SetSpeed(0.3f);
 			bottom = BottomState::Heavy_b;
 			playerModel->AddModel("TankF", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2_B.png");
-			modelKey[4] = "TankB";
+			modelKey[4] = "TankF";
 		}
 		else
 		{
@@ -178,9 +178,47 @@ void ModelChanger::Save()
 		break;
 	}
 
+	switch (weapons1)
+	{
+	case Cannon:
+		state[3] = "Cannon";
+		break;
+	case MachinGun:
+		state[3] = "MachinGun";
+		break;
+	case ShotGun:
+		state[3] = "ShotGun";
+		break;
+	case Mine:
+		state[3] = "Mine";
+		break;
+	default:
+		state[3] = "Cannon";
+		break;
+	}
+	
+	switch (weapons2)
+	{
+	case Cannon:
+		state[4] = "Cannon";
+		break;
+	case MachinGun:
+		state[4] = "MachinGun";
+		break;
+	case ShotGun:
+		state[4] = "ShotGun";
+		break;
+	case Mine:
+		state[4] = "Mine";
+		break;
+	default:
+		state[4] = "Cannon";
+		break;
+	}
+
 	editor->Write("Resouse/ModelState.txt", state);
 	state.clear();
-	state.resize(3);
+	state.resize(5);
 }
 
 
@@ -197,6 +235,16 @@ void ModelChanger::ChangeBody(BodyState bodyState)
 void ModelChanger::ChangeBottom(BottomState bottomState)
 {
 	bottom = bottomState;
+}
+
+void ModelChanger::ChangeWeapons1(WeaponsState weaponState)
+{
+	weapons1 = weaponState;
+}
+
+void ModelChanger::ChangeWeapons2(WeaponsState weaponState)
+{
+	weapons2 = weaponState;
 }
 
 void ModelChanger::SetHP(int value)
