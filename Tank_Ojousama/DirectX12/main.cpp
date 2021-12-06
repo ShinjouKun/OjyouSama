@@ -283,6 +283,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_leg.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_body.obj");
 
+	//‘„ƒGƒ‹ƒt
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/SpearElf/yari_elf_head.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/SpearElf/yari_elf_body.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/SpearElf/yari_te.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/SpearElf/yari_elf_R.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/SpearElf/yari_elf_L.obj");
+
 	//–h‰q‹’“_
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 
