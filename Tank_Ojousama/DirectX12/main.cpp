@@ -156,8 +156,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensha_body.obj");//ŽÔ‘Ì
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/houtou.obj");//–C“ƒ
 
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Type2_head.obj");//–C“ƒ
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Typ2_body.obj");//–C“ƒ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Type2_head.obj");//–C“ƒ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Typ2_body.obj");//–C“ƒ
 
 	//‚¨ì—l
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands.obj");

@@ -77,7 +77,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		{
 			SetHP(150);
 			body = BodyState::Heavy;
-			playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
+			playerModel->AddModel("TankE", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2_B.png");
 			modelKey[3] = "TankA";
 		}
 		else
@@ -103,7 +103,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		{
 			SetSpeed(0.3f);
 			bottom = BottomState::Heavy_b;
-			playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
+			playerModel->AddModel("TankF", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2_B.png");
 			modelKey[4] = "TankB";
 		}
 		else
