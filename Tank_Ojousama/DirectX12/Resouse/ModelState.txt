@@ -1,5 +1,5 @@
-Normal
-Light
-Light_b
+Other01
+Midium
+Midium_b
 Cannon
 Cannon

@@ -72,7 +72,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 				playerModel->AddModel("ArmL_rifle_b", "Resouse/L_hands_rifle_b.obj", "Resouse/rifle_hands_black.png");
 				playerModel->SetAncPoint("ArmL_rifle_b", Vector3(0.0f, -2.1f, -0.1f));
 				modelKey[0] = "ArmR_rifle_b";
-				modelKey[2] = "Armr_rifle_b";
+				modelKey[2] = "ArmL_rifle_b";
 			/*}
 			else
 			{
