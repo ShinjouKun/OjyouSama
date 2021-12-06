@@ -144,6 +144,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item_box.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item1.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item2.png");
+
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_black.png");
 	
 	//–h‰q‹’“_
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
