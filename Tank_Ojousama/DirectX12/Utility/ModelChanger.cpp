@@ -4,7 +4,7 @@ ModelChanger::ModelChanger()
 {
 	state.clear();
 	modelKey.clear();
-	state.resize(3);
+	state.resize(5);
 	modelKey.resize(5);
 }
 
@@ -34,7 +34,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		{
 			head = HeadState::Other02;
 			
-			playerModel->AddModel("OjyouSama_r", "Resouse/ojosama_body_red.obj", "Resouse/ojosama_one.png");
+			playerModel->AddModel("OjyouSama_r", "Resouse/ojousama_body_red.obj", "Resouse/ojosama_red.png");
 			playerModel->SetAncPoint("OjyouSama_r", Vector3(0.0f, 0.0f, -0.1f));
 			
 			if (state[3] == "MachinGun" || state[4] == "MachinGun")
@@ -62,18 +62,18 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		else
 		{
 			head = HeadState::Other01;
-			playerModel->AddModel("OjyouSama2", "Resouse/ojosama_body_black.obj", "Resouse/ojosama_black.png");
+			playerModel->AddModel("OjyouSama2", "Resouse/ojousama_body_black.obj", "Resouse/ojosama_black.png");
 			playerModel->SetAncPoint("OjyouSama2", Vector3(0.0f, 0.0f, -0.1f));
 
-			if (state[3] == "MachinGun" || state[4] == "MachinGun")
-			{
+			/*if (state[3] == "MachinGun" || state[4] == "MachinGun")
+			{*/
 				playerModel->AddModel("ArmR_rifle_b", "Resouse/R_hands_rifle_b.obj", "Resouse/rifle_hands_black.png");
 				playerModel->SetAncPoint("ArmR_rifle_b", Vector3(0.0f, -2.1f, -0.1f));
 				playerModel->AddModel("ArmL_rifle_b", "Resouse/L_hands_rifle_b.obj", "Resouse/rifle_hands_black.png");
 				playerModel->SetAncPoint("ArmL_rifle_b", Vector3(0.0f, -2.1f, -0.1f));
 				modelKey[0] = "ArmR_rifle_b";
 				modelKey[2] = "Armr_rifle_b";
-			}
+			/*}
 			else
 			{
 				playerModel->AddModel("ArmR_b", "Resouse/R_hands.obj", "Resouse/hands_one.png");
@@ -82,7 +82,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 				playerModel->SetAncPoint("ArmL_b", Vector3(0.0f, -2.1f, -0.1f));
 				modelKey[0] = "ArmR_b";
 				modelKey[2] = "ArmL_b";
-			}
+			}*/
 
 			modelKey[1] = "OjyouSama2";
 		}
@@ -165,7 +165,52 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
 		modelKey[4] = "TankB";
 	}
-	
+
+	if (state[3] != "Cannon")
+	{
+		if (state[3] != "MachinGun")
+		{
+			if (state[3] != "ShotGun")
+			{
+				weapons1 = Mine;
+			}
+			else
+			{
+				weapons1 = ShotGun;
+			}
+		}
+		else
+		{
+			weapons1 = MachinGun;
+		}
+	}
+	else
+	{
+		weapons1 = Cannon;
+	}
+
+	if (state[4] != "Cannon")
+	{
+		if (state[4] != "MachinGun")
+		{
+			if (state[4] != "ShotGun")
+			{
+				weapons2 = Mine;
+			}
+			else
+			{
+				weapons2 = ShotGun;
+			}
+		}
+		else
+		{
+			weapons2 = MachinGun;
+		}
+	}
+	else
+	{
+		weapons2 = Cannon;
+	}
 	
 }
 
