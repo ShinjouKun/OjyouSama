@@ -191,9 +191,8 @@ void BirdEnemy::Action_Move(const Vector3 & targetPosition)
 	//Move(targetPosition);
 	MovePointY(targetPosition);
 
-	if (InsideDistance(targetPosition, ATTACK_LENGTH))
+	if (InsideDistanceY(targetPosition, ATTACK_LENGTH))
 	{
-
 		//UŒ‚‚ðŠJŽn‚·‚é
 		mActionStep = ActionStep::FIRE;
 	}
@@ -217,9 +216,15 @@ void BirdEnemy::Action_Fire()
 		mLegRotate = -LEG_RANGE;
 	}
 
-	mIntervalTime->update();
+	MovePointY(mPlayerPosition);
 
-	if (mIntervalTime->isTime() && mFireFlag && mFinishAnimation)
+	if (InsideDistanceY(mPlayerPosition, 1.0f))
+	{
+	}
+
+	/*mIntervalTime->update();*/
+
+	if (InsideDistanceY(mPlayerPosition, 1.0f) && /*mIntervalTime->isTime() && */mFireFlag && mFinishAnimation)
 	{
 		mIntervalTime->setTime(1.0f);
 		mActionStep = ActionStep::BACK;
@@ -233,7 +238,7 @@ void BirdEnemy::Action_Back(const Vector3 & targetPosition)
 	//Move(targetPosition);
 	MovePointY(mOffsetRisePosition);
 
-	if (InsideDistance(targetPosition, 0.5f))
+	if (InsideDistanceY(targetPosition, 0.5f))
 	{
 		//‹’“_ã‹ó‚É“ž’…‚µ‚½‚Æ‚·‚é
 		mActionStep = ActionStep::DESCEND;
@@ -265,9 +270,9 @@ void BirdEnemy::Action_Reload()
 	}
 }
 
-bool BirdEnemy::InsideDistance(const Vector3 & distance, const float length) const
+bool BirdEnemy::InsideDistanceY(const Vector3 & distance, const float length) const
 {
-	Vector3 dist = distance - position;
+	Vector3 dist = Vector3(distance.x, 0.0f, distance.z) - Vector3(position.x, 0.0f, position.z);
 	float inside = dist.Length();
 
 	if (inside > length)

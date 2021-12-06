@@ -54,7 +54,7 @@ private:
 	void Action_Descend();
 	void Action_Reload();
 
-	bool InsideDistance(const Vector3& distance, const float length) const;
+	bool InsideDistanceY(const Vector3& distance, const float length) const;
 
 	/*角度をベクトルに変換*/
 	Vector3 AngleToVectorY(float angle)const;
@@ -84,7 +84,7 @@ private:
 	};
 	ActionStep mActionStep;//攻撃用状態
 
-	const float RISE_HEIGHT = 15.0f;//上昇量の高さ
+	const float RISE_HEIGHT = 20.0f;//上昇量の高さ
 	const float ATTACK_LENGTH = 50.0f;
 	float mRadius;//半径
 	float mRiseSpeed = 0.5f;//上昇の速さ

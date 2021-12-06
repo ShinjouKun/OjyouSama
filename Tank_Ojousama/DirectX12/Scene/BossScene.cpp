@@ -158,12 +158,12 @@ void BossScene::StartScene()
 	//mObjManager->Add(new BlowEnemy(Vector3(-10, 0, 0), Vector3(0, 180, 0), objectCount++, true));
 	//mObjManager->Add(new BlowEnemy(Vector3(  0, 0, 0), Vector3(0, 180, 0), objectCount++, true, Vector3(0, 0, 1)));
 
-	mObjManager->Add(new BirdEnemy(Vector3(100, 0.0f, 100), Vector3(0.0f, 90.0f, 0.0f),/* mObjManager, BaseScene::mModel,*/ objectCount++));
+	//mObjManager->Add(new BirdEnemy(Vector3(100, 0.0f, 100), Vector3(0.0f, 90.0f, 0.0f),objectCount++));
 
 	/*‹’“_‚ğ‘_‚¢‚És‚­‚Ü‚Å‚Ì‹«ŠEü*/
 	//mObjManager->Add(new AdvanceBorderLine(Vector3(0, 0.0f, 50.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-150.0f, -2.0f, -2.0f), Vector3(150.0f, 2.0f, 1.0f)));
 
-	//mObjManager->Add(new Block(Vector3(0, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	//mObjManager->Add(new Block(Vector3(0, 0.0f, 450.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 
 	//mObjManager->Add(new ElfTree(Vector3(0, 4.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 
@@ -207,7 +207,7 @@ void BossScene::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, 100.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
+	//BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, 100.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
 	mObjManager->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 

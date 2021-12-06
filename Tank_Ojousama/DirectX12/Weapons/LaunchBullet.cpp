@@ -59,6 +59,7 @@ void LaunchBullet::Init()
 	{
 		mAppleNum = mAppleName + num;
 		mModelRender->AddModel(mAppleNum, "Resouse/EnemyModel/AppleBullet/apple.obj", "Resouse/EnemyModel/AppleBullet/apple.png");
+		mModelRender->SetAncPoint(mAppleNum, Vector3(0, -1, 0));
 	}
 	else
 	{
