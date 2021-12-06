@@ -68,6 +68,8 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("Operation", "Resouse/operation.png");
 	BaseScene::mSprite->AddTexture("Setumei", "Resouse/setuemei.png");
 	BaseScene::mSprite->AddTexture("SetumeiBoss", "Resouse/setumeibos.png");
+	BaseScene::mSprite->AddTexture("SetumeiDef", "Resouse/setumeiDe.png");
+	BaseScene::mSprite->AddTexture("SetumeiRob", "Resouse/setumeiRo.png");
 	BaseScene::mSprite->AddTexture("Sentaku", "Resouse/sentaku.png");
 	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
 
@@ -123,6 +125,8 @@ void Select::UpdateScene()
 	camera->SetTarget(setcamerapos);
 	setumeiFlag = false;
 	setumeiBossFlag = false;
+	setumeiDefFlag = false;
+	setumeiRobFlag = false;
 	setumei = Vector3(position.x + 32, position.y - 128, position.z);
 	//b = g->GetA();
 	//ImGui::Begin("conf");
@@ -202,7 +206,7 @@ void Select::UpdateScene()
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				//NextScene(std::make_shared<GameOver>());
-				NextScene(std::make_shared<Garage>());
+				NextScene(std::make_shared<Result>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}
@@ -251,29 +255,38 @@ void Select::UpdateScene()
 		}
 		if (position.x >= targetPos2.x && position.x <= targetPos2.x + 64 && position.y >= targetPos2.y  && position.y <= targetPos2.y + 64)
 		{
-			setumeiFlag = true;
-			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+			if (BaseScene::mStageFlag1)
 			{
-				fadeF3 = true;
-				mDecisionSE->play();
+				setumeiDefFlag = true;
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+				{
+					fadeF3 = true;
+					mDecisionSE->play();
+				}
 			}
 		}
 		if (position.x >= targetPos3.x && position.x <= targetPos3.x + 64 && position.y >= targetPos3.y && position.y <= targetPos3.y + 64)
 		{
-			setumeiBossFlag = true;
-			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+			if (BaseScene::mStageFlag2)
 			{
-				fadeF2 = true;
-				mDecisionSE->play();
+				setumeiBossFlag = true;
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+				{
+					fadeF2 = true;
+					mDecisionSE->play();
+				}
 			}
 		}
 		if (position.x >= targetPos4.x && position.x <= targetPos4.x + 64 && position.y >= targetPos4.y && position.y <= targetPos4.y + 64)
 		{
-			setumeiBossFlag = true;
-			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+			if (BaseScene::mStageFlag3)
 			{
-				fadeF4 = true;
-				mDecisionSE->play();
+				setumeiRobFlag = true;
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+				{
+					fadeF4 = true;
+					mDecisionSE->play();
+				}
 			}
 		}
 
@@ -331,9 +344,30 @@ void Select::DrawScene()
 
 	BaseScene::mSprite->Draw("Sentaku", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target", targetPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	if (!BaseScene::mStageFlag1)
+	{
+		BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 0.5f));
+	}
+	else if(BaseScene::mStageFlag1)
+	{
+		BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	}
+	if (!BaseScene::mStageFlag2)
+	{
+		BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 0.5f));
+	}
+	else if (BaseScene::mStageFlag2)
+	{
+		BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	}
+	if (!BaseScene::mStageFlag3)
+	{
+		BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
+	}
+	else if (BaseScene::mStageFlag3)
+	{
+		BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
 
 	if (selectFlag == false)
 	{
@@ -354,6 +388,14 @@ void Select::DrawScene()
 	if (setumeiBossFlag)
 	{
 		BaseScene::mSprite->Draw("SetumeiBoss", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	}	
+	if (setumeiDefFlag)
+	{
+		BaseScene::mSprite->Draw("SetumeiDef", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	}	
+	if (setumeiRobFlag)
+	{
+		BaseScene::mSprite->Draw("SetumeiRob", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}
 	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 }

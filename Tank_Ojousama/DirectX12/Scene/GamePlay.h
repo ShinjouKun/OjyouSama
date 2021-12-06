@@ -49,6 +49,7 @@ private:
 	EnemyTank* enemyTank;
 	Camera* camera;
 	std::shared_ptr<Sound> mSound;
+	std::shared_ptr<Sound> mHidan;
 	float x, y, z;
 
 	ItemHolder* itemHolder;

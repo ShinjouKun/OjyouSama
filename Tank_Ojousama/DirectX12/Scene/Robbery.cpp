@@ -134,6 +134,7 @@ void Robbery::UpdateScene()
 	//シーン処理
 	if (goalFlag)
 	{
+		BaseScene::mStageFlag3 = true;
 		//クリア
 	}
 }

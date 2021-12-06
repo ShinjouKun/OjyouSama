@@ -2,6 +2,7 @@
 #include "BaseEnemy.h"
 #include "../../Render/ParticleManager.h"
 
+class Sound;
 class SniperEnemy : public BaseEnemy
 {
 public:
@@ -67,4 +68,7 @@ private:
 	string mHeadNumber;//“ª + ¯•Ê”Ô†
 	string mBody;      //‘Ì‚Ì–¼‘O
 	string mBodyNumber;//‘Ì + ¯•Ê”Ô†
+
+	std::shared_ptr<Sound> mSound;
+	std::shared_ptr<Sound> mSE;
 };

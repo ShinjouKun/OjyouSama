@@ -1,9 +1,12 @@
 #include "BaseScene.h"
 
-float BaseScene::mMasterSoundVol = 0.0f;
-float BaseScene::mBGMSoundVol =  0.0f;
+float BaseScene::mMasterSoundVol = 0.5f;
+float BaseScene::mBGMSoundVol =  0.5f;
 float BaseScene::mSESoundVol =  0.8f;
-int BaseScene::mMoney = 0;
+int BaseScene::mMoney = 20000000;
+bool BaseScene::mStageFlag1 = false;
+bool BaseScene::mStageFlag2 = false;
+bool BaseScene::mStageFlag3 = false;
 Vector3 BaseScene::OpAim1 = Vector3((Window::Window_Width / 2) - 32, 180, 0);
 Vector3 BaseScene::OpAim2 = Vector3((Window::Window_Width / 2) - 32, 360, 0);
 Vector3 BaseScene::OpAim3 = Vector3((Window::Window_Width / 2) +64, 540, 0);

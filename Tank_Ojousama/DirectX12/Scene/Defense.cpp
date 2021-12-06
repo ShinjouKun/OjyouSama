@@ -63,6 +63,9 @@ void Defense::StartScene()
 	BaseScene::mSprite->AddTexture("AimA1", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA2", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA3", "Resouse/volAimA.png");
+	BaseScene::mSprite->AddTexture("Wave1", "Resouse/wave1.png");
+	BaseScene::mSprite->AddTexture("Wave2", "Resouse/wave2.png");
+	BaseScene::mSprite->AddTexture("Wave3", "Resouse/wave3.png");
 
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/sougen.png");
@@ -79,6 +82,8 @@ void Defense::StartScene()
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	mSE = std::make_shared<Sound>("wave.mp3", false);
+	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	
 	mTimer = std::make_shared<Timer>(0.01f);
 	interval = 0;
@@ -164,15 +169,22 @@ void Defense::UpdateScene()
 	mEnemyAI->Update();
 	if (!wave1Clear)
 	{
+		mSE->play();
 		Wave1();
 	}
 	if (wave1Clear && !wave2Clear)
 	{
+		mSE->play();
 		Wave2();
 	}
 	if (wave1Clear&&wave2Clear && !wave3Clear)
 	{
+		mSE->play();
 		Wave3();
+	}
+	if (wave3Clear)
+	{
+		BaseScene::mStageFlag2 = true;
 	}
 	mTimer->update();
 	if (!mTimer->isTime()) return;
@@ -393,7 +405,7 @@ void Defense::Pose()
 		{
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
 			{
-				NextScene(std::make_shared<GamePlay>());
+				NextScene(std::make_shared<Defense>());
 			}
 		}
 		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
