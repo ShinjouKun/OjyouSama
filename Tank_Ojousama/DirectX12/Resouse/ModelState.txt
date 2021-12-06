@@ -1,5 +1,4 @@
 Other01
-Midium
-Midium_b
-Cannon
-Cannon
+Light
+Light_b
+MachinGun

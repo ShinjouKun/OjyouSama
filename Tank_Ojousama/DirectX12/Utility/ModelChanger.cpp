@@ -4,7 +4,7 @@ ModelChanger::ModelChanger()
 {
 	state.clear();
 	modelKey.clear();
-	state.resize(5);
+	state.resize(4);
 	modelKey.resize(5);
 }
 
@@ -37,7 +37,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 			playerModel->AddModel("OjyouSama_r", "Resouse/ojousama_body_red.obj", "Resouse/ojosama_red.png");
 			playerModel->SetAncPoint("OjyouSama_r", Vector3(0.0f, 0.0f, -0.1f));
 			
-			if (state[3] == "MachinGun" || state[4] == "MachinGun")
+			if (state[3] == "MachinGun")
 			{
 				playerModel->AddModel("ArmR_rifle_r", "Resouse/R_hands_rifle_r.obj", "Resouse/rifle_hands_red.png");
 				playerModel->SetAncPoint("ArmR_rifle_r", Vector3(0.0f, -2.1f, -0.1f));
@@ -65,15 +65,15 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 			playerModel->AddModel("OjyouSama2", "Resouse/ojousama_body_black.obj", "Resouse/ojosama_black.png");
 			playerModel->SetAncPoint("OjyouSama2", Vector3(0.0f, 0.0f, -0.1f));
 
-			/*if (state[3] == "MachinGun" || state[4] == "MachinGun")
-			{*/
+			if (state[3] == "MachinGun")
+			{
 				playerModel->AddModel("ArmR_rifle_b", "Resouse/R_hands_rifle_b.obj", "Resouse/rifle_hands_black.png");
 				playerModel->SetAncPoint("ArmR_rifle_b", Vector3(0.0f, -2.1f, -0.1f));
 				playerModel->AddModel("ArmL_rifle_b", "Resouse/L_hands_rifle_b.obj", "Resouse/rifle_hands_black.png");
 				playerModel->SetAncPoint("ArmL_rifle_b", Vector3(0.0f, -2.1f, -0.1f));
 				modelKey[0] = "ArmR_rifle_b";
 				modelKey[2] = "ArmL_rifle_b";
-			/*}
+			}
 			else
 			{
 				playerModel->AddModel("ArmR_b", "Resouse/R_hands.obj", "Resouse/hands_one.png");
@@ -82,7 +82,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 				playerModel->SetAncPoint("ArmL_b", Vector3(0.0f, -2.1f, -0.1f));
 				modelKey[0] = "ArmR_b";
 				modelKey[2] = "ArmL_b";
-			}*/
+			}
 
 			modelKey[1] = "OjyouSama2";
 		}
@@ -93,7 +93,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
 		playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
 
-		if (state[3] == "MachinGun" || state[4] == "MachinGun")
+		if (state[3] == "MachinGun")
 		{
 			playerModel->AddModel("ArmR_rifle", "Resouse/R_hands_rifle.obj", "Resouse/rifle_hands.png");
 			playerModel->SetAncPoint("ArmR_rifle", Vector3(0.0f, -2.1f, -0.1f));
@@ -189,29 +189,6 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		weapons1 = Cannon;
 	}
 
-	if (state[4] != "Cannon")
-	{
-		if (state[4] != "MachinGun")
-		{
-			if (state[4] != "ShotGun")
-			{
-				weapons2 = Mine;
-			}
-			else
-			{
-				weapons2 = ShotGun;
-			}
-		}
-		else
-		{
-			weapons2 = MachinGun;
-		}
-	}
-	else
-	{
-		weapons2 = Cannon;
-	}
-	
 }
 
 void ModelChanger::Save()
@@ -286,28 +263,10 @@ void ModelChanger::Save()
 		break;
 	}
 	
-	switch (weapons2)
-	{
-	case Cannon:
-		state[4] = "Cannon";
-		break;
-	case MachinGun:
-		state[4] = "MachinGun";
-		break;
-	case ShotGun:
-		state[4] = "ShotGun";
-		break;
-	case Mine:
-		state[4] = "Mine";
-		break;
-	default:
-		state[4] = "Cannon";
-		break;
-	}
-
+	
 	editor->Write("Resouse/ModelState.txt", state);
 	state.clear();
-	state.resize(5);
+	state.resize(4);
 }
 
 
@@ -329,11 +288,6 @@ void ModelChanger::ChangeBottom(BottomState bottomState)
 void ModelChanger::ChangeWeapons1(WeaponsState weaponState)
 {
 	weapons1 = weaponState;
-}
-
-void ModelChanger::ChangeWeapons2(WeaponsState weaponState)
-{
-	weapons2 = weaponState;
 }
 
 void ModelChanger::SetHP(int value)
