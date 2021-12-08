@@ -6,7 +6,7 @@ namespace
 	const char* vsShaderVer = "vs_5_0";
 	const char* psShaderVer = "ps_5_0";
 	const char* gsShaderVer = "gs_5_0";
-	const char* csShaderVer = "cs_5_1";
+	const char* csShaderVer = "cs_5_0";
 }
 
 Shader::Shader():

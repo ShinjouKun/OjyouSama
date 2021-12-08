@@ -191,6 +191,14 @@
     <ClCompile Include="Items\Shield.cpp" />
     <ClCompile Include="Items\Smoke.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="ParticleSystem\Compute\Compute.cpp" />
+    <ClCompile Include="ParticleSystem\Compute\RWStructuredBuffer\RWStructuredBuffer.cpp" />
+    <ClCompile Include="ParticleSystem\Compute\Shader.cpp" />
+    <ClCompile Include="ParticleSystem\Compute\StructuredBuffer\StructuredBuffer.cpp" />
+    <ClCompile Include="ParticleSystem\Emitter\Emitter.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleSystem.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleType\testParticle.cpp" />
+    <ClCompile Include="ParticleSystem\Particle\Particle.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
@@ -307,6 +315,41 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VSmain</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Shader\Compute\ComputeEmitterShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Shader\Compute\ComputeParticleUpdateShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Shader\Compute\ParticleGeometryShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">GS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Shader\Compute\ParticlePixelShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Shader\Compute\ParticleVertexShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Shader\ParticleGeometryShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
@@ -425,6 +468,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\BasicShader.hlsli" />
+    <None Include="Shader\Compute\ComputeShader.hlsli" />
     <None Include="Shader\ParticleShaderHeader.hlsli" />
     <None Include="Shader\ModelShader.hlsli" />
     <None Include="Shader\PostEfeectShader.hlsli" />
@@ -483,6 +527,16 @@
     <ClInclude Include="Items\Shield.h" />
     <ClInclude Include="Items\Smoke.h" />
     <ClInclude Include="Math\Quaternion.h" />
+    <ClInclude Include="ParticleSystem\Compute\Compute.h" />
+    <ClInclude Include="ParticleSystem\Compute\RWStructuredBuffer\RWStructuredBuffer.h" />
+    <ClInclude Include="ParticleSystem\Compute\Shader.h" />
+    <ClInclude Include="ParticleSystem\Compute\StructuredBuffer\StructuredBuffer.h" />
+    <ClInclude Include="ParticleSystem\Emitter\Emitter.h" />
+    <ClInclude Include="ParticleSystem\Emitter\EmitterData.h" />
+    <ClInclude Include="ParticleSystem\ParticleData\ParticleData.h" />
+    <ClInclude Include="ParticleSystem\ParticleSystem.h" />
+    <ClInclude Include="ParticleSystem\ParticleType\testParticle.h" />
+    <ClInclude Include="ParticleSystem\Particle\Particle.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />
     <ClInclude Include="Render\Camera.h" />
