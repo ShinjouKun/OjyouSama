@@ -158,8 +158,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/pinkflo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpgage.png");
 
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_black.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood2.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood3.png");
 	
+	//お宝
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs_huta.obj");
 	//防衛拠点
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 	//Player
@@ -286,6 +291,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_leg.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_body.obj");
 
+	//槍エルフ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/SpearElf/yari_elf_head.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/SpearElf/yari_elf_body.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/SpearElf/yari_te.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/SpearElf/yari_elf_R.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/SpearElf/yari_elf_L.obj");
+
 	//防衛拠点
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 
@@ -295,7 +307,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//パーティクル
 	shared_ptr<ParticleManager>paricle = make_shared<ParticleManager>(pipeLine);
 	auto& particleSystem = ParticleSystem::instance();
-	new testParticle(Vector3(500, Window::Window_Height / 2, -122), true);
+	//new testParticle(Vector3(500, Window::Window_Height / 2, -122), true);
 	
 	//モデル
 	shared_ptr<ModelRenderer>model = make_shared<ModelRenderer>(pipeLine);
@@ -335,7 +347,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		s.update();//各updateが終わった後に音の処理を入れる
 		DirectXManager::GetInstance()->SetDrawComnd();
-		//mScene->Draw();
+		mScene->Draw();
 		particleSystem.draw();
 		nums.drawNumber(DirectXManager::GetInstance()->CmdList(),pipeLine);
 		DirectXManager::GetInstance()->PostEffctEnd();

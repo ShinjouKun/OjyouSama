@@ -93,6 +93,7 @@ void Select::UpdateScene()
 		fade += 0.01f;
 		if (fade >= 1)
 		{
+			//NextScene(std::make_shared<Robbery>());
 			NextScene(std::make_shared<GamePlay>());
 		}
 	}
@@ -206,7 +207,7 @@ void Select::UpdateScene()
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				//NextScene(std::make_shared<GameOver>());
-				NextScene(std::make_shared<Result>());
+				NextScene(std::make_shared<Garage>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}

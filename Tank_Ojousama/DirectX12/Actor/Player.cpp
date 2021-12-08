@@ -97,6 +97,7 @@ void Player::SceneCamMove4()
 
 void Player::UseWeapon1()
 {
+	shotMoney += 10000;//ˆê”­ˆê–œ‰~
 	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
 	shotFlag1 = true;
 }
@@ -183,10 +184,13 @@ void Player::Init()
 	mSound = std::make_shared<Sound>("bomb3.mp3", false);
 	mTimer = std::make_shared<Timer>();
 
-
+	shotMoney = 0;
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
 	playerSprite->AddTexture("HpGage", "Resouse/hpgage.png");
 	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
+	playerSprite->AddTexture("Blood", "Resouse/blood.png");
+	playerSprite->AddTexture("Blood2", "Resouse/blood2.png");
+	playerSprite->AddTexture("Blood3", "Resouse/blood3.png");
 	//model
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
@@ -508,6 +512,10 @@ void Player::Rend()
 
 
 	DirectXManager::GetInstance()->SetData2D();
+	if (HitFlag)
+	{
+		playerSprite->Draw("Blood", Vector3(500, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
 	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("WeponUi", Vector3(1280 -180, 720-180, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
@@ -586,6 +594,7 @@ void Player::ImGuiDebug()
 	ImGui::Checkbox("ShotFlag", &shotFlag1);
 	ImGui::Checkbox("ShotFlag", &shotFlag2);
 	ImGui::SliderInt("HP", &HP, 0, HP);
+	ImGui::SliderInt("Money", &shotMoney, 0, 20000000);
 	ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
 	ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
 	ImGui::SliderFloat("SPEED", &speed, 0, 100);

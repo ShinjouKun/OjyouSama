@@ -39,7 +39,12 @@ private:
 	float SAlfa1;
 	float SAlfa2;
 	float SAlfa3;
+	float SAlfa4;
 	bool fadeFB;
+	int headNum;
+	int bodyNum;
+	int bottomNum;
+	int weaponNum;
 
 	Camera* camera;
 	Vector3 camerapos = Vector3(0, 0, 0);
@@ -50,6 +55,8 @@ private:
 	Vector3 SentakuPos4;
 	Vector3 SentakuPos5;
 	Vector3 SentakuPos6;
+	Vector3 SentakuPos7;
+	Vector3 SentakuPos8;
 	Vector3 Syata;
 
 	std::shared_ptr<Timer> mTimer;
