@@ -17,13 +17,16 @@ void CS( uint3 gID : SV_DispatchThreadID )
 	uData.pos += uData.vec * uData.speed;
 
 	//削除どうする？
-
+	uData.active = (uData.lifeTime <= 0) ? false : true;
 
 	//更新したデータを描画データに入れる
-	dData.svpos = float4(uData.pos, 0);
+	dData.pos = uData.pos;
+	dData.temp = 0;
 	dData.color = uData.col;
 	dData.size = uData.size;
+	dData.temp2 = 0;
 	dData.rotate = uData.axis;
+	dData.temp3 = 0;
 
 	real[gID.x] = dData;
 	real2[gID.x] = uData;

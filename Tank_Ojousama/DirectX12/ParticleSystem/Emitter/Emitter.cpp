@@ -2,9 +2,9 @@
 #include "../Compute/Compute.h"
 #include "../../Utility/Timer/Timer.h"
 
-constexpr int MAX_PARTICLE_SIZE = 10000;//パーティクルの最大個数
+#include "../../Utility/Random.h"
 
-Emitter::Emitter(const Vector3& pos, const ParticleSystems& ps, const Burst& burst):
+Emitter::Emitter(const Vector3& pos, const ParticleSystems& ps, const Burst& burst) :
 	mActive(true),
 	mPos(new Vector3(0.0f, 0.0f, 0.0f)),
 	mVec(new Vector3(0.0f, 0.0f, 0.0f)),
@@ -35,6 +35,12 @@ Emitter::~Emitter()
 	mVec = nullptr;
 	delete(mRandomVec);
 	mRandomVec = nullptr;
+
+	delete(mCompute);
+	mCompute = nullptr;
+
+	mDataList.clear();
+	mPendingDataList.clear();
 }
 
 void Emitter::update()
@@ -48,15 +54,64 @@ void Emitter::update()
 		mActive = false;
 		return;
 	}
+
+	//削除処理
+	int deathCount = 0;
+	int listSize = static_cast<int>(mDataList.size());
+	for (auto&& itr : mDataList)
+	{
+		++deathCount;
+		if (!itr.active)
+		{
+			if (deathCount == listSize)
+			{
+				mDataList.pop_back();
+				break;
+			}
+			std::swap(itr, mDataList.back());
+			mDataList.pop_back();
+			--listSize;
+		}
+	}
+
+	//追加処理
+	int size = static_cast<int>(mDataList.size());
+	Random::initialize();
+	for (int i = 0; i < 50; ++i)//mBurst.Count
+	{
+		if (size >= MAX_PARTICLE_SIZE) break;
+		ParticleData data;
+		data.lifeTime = mParticleSystems.StartLifeTime + Random::randomRange(-mPRS.randomLife, mPRS.randomLife);
+		data.pos.x = mPos->x;
+		data.pos.y = mPos->y;
+		data.pos.z = mPos->z;
+		data.vec = mParticleSystems.StartVector + Random::randomRange(-mPRS.randomVec, mPRS.randomVec);
+		data.temp1 = 0;
+		data.col = mParticleSystems.StartColor;
+		data.size = mParticleSystems.StartSize3D;
+		data.speed = mParticleSystems.StartSpeed;
+		data.rotate = Vector3::zero;//mParticleSystems.StartRotation3D;
+		data.axis = Vector3::zero;
+		data.gravity = mParticleSystems.GravityModifier;
+		data.active = true;
+
+		mDataList.emplace_back(data);
+		++size;
+	}
+
+	std::copy(mPendingDataList.begin(), mPendingDataList.end(), std::back_inserter(mDataList));
+	mPendingDataList.clear();
+
 	//コンピュートクラスを更新する
-	mCompute->emitterUpdate(mBurst.Count);
-	mCompute->particleUpdate();
+	mData = mCompute->particleUpdate(mDataList.data(), mDataList.size());
+
+	mDataList.assign((ParticleData*)mData, (ParticleData*)mData + mDataList.size());
 }
 
 void Emitter::draw()
 {
 	//コンピュートクラスから描画を呼び出す
-	mCompute->particleDraw();
+	mCompute->particleDraw(static_cast<int>(mDataList.size()));
 }
 
 bool Emitter::isActive() const

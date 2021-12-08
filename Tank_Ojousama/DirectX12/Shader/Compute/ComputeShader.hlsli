@@ -38,17 +38,20 @@ struct ParticleUpdateDatas
 	float3 size;//サイズ
 	float speed;//スピード
 	float3 rotate;//回転
-	float gravity;//重力
 	float3 axis;//軸
+	float gravity;//重力
 	bool active;//生きているかどうか
 };
 
 struct ParticleDrawDatas
 {
-	float4 svpos;
+	float3 pos;
+	float temp;
 	float4 color;
 	float3 size;
+	float temp2;
 	float3 rotate;
+	float temp3;
 };
 
 

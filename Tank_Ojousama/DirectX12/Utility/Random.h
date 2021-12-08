@@ -15,7 +15,7 @@ public:
 	//min <= value <= max
 	static float randomRange(float min, float max);
 	//static Vector2 randomRange(const Vector2& min, const Vector2& max);
-	//static Vector3 randomRange(const Vector3& min, const Vector3& max);
+	static Vector3 randomRange(const Vector3& min, const Vector3& max);
 
 	/* ƒ‰ƒ“ƒ_ƒ€‚Èbool‚ğ•Ô‚· */
 	static bool randomBool();

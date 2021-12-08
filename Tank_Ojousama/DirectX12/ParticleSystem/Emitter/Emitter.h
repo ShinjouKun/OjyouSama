@@ -8,6 +8,9 @@
 
 class Timer;
 class Compute;
+
+constexpr int MAX_PARTICLE_SIZE = 10000;//パーティクルの最大個数
+
 //各エミッターでgpuパーティクルをやる
 class Emitter
 {
@@ -58,6 +61,7 @@ private:
 	Compute* mCompute;
 private:
 	//gpgpuに必要なデータ
-	std::list<ParticleData> mDataList;
-	//std::vector<ParticleData> mDataList;
+	std::vector<ParticleData> mDataList;
+	std::list<ParticleData> mPendingDataList;
+	void* mData;//computeから受取るデータ
 };

@@ -3,8 +3,12 @@
 #include "StructuredBuffer/StructuredBuffer.h"
 #include "RWStructuredBuffer/RWStructuredBuffer.h"
 #include "../ParticleData/ParticleData.h"
+#include "../Emitter/Emitter.h"
+#include "../Emitter/EmitterData.h"
 
 #include "../../Device/DirectXManager.h"
+#include "../../Device/Window.h"
+#include "../../Render/Camera.h"
 
 Compute::Compute()
 {
@@ -36,6 +40,14 @@ void Compute::finalize()
 	mParticlePipe->Release();
 	mParticleDrawRoot->Release();
 	mParticleDrawPipe->Release();
+
+	mCMDList->Release();
+	mCMDAllo->Release();
+	mCQueue->Release();
+
+	mVertBuff->Release();
+	mConstBuff->Release();
+	mTexBuff->Release();
 }
 
 void Compute::init()
@@ -48,96 +60,162 @@ void Compute::init()
 	createBuffer();
 
 
-	//最後
-	/*
-	mInputSB = new StructuredBuffer();
-	mInputSB->setDevice(dev);
-	mInputSB->init(sizeof(TestDatasState), mTestDataList.size(), mTestDataList.data());
+	mMatProjection3D = Matrix4::Identity;
+	mMatProjection3D.m[3][0] = -1.0f;
+	mMatProjection3D.m[3][1] = 1.0f;
+	mMatProjection3D.m[0][0] = 2.0f / Window::Window_Width;
+	mMatProjection3D.m[1][1] = -2.0f / Window::Window_Height;
 
-	mOutputSB = new RWStructuredBuffer();
-	mOutputSB->setDevice(dev);
-	mOutputSB->init(sizeof(TestDatasState), mTestDataList.size(), nullptr);
-
-	auto cpuHandle = mHeap->GetCPUDescriptorHandleForHeapStart();
-	auto handle = DX12Manager::instance().getDev()->getDescriptorHandleIncrementSize();
-
-	mInputSB->RegistShaderResourceView(cpuHandle, 0);
-	cpuHandle.ptr += handle;
-
-	mOutputSB->RegistUnorderAccessView(cpuHandle, 0);
-	cpuHandle.ptr += handle;
-	*/
 }
 
-void Compute::emitterUpdate(int dispatch)
+void Compute::emitterUpdate(void* data, int dispatch)
 {
-	//バリア設定
-	barrier(mInputEmitterSB->getResource(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-	barrier(mOutputEmitterSB->getResource(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+	return;
+	mInputEmitterSB->update(data, 1);
+	//パイプライン・ルートシグネチャをセット
+	mCMDList->SetPipelineState(mEmitterPipe);
+	mCMDList->SetComputeRootSignature(mEmitterRoot);
+
+	//デスクリプタヒープ
+	mCMDList->SetDescriptorHeaps(1, &mHeap);
+
+	auto gpuHandle = mHeap->GetGPUDescriptorHandleForHeapStart();
+	auto handle = mDev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+	mCMDList->SetComputeRootDescriptorTable(0, gpuHandle);
+
+	gpuHandle.ptr += handle;
+
+	mCMDList->SetComputeRootDescriptorTable(1, gpuHandle);
 
 	mCMDList->Dispatch(dispatch, 1, 1);
-	
-	//バリアを戻す
-	barrier(mOutputEmitterSB->getResource(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST);
-	barrier(mInputEmitterSB->getResource(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST);
 
+	mCMDList->Close();
+
+	ID3D12CommandList* com[] = { mCMDList };
+
+	mCQueue->ExecuteCommandLists(1, com);//ここでエラー
+
+	DirectXManager::GetInstance()->waitGPU(mCQueue);
+
+	mCMDAllo->Reset();
+	mCMDList->Reset(mCMDAllo, nullptr);
 }
 
-void Compute::particleUpdate()
+void* Compute::particleUpdate(void* data, int dataSize)
 {
-	barrier(mInputParticleDataSB->getResource(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-	barrier(mOutputParticleSB->getResource(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-	barrier(mParticleStorageSB->getResource(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+	mInputParticleDataSB->update(data, dataSize);
 
-	auto data1 = mParticleStorageSB->getResourceOnCPU();
-	auto data2 = mOutputEmitterSB->getResourceOnCPU();
-	std::vector<ParticleData> v1;
-	int x = 0;
-	v1.assign((ParticleData*)data1, (ParticleData*)data1 + x);
+	//パイプライン・ルートシグネチャをセット
+	mCMDList->SetPipelineState(mParticlePipe);
+	mCMDList->SetComputeRootSignature(mParticleRoot);
 
-	std::vector<ParticleData> v2;
-	v2.assign((ParticleData*)data2, (ParticleData*)data2 + x);
+	//デスクリプタヒープ
+	mCMDList->SetDescriptorHeaps(1, &mHeap);
 
-	std::copy(v2.begin(), v2.end(), std::back_inserter(v1));
-	
-	//エミッターアウトプットからデータを受取る
-	mInputParticleDataSB->update(v1.data());
+	auto gpuHandle = mHeap->GetGPUDescriptorHandleForHeapStart();
+	auto handle = mDev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
-	mCMDList->Dispatch(v1.size(), 1, 1);
+	gpuHandle.ptr += handle * 2;
+
+	mCMDList->SetComputeRootDescriptorTable(0, gpuHandle);
+
+	gpuHandle.ptr += handle;
+
+	mCMDList->SetComputeRootDescriptorTable(1, gpuHandle);
+
+	gpuHandle.ptr += handle;
+
+	mCMDList->SetComputeRootDescriptorTable(2, gpuHandle);
+
+	mCMDList->Dispatch(MAX_PARTICLE_SIZE, 1, 1);
+
+	mCMDList->Close();
+
+	ID3D12CommandList* com[] = { mCMDList };
+
+	mCQueue->ExecuteCommandLists(1, com);
+
+	DirectXManager::GetInstance()->waitGPU(mCQueue);
 
 
-	barrier(mInputParticleDataSB->getResource(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST);
-	barrier(mOutputParticleSB->getResource(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST);
-	barrier(mParticleStorageSB->getResource(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST);
+	mCMDAllo->Reset();
+	mCMDList->Reset(mCMDAllo, nullptr);
 
+	return mParticleStorageSB->getResourceOnCPU();
 }
 
-void Compute::particleDraw()
+void Compute::particleDraw(int dataSize)
 {
-	auto data = mOutputParticleSB->getResourceOnCPU();
-	std::vector<ParticleDrawData> v;
-	v.assign((ParticleDrawData*)data, (ParticleDrawData*)data + 0);
-	ParticleDrawData* constMap;
-	mConstBuff->Map(0, nullptr, (void**)&constMap);
-	constMap = (ParticleDrawData*)data;
+	//ビルボード行列の生成
+	Matrix4 matBillboard = Matrix4::Identity;
+	Vector3 zaxis = Vector3::normalize(Camera::GetTarget() - Camera::GetEye());
+	Vector3 xaxis = Vector3::normalize(Vector3::cross(Vector3(0.f, 1.0f, 0.f), zaxis));
+	Vector3 yaxis = Vector3::cross(zaxis, xaxis);
+	float temp[4][4] =
+	{
+		{ xaxis.x, xaxis.y, xaxis.z, 0.0f },
+		{ yaxis.x, yaxis.y, yaxis.z, 0.0f },
+		{ zaxis.x, zaxis.y, zaxis.z, 0.0f },
+		{ 0.0f, 0.0f, 0.0f, 1.0f }
+	};
+	matBillboard = Matrix4(temp);
+
+	ParticleConstBuff* constBuff = nullptr;
+	HRESULT hr = mConstBuff->Map(0, nullptr, (void**)&constBuff);
+	assert(SUCCEEDED(hr));
+	constBuff->mat = Camera::matView * mMatProjection3D;
+	constBuff->matbillboard = matBillboard;
 	mConstBuff->Unmap(0, nullptr);
 
+	auto data = mOutputParticleSB->getResourceOnCPU();
+	std::vector<ParticleDrawData> v;
+	v.assign((ParticleDrawData*)data, (ParticleDrawData*)data + dataSize);
+
+	ParticleDrawData* vertMap;
+	mVertBuff->Map(0, nullptr, (void**)&vertMap);
+	for (int i = 0, end = v.size(); i < end; ++i)
+	{
+		vertMap->pos = v[i].pos;
+		vertMap->color = v[i].color;
+		vertMap->rotate = v[i].rotate;
+		vertMap->size = v[i].size;
+		++vertMap;
+	}
+	//vertMap = (ParticleDrawData*)data;
+	mVertBuff->Unmap(0, nullptr);
+
+	auto* cmdList = DirectXManager::GetInstance()->CmdList();
+
 	//パイプラインをセット
+	cmdList->SetPipelineState(mParticleDrawPipe);
 
 	//ルートシグネチャをセット
+	cmdList->SetGraphicsRootSignature(mParticleDrawRoot);
 
 	//プリミティブ形状をセット
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
 
 	//頂点バッファをセット
+	cmdList->IASetVertexBuffers(0, 1, &mVbView);
 
 	//デスクリプタヒープをセット
+	cmdList->SetDescriptorHeaps(1, &mHeap);
+
+	auto gpuHandle = mHeap->GetGPUDescriptorHandleForHeapStart();
+	auto handle = mDev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+	gpuHandle.ptr += handle * 5;
 
 	//定数バッファビューをセット
+	cmdList->SetGraphicsRootDescriptorTable(0, gpuHandle);
+	gpuHandle.ptr += handle;
 
 	//シェーダリソースビューをセット
+	cmdList->SetGraphicsRootDescriptorTable(1, gpuHandle);
 
 	//描画コマンド
-	mCMDList->DrawInstanced(static_cast<UINT>(std::distance(v.begin(), v.end())), 1, 0, 0);
+	cmdList->DrawInstanced(static_cast<UINT>(std::distance(v.begin(), v.end())), 1, 0, 0);
 }
 
 void Compute::barrier(ID3D12Resource * p, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after)
@@ -149,8 +227,13 @@ HRESULT Compute::createCMDList()
 {
 	HRESULT hr;
 
-	hr = mDev->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&mCMDAllo));
-	hr = mDev->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, mCMDAllo, nullptr, IID_PPV_ARGS(&mCMDList));
+	hr = mDev->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&mCMDAllo));
+	hr = mDev->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_COMPUTE, mCMDAllo, nullptr, IID_PPV_ARGS(&mCMDList));
+
+	D3D12_COMMAND_QUEUE_DESC cmdQueueDesc{};
+	cmdQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
+	hr = mDev->CreateCommandQueue(&cmdQueueDesc, IID_PPV_ARGS(&mCQueue));
+
 	return hr;
 }
 
@@ -247,6 +330,8 @@ HRESULT Compute::createPiprLine()
 
 #pragma endregion //エミッター更新用
 
+#pragma region パーティクル更新用
+
 	CD3DX12_DESCRIPTOR_RANGE1 range2[3];
 	CD3DX12_ROOT_PARAMETER1 rootParam2[3];
 
@@ -278,12 +363,116 @@ HRESULT Compute::createPiprLine()
 	hr = mDev->CreateComputePipelineState(&psoDesc, IID_PPV_ARGS(&mParticlePipe));
 
 	assert(SUCCEEDED(hr));
-#pragma region パーティクル更新用
-
 
 #pragma endregion //パーティクル更新用
 
 #pragma region パーティクル描画用
+
+	//グラフィックスパイプラインの流れの設定
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{ };
+
+	gpipeline.VS = CD3DX12_SHADER_BYTECODE(mVSShader->getCompiledBlob());
+	gpipeline.GS = CD3DX12_SHADER_BYTECODE(mGSShader->getCompiledBlob());
+	gpipeline.PS = CD3DX12_SHADER_BYTECODE(mPSShader->getCompiledBlob());
+
+	D3D12_INPUT_ELEMENT_DESC inputLayout[]
+	{
+		{
+			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
+		{
+
+			"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
+		{
+			"TEXCOORD", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
+		{
+			"TEXCOORD", 1, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
+	};
+
+	gpipeline.InputLayout.pInputElementDescs = inputLayout;
+	gpipeline.InputLayout.NumElements = 4;
+
+	// サンプルマスク
+	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
+	//ラスタライザステート
+	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);//いったん標準をセット
+	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//背面カリングしない
+
+	// デプスステンシルステート
+	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_NOT_EQUAL;
+
+	// レンダーターゲットのブレンド設定
+	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	// RBGA全てのチャンネルを描画
+	blenddesc.BlendEnable = true;
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
+
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;
+	blenddesc.DestBlend = D3D12_BLEND_ONE;
+
+	// ブレンドステートの設定
+	gpipeline.BlendState.RenderTarget[0] = blenddesc;
+
+	// 深度バッファのフォーマット
+	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+
+	// 図形の形状設定
+	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
+
+	// 描画対象
+	gpipeline.NumRenderTargets = 1;
+
+	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
+
+	gpipeline.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
+
+	// ルートパラメータ
+
+	CD3DX12_DESCRIPTOR_RANGE1 range3[2];
+	CD3DX12_ROOT_PARAMETER1 rootParam3[2];
+
+	range3[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
+	range3[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+	
+
+	rootParam3[0].InitAsDescriptorTable(1, &range3[0],D3D12_SHADER_VISIBILITY_ALL);
+	rootParam3[1].InitAsDescriptorTable(1, &range3[1],D3D12_SHADER_VISIBILITY_ALL);
+
+	// スタティックサンプラー
+	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
+
+	// ルートシグネチャの設定
+	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc3;
+	rootSignatureDesc3.Init_1_1(_countof(rootParam3), rootParam3, 1, &samplerDesc, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+
+	ComPtr<ID3DBlob> signature3;
+
+	hr = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc3, D3D_ROOT_SIGNATURE_VERSION_1, &signature3, &error);
+	assert(SUCCEEDED(hr));
+
+	hr = mDev->CreateRootSignature(0, signature3->GetBufferPointer(), signature3->GetBufferSize(), IID_PPV_ARGS(&mParticleDrawRoot));
+
+	assert(SUCCEEDED(hr));
+
+	gpipeline.pRootSignature = mParticleDrawRoot;
+
+	hr = mDev->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&mParticleDrawPipe));
 
 
 #pragma endregion //パーティクル描画用
@@ -294,32 +483,151 @@ HRESULT Compute::createPiprLine()
 
 HRESULT Compute::createBuffer()
 {
-	//HRESULT hr;
+	HRESULT hr;
 
 	auto cpuHandle = mHeap->GetCPUDescriptorHandleForHeapStart();
 	auto handle = mDev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
 	//エミッターインプット
 	mInputEmitterSB = new StructuredBuffer();
+	mInputEmitterSB->setDevice(mDev);
+	mInputEmitterSB->init(sizeof(EmitterData), 1, nullptr);
 
 	cpuHandle.ptr += handle;
 	//エミッターアウトプット
 	mOutputEmitterSB = new RWStructuredBuffer();
+	mOutputEmitterSB->setDevice(mDev);
+	mOutputEmitterSB->init(sizeof(ParticleData), MAX_PARTICLE_SIZE, nullptr);
 
 	cpuHandle.ptr += handle;
 	//パーティクルインプット
 	mInputParticleDataSB = new StructuredBuffer();
+	mInputParticleDataSB->setDevice(mDev);
+	mInputParticleDataSB->init(sizeof(ParticleData), MAX_PARTICLE_SIZE, nullptr);
+	mInputParticleDataSB->RegistShaderResourceView(cpuHandle, 0);
 
 	cpuHandle.ptr += handle;
 	//パーティクル描画用
 	mOutputParticleSB = new RWStructuredBuffer();
+	mOutputParticleSB->setDevice(mDev);
+	mOutputParticleSB->init(sizeof(ParticleDrawData), MAX_PARTICLE_SIZE, nullptr);
+	mOutputParticleSB->RegistUnorderAccessView(cpuHandle, 0);
 
 	cpuHandle.ptr += handle;
 	//パーティクル保管用
 	mParticleStorageSB = new RWStructuredBuffer();
+	mParticleStorageSB->setDevice(mDev);
+	mParticleStorageSB->init(sizeof(ParticleData), MAX_PARTICLE_SIZE, nullptr);
+	mParticleStorageSB->RegistUnorderAccessView(cpuHandle, 0);
 
 	cpuHandle.ptr += handle;
 
+	ParticleVertex vert[] =
+	{
+		{{0.0f,0.0f,0.0f}}
+	};
 
-	return S_OK;
+	//最大個数のバッファを生成
+	hr = mDev->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer(sizeof(vert)*MAX_PARTICLE_SIZE),//sizeof(vert[0])*vert.size()
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&mVertBuff));
+
+	assert(SUCCEEDED(hr));
+
+	ParticleVertex* vertMap;
+	mVertBuff->Map(0, nullptr, (void**)&vertMap);
+	memcpy(vertMap, vert, sizeof(vert));
+	mVertBuff->Unmap(0, nullptr);
+
+	// 頂点バッファビューの作成
+	mVbView.BufferLocation = mVertBuff->GetGPUVirtualAddress();
+	mVbView.SizeInBytes = sizeof(vert)*MAX_PARTICLE_SIZE;
+	mVbView.StrideInBytes = sizeof(vert[0]);
+
+	// 定数バッファの生成
+	hr = mDev->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ParticleConstBuff) + 0xff)&~0xff),
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&mConstBuff));
+
+	assert(SUCCEEDED(hr));
+
+	//定数バッファビューの割り当て
+	D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc{};
+	cbvDesc.BufferLocation = mConstBuff->GetGPUVirtualAddress();
+	cbvDesc.SizeInBytes = static_cast<UINT>(mConstBuff->GetDesc().Width);
+	mDev->CreateConstantBufferView(&cbvDesc, cpuHandle);
+	cpuHandle.ptr += handle;
+
+	//画像読み込み
+	TexMetadata metadata{};
+	ScratchImage scratchImg{};
+
+	std::string texName = "Resouse/particle.jpg";
+
+	wchar_t wfxFilePath[256] = { L"" };
+	mbstowcs(wfxFilePath, texName.c_str(), 256);
+
+	hr = LoadFromWICFile(
+		wfxFilePath,
+		WIC_FLAGS_NONE,
+		&metadata, scratchImg);
+
+	assert(SUCCEEDED(hr));
+
+	const Image* img = scratchImg.GetImage(0, 0, 0); // 生データ抽出
+	// リソース設定
+	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
+		metadata.format,
+		metadata.width,
+		static_cast<UINT>(metadata.height),
+		static_cast<UINT16>(metadata.arraySize),
+		static_cast<UINT16>(metadata.mipLevels)
+	);
+
+	// テクスチャ用バッファの生成
+	hr = mDev->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
+		D3D12_HEAP_FLAG_NONE,
+		&texresDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
+		nullptr,
+		IID_PPV_ARGS(&mTexBuff));
+
+	assert(SUCCEEDED(hr));
+
+	// テクスチャバッファにデータ転送
+	hr = mTexBuff->WriteToSubresource(
+		0,
+		nullptr, // 全領域へコピー
+		img->pixels,    // 元データアドレス
+		static_cast<UINT>(img->rowPitch),  // 1ラインサイズ
+		static_cast<UINT>(img->slicePitch) // 1枚サイズ
+	);
+
+	assert(SUCCEEDED(hr));
+
+	//シェーダリソースビューを割り当て
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	D3D12_RESOURCE_DESC resDesc = mTexBuff->GetDesc();
+
+	srvDesc.Format = resDesc.Format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
+	srvDesc.Texture2D.MipLevels = 1;
+	mDev->CreateShaderResourceView(
+		mTexBuff,
+		&srvDesc,
+		cpuHandle
+	);
+
+
+	return hr;
 }

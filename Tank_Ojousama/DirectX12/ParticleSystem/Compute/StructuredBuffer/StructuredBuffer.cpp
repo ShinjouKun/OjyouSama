@@ -79,10 +79,11 @@ void StructuredBuffer::RegistShaderResourceView(D3D12_CPU_DESCRIPTOR_HANDLE desc
 
 }
 
-void StructuredBuffer::update(void * data)
+void StructuredBuffer::update(void * data, int dataSize)
 {
+	if (dataSize > mNumElement) dataSize = mNumElement;
 	auto backBufferIndex = 0;
-	memcpy(mBufferOnCPU[backBufferIndex], data, mSizeOfElement * mNumElement);
+	memcpy(mBufferOnCPU[backBufferIndex], data, mSizeOfElement * dataSize);
 }
 
 ID3D12Resource * StructuredBuffer::getResource(int bufferNo)

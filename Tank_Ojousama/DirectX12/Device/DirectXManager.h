@@ -51,6 +51,9 @@ public:
 	ID3D12Device* Dev()const;
 	ID3D12GraphicsCommandList*CmdList()const;
 
+	//gpgpuóp
+	void waitGPU(ID3D12CommandQueue* queue);
+
 	//FPSä«óùóp
 	long long cnt = 0;
 	 const int limit = 60;//FPSíl

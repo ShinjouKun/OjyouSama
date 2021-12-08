@@ -42,6 +42,7 @@ struct ParticleRandomState
 {
 	float randomSpeed = 0.0f;//ランダムなスピードを追加
 	float randomLife = 0.0f;//ランダムな生存時間を追加
+	Vector3 randomVec = Vector3::zero;//ランダムなベクトル
 	Vector3 randomSize3D = Vector3::zero;//ランダムなサイズを追加
 	Vector3 randomRotate3D = Vector3::zero;//ランダムな回転を追加
 	Vector4 randomColor = Vector4::zero;//ランダムなカラーを追加

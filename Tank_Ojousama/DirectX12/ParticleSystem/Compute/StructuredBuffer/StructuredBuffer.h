@@ -20,7 +20,7 @@ public:
 	//SRV‚É“o˜^
 	void RegistShaderResourceView(D3D12_CPU_DESCRIPTOR_HANDLE descriptorHandle, int bufferNo);
 
-	void update(void* data);
+	void update(void * data, int dataSize);
 
 	bool isInited()const
 	{
