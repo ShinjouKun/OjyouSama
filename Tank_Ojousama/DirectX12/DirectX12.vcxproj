@@ -177,6 +177,7 @@
     <ClCompile Include="Actor\TestEnemy.cpp" />
     <ClCompile Include="Actor\TestWayPoint.cpp" />
     <ClCompile Include="Actor\Enemy\TreeRoot.cpp" />
+    <ClCompile Include="Actor\Treasure.cpp" />
     <ClCompile Include="Actor\WayPoint.cpp" />
     <ClCompile Include="Actor\WayPointManager.cpp" />
     <ClCompile Include="Collision\AABBCollider.cpp" />
@@ -461,6 +462,7 @@
     <ClInclude Include="Actor\TestItem.h" />
     <ClInclude Include="Actor\TestWayPoint.h" />
     <ClInclude Include="Actor\Enemy\TreeRoot.h" />
+    <ClInclude Include="Actor\Treasure.h" />
     <ClInclude Include="Actor\WayPoint.h" />
     <ClInclude Include="Actor\WayPointManager.h" />
     <ClInclude Include="Collision\AABBCollider.h" />

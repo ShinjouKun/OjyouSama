@@ -155,8 +155,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/pinkflo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpgage.png");
 
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_black.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood2.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood3.png");
 	
+	//‚¨•ó
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs_huta.obj");
 	//–h‰q‹’“_
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 	//Player

@@ -43,6 +43,8 @@ private:
 	void Pose();
 	//‰¹—Êİ’è
 	void Setting();
+	//ƒŠƒUƒ‹ƒg‰æ–Ê
+	void ResultF();
 
 	Camera* camera;
 	ObjectManager* objM;

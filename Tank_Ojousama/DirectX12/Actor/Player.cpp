@@ -175,6 +175,9 @@ void Player::Init()
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
 	playerSprite->AddTexture("HpGage", "Resouse/hpgage.png");
 	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
+	playerSprite->AddTexture("Blood", "Resouse/blood.png");
+	playerSprite->AddTexture("Blood2", "Resouse/blood2.png");
+	playerSprite->AddTexture("Blood3", "Resouse/blood3.png");
 	//model
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
@@ -496,6 +499,10 @@ void Player::Rend()
 
 
 	DirectXManager::GetInstance()->SetData2D();
+	if (HitFlag)
+	{
+		playerSprite->Draw("Blood", Vector3(500, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
 	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("WeponUi", Vector3(1280 -180, 720-180, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));

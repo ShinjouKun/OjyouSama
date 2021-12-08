@@ -15,6 +15,7 @@
 #include "../Actor/ElfRock.h"
 
 #include "../Actor/Enemy/SniperEnemy.h"
+#include"../Actor/Treasure.h"
 
 Robbery::Robbery()
 	:mSound(nullptr)
@@ -101,7 +102,7 @@ void Robbery::StartScene()
 	goalLine = 500.0f;
 	//とりあえず行きのスポーン
 	StartWayEnemySpown();
-
+	objM->Add(new Treasure(Vector3(0, 0, 0), Vector3(0, 0, 0), objM, BaseScene::mModel));
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 450.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,2));
 	objM->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), objM));
 	mTimer = std::make_shared<Timer>(0.01f);
@@ -135,6 +136,7 @@ void Robbery::UpdateScene()
 	if (goalFlag)
 	{
 		BaseScene::mStageFlag3 = true;
+		NextScene(std::make_shared<Result>());
 		//クリア
 	}
 }
@@ -426,5 +428,70 @@ void Robbery::Setting()
 		}
 
 		mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	}
+}
+
+void Robbery::ResultF()
+{
+	if (resultFlag == false)
+	{
+		if (goalFlag)
+		{
+			NextScene(std::make_shared<Result>());
+		}
+	}
+	else if (resultFlag)
+	{
+
+		camera->GetEye();
+		camera->GetTarget();
+		camera->SetEye(camerapos);
+		camera->SetTarget(setcamerapos);
+		camerapos.x += 1;
+		time += 1;
+		if (time >= 300)
+		{
+			camerapos.x -= 1;
+			if (selectposition.x <= 0)
+			{
+				selectposition.x = 820;
+			}
+			if (selectposition.x > 820)
+			{
+				selectposition.x = 180;
+			}
+			if (Input::getKeyDown(KeyCode::A) || Input::joyHorizontal() < 0)
+			{
+				if (selectposition.y == 360)
+				{
+					return;
+				}
+				selectposition.x -= 640;
+			}
+
+			if (Input::getKeyDown(KeyCode::D) || Input::joyHorizontal() > 0)
+			{
+				if (selectposition.y == 360)
+				{
+					return;
+				}
+				selectposition.x += 640;
+			}
+
+			if (selectposition.x == 180)
+			{
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+				{
+					NextScene(std::make_shared<Select>());
+				}
+			}
+			if (selectposition.x == 820)
+			{
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+				{
+					NextScene(std::make_shared<GamePlay>());
+				}
+			}
+		}
 	}
 }
