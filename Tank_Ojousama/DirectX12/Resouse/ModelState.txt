@@ -1,4 +1,4 @@
 Normal
 Light
 Light_b
-ShotGun
+Cannon
