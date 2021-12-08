@@ -49,6 +49,7 @@ private:
 	EnemyTank* enemyTank;
 	Camera* camera;
 	std::shared_ptr<Sound> mSound;
+	std::shared_ptr<Sound> mHidan;
 	float x, y, z;
 
 	ItemHolder* itemHolder;
@@ -80,7 +81,7 @@ private:
 	shared_ptr<EnemyAI> mEnemyAI;
 	std::shared_ptr<Timer> mTimer;
 
-
+	Camera* cam;
 	bool spawnFlag;//ˆê”Ô–Ú
 	bool spawnFlag2;//“ñ”Ô
 	bool spawnFlag3;//ŽO”Ô

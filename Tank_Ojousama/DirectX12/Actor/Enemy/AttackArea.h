@@ -20,7 +20,7 @@ public:
 		const Vector3& pos,
 		const Vector3& ang,
 		ObjectManager* objM,
-		shared_ptr<ModelRenderer>modelR,
+		std::shared_ptr<ModelRenderer> modelRender,
 		int num
 	);
 
@@ -64,7 +64,7 @@ private:
 
 private:
 	ObjectManager* objManager;
-	shared_ptr<ModelRenderer> modelRender;
+	std::shared_ptr<ModelRenderer> mModelRender;
 
 	Vector3 scale;//‘å‚«‚³
 

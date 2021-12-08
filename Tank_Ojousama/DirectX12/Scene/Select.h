@@ -36,6 +36,7 @@ private:
 	bool fadeF1;
 	bool fadeF2;
 	bool fadeF3;
+	bool fadeF4;
 	float fade;
 	bool selectFlag = false;
 	//
@@ -45,9 +46,12 @@ private:
 	float SelectAlfa3;
 	float SelectAlfa4;
 	float SelectAlfa5;
+	float angle;
 	//説明用フラグ
 	bool setumeiFlag = false;
 	bool setumeiBossFlag = false;
+	bool setumeiDefFlag = false;
+	bool setumeiRobFlag = false;
 	//ターゲット１
 	Vector3 targetPos1;
 	//ターゲット２

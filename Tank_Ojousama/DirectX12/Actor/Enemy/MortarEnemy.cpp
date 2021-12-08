@@ -7,17 +7,14 @@
 MortarEnemy::MortarEnemy(
 	const Vector3 & pos,
 	const Vector3 & ang,
-	ObjectManager * objectManager,
-	shared_ptr<ModelRenderer> modelRender,
-	shared_ptr<ParticleManager> effectManager,
 	int num
 )
 {
 	position = pos;
 	angle = ang;
-	mObjManager = objectManager;
-	mModelRender = modelRender;
-	mEffectManager = effectManager;
+	//mObjManager = objectManager;
+	//mModelRender = modelRender;
+	//mEffectManager = effectManager;
 	number = num;
 }
 
@@ -25,110 +22,110 @@ MortarEnemy::~MortarEnemy()
 {
 }
 
-void MortarEnemy::Init()
-{
-	HP = 10;
-	damage = 5;
-
-	mRadius = 1.5f;
-	barrelAngle = angle.y;
-	mHandAngle = 0.0f;
-
-	mScale = Vector3(2.0f, 2.0f, 2.0f);
-
-	death = false;
-	mFireFlag = false;
-
-	objType = ObjectType::ENEMY;
-
-	SetCollidder(new SphereCollider(Vector3().zero, mRadius));
-
-	mAimingTime = std::make_shared<Timer>();
-	mAimingTime->setTime(1.0f);
-	mReloadTime = std::make_shared<Timer>();
-	mReloadTime->setTime(1.0f);
-
-	mAttackStep = AttackStep::AIMING;
-
-#pragma region モデルの読み込み
-
-	num = to_string(number);
-
-	//右手
-	mHandRight = "MemberHandRight";
-	mHandRNum = mHandRight + num;
-	mModelRender->AddModel(mHandRNum, "Resouse/gorem_hands_R.obj", "Resouse/gorem.png");
-
-	//左手
-	mHandLeft = "MemberHandLeft";
-	mHandLNum = mHandLeft + num;
-	mModelRender->AddModel(mHandLNum, "Resouse/gorem_hands_L.obj", "Resouse/gorem.png");
-
-	mModelRender->SetAncPoint(mHandRNum, Vector3(0.0f, -3.0f, 0.0f));
-	mModelRender->SetAncPoint(mHandLNum, Vector3(0.0f, -3.0f, 0.0f));
-
-	//体
-	mBody = "MemberBody";
-	mBodyNum = mBody + num;
-	mModelRender->AddModel(mBodyNum, "Resouse/gorem_body.obj", "Resouse/gorem.png");
-#pragma endregion
-}
-
-void MortarEnemy::Update()
-{
-	if (HP <= 0)
-	{
-		death = true;
-	}
-
-	switch (mAttackStep)
-	{
-	case MortarEnemy::AIMING:
-		AttackStep_AIMING();
-		break;
-	case MortarEnemy::FIRE:
-		AttackStep_FIRE();
-		break;
-	case MortarEnemy::RELOAD:
-		AttackStep_RELOAD();
-		break;
-	default:
-		break;
-	}
-}
-
-void MortarEnemy::Rend()
-{
-	//モデルの描画
-	DirectXManager::GetInstance()->SetData3D();
-	mModelRender->Draw(mHandRNum, Vector3(position.x, position.y + 7.0f, position.z), Vector3(mHandAngle, barrelAngle, 0), mScale);
-	mModelRender->Draw(mHandLNum, Vector3(position.x, position.y + 7.0f, position.z), Vector3(mHandAngle, barrelAngle, 0), mScale);
-	mModelRender->Draw(mBodyNum, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), mScale);
-}
-
-void MortarEnemy::ImGuiDebug()
-{
-}
-
-void MortarEnemy::OnCollison(BaseCollider * col)
-{
-	if (col->GetColObject()->GetType() == ObjectType::BULLET)
-	{
-		HP -= col->GetColObject()->GetDamage();
-	}
-
-	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
-	{
-		//カメラに当たっているとき、描画を行う。
-		SetActive(true);
-	}
-}
+//void MortarEnemy::Init()
+//{
+//	HP = 10;
+//	damage = 5;
+//
+//	mRadius = 1.5f;
+//	barrelAngle = angle.y;
+//	mHandAngle = 0.0f;
+//
+//	mScale = Vector3(2.0f, 2.0f, 2.0f);
+//
+//	death = false;
+//	mFireFlag = false;
+//
+//	objType = ObjectType::ENEMY;
+//
+//	SetCollidder(new SphereCollider(Vector3().zero, mRadius));
+//
+//	mAimingTime = std::make_shared<Timer>();
+//	mAimingTime->setTime(1.0f);
+//	mReloadTime = std::make_shared<Timer>();
+//	mReloadTime->setTime(1.0f);
+//
+//	mAttackStep = AttackStep::AIMING;
+//
+//#pragma region モデルの読み込み
+//
+//	num = to_string(number);
+//
+//	//右手
+//	mHandRight = "MemberHandRight";
+//	mHandRNum = mHandRight + num;
+//	mModelRender->AddModel(mHandRNum, "Resouse/gorem_hands_R.obj", "Resouse/gorem.png");
+//
+//	//左手
+//	mHandLeft = "MemberHandLeft";
+//	mHandLNum = mHandLeft + num;
+//	mModelRender->AddModel(mHandLNum, "Resouse/gorem_hands_L.obj", "Resouse/gorem.png");
+//
+//	mModelRender->SetAncPoint(mHandRNum, Vector3(0.0f, -3.0f, 0.0f));
+//	mModelRender->SetAncPoint(mHandLNum, Vector3(0.0f, -3.0f, 0.0f));
+//
+//	//体
+//	mBody = "MemberBody";
+//	mBodyNum = mBody + num;
+//	mModelRender->AddModel(mBodyNum, "Resouse/gorem_body.obj", "Resouse/gorem.png");
+//#pragma endregion
+//}
+//
+//void MortarEnemy::Update()
+//{
+//	if (HP <= 0)
+//	{
+//		death = true;
+//	}
+//
+//	switch (mAttackStep)
+//	{
+//	case MortarEnemy::AIMING:
+//		AttackStep_AIMING();
+//		break;
+//	case MortarEnemy::FIRE:
+//		AttackStep_FIRE();
+//		break;
+//	case MortarEnemy::RELOAD:
+//		AttackStep_RELOAD();
+//		break;
+//	default:
+//		break;
+//	}
+//}
+//
+//void MortarEnemy::Rend()
+//{
+//	//モデルの描画
+//	DirectXManager::GetInstance()->SetData3D();
+//	mModelRender->Draw(mHandRNum, Vector3(position.x, position.y + 7.0f, position.z), Vector3(mHandAngle, barrelAngle, 0), mScale);
+//	mModelRender->Draw(mHandLNum, Vector3(position.x, position.y + 7.0f, position.z), Vector3(mHandAngle, barrelAngle, 0), mScale);
+//	mModelRender->Draw(mBodyNum, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), mScale);
+//}
+//
+//void MortarEnemy::ImGuiDebug()
+//{
+//}
+//
+//void MortarEnemy::OnCollison(BaseCollider * col)
+//{
+//	if (col->GetColObject()->GetType() == ObjectType::BULLET)
+//	{
+//		HP -= col->GetColObject()->GetDamage();
+//	}
+//
+//	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+//	{
+//		//カメラに当たっているとき、描画を行う。
+//		SetActive(true);
+//	}
+//}
 
 void MortarEnemy::AttackStep_AIMING()
 {
 	mAimingTime->update();
 
-	mTargetPosition = mObjManager->GetPlayer().GetPosition();
+	mTargetPosition = mManager->GetPlayer().GetPosition();
 
 	Vector3 distance = mTargetPosition - position;
 	distance = distance.normal();
@@ -150,7 +147,7 @@ void MortarEnemy::AttackStep_FIRE()
 	if (!mFireFlag)
 	{
 		Vector3 firePosition = AngleToVectorY(barrelAngle);
-		mObjManager->Add(new LaunchBullet(position + firePosition, mTargetPosition, mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+		mManager->Add(new LaunchBullet(position + firePosition, mTargetPosition, mManager, mRend, mPart, objType, mBulletNumber++));
 		mFireFlag = true;
 	}
 
@@ -203,4 +200,116 @@ Vector3 MortarEnemy::AngleToVectorY(float angle) const
 	float z = sinf(radian);
 
 	return Vector3(x, 0, z).normal();
+}
+
+void MortarEnemy::EnemyInit()
+{
+	HP = 10;
+	damage = 5;
+
+	mRadius = 1.5f;
+	barrelAngle = angle.y;
+	mHandAngle = 0.0f;
+
+	mScale = Vector3(2.0f, 2.0f, 2.0f);
+
+	death = false;
+	mFireFlag = false;
+
+	objType = ObjectType::ENEMY;
+
+	SetCollidder(new SphereCollider(Vector3().zero, mRadius));
+
+	mAimingTime = std::make_shared<Timer>();
+	mAimingTime->setTime(1.0f);
+	mReloadTime = std::make_shared<Timer>();
+	mReloadTime->setTime(1.0f);
+
+	mAttackStep = AttackStep::AIMING;
+
+#pragma region モデルの読み込み
+
+	num = to_string(number);
+
+	//右手
+	mHandRight = "MortarHandRight";
+	mHandRNum = mHandRight + num;
+	mRend->AddModel(mHandRNum, "Resouse/gorem_hands_R.obj", "Resouse/gorem.png");
+
+	//左手
+	mHandLeft = "MortarHandLeft";
+	mHandLNum = mHandLeft + num;
+	mRend->AddModel(mHandLNum, "Resouse/gorem_hands_L.obj", "Resouse/gorem.png");
+
+	mRend->SetAncPoint(mHandRNum, Vector3(0.0f, -3.0f, 0.0f));
+	mRend->SetAncPoint(mHandLNum, Vector3(0.0f, -3.0f, 0.0f));
+
+	//体
+	mBody = "MortarBody";
+	mBodyNum = mBody + num;
+	mRend->AddModel(mBodyNum, "Resouse/gorem_body.obj", "Resouse/gorem.png");
+
+#pragma endregion
+}
+
+void MortarEnemy::EnemyUpdate()
+{
+	if (HP <= 0)
+	{
+		death = true;
+	}
+
+	switch (mAttackStep)
+	{
+	case MortarEnemy::AIMING:
+		AttackStep_AIMING();
+		break;
+	case MortarEnemy::FIRE:
+		AttackStep_FIRE();
+		break;
+	case MortarEnemy::RELOAD:
+		AttackStep_RELOAD();
+		break;
+	default:
+		break;
+	}
+}
+
+void MortarEnemy::EnemyRend()
+{
+	//モデルの描画
+	DirectXManager::GetInstance()->SetData3D();
+	mRend->Draw(mHandRNum, Vector3(position.x, position.y + 7.0f, position.z), Vector3(mHandAngle, barrelAngle, 0), mScale);
+	mRend->Draw(mHandLNum, Vector3(position.x, position.y + 7.0f, position.z), Vector3(mHandAngle, barrelAngle, 0), mScale);
+	mRend->Draw(mBodyNum, Vector3(position.x, position.y, position.z), Vector3(0, barrelAngle, 0), mScale);
+}
+
+void MortarEnemy::EnemyOnCollision(BaseCollider * col)
+{
+	if (col->GetColObject()->GetType() == ObjectType::BULLET)
+	{
+		HP -= col->GetColObject()->GetDamage();
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	{
+		//カメラに当たっているとき、描画を行う。
+		SetActive(true);
+	}
+}
+
+void MortarEnemy::EnemyImGuiDebug()
+{
+}
+
+void MortarEnemy::Search()
+{
+}
+
+void MortarEnemy::Warning()
+{
+}
+
+void MortarEnemy::Attack()
+{
 }

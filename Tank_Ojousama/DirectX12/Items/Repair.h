@@ -8,7 +8,7 @@ class Player;
 class Repair :public Item
 {
 public:
-	Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj,  shared_ptr<ModelRenderer>m, ItemHolder* holder, ItemState itemState, int num, int maxAlive, int addHp);
+	Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj,  shared_ptr<ModelRenderer>m, ItemState itemStates, int num, int maxAlive, int addHp);
 	~Repair();
 
 private:
@@ -27,7 +27,6 @@ private:
 
 private:
 	ObjectManager* objM;
-	ItemHolder* itemHolder;
 	Player* player=nullptr;
 	int alive_max;
 	int healPoint;

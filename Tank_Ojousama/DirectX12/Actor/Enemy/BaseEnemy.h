@@ -1,9 +1,10 @@
 #pragma once
 #include <memory>
-#include "../BaseObject.h"             //オブジェクトのひな型
-#include "../ObjectManager.h"          //オブジェクト管理者
-#include "../../Render/ModelRenderer.h"//モデル貼り付け
+#include "../BaseObject.h"              //オブジェクトのひな型
+#include "../ObjectManager.h"           //オブジェクト管理者
+#include "../../Render/ModelRenderer.h" //モデル貼り付け
 #include "../../Render/TexRenderer.h"	//ポリゴンの描画
+#include "../../Render/ParticleManager.h"//パーティクル描画
 #include "AttackArea.h"//子クラスで作ってるからここに書いてる
 
 #include "EnemyAI.h"
@@ -32,18 +33,23 @@ protected:
 	}fanInfo;
 
 	//敵の行動状態
-	enum ActionState
+	enum MoveState
 	{
 		SEARCH,  //索敵
 		WARNING, //警戒
 		ATTACK,  //攻撃
 		DESTRUCT,//自爆
-		CHASE_PLAYER,//プレイヤー追跡中
-		CHASE_BREADCRUMB,//パンくず追跡中
+		NOT_FIND,            //未発見状態
+		CHASE_PLAYER,        //プレイヤー追跡中
+		CHASE_BREADCRUMB,    //パンくず追跡中
+		CHASE_ATTACKTARGET,  //攻撃拠点追跡中
+		CHASE_TURRET,        //タレット追跡中
+		ADVANCE_BORDWERLINE, //ボーダーラインまで直線移動中
+		ADVANCE_ATTACKTARGET,//攻撃拠点まで移動中
 		TURN_AROUND,//回転中
 		REPORT,//報告中
-		RECEIVE_REPORT,
-	}actionState;
+
+	}mMoveState;
 
 public:
 	BaseEnemy() = default;
@@ -63,10 +69,9 @@ public:
 	virtual void EnemyOnCollision(BaseCollider* col) = 0;
 	virtual void EnemyImGuiDebug() = 0;
 
-	virtual void Search() = 0; //索敵
-	virtual void Warning() = 0;//追跡
-	virtual void Attack() = 0; //攻撃
-	virtual void Destruct() = 0;//自爆
+	virtual void Search() = 0; //未発見状態
+	virtual void Warning() = 0;//発見状態
+	virtual void Attack() = 0; //攻撃中
 
 	/*行動状態の変更*/
 	void ChangeState();
@@ -75,10 +80,19 @@ public:
 	virtual void SearchObject();
 
 	/*移動(移動先の位置)*/
-	void Move(const Vector3& otherPosition);
+	void MovePoint(const Vector3& otherPosition);
+
+	/*Y軸を無視した移動(移動先の位置)*/
+	void MovePointY(const Vector3& otherPosition);
+
+	/*移動(移動方向)*/
+	void MoveDirection(const Vector3& direction);
 
 	/*無敵時間(ダメージを受けない時間)*/
 	virtual void Invincible(int time);
+
+	/*スモークによる盲目状態*/
+	virtual void SmokeBlind();
 
 	/*首振り索敵機能(左右何度まで回転するか)*/
 	virtual void SwingDirection(float range);
@@ -122,7 +136,7 @@ public:
 	/*扇の当たり判定*/
 	virtual bool IsHitFanToPoint(const FanInfomation& fan, const Vector3& point, const float radius = 0.0f) const;
 
-	/*パンくず生成器取得*/
+	/*パンくず生成器取得------------------------------------------いらない-------------------------------------*/
 	static void SetBreadCreator(BreadCrumbCreater * breadCreator);
 
 	/*体力取得*/
@@ -137,10 +151,20 @@ public:
 	/*オブジェクトマネージャーセット*/
 	static void SetObjectManager(ObjectManager* manager);
 
+	/*拠点進攻モードの攻撃対象の位置をセット*/
+	static void SetAttackTarget(const Vector3& attackTarget = Vector3(0.0f, 0.0f, 0.0f));
+
+	/*オブジェクト生成に必要なデータをセット(ObjectManager, ModelRenderer,ParticleManager)*/
+	static void SetImportantObject(ObjectManager * manager, shared_ptr<ModelRenderer> modelRender, shared_ptr<ParticleManager> particleManager, shared_ptr<BreadCrumbCreater> breadCreator);
+
+
 private:
 
 	/*変数の初期化*/
 	void Initialize();
+
+	/*生存状態の監視*/
+	void AliveSurveillance();
 
 	/*扇の情報変更*/
 	void SetFanInfo(float range = 60.0f, float length = 30.0f);
@@ -148,8 +172,14 @@ private:
 	/*プレイヤー検索*/
 	void SearchPlayer();
 
+	/*攻撃拠点検索*/
+	void SearchAttackTarget();
+
+	/*タレット検索*/
+	void SearchTurret();
+
 	/*パンくず検索*/
-	void SearchBreadCrumbTest(const TestBreadCrumb& breadCrumb);
+	void SearchBreadCrumb(const TestBreadCrumb& breadCrumb);
 
 	/*オブジェクト追跡に切り替え*/
 	void StartTracking();
@@ -180,42 +210,50 @@ private:
 
 protected:
 
-	//int HP;         //体力
-	int number;     //識別番号
-	int warningTime;//警戒時間
-	int attackTime;	//攻撃時間
-	int attackCount;//攻撃カウント
+	int mOriginNumber;//識別番号
+	int warningTime;  //警戒時間
+	int attackTime;	  //攻撃時間
+	int attackCount;  //攻撃カウント
 
-	float radius;         //当たり判定の半径
-	float fanRotateOrigin;//扇の最初の向き
-	float swingRange;     //首振り角度の範囲
-	float barrelAngle;    //砲塔の向き
-	float turretAngle;    //砲身の向き
-	float attackLength;   //攻撃範囲
+	float mRadius;         //当たり判定の半径
+	float mFanRotateOrigin;//扇の最初の向き
+	float mSwingRange;     //首振り角度の範囲
+	float mFireAngle;     //攻撃する向き
+	float mAttackLength;   //攻撃範囲
 	
-	bool trackingPlayer;    //プレイヤーを追跡中か
-	bool trackingBreadcrumb;//パンくずを拾っているか
-	bool breadcrumbMode;    //パンくず追跡を行うかどうか
-	bool DESTRUCT_MODE;     //瀕死時に自爆するかどうか
-	bool TURNAROUND_MODE;   //攻撃に当たった時にゆっくり振り向くかどうか
-	bool moveWayPoint;      //WayPoint移動中か
-	bool RECEIVEREPORT_MODE;//報告を受け取るかどうか
-	bool moveFlag;          //移動しているかどうか
+	bool mTrackingPlayer;    //プレイヤーを追跡中か
+	bool mTrackingBreadcrumb;//パンくずを拾っているか
+	bool mTrackingAttackArea;//拠点進攻中か
+	bool mTrackingTurret;    //タレット追跡中か
+	bool breadcrumbMode;     //パンくず追跡を行うかどうか
+	bool DESTRUCT_MODE;      //瀕死時に自爆するかどうか
+	bool TURNAROUND_MODE;    //攻撃に当たった時にゆっくり振り向くかどうか
+	bool moveWayPoint;       //WayPoint移動中か
+	bool RECEIVEREPORT_MODE; //報告を受け取るかどうか
+	bool moveFlag;           //移動しているかどうか
+	bool mAdvanceFlag = false;       //拠点進攻モードか？
+	bool mHitBorderLine = false;     //拠点進攻モードのターゲット追跡開始
+	bool mAttackFlag = false;//攻撃信号フラグ
+
+	bool mHitSmokeFlag = false;//スモークに触れたか
 
 	Vector3 scale;       //大きさ
 	Vector3 mPlayerPosition;//プレイヤーの位置
 	Vector3 mPreviousPosition;//前フレームの位置
+	Vector3 mAdvanceDirection;//拠点進攻時の進行方向
 
 	//key = 識別番号　：　value = 位置
 	std::unordered_map<int, Vector3> breadMap;//パンくずリスト
 
-	string tankBarrel;//砲身の名前登録
-	string tankTurret;//砲塔の名前登録
-	string tankBody;  //車体の名前登録
-	string num;       //string型の識別番号
-	string numBarrel; //識別番号+砲身の名前
-	string numTurret; //識別番号+砲塔の名前
-	string numBody;	  //識別番号+車体の名前
+	string mMyNumber;       //string型の識別番号
+
+	static ObjectManager* mManager;
+	static std::shared_ptr<ModelRenderer> mRend;
+	static std::shared_ptr<ParticleManager> mPart;
+
+	//static std::shared_ptr<ParticleManager> mEffect;
+
+	static Vector3 mAttackTarget;//拠点進攻モードのターゲット
 
 private:
 	int warningCount;   //警戒カウント
@@ -229,7 +267,7 @@ private:
 	int arrayCount;     //配列の要素数
 
 	bool isInvincible;   //無敵時間か
-	bool hitSensor;      //センサーが当たったか？
+	bool mHitSensor;      //センサーが当たったか？
 	bool swingSensor;    //首振りの状態(true=左、false=右)
 	bool isDestruct;     //自爆状態になっているかどうか。
 	bool finishSearchWay;//ルート検索が完了したか
@@ -245,22 +283,13 @@ private:
 	Vector3 goalPoint;   //報告を出したオブジェクトの位置
 	Vector3 resultPoint; //向かうべきWayPointの位置
 
-	static BreadCrumbCreater* mBreadCreator;    //パンくず作成クラス
-	static ObjectManager* mManager;
+	static std::shared_ptr<BreadCrumbCreater> mBreadCreator;    //パンくず作成クラス
 	AttackArea* destructArea;                   //自爆範囲クラス
-	//shared_ptr<TestWayPoint> mWay;              //生成用
-	//vector<shared_ptr<TestWayPoint>> mTarget;   //自分から近いポイントを格納する
-	//vector<shared_ptr<TestWayPoint>> mPointList;//フィールドにあるポイントを管理
 	std::vector<Vector3> moveList;              //実際に移動する位置を管理
-
-
-
-	//ReportArea* mReportArea;//報告範囲クラス
-
-	//int testNumber = 0;
 	int mIntervalCount = 0;
 	bool mDeathFlag = false;
 
-	static EnemyAI * mEnemyAI;
+	std::shared_ptr<Timer> mSmokeTimer;//目が見えない時間
 
+	static EnemyAI * mEnemyAI;
 };

@@ -8,7 +8,7 @@
 #include "../Render/ParticleManager.h"
 #include "../Collision/CollisonManager.h"
 #include"../Utility/ModelChanger.h"
-
+#include"../Items/ItemHolder.h"
 
 class Listener;
 class Sound;
@@ -17,9 +17,15 @@ using namespace std;
 class Player :public BaseObject
 {
 public:
-	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p,shared_ptr<TexRenderer>s);
+	
+	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p,shared_ptr<TexRenderer>s,int sceneEffect);
 	~Player();
-	void SetCamEye();
+	void StartCamScene();
+	void SceneCamMove1();//殲滅
+	void SceneCamMove2();//強奪
+	void SceneCamMove3();//防衛
+	void SceneCamMove4();//ボス
+
 	void UseWeapon1();//兵装１
 	void UseWeapon2();//兵装２
 	void UseULT();//アルティメット
@@ -49,6 +55,7 @@ private:
 	Vector3 TargetPos;
 	Vector3 CamVelocity;//カメラの移動量
 	//制御用フラグ
+	
 	bool sniperShotFlag = false;
 	bool shotFlag1 =false;
 	bool shotFlag2 = false;
@@ -59,23 +66,29 @@ private:
 	bool BackMove;
 	Vector3 AIMPos;
 	//ステータス
-	//int HP;
+	ItemHolder* item;
 	bool GameOver = false;
 	int bulletStock;//弾をいっぱいだすため
 	float atkAngle;//砲塔用//描画
 	float fireAngle;//砲身
 	float cameraSpeed;
 	int speedTime;
-	float maxSpeed;
+	int maxHP;//最高HP
+	float maxSpeed;//最高速度
 	float speedLimitTime;
 	bool HitFlag;//無敵時間のため
 	int HitCount;
 	float ojyouY;
 	float ojyouXR;
+	float ojyouZR;
 	float ojyouXL;
+	float ojyouZL;
 	float aimPos_Y;
-	
-	
+	int sceneEffectNum;
+	int sceneCount;
+	bool sceneCamOk;
+	Vector3 sceneCamPos;
+	bool sceneCamPlayerOk;
 	//サウンド
 
 	// BaseObject を介して継承されました

@@ -26,17 +26,17 @@ void MashinGun::Init()
 	name = "MashinGun";
 	num = to_string(number);
 	numName = name + num;
-	Model->AddModel(numName, "Resouse/Bullet.obj", "Resouse/Bullet.png");
+	Model->AddModel(numName, "Resouse/bullet.obj", "Resouse/bullet.png");
 	ParticleBox = make_shared<ParticleEmitterBox>(Particle);
 	ParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
 	alive = 0;
 	death = false;
 	speed = 3.5f;
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x, position.y, position.z), 0.4f);
+	SetCollidder(Vector3(0.0f,0.0f,0.0f), 0.4f);
 	random_device rnd;
 	default_random_engine eng(rnd());
-	uniform_int_distribution<int>dist(-2.0f, 2.0f);
+	uniform_int_distribution<int>dist(-4.0f, 4.0f);
 
 	angle.x += dist(eng);
 	angle.y += dist(eng);

@@ -2,6 +2,7 @@
 #include "BaseEnemy.h"
 #include "../../Render/ParticleManager.h"
 
+class Sound;
 class SniperEnemy : public BaseEnemy
 {
 public:
@@ -11,19 +12,15 @@ public:
 	/// </summary>
 	/// <param name="position">初期位置</param>
 	/// <param name="angle">初期角度</param>
-	/// <param name="objManager">オブジェクト管理者</param>
-	/// <param name="modelRender">モデル描画</param>
-	/// <param name="texRender">画像描画</param>
-	/// <param name="effect">エフェクト描画</param>
 	/// <param name="num">識別番号</param>
+	/// <param name="advanceFlag">拠点進行モードか？</param>
+	/// <param name="advanceDirection">拠点進行時に進む方向</param>
 	SniperEnemy(
 		const Vector3& position,
 		const Vector3& angle,
-		ObjectManager * objManager,
-		shared_ptr<ModelRenderer>modelRender,
-		shared_ptr<TexRenderer>texRender,
-		shared_ptr<ParticleManager> effect,
-		int num
+		int num,
+		bool advanceFlag = false,
+		const Vector3& advanceDirection = Vector3(0.0f, 0.0f, 1.0f)
 	);
 
 	/// <summary>
@@ -49,13 +46,10 @@ private:
 	/*攻撃状態*/
 	virtual void Attack() override;
 
-	/*自爆状態*/
-	virtual void Destruct() override;
-
 private:
-	ObjectManager* objManager;                //オブジェクト管理者
-	shared_ptr<ModelRenderer> modelRender;	  //モデル描画
-	shared_ptr<ParticleManager> effectManager;//エフェクト描画
+	//ObjectManager* objManager;                //オブジェクト管理者
+	//shared_ptr<ModelRenderer> modelRender;	  //モデル描画
+	//shared_ptr<ParticleManager> effectManager;//エフェクト描画
 
 	/*弾の識別番号*/
 	int bulletNumber = 0;
@@ -66,6 +60,15 @@ private:
 	const float LEG_RANGE = 15.0f;//脚の最大回転量
 	bool mRotDirection = false;   //回転方向
 
-	string tankBarrel2;
-	string numBarrel2;
+	string mLeftLeg;   //左足のモデル名
+	string mLLegNumber;//左足 + 識別番号
+	string mRightLeg;  //右足のモデル名
+	string mRLegNumber;//右足 + 識別番号
+	string mHead;      //頭の名前
+	string mHeadNumber;//頭 + 識別番号
+	string mBody;      //体の名前
+	string mBodyNumber;//体 + 識別番号
+
+	std::shared_ptr<Sound> mSound;
+	std::shared_ptr<Sound> mSE;
 };

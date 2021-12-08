@@ -5,6 +5,7 @@
 #include"Select.h"
 #include"Result.h"
 #include "../Sound/Sound.h"
+#include"../Actor/Castle.h"
 #include "../Actor/Enemy/SniperEnemy.h"
 #include "../Utility/Timer/Timer.h"
 #include"../Actor/CameraEye.h"
@@ -42,16 +43,11 @@ void Defense::StartScene()
 	mpointManager = std::make_shared<WayPointManager>(Vector3(100.0f, 0.0f, -100.0f), objM, BaseScene::mModel, false);
 	//敵AIシステム生成
 	mEnemyAI = std::make_shared<EnemyAI>(mpointManager);
-
-	//敵にマネージャーセット
-	BaseEnemy::SetObjectManager(objM);
-	//敵にパンくずセット
-	BaseEnemy::SetBreadCreator(mBreadCreator.get());
+	BaseEnemy::SetImportantObject(objM, BaseScene::mModel, BaseScene::mParticle, mBreadCreator);
 	//敵にAIセット
 	BaseEnemy::SetEnemyAi(mEnemyAI.get());
 
-	itemHolder = new ItemHolder();
-	itemHolder->Init();
+	BaseEnemy::SetAttackTarget(Vector3(0.0f,0.0f,500.0f));
 
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
@@ -67,6 +63,9 @@ void Defense::StartScene()
 	BaseScene::mSprite->AddTexture("AimA1", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA2", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA3", "Resouse/volAimA.png");
+	BaseScene::mSprite->AddTexture("Wave1", "Resouse/wave1.png");
+	BaseScene::mSprite->AddTexture("Wave2", "Resouse/wave2.png");
+	BaseScene::mSprite->AddTexture("Wave3", "Resouse/wave3.png");
 
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/sougen.png");
@@ -83,6 +82,8 @@ void Defense::StartScene()
 
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	mSE = std::make_shared<Sound>("wave.mp3", false);
+	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	
 	mTimer = std::make_shared<Timer>(0.01f);
 	interval = 0;
@@ -154,8 +155,8 @@ void Defense::StartScene()
 #pragma endregion
 
 
-
-	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
+	objM->Add(new Castle(Vector3(0.0f, -10.0f, 550.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle));
+	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,3));
 	objM->Add(new CameraEye(Vector3(0, 0.0f, 180), Vector3(0, 0, 0), objM));
 
 }
@@ -168,17 +169,23 @@ void Defense::UpdateScene()
 	mEnemyAI->Update();
 	if (!wave1Clear)
 	{
+		mSE->play();
 		Wave1();
 	}
 	if (wave1Clear && !wave2Clear)
 	{
+		mSE->play();
 		Wave2();
 	}
 	if (wave1Clear&&wave2Clear && !wave3Clear)
 	{
+		mSE->play();
 		Wave3();
 	}
-	ImGui::SliderInt("Death", &enemyDeath, 0, 10000);
+	if (wave3Clear)
+	{
+		BaseScene::mStageFlag2 = true;
+	}
 	mTimer->update();
 	if (!mTimer->isTime()) return;
 	Pose();
@@ -245,7 +252,7 @@ void Defense::Wave1EnemySpown()
 {
 	enemyDeath = 0;
 	//ここの下からadd
-	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 450.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
+	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 450.0f), Vector3(0.0f, 180.0f, 0.0f), 0));
 	spown1 = true;
 }
 
@@ -253,7 +260,7 @@ void Defense::Wave2EnemySpown()
 {
 	enemyDeath = 0;
 	//ここの下からadd
-	objM->Add(new SniperEnemy(Vector3(6.0f, 0.0f, 450.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
+	objM->Add(new SniperEnemy(Vector3(6.0f, 0.0f, 450.0f), Vector3(0.0f, 180.0f, 0.0f), 0));
 	spown2 = true;
 }
 
@@ -333,11 +340,6 @@ void Defense::Pose()
 	if (pose == false && settingFlag == false)
 	{
 		objM->Update();
-		if (Input::getKey(KeyCode::E) || Input::getJoyDown(JoyCode::A))
-		{
-			itemHolder->UseItem(ItemNames::heal);
-		}
-
 		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
 		{
 			pose = true;
@@ -403,7 +405,7 @@ void Defense::Pose()
 		{
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
 			{
-				NextScene(std::make_shared<GamePlay>());
+				NextScene(std::make_shared<Defense>());
 			}
 		}
 		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))

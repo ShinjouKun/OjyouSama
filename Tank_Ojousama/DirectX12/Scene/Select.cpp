@@ -5,8 +5,10 @@
 #include"Operation.h"
 #include"Garage.h"
 #include"BossScene.h"
+#include "Robbery.h"
 #include"Result.h"
 #include "Defense.h"
+#include "GameOver.h"
 #include "../Collision/Collision.h"
 #include "../Device/Input.h"
 #include "../Sound/Sound.h"
@@ -30,6 +32,7 @@ void Select::StartScene()
 	fadeF1 = false;
 	fadeF2 = false;
 	fadeF3 = false;
+	fadeF4 = false;
 	SelectAlfa1 = 0.5f;
 	SelectAlfa2 = 0.5f;
 	SelectAlfa3 = 0.5f;
@@ -65,8 +68,13 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("Operation", "Resouse/operation.png");
 	BaseScene::mSprite->AddTexture("Setumei", "Resouse/setuemei.png");
 	BaseScene::mSprite->AddTexture("SetumeiBoss", "Resouse/setumeibos.png");
+	BaseScene::mSprite->AddTexture("SetumeiDef", "Resouse/setumeiDe.png");
+	BaseScene::mSprite->AddTexture("SetumeiRob", "Resouse/setumeiRo.png");
 	BaseScene::mSprite->AddTexture("Sentaku", "Resouse/sentaku.png");
 	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
+
+	BaseScene::mSprite->AddTexture("test", "Resouse/testend.png");
+
 	mSound = std::make_shared<Sound>("loop_157.mp3", false);
 	mSE = std::make_shared<Sound>("SelectSE.mp3", false);
 	mDecisionSE = std::make_shared<Sound>("OkSE.mp3", false);
@@ -103,12 +111,22 @@ void Select::UpdateScene()
 		{
 			NextScene(std::make_shared<Defense>());
 		}
+	}	
+	if (fadeF4)
+	{
+		fade += 0.01f;
+		if (fade >= 1)
+		{
+			NextScene(std::make_shared<Robbery>());
+		}
 	}
 	mSound->playLoop();
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
 	setumeiFlag = false;
 	setumeiBossFlag = false;
+	setumeiDefFlag = false;
+	setumeiRobFlag = false;
 	setumei = Vector3(position.x + 32, position.y - 128, position.z);
 	//b = g->GetA();
 	//ImGui::Begin("conf");
@@ -187,7 +205,8 @@ void Select::UpdateScene()
 			SelectAlfa5 = 0.5f;
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
-				NextScene(std::make_shared<Garage>());
+				//NextScene(std::make_shared<GameOver>());
+				NextScene(std::make_shared<Result>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}
@@ -236,29 +255,38 @@ void Select::UpdateScene()
 		}
 		if (position.x >= targetPos2.x && position.x <= targetPos2.x + 64 && position.y >= targetPos2.y  && position.y <= targetPos2.y + 64)
 		{
-			setumeiFlag = true;
-			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+			if (BaseScene::mStageFlag1)
 			{
-				fadeF3 = true;
-				mDecisionSE->play();
+				setumeiDefFlag = true;
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+				{
+					fadeF3 = true;
+					mDecisionSE->play();
+				}
 			}
 		}
 		if (position.x >= targetPos3.x && position.x <= targetPos3.x + 64 && position.y >= targetPos3.y && position.y <= targetPos3.y + 64)
 		{
-			setumeiBossFlag = true;
-			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+			if (BaseScene::mStageFlag2)
 			{
-				fadeF2 = true;
-				mDecisionSE->play();
+				setumeiBossFlag = true;
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+				{
+					fadeF2 = true;
+					mDecisionSE->play();
+				}
 			}
 		}
 		if (position.x >= targetPos4.x && position.x <= targetPos4.x + 64 && position.y >= targetPos4.y && position.y <= targetPos4.y + 64)
 		{
-			setumeiBossFlag = true;
-			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+			if (BaseScene::mStageFlag3)
 			{
-				fadeF2 = true;
-				mDecisionSE->play();
+				setumeiRobFlag = true;
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+				{
+					fadeF4 = true;
+					mDecisionSE->play();
+				}
 			}
 		}
 
@@ -310,15 +338,36 @@ void Select::UpdateScene()
 
 void Select::DrawScene()
 {
-	DirectXManager::GetInstance()->SetData3D();
-	BaseScene::mModel->Draw("Sora", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
+	//DirectXManager::GetInstance()->SetData3D();
+	//BaseScene::mModel->Draw("Sora", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	DirectXManager::GetInstance()->SetData2D();
 
 	BaseScene::mSprite->Draw("Sentaku", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target", targetPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	if (!BaseScene::mStageFlag1)
+	{
+		BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 0.5f));
+	}
+	else if(BaseScene::mStageFlag1)
+	{
+		BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	}
+	if (!BaseScene::mStageFlag2)
+	{
+		BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 0.5f));
+	}
+	else if (BaseScene::mStageFlag2)
+	{
+		BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	}
+	if (!BaseScene::mStageFlag3)
+	{
+		BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
+	}
+	else if (BaseScene::mStageFlag3)
+	{
+		BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
 
 	if (selectFlag == false)
 	{
@@ -339,6 +388,14 @@ void Select::DrawScene()
 	if (setumeiBossFlag)
 	{
 		BaseScene::mSprite->Draw("SetumeiBoss", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	}	
+	if (setumeiDefFlag)
+	{
+		BaseScene::mSprite->Draw("SetumeiDef", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	}	
+	if (setumeiRobFlag)
+	{
+		BaseScene::mSprite->Draw("SetumeiRob", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}
 	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 }

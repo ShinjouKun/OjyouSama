@@ -4,19 +4,19 @@
 #include "../../Render/ModelRenderer.h"
 #include "../../Render/ParticleManager.h"
 
+#include "BaseEnemy.h"
+
 class Timer;
 class TreeRoot;
 class Sound;
 
-class ElfTreeBoss : public BaseObject
+class ElfTreeBoss : public BaseEnemy
 {
 public:
 
 	ElfTreeBoss(
 		const Vector3 & position,
 		const Vector3 & angle,
-		ObjectManager * objManager,
-		shared_ptr<ModelRenderer>modelRender,
 		shared_ptr<ParticleManager> effectManager,
 		int num
 	);
@@ -27,11 +27,27 @@ public:
 
 private:
 
-	virtual void Init() override;
-	virtual void Update() override;
-	virtual void Rend() override;
-	virtual void ImGuiDebug() override;
-	virtual void OnCollison(BaseCollider * col) override;
+	//virtual void Init() override;
+	//virtual void Update() override;
+	//virtual void Rend() override;
+	//virtual void ImGuiDebug() override;
+	//virtual void OnCollison(BaseCollider * col) override;
+
+	//BaseEnemyから継承
+	virtual void EnemyInit() override;
+	virtual void EnemyUpdate() override;
+	virtual void EnemyRend() override;
+	virtual void EnemyOnCollision(BaseCollider* col) override;
+	virtual void EnemyImGuiDebug() override;
+
+	/*索敵状態*/
+	virtual void Search() override;
+
+	/*追跡状態*/
+	virtual void Warning() override;
+
+	/*攻撃状態*/
+	virtual void Attack() override;
 
 	/*攻撃パターンの決定*/
 	void ChangeAttackState();
@@ -69,9 +85,6 @@ private:
 
 	/*一度だけオブジェクトを生成*/
 	void CreateObject();
-
-	/*角度をベクトルに変換*/
-	Vector3 AngleToVectorY(float angle)const;
 
 private:
 

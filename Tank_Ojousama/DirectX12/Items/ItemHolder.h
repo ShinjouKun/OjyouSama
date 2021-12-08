@@ -10,16 +10,21 @@ public:
 	ItemHolder();
 	~ItemHolder();
 
-	void Init();
-	void Update();
-	void Reset();
-	void UseItem(ItemNames item);
+	static ItemHolder* GetInstance();
+	void UseItem();
 	void AddItem(ItemNames item);
-	void UseUlt(ItemNames item);
+	void UseUlt();
 	void AddUlt(ItemNames item);
 
 	void SetUseFlag(bool value);
 	bool GetUseFlag() { return useItems; };
+
+private:
+
+	void Init();
+	void Update();
+	void Reset();
+	
 
 private:
 	//ÉAÉCÉeÉÄÇÃï€éùêî
@@ -27,4 +32,6 @@ private:
 	unordered_map<ItemNames, int> ults;
 	int count;
 	bool useItems;
+	ItemNames itemName;
+	ItemNames ultName;
 };

@@ -151,6 +151,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Castle.cpp" />
+    <ClCompile Include="Actor\Enemy\AdvanceBorderLine.cpp" />
     <ClCompile Include="Actor\Enemy\AttackArea.cpp" />
     <ClCompile Include="Actor\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Actor\BaseObject.cpp" />
@@ -187,6 +189,7 @@
     <ClCompile Include="Items\ItemHolder.cpp" />
     <ClCompile Include="Items\Repair.cpp" />
     <ClCompile Include="Items\Shield.cpp" />
+    <ClCompile Include="Items\Smoke.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
@@ -199,11 +202,13 @@
     <ClCompile Include="Actor\EnemyTank.cpp" />
     <ClCompile Include="Scene\BossScene.cpp" />
     <ClCompile Include="Scene\Defense.cpp" />
+    <ClCompile Include="Scene\GameOver.cpp" />
     <ClCompile Include="Scene\GamePlay.cpp" />
     <ClCompile Include="Scene\Garage.cpp" />
     <ClCompile Include="Scene\Operation.cpp" />
     <ClCompile Include="Scene\Option.cpp" />
     <ClCompile Include="Scene\Result.cpp" />
+    <ClCompile Include="Scene\Robbery.cpp" />
     <ClCompile Include="Scene\Select.cpp" />
     <ClCompile Include="Sound\3D\Emitter\DspSetter.cpp" />
     <ClCompile Include="Sound\3D\Emitter\Sound3DEmitter.cpp" />
@@ -431,6 +436,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Castle.h" />
+    <ClInclude Include="Actor\Enemy\AdvanceBorderLine.h" />
     <ClInclude Include="Actor\Enemy\AttackArea.h" />
     <ClInclude Include="Actor\Enemy\BaseEnemy.h" />
     <ClInclude Include="Actor\BetaTestBlock.h" />
@@ -474,6 +481,7 @@
     <ClInclude Include="Items\ItemHolder.h" />
     <ClInclude Include="Items\Repair.h" />
     <ClInclude Include="Items\Shield.h" />
+    <ClInclude Include="Items\Smoke.h" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />
@@ -488,11 +496,14 @@
     <ClInclude Include="Actor\EnemyTank.h" />
     <ClInclude Include="Scene\BossScene.h" />
     <ClInclude Include="Scene\Defense.h" />
+    <ClInclude Include="Scene\GameClear.h" />
+    <ClInclude Include="Scene\GameOver.h" />
     <ClInclude Include="Scene\GamePlay.h" />
     <ClInclude Include="Scene\Garage.h" />
     <ClInclude Include="Scene\Operation.h" />
     <ClInclude Include="Scene\Option.h" />
     <ClInclude Include="Scene\Result.h" />
+    <ClInclude Include="Scene\Robbery.h" />
     <ClInclude Include="Scene\Select.h" />
     <ClInclude Include="Sound\3D\DistanceCurve.h" />
     <ClInclude Include="Sound\3D\Emitter\DspSetter.h" />

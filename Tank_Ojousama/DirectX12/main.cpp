@@ -36,6 +36,7 @@ using namespace DirectX;
 //ƒ‚ƒfƒ‹
 #include "Render/ModelLoader.h"//ƒ[ƒh—p
 #include "Render/TexRenderer.h"
+#include"../DirectX12/Utility/ModelChanger.h"
 //ƒEƒBƒ“ƒhƒE
 #include "Device/Window.h"
 //ƒJƒƒ‰
@@ -85,7 +86,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipeLine->SetPipeline3D("unti");
 	pipeLine->SetPipelineParticle("untiP");
 	pipeLine->SetPipelineSequence("ahokusa");
-
+	//ƒ‚ƒfƒ‹
+	
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hit.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/sougen.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/AIM64.png");
@@ -132,6 +134,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpUI.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/title_rogo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeibos.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeiDe.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeiRo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/gameover.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/testend.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
@@ -140,7 +146,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item_box.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item1.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item2.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/wave1.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/wave2.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/wave3.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/redflo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/blueflo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/greenflo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/pinkflo.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpgage.png");
 
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_black.png");
+	
+	//–h‰q‹’“_
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 	//Player
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTM.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKA.obj");//–C“ƒ
@@ -152,13 +170,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensha_body.obj");//Ô‘Ì
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/houtou.obj");//–C“ƒ
 
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Type2_head.obj");//–C“ƒ
-	//ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Typ2_body.obj");//–C“ƒ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Type2_head.obj");//–C“ƒ
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sensya_Typ2_body.obj");//–C“ƒ
 
 	//‚¨ì—l
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_body.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle.obj");
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle_b.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojousama_body_black.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle_b.obj");
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle_r.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojousama_body_red.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle_r.obj");
+
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle.obj");
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTMR.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKAR.obj");//–C“ƒ
@@ -247,6 +278,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item.obj");
 	//ƒV[ƒ‹ƒh
 	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item2.obj");
+
+	//’¹‚Ì“G
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_leg.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_body.obj");
+
+	//–h‰q‹’“_
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 
 	//ƒXƒvƒ‰ƒCƒg
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);

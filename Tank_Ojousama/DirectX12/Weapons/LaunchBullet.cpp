@@ -5,7 +5,7 @@ LaunchBullet::LaunchBullet(
 	const Vector3 & pos, 
 	const Vector3 & targetPosition, 
 	ObjectManager * objectManager, 
-	shared_ptr<ModelRenderer> modelRender, 
+	std::shared_ptr<ModelRenderer> modelRender,
 	shared_ptr<ParticleManager> particleManager,
 	ObjectType objectType, 
 	int num,
@@ -59,6 +59,7 @@ void LaunchBullet::Init()
 	{
 		mAppleNum = mAppleName + num;
 		mModelRender->AddModel(mAppleNum, "Resouse/EnemyModel/AppleBullet/apple.obj", "Resouse/EnemyModel/AppleBullet/apple.png");
+		mModelRender->SetAncPoint(mAppleNum, Vector3(0, -1, 0));
 	}
 	else
 	{

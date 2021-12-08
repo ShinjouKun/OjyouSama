@@ -1,3 +1,4 @@
-Normal
+Other01
 Light
 Light_b
+MachinGun

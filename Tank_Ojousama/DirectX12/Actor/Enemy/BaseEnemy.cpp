@@ -8,9 +8,13 @@
 #include "../TestBreadCrumb.h"
 #include "../../Utility/Timer/Timer.h"
 
-BreadCrumbCreater* BaseEnemy::mBreadCreator = nullptr;
 EnemyAI* BaseEnemy::mEnemyAI = nullptr;
 ObjectManager* BaseEnemy::mManager = nullptr;
+std::shared_ptr<ModelRenderer> BaseEnemy::mRend = nullptr;
+std::shared_ptr<ParticleManager> BaseEnemy::mPart = nullptr;
+std::shared_ptr<BreadCrumbCreater> BaseEnemy::mBreadCreator = nullptr;
+
+Vector3 BaseEnemy::mAttackTarget = Vector3(0, 0, 0);
 
 BaseEnemy::~BaseEnemy()
 {
@@ -33,29 +37,38 @@ void BaseEnemy::Update()
 
 	mPlayerPosition = mManager->GetPlayer().GetPosition();
 
+	//生存状態の監視
+	AliveSurveillance();
+
+	//if (mAdvanceFlag)
+	/*{
+		int t = static_cast<int>(mMoveState);
+
+		ImGui::SliderInt("MoveState", &t, 0, 20);
+	}*/
+
+
+
 	//カメラの当たり判定次第で、この処理は消す。
 	//if (!GetActive()) return;
 
-	if (RECEIVEREPORT_MODE && !trackingPlayer && !trackingBreadcrumb)
-	{
-		//5:AIから報告主に近い敵のIDリストを受け取る
-		for (int i = 0, end = static_cast<int>(mEnemyAI->GetIDList().size()); i < end; i++)
-		{
-			//6:自身と受け取ったIDが一致しているかを確認する
-			if (GetID() == mEnemyAI->GetIDList()[i])
-			{
-				if (!InsideDistance(mEnemyAI->GetPositionList(), 5.0f))
-				{
-					//7:一致していたら、報告主の位置に移動する
-					Move(mEnemyAI->GetPositionList());
-				}
-			}
-		}
-	}
+	//if (RECEIVEREPORT_MODE && !trackingPlayer && !trackingBreadcrumb)
+	//{
+	//	//5:AIから報告主に近い敵のIDリストを受け取る
+	//	for (int i = 0, end = static_cast<int>(mEnemyAI->GetIDList().size()); i < end; i++)
+	//	{
+	//		//6:自身と受け取ったIDが一致しているかを確認する
+	//		if (GetID() == mEnemyAI->GetIDList()[i])
+	//		{
+	//			if (!InsideDistance(mEnemyAI->GetPositionList(), 5.0f))
+	//			{
+	//				//7:一致していたら、報告主の位置に移動する
+	//				Move(mEnemyAI->GetPositionList());
+	//			}
+	//		}
+	//	}
+	//}
 
-	/*共通の要素*/
-	ChangeState(); //状態変更
-	SearchObject();//パンくずやプレイヤーを探す
 	EnemyUpdate();
 }
 
@@ -104,8 +117,11 @@ void BaseEnemy::Initialize()
 	//number = 0;
 	attackCount = 0;
 
-	trackingPlayer = false;
-	trackingBreadcrumb = false;
+	mTrackingPlayer = false;
+	mTrackingBreadcrumb = false;
+	mTrackingAttackArea = false;
+	mTrackingTurret = false;
+	mHitBorderLine = false;
 
 	warningCount = 0;
 	invincibleCount = 0;
@@ -119,7 +135,7 @@ void BaseEnemy::Initialize()
 	damage = 5;
 
 	isInvincible = false;
-	hitSensor = false;
+	mHitSensor = false;
 	swingSensor = false;
 	isDestruct = false;
 	finishSearchWay = false;
@@ -138,6 +154,9 @@ void BaseEnemy::Initialize()
 	breadMap.clear();
 	moveList.clear();
 
+	mSmokeTimer = std::make_shared<Timer>();
+	mSmokeTimer->setTime(1.0f);
+
 	//mTarget.clear();
 	//mPointList.clear();
 	//mPointList.shrink_to_fit();//メモリの削除
@@ -145,7 +164,22 @@ void BaseEnemy::Initialize()
 	//mReportArea = nullptr;
 }
 
-void BaseEnemy::Move(const Vector3 & otherPosition)
+void BaseEnemy::AliveSurveillance()
+{
+	//仮死状態だったら死亡させる
+	if (mDeathFlag)
+	{
+		death = true;
+	}
+
+	if (HP <= 0)
+	{
+		//体力が0以下なら仮死状態にする
+		mDeathFlag = true;
+	}
+}
+
+void BaseEnemy::MovePoint(const Vector3 & otherPosition)
 {
 	//距離を調べる(Vector3とfloat)
 	Vector3 distance = otherPosition - position;
@@ -157,7 +191,51 @@ void BaseEnemy::Move(const Vector3 & otherPosition)
 	//回転を反映
 	angle.y = Math::toDegrees(radian) + 180.0f;
 	fanInfo.rotate = -angle.y - 90.0f;
-	barrelAngle = fanInfo.rotate + 90.0f;
+	mFireAngle = fanInfo.rotate + 90.0f;
+
+	velocity = distance * speed;
+	//位置とセンサーを反映
+	position += velocity;
+	fanInfo.position = position;
+}
+
+void BaseEnemy::MovePointY(const Vector3 & otherPosition)
+{
+	//Yを省いた位置から、距離を求める
+	Vector3 holdTarget = Vector3(otherPosition.x, 0.0f, otherPosition.z);
+	Vector3 holdPosition = Vector3(position.x, 0.0f, position.z);
+	Vector3 distance = holdTarget - holdPosition;
+	float length = distance.Length();
+	distance = distance.normal();
+
+	//Yを省いた距離
+	Vector3 distHold = Vector3(distance.x, 0.0f, distance.z);
+
+	//二点間の角度を求める
+	float radian = atan2(distHold.x, distHold.z);
+	//回転を反映
+	angle.y = Math::toDegrees(radian) + 180.0f;
+	fanInfo.rotate = -angle.y - 90.0f;
+	mFireAngle = fanInfo.rotate + 90.0f;
+
+	//弾が、生成位置より下に行かないよ！
+	velocity = distHold * speed;
+	position += velocity;
+	fanInfo.position = position;
+}
+
+void BaseEnemy::MoveDirection(const Vector3 & direction)
+{
+	//距離を調べる(Vector3とfloat)
+	Vector3 distance = direction;
+	distance = distance.normal();//正規化忘れずに
+
+	//二点間の角度を求める
+	float radian = atan2(distance.x, distance.z);
+	//回転を反映
+	angle.y = Math::toDegrees(radian) + 180.0f;
+	fanInfo.rotate = -angle.y - 90.0f;
+	mFireAngle = fanInfo.rotate + 90.0f;
 
 	velocity = distance * speed;
 	//位置とセンサーを反映
@@ -178,64 +256,48 @@ void BaseEnemy::ChangeState()
 	//オブジェクトの追跡開始
 	StartTracking();
 
-	if (mDeathFlag)
-	{
-		death = true;
-	}
-
-	//死亡処理に移る
-	if (HP <= 0)
-	{
-		mDeathFlag = true;
-	}
-
-	//各状態ごとの処理
-	switch (actionState)
-	{
-	case BaseEnemy::SEARCH:
-		Search();//首振り機能
-		break;
-	case BaseEnemy::WARNING:
-		Warning();
-		break;
-	case BaseEnemy::ATTACK:
-		Attack();
-		break;
-	case BaseEnemy::DESTRUCT:
-		Destruct();
-		break;
-	default:
-		break;
-	}
+	//盲目状態
+	SmokeBlind();
 }
 
 void BaseEnemy::SearchObject()
 {
+	if (mHitSmokeFlag) return;
+
+	//攻撃拠点を検索
+	SearchAttackTarget();
+
 	//シーン上のプレイヤーの存在を確認
 	SearchPlayer();
 
 	//プレイヤーを追っていない & パンくず追跡機能がON　なら処理を実行
-	if (!trackingPlayer && breadcrumbMode)
+	if (!mTrackingPlayer && breadcrumbMode)
 	{
 		auto BList = mBreadCreator->GetBreadList();
 
 		for (int i = 0, end = static_cast<int>(BList.size()); i < end; i++)
 		{
-			SearchBreadCrumbTest(*BList[i]);
+			SearchBreadCrumb(*BList[i]);
 		}
 	}
 }
 
 void BaseEnemy::SearchPlayer()
 {
+	//攻撃拠点を狙っているときは処理しない
+	if (mMoveState == MoveState::CHASE_ATTACKTARGET) return;
+
 	//センサーを更新
-	hitSensor = IsHitFanToPoint(fanInfo, mPlayerPosition, 1.0f);
+	mHitSensor = IsHitFanToPoint(fanInfo, mPlayerPosition, 1.0f);
 
 	//プレイヤーがセンサーの中に入っていたら
-	if (hitSensor)
+	if (mHitSensor)
 	{
-		trackingPlayer = true;     //プレイヤーの追跡を開始する
-		trackingBreadcrumb = false;//パンくずの追跡を終了する
+		mTrackingPlayer = true;     //プレイヤーの追跡を開始する
+		mTrackingBreadcrumb = false;//パンくずの追跡を終了する
+
+		//プレイヤー追跡状態
+		mMoveState = MoveState::CHASE_PLAYER;
 
 		//マップを一旦空にする
 		if (!breadMap.empty())
@@ -243,20 +305,81 @@ void BaseEnemy::SearchPlayer()
 			breadMap.clear();
 		}
 	}
-	else trackingPlayer = false;
+	else mTrackingPlayer = false;
 }
 
-void BaseEnemy::SearchBreadCrumbTest(const TestBreadCrumb & breadCrumb)
+void BaseEnemy::SearchAttackTarget()
+{
+	//拠点進行モードでない なら処理しない
+	if (!mAdvanceFlag) return;
+
+	//センサーを更新
+	mHitSensor = IsHitFanToPoint(fanInfo, mAttackTarget, 1.0f);
+
+	//攻撃対象がセンサーに触れていたら
+	if (mHitSensor)
+	{
+		mTrackingPlayer = false;    //プレイヤーの追跡を終了する
+		mTrackingBreadcrumb = false;//パンくずの追跡を終了する
+		mTrackingAttackArea = true; //拠点進攻を開始
+
+		//攻撃拠点追跡状態
+		mMoveState = MoveState::CHASE_ATTACKTARGET;
+
+		//マップを一旦空にする
+		if (!breadMap.empty())
+		{
+			breadMap.clear();
+		}
+	}
+	else mTrackingAttackArea = false;
+}
+
+void BaseEnemy::SearchTurret()
+{
+	//センサーを更新
+	mHitSensor = IsHitFanToPoint(fanInfo, mAttackTarget, 1.0f);
+
+	//攻撃対象がセンサーに触れていたら
+	if (mHitSensor)
+	{
+		mTrackingPlayer = false;    //プレイヤーの追跡を終了する
+		mTrackingBreadcrumb = false;//パンくずの追跡を終了する
+		mTrackingAttackArea = false; //拠点進攻を開始
+		mTrackingTurret = true;
+
+		//攻撃拠点追跡状態
+		mMoveState = MoveState::CHASE_TURRET;
+
+		//マップを一旦空にする
+		if (!breadMap.empty())
+		{
+			breadMap.clear();
+		}
+	}
+	else mTrackingTurret = false;
+}
+
+void BaseEnemy::SearchBreadCrumb(const TestBreadCrumb & breadCrumb)
 {
 	//パンくずを辿っている & プレイヤーを追っている なら処理しない
-	if (trackingBreadcrumb && trackingPlayer) return;
+	if (mTrackingBreadcrumb && mTrackingPlayer) return;
+
+	//攻撃拠点を狙っているときは処理しない
+	if (mMoveState == MoveState::CHASE_ATTACKTARGET) return;
 
 	//位置取得 & センサー情報更新
 	Vector3 breadPos = breadCrumb.GetPosition();
 
+	//センサーを更新
+	mHitSensor = IsHitFanToPoint(fanInfo, breadPos);
+
 	//サーチライトに当たっているオブジェクトのみ、マップに格納
-	if (IsHitFanToPoint(fanInfo, breadPos))
+	if (mHitSensor)
 	{
+		//パンくず追跡状態
+		mMoveState = MoveState::CHASE_BREADCRUMB;
+
 		//オブジェクトの個体番号を取得
 		breadCount = breadCrumb.GetBreadNumber();
 
@@ -272,11 +395,11 @@ void BaseEnemy::SearchBreadCrumbTest(const TestBreadCrumb & breadCrumb)
 void BaseEnemy::StartTracking()
 {
 	//索敵中からしか振り向かないようにした
-	if (actionState == ActionState::SEARCH)
+	if (mMoveState == MoveState::SEARCH)
 	{
-		if (trackingPlayer || trackingBreadcrumb)
+		if (mTrackingPlayer || mTrackingBreadcrumb || mTrackingAttackArea)
 		{
-			actionState = ActionState::WARNING;
+			mMoveState = MoveState::WARNING;
 		}
 	}
 }
@@ -284,10 +407,10 @@ void BaseEnemy::StartTracking()
 void BaseEnemy::TrackingBreadcrumb()
 {
 	//プレイヤーを追跡中 なら処理しない
-	if (trackingPlayer) return;
+	if (mTrackingPlayer) return;
 
 	//パンくずを追跡中でない && マップが空でない
-	if (!trackingBreadcrumb && !breadMap.empty())
+	if (!mTrackingBreadcrumb && !breadMap.empty())
 	{
 		int lastKey = 0;
 		for (auto itr = breadMap.begin(), end = breadMap.end(); itr != end; ++itr)
@@ -306,7 +429,7 @@ void BaseEnemy::TrackingBreadcrumb()
 		}
 
 		//移動状態にする
-		trackingBreadcrumb = true;
+		mTrackingBreadcrumb = true;
 	}
 }
 
@@ -330,16 +453,32 @@ void BaseEnemy::Invincible(int time)
 	}
 }
 
+void BaseEnemy::SmokeBlind()
+{
+	//スモークに触れていなければ処理しない
+	if (!mHitSmokeFlag) return;
+
+	//ImGui::Checkbox("----------------------------", &mHitSmokeFlag);
+
+	mSmokeTimer->update();
+
+	if (mSmokeTimer->isTime())
+	{
+		mSmokeTimer->setTime(1.0f);
+		mHitSmokeFlag = false;
+	}
+}
+
 void BaseEnemy::SwingDirection(float range)
 {
 	//現在の向きを最新に更新
-	fanRotateOrigin = -angle.y - 90.0f;
+	mFanRotateOrigin = -angle.y - 90.0f;
 
 	//基準は-270 最大は-360 最小は-180
 	if (swingSensor)//左回転
 	{
 		fanInfo.rotate++;
-		if (fanInfo.rotate > fanRotateOrigin + swingRange)
+		if (fanInfo.rotate > mFanRotateOrigin + mSwingRange)
 		{
 			swingSensor = false;
 		}
@@ -347,14 +486,14 @@ void BaseEnemy::SwingDirection(float range)
 	else//右回転
 	{
 		fanInfo.rotate--;
-		if (fanInfo.rotate < fanRotateOrigin - swingRange)
+		if (fanInfo.rotate < mFanRotateOrigin - mSwingRange)
 		{
 			swingSensor = true;
 		}
 	}
 
 	//砲塔も回転
-	barrelAngle = fanInfo.rotate + 90.0f;
+	mFireAngle = fanInfo.rotate + 90.0f;
 }
 
 void BaseEnemy::PatrolPoint(const Vector3 points[], int pointCount)
@@ -363,7 +502,7 @@ void BaseEnemy::PatrolPoint(const Vector3 points[], int pointCount)
 	Vector3 targetPosition = points[patrolCount];
 
 	//移動
-	Move(targetPosition);
+	MovePoint(targetPosition);
 
 	//到着したとする
 	if (InsideDistance(targetPosition, 0.1f))
@@ -382,82 +521,241 @@ void BaseEnemy::PatrolPoint(const Vector3 points[], int pointCount)
 
 void BaseEnemy::TrackingObject()
 {
-	//プレイヤーを追っているとき
-	if (trackingPlayer)
-	{
-		//移動
-		Move(mPlayerPosition);
+	if (mHitSmokeFlag) return;
 
-		//対象との距離が以下になったら到着完了とする。
-		if (InsideDistance(mPlayerPosition, attackLength))
+	switch (mMoveState)
+	{
+	case BaseEnemy::NOT_FIND:
+
+		moveFlag = false;
+
+		if (mAdvanceFlag)
 		{
-			actionState = ActionState::ATTACK;
+			mMoveState = MoveState::ADVANCE_BORDWERLINE;
+		}
+		else
+		{
+			if (mTrackingPlayer)
+			{
+				mMoveState = MoveState::CHASE_PLAYER;
+			}
+			else if (mTrackingBreadcrumb)
+			{
+				mMoveState = MoveState::CHASE_BREADCRUMB;
+			}
 		}
 
-	}
-	else
-	{
+		break;
+	case BaseEnemy::CHASE_PLAYER:
+
+		moveFlag = true;
+
+		//拠点進攻モードの時 &範囲内に攻撃拠点があるとき
+		if (mAdvanceFlag && mTrackingAttackArea)
+		{
+			//攻撃拠点を狙うようにする
+			mMoveState = MoveState::CHASE_ATTACKTARGET;
+		}
+		else//拠点進攻モードでない & 範囲内に拠点もない
+		{
+			//移動
+			MovePoint(mPlayerPosition);
+
+			//対象との距離が以下になったら到着完了とする。
+			if (InsideDistance(mPlayerPosition, mAttackLength))
+			{
+				mAttackFlag = true;
+				moveFlag = false;
+			}
+		}
+
+		break;
+	case BaseEnemy::CHASE_BREADCRUMB:
+
+		moveFlag = true;
+
+		//拠点進攻モードの時 &範囲内に攻撃拠点があるとき
+		if (mAdvanceFlag && mTrackingAttackArea)
+		{
+			//攻撃拠点を狙うようにする
+			mMoveState = MoveState::CHASE_ATTACKTARGET;
+		}
+		else
+		{
+			if (mTrackingPlayer)
+			{
+				//プレイヤーを狙うようにする
+				mMoveState = MoveState::CHASE_PLAYER;
+			}
+		}
+
 		// パンくずを追いかける
 		TrackingBreadcrumb();
 
-		if (trackingBreadcrumb)
+		if (mTrackingBreadcrumb)
 		{
 			//移動
-			Move(lastBreadPos);
+			MovePoint(lastBreadPos);
 
 			//対象との距離が以下になったら到着完了とする。
 			if (InsideDistance(lastBreadPos, 1.0f))
 			{
-				trackingBreadcrumb = false;
+				mTrackingBreadcrumb = false;
 			}
 		}
-	}
 
-	//一定時間で索敵状態に戻る
-	if (!trackingPlayer && !trackingBreadcrumb)
-	{
+		//一定時間で索敵状態に戻る
 		warningCount++;
 
 		if (warningCount > warningTime)
 		{
 			warningCount = 0;
-			actionState = ActionState::SEARCH;
+
+			if (mAdvanceFlag)
+			{
+				if (mHitBorderLine)
+				{
+					mMoveState = MoveState::ADVANCE_BORDWERLINE;
+				}
+				else
+				{
+					mMoveState = MoveState::ADVANCE_ATTACKTARGET;
+				}
+			}
+			else
+			{
+				mMoveState = MoveState::NOT_FIND;
+			}
+			
 		}
+
+		break;
+	case BaseEnemy::CHASE_ATTACKTARGET:
+
+		moveFlag = true;
+
+		//移動
+		MovePoint(mAttackTarget);
+
+		//対象との距離が以下になったら到着完了とする。
+		if (InsideDistance(mAttackTarget, mAttackLength))
+		{
+			mAttackFlag = true;
+			moveFlag = false;
+		}
+
+		break;
+
+	case BaseEnemy::CHASE_TURRET:
+
+		moveFlag = true;
+
+		/*タレットの位置の取得方法を考える
+		  ボスの行動をHPで管理し、攻撃パターンを返る
+		  */
+
+		//移動
+		MovePoint(mAttackTarget);
+
+		//対象との距離が以下になったら到着完了とする。
+		if (InsideDistance(mAttackTarget, mAttackLength))
+		{
+			mAttackFlag = true;
+			moveFlag = false;
+		}
+
+		break;
+
+	case BaseEnemy::ADVANCE_BORDWERLINE:
+
+		moveFlag = true;
+
+		//ボーダーラインに触れているか
+		if (mHitBorderLine)
+		{
+			//攻撃拠点に向かって移動
+			mMoveState = MoveState::ADVANCE_ATTACKTARGET;
+		}
+		else
+		{
+			//触れるまではまっすぐ移動
+			MoveDirection(mAdvanceDirection);
+		}
+
+		//プレイヤーに触れたら
+		if (mTrackingPlayer)
+		{
+			mMoveState = MoveState::CHASE_PLAYER;
+		}
+
+		break;
+	case BaseEnemy::ADVANCE_ATTACKTARGET:
+
+		moveFlag = true;
+
+		if (mAdvanceFlag && mTrackingAttackArea)
+		{
+			mMoveState = MoveState::CHASE_ATTACKTARGET;
+		}
+		else if (mTrackingPlayer)
+		{
+			mMoveState = MoveState::CHASE_PLAYER;
+		}
+		else
+		{
+			MovePoint(mAttackTarget);
+		}
+
+		break;
+	default:
+		break;
 	}
+
+	////一定時間で索敵状態に戻る
+	//if (!mTrackingPlayer && !mTrackingBreadcrumb)
+	//{
+	//	warningCount++;
+
+	//	if (warningCount > warningTime)
+	//	{
+	//		warningCount = 0;
+	//		mMoveState = MoveState::SEARCH;
+	//	}
+	//}
 }
 
 void BaseEnemy::DestructAction(shared_ptr<ModelRenderer> modelRender)
 {
-	/*自爆カウントを増やす*/
-	destructCount++;
+	///*自爆カウントを増やす*/
+	//destructCount++;
 
-	//一定時間プレイヤーを追いかけたら、大きめの当たり判定を出して死ぬ。
-	if (destructCount > 2 * 60)
-	{
-		Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
-		destructArea->SetActive(true, position, -angle, Vector3(5, 5, 5));
-		destructArea->SetDestroy(true, 2);
-		HP = 0;
-	}
+	////一定時間プレイヤーを追いかけたら、大きめの当たり判定を出して死ぬ。
+	//if (destructCount > 2 * 60)
+	//{
+	//	Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
+	//	destructArea->SetActive(true, position, -angle, Vector3(5, 5, 5));
+	//	destructArea->SetDestroy(true, 2);
+	//	HP = 0;
+	//}
 
-	//移動
-	Move(mPlayerPosition);
+	////移動
+	//Move(mPlayerPosition);
 
-	//一度だけ実行
-	if (!isDestruct)
-	{
-		isDestruct = true;
-		speed *= 2.0f;
+	////一度だけ実行
+	//if (!isDestruct)
+	//{
+	//	isDestruct = true;
+	//	speed *= 2.0f;
 
-		destructArea = new AttackArea(position, angle, mManager, modelRender, number);
-		mManager->Add(destructArea);
-	}
+	//	destructArea = new AttackArea(position, angle, mManager, modelRender, number);
+	//	mManager->Add(destructArea);
+	//}
 }
 
 void BaseEnemy::InitSearch()
 {
 	//すでに報告している or 現在移動中 なら表示しない
-	if (isInvincible || moveWayPoint || trackingPlayer) return;
+	if (isInvincible || moveWayPoint || mTrackingPlayer || mTrackingAttackArea) return;
 
 	isInvincible = true;
 
@@ -606,7 +904,7 @@ void BaseEnemy::WayPointMove()
 	//ゴールとの距離が近すぎたら移動しない。
 	if (!InsideDistance(otherPosition, 10.0f))
 	{
-		Move(otherPosition);
+		MovePoint(otherPosition);
 	}
 	else
 	{
@@ -680,18 +978,18 @@ void BaseEnemy::DicideTurnAround()
 	hitAngle = angle;
 
 	//索敵状態でない or 振り向き機能がOFF なら処理をしない
-	if (actionState != ActionState::SEARCH || !TURNAROUND_MODE) return;
+	if (mMoveState != MoveState::SEARCH || !TURNAROUND_MODE) return;
 
 	//当たった位置と、現在の自分の向きを一時保存する。
 	hitPos = mPlayerPosition;
 	hitAngle = angle;
-	actionState = ActionState::WARNING;
+	mMoveState = MoveState::WARNING;
 }
 
 void BaseEnemy::TurnAround(int time)
 {
 	//振り向き機能がOFF or プレイヤーを追っている or 自爆状態 なら処理をしない
-	if (!TURNAROUND_MODE || trackingPlayer || isDestruct || trackingBreadcrumb || moveWayPoint) return;
+	if (!TURNAROUND_MODE || mTrackingPlayer || isDestruct || mTrackingBreadcrumb || moveWayPoint) return;
 
 	//①距離を調べる
 	Vector3 distance = hitPos - position;
@@ -708,7 +1006,7 @@ void BaseEnemy::TurnAround(int time)
 	//⑦結果 = 現在の自分の角度 + 回転させる角度
 	angle.y = hitAngle.y + rotateTime;
 	fanInfo.rotate = (-angle.y - 90.0f);
-	barrelAngle = (fanInfo.rotate + 90.0f);
+	mFireAngle = (fanInfo.rotate + 90.0f);
 }
 
 void BaseEnemy::DestructMode(int hpLine, bool destructMode)
@@ -719,7 +1017,7 @@ void BaseEnemy::DestructMode(int hpLine, bool destructMode)
 	//体力が一定以下になったら自爆モードになる。
 	if (HP <= hpLine)
 	{
-		actionState = ActionState::DESTRUCT;
+		mMoveState = MoveState::DESTRUCT;
 	}
 }
 
@@ -827,7 +1125,7 @@ bool BaseEnemy::IsHitFanToPoint(const FanInfomation & fan, const Vector3 & point
 
 void BaseEnemy::SetBreadCreator(BreadCrumbCreater * breadCreator)
 {
-	mBreadCreator = breadCreator;
+	/*mBreadCreator = breadCreator;*/
 }
 
 int BaseEnemy::GetHP() const
@@ -848,4 +1146,17 @@ void BaseEnemy::SetEnemyAi(EnemyAI * enemyAI)
 void BaseEnemy::SetObjectManager(ObjectManager * manager)
 {
 	mManager = manager;
+}
+
+void BaseEnemy::SetAttackTarget(const Vector3 & attackTarget)
+{
+	mAttackTarget = attackTarget;
+}
+
+void BaseEnemy::SetImportantObject(ObjectManager * manager, shared_ptr<ModelRenderer> modelRender, shared_ptr<ParticleManager> particleManager, shared_ptr<BreadCrumbCreater> breadCreator)
+{
+	mManager = manager;
+	mRend = modelRender;
+	mPart = particleManager;
+	mBreadCreator = breadCreator;
 }

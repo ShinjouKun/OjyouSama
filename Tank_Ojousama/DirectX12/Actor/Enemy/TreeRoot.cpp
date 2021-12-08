@@ -5,7 +5,7 @@ TreeRoot::TreeRoot(
 	const Vector3 & pos,
 	const Vector3 & ang,
 	ObjectManager * objManager, 
-	shared_ptr<ModelRenderer> modelRender,
+	std::shared_ptr<ModelRenderer> modelRender,
 	int num
 )
 {

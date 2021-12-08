@@ -27,6 +27,14 @@ enum BottomState
 	Heavy_b,
 };
 
+enum WeaponsState
+{
+	Cannon,
+	MachinGun,
+	ShotGun,
+	Mine,
+};
+
 class ModelChanger
 {
 public:
@@ -40,19 +48,30 @@ public:
 	void ChangeHead(HeadState headState);
 	void ChangeBody(BodyState bodyState);
 	void ChangeBottom(BottomState bottomState);
+	void ChangeWeapons1(WeaponsState weaponState);
+
 
 	HeadState GetHeadState() { return head; }
 	BodyState GetBodyState() { return body; }
 	BottomState GetBottomState() { return bottom; }
+	WeaponsState GetWeaponState1() { return weapons1; }
+
+	void SetHP(int value);//体力
+	int GetHP() { return hp; }
+	void SetSpeed(float value);//速度
+	float GetSpeed() { return speed; }
 
 	string GetModelName(int num);//0～2お嬢様,3戦車(砲塔）,4戦車(車体）
 
-
+	int hp;
+	float speed;
 private:
-	std::vector<std::string> state{ 3 };
-	std::vector<std::string> modelKey{ 5 };
+
+	std::vector<std::string> state;
+	std::vector<std::string> modelKey;
 	HeadState head;
 	BodyState body;
 	BottomState bottom;
+	WeaponsState weapons1;
 	TextEditor* editor;
 };
