@@ -45,7 +45,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 				playerModel->AddModel("ArmL_rifle_r", "Resouse/L_hands_rifle_r.obj", "Resouse/rifle_hands_red.png");
 				playerModel->SetAncPoint("ArmL_rifle_r", Vector3(0.0f, -2.1f, -0.1f));
 				modelKey[0] = "ArmR_rifle_r";
-				modelKey[2] = "Armr_rifle_r";
+				modelKey[2] = "ArmL_rifle_r";
 			}
 			else
 			{
@@ -103,7 +103,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 			playerModel->AddModel("ArmL_rifle", "Resouse/L_hands_rifle.obj", "Resouse/rifle_hands.png");
 			playerModel->SetAncPoint("ArmL_rifle", Vector3(0.0f, -2.1f, -0.1f));
 			modelKey[0] = "ArmR_rifle";
-			modelKey[2] = "Armr_rifle";
+			modelKey[2] = "ArmL_rifle";
 		}
 		else
 		{
@@ -112,7 +112,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 			playerModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
 			playerModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
 			modelKey[0] = "ArmR";
-			modelKey[2] = "Armr";
+			modelKey[2] = "ArmL";
 		}
 
 		modelKey[1] = "OjyouSama";
