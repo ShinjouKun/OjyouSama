@@ -104,14 +104,27 @@ void Player::UseWeapon1()
 
 void Player::UseWeapon2()
 {
-	objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+
+	if (modelChanger->GetWeaponState1() == WeaponsState::MachinGun)
+	{
+		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	}
+	if (modelChanger->GetWeaponState1() == WeaponsState::Mine)
+	{
+		objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	}
+	if (modelChanger->GetWeaponState1() == WeaponsState::ShotGun)
+	{
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 1));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock + 2));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle - 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 3));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle - 20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 4));
+	}
+
 	//objM->Add(new MissileBullet(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
-	//objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0,0,0), objM, playerModel, playerParticle, objType, bulletStock));
-	/*objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock));
-	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+1));
-	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock+2));
-	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle-10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+3));
-	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle-20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+4));*/
+	//
+	
 	shotFlag2 = true;
 }
 
