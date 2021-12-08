@@ -15,7 +15,7 @@ testParticle::testParticle(const Vector3& pos, bool looping)
 	ps.StartColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	ps.GravityModifier = 0.f;
 	ps.StartVector = Vector3(0.2f, 0.5f, 0.f);
-	ps.StartSize3D = Vector3(2.f, 2.f, 1.f);
+	ps.StartSize3D = Vector3(200.f, 200.f, 1.f);
 	Burst burst;
 	burst.Count = 50;
 	Emitter* emitter = new Emitter(pos, ps, burst);

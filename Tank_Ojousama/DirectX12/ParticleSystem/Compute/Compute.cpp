@@ -149,8 +149,8 @@ void Compute::particleDraw(int dataSize)
 {
 	//ビルボード行列の生成
 	Matrix4 matBillboard = Matrix4::Identity;
-	Vector3 zaxis = Vector3::normalize(Camera::GetTarget() - Camera::GetEye());
-	Vector3 xaxis = Vector3::normalize(Vector3::cross(Vector3(0.f, 1.0f, 0.f), zaxis));
+	Vector3 zaxis = Vector3::normalize(Camera::target - Camera::eye);
+	Vector3 xaxis = Vector3::normalize(Vector3::cross(Camera::up, zaxis));
 	Vector3 yaxis = Vector3::cross(zaxis, xaxis);
 	float temp[4][4] =
 	{
