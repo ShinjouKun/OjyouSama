@@ -16,6 +16,7 @@ public:
 	ObjectType setType;
 	void SetBulletType();
 protected:
+	int UpDamage;
 	float speed;
 	int alive;//’e‚Ì¶‘¶ŠÔ
 	//•¡”‚¾‚·—p

@@ -16,7 +16,7 @@ EnemyTank::~EnemyTank()
 
 void EnemyTank::Shot()
 {
-	objM->Add(new NormalBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, tankModel, tankParticle, objType, bulletStock));
+	//objM->Add(new NormalBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, tankModel, tankParticle, objType, bulletStock));
 	ShotCount = 0;
 	ShotFlag = false;
 }

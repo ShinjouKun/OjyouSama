@@ -5,7 +5,7 @@ class MashinGun :public Weapon
 {
 public:
 	MashinGun(const Vector3& pos, const Vector3& ang, ObjectManager* obj,
-		shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num);
+		shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num,int upD);
 	~MashinGun();
 private:
 	// Weapon ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½

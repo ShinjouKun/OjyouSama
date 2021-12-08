@@ -98,7 +98,7 @@ void Player::SceneCamMove4()
 void Player::UseWeapon1()
 {
 	shotMoney += 10000;//ˆê”­ˆê–œ‰~
-	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock,UpDamage));
 	shotFlag1 = true;
 }
 
@@ -107,19 +107,19 @@ void Player::UseWeapon2()
 
 	if (modelChanger->GetWeaponState1() == WeaponsState::MachinGun)
 	{
-		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock,UpDamage));
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::Mine)
 	{
-		objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
+		objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock,UpDamage));
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::ShotGun)
 	{
-		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock));
-		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 1));
-		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock + 2));
-		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle - 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 3));
-		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle - 20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 4));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock,UpDamage));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 1,UpDamage));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock + 2,UpDamage));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle - 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 3,UpDamage));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle - 20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 4,UpDamage));
 	}
 
 	//objM->Add(new MissileBullet(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
@@ -195,15 +195,18 @@ void Player::Init()
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
 	//HP
-	maxHP = modelChanger->GetHP();
+	maxHP = modelChanger->GetHP();//HP
 	HP = maxHP;
-	maxSpeed = modelChanger->GetSpeed();
+	maxSpeed = modelChanger->GetSpeed();//Speed
+	UpDamage = modelChanger->GetUpDamage();//’Ç‰ÁUŒ‚—Í
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	playerSprite->AddTexture("AIM_S", "Resouse/croshear.png");
 	
 	death = false;
+	damageFade = 1;
+	damageFadeYpos = 0.0f;
 	SetTresureGet(false);//•ó–¢“üŽè
 	objType = ObjectType::PLAYER;
 	CamPos_Y = 2.5f;
@@ -275,9 +278,13 @@ void Player::Update()
 		if (HitFlag)
 		{
 			HitCount++;
+			damageFade -= 0.01f;
+			damageFadeYpos -= 0.2f;
 			if (HitCount >= 90)
 			{
 				HitCount = 0;
+				damageFade = 1.0f;
+				damageFadeYpos = 0.0f;
 				HitFlag = false;
 			}
 		}
@@ -512,9 +519,11 @@ void Player::Rend()
 
 
 	DirectXManager::GetInstance()->SetData2D();
-	if (HitFlag)
+	if (sceneCamOk&&HitFlag)
 	{
-		playerSprite->Draw("Blood", Vector3(500, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("Blood", Vector3(500, 0-damageFadeYpos, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, damageFade));
+		playerSprite->Draw("Blood2", Vector3(0, 500-damageFadeYpos, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, damageFade));
+		playerSprite->Draw("Blood3", Vector3(900, 200-damageFadeYpos, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, damageFade));
 	}
 	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
@@ -545,7 +554,7 @@ void Player::SetHP(int value)
 
 void Player::OnCollison(BaseCollider* col)
 {
-	if (!HitFlag)
+	if (!HitFlag&&sceneCamOk)
 	{
 		if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET
 			|| col->GetColObject()->GetType() == ObjectType::ENEMY

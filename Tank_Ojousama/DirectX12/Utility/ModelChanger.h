@@ -58,12 +58,15 @@ public:
 
 	void SetHP(int value);//‘Ì—Í
 	int GetHP() { return hp; }
+	void SetUpDamage(int up);
+	int GetUpDamage() { return upDamage; }
 	void SetSpeed(float value);//‘¬“x
 	float GetSpeed() { return speed; }
 
 	string GetModelName(int num);//0`2‚¨ì—l,3íÔ(–C“ƒj,4íÔ(Ô‘Ìj
 
-	int hp;
+	int hp;//HP
+	int upDamage;//UŒ‚—Í
 	float speed;
 private:
 

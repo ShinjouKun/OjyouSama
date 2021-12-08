@@ -2,7 +2,7 @@
 #include"Weapon.h"
 #include "../Collision/SpherCollider.h"
 #include"../Collision/BaseCollider.h"
-NormalBullet::NormalBullet(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, ObjectType t, int num)
+NormalBullet::NormalBullet(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, ObjectType t, int num,int upD)
 	:BulletModel(m),BulletParticle(p)
 {
 	position = pos;
@@ -10,6 +10,7 @@ NormalBullet::NormalBullet(const Vector3 & pos, const Vector3 & ang, ObjectManag
 	angle = ang;
 	setType = t;
 	number = num;
+	UpDamage = upD;
 }
 
 NormalBullet::~NormalBullet()
@@ -19,7 +20,7 @@ NormalBullet::~NormalBullet()
 void NormalBullet::Init()
 {
 	SetBulletType();
-	damage = 5;
+	damage = 5 + UpDamage;
 	objM->SetReloadTime(20);
 	name = "NormalBullet";
 	num = to_string(number);

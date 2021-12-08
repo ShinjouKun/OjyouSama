@@ -5,7 +5,7 @@ class LandMine :public Weapon
 {
 public:
 	LandMine(const Vector3& pos, const Vector3& ang, ObjectManager* obj,
-		shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num);
+		shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num,int upD);
 	~LandMine();
 private:
 	// Weapon ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½

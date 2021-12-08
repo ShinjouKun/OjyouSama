@@ -66,6 +66,7 @@ private:
 	bool BackMove;
 	Vector3 AIMPos;
 	//ステータス
+	int UpDamage;//追加攻撃力
 	ItemHolder* item;
 	bool GameOver = false;
 	int bulletStock;//弾をいっぱいだすため
@@ -89,6 +90,8 @@ private:
 	bool sceneCamOk;
 	Vector3 sceneCamPos;
 	bool sceneCamPlayerOk;
+	float damageFade;
+	float damageFadeYpos;
 	//サウンド
 
 	// BaseObject を介して継承されました

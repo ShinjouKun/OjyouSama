@@ -32,6 +32,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	{
 		if (state[0] != "Other01")
 		{
+			SetHP(70);
 			head = HeadState::Other02;
 			
 			playerModel->AddModel("OjyouSama_r", "Resouse/ojousama_body_red.obj", "Resouse/ojosama_red.png");
@@ -61,6 +62,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		}
 		else
 		{
+			SetHP(150);
 			head = HeadState::Other01;
 			playerModel->AddModel("OjyouSama2", "Resouse/ojousama_body_black.obj", "Resouse/ojosama_black.png");
 			playerModel->SetAncPoint("OjyouSama2", Vector3(0.0f, 0.0f, -0.1f));
@@ -89,6 +91,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	}
 	else
 	{
+		SetHP(100);
 		head = HeadState::Normal;
 		playerModel->AddModel("OjyouSama", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
 		playerModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
@@ -119,14 +122,14 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	{
 		if (state[1] != "Midium")
 		{
-			SetHP(150);
+			SetUpDamage(10);
 			body = BodyState::Heavy;
 			playerModel->AddModel("TankE", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2_B.png");
 			modelKey[3] = "TankE";
 		}
 		else
 		{
-			SetHP(100);
+			SetUpDamage(5);
 			body = BodyState::Midium;
 			playerModel->AddModel("TankPlayerC", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
 			modelKey[3] = "TankPlayerC";
@@ -134,7 +137,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	}
 	else
 	{
-		SetHP(70);
+		SetUpDamage(0);
 		body = BodyState::Light;
 		playerModel->AddModel("TankA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
 		modelKey[3] = "TankA";
@@ -293,6 +296,11 @@ void ModelChanger::ChangeWeapons1(WeaponsState weaponState)
 void ModelChanger::SetHP(int value)
 {
 	hp = value;
+}
+
+void ModelChanger::SetUpDamage(int up)
+{
+	upDamage = up;
 }
 
 void ModelChanger::SetSpeed(float value)

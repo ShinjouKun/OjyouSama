@@ -3,7 +3,7 @@
 #include "../Collision/SpherCollider.h"
 #include"../Collision/BaseCollider.h"
 
-ShotGunBullet::ShotGunBullet(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, ObjectType t, int num)
+ShotGunBullet::ShotGunBullet(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, ObjectType t, int num,int upD)
 	:Model(m),Particle(p)
 {
 	position = pos;
@@ -11,6 +11,7 @@ ShotGunBullet::ShotGunBullet(const Vector3 & pos, const Vector3 & ang, ObjectMan
 	angle = ang;
 	setType = t;
 	number = num;
+	UpDamage = upD;
 }
 
 ShotGunBullet::~ShotGunBullet()
@@ -20,7 +21,7 @@ ShotGunBullet::~ShotGunBullet()
 void ShotGunBullet::Init()
 {
 	SetBulletType();
-	damage = 3;
+	damage = 3 + UpDamage;
 	objM->SetReloadTime(60);
 	name = "ShotGun";
 	num = to_string(number);

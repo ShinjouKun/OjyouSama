@@ -4,7 +4,7 @@
 #include"../Collision/BaseCollider.h"
 #include<random>
 MashinGun::MashinGun(const Vector3& pos, const Vector3& ang, ObjectManager* obj,
-	shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num)
+	shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num,int upD)
 	:Model(m), Particle(p)
 {
 	position = pos;
@@ -12,6 +12,7 @@ MashinGun::MashinGun(const Vector3& pos, const Vector3& ang, ObjectManager* obj,
 	angle = ang;
 	setType = t;
 	number = num;
+	UpDamage = upD;
 }
 
 MashinGun::~MashinGun()
@@ -21,7 +22,7 @@ MashinGun::~MashinGun()
 void MashinGun::Init()
 {
 	SetBulletType();
-	damage = 1;
+	damage = 1 + UpDamage;
 	objM->SetReloadTime(2);
 	name = "MashinGun";
 	num = to_string(number);

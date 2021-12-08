@@ -4,7 +4,7 @@ class NormalBullet:public Weapon
 {
 public:
 	NormalBullet(const Vector3& pos,const Vector3& ang, ObjectManager* obj, 
-		shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num);
+		shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num,int upD);
 	~NormalBullet();
 
 private:

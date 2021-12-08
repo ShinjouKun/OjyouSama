@@ -5,7 +5,7 @@ class ShotGunBullet :public Weapon
 {
 public:
 	ShotGunBullet(const Vector3& pos, const Vector3& ang, ObjectManager* obj,
-		shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num);
+		shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num,int upD);
 	~ShotGunBullet();
 
 private:

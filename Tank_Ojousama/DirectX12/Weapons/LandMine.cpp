@@ -2,7 +2,7 @@
 #include"Weapon.h"
 #include "../Collision/SpherCollider.h"
 #include"../Collision/BaseCollider.h"
-LandMine::LandMine(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, ObjectType t, int num)
+LandMine::LandMine(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, ObjectType t, int num,int upD)
 	:Model(m),Particle(p)
 {
 	position = pos;
@@ -10,6 +10,7 @@ LandMine::LandMine(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj
 	angle = ang;
 	setType = t;
 	number = num;
+	UpDamage = upD;
 }
 
 LandMine::~LandMine()
@@ -19,7 +20,7 @@ LandMine::~LandMine()
 void LandMine::Init()
 {
 	SetBulletType();
-	damage = 2;
+	damage = 2 + UpDamage;
 	objM->SetReloadTime(100);
 	name = "Mine";
 	num = to_string(number);
