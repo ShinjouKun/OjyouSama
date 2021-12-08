@@ -334,7 +334,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		s.update();//Šeupdate‚ªI‚í‚Á‚½Œã‚É‰¹‚Ìˆ—‚ğ“ü‚ê‚é
 		DirectXManager::GetInstance()->SetDrawComnd();
 		mScene->Draw();
-		particleSystem.draw()
+		particleSystem.draw();
 		nums.drawNumber(DirectXManager::GetInstance()->CmdList(),pipeLine);
 		DirectXManager::GetInstance()->PostEffctEnd();
 		DirectXManager::GetInstance()->Begin();
