@@ -301,6 +301,7 @@ void Garage::DrawScene()
 		case 2:
 			BaseScene::mModel->Draw("OjyouSama_r", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeHead(Other02);
+			break;
 		default:
 			BaseScene::mModel->Draw("OjyouSama1", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeHead(Normal);

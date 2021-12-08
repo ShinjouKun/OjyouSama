@@ -330,6 +330,8 @@ void Defense::Wave3()
 	{
 		Wave3EnemySpown();
 	}
+	BaseScene::mStageFlag2 = true;
+	NextScene(std::make_shared<Result>());
 
 	//ƒ{ƒX‚ğ“|‚µ‚½H
 }
