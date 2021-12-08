@@ -375,6 +375,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma endregion
 		
 	}
+	particleSystem.finalize();
 	nums.finalize();
 	window->DeleateGameWindow();//ƒQ[ƒ€window”jŠü
 	pipeLine->Clear();
