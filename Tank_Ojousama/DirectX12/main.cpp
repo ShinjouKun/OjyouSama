@@ -49,6 +49,8 @@ unique_ptr<SceneManager>mScene;//このクラスだけが持つポインタ
 
 //サウンド
 #include "Sound/SoundSystem.h"
+//パーティクル
+#include "ParticleSystem/ParticleSystem.h"
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
@@ -291,6 +293,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	//パーティクル
 	shared_ptr<ParticleManager>paricle = make_shared<ParticleManager>(pipeLine);
+	auto& particleSystem = ParticleSystem::instance();
 	
 	//モデル
 	shared_ptr<ModelRenderer>model = make_shared<ModelRenderer>(pipeLine);
@@ -319,6 +322,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		input->UpdateGamepad();//ゲームパッド
 		//描画
 		mScene->Update();
+		particleSystem.update();
 
 #ifdef _DEBUG
 
@@ -330,6 +334,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		s.update();//各updateが終わった後に音の処理を入れる
 		DirectXManager::GetInstance()->SetDrawComnd();
 		mScene->Draw();
+		particleSystem.draw()
 		nums.drawNumber(DirectXManager::GetInstance()->CmdList(),pipeLine);
 		DirectXManager::GetInstance()->PostEffctEnd();
 		DirectXManager::GetInstance()->Begin();
