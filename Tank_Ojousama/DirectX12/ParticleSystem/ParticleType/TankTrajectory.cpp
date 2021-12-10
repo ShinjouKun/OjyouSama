@@ -15,7 +15,7 @@ TankTrajectory::TankTrajectory(const Vector3 & pos, bool looping)
 	ps.StartColor = Vector4(0.3f, 0.3f, 0.3f, 1.f);
 	ps.GravityModifier = 0.f;
 	ps.StartVector = Vector3(0.0f, 0.0f, 0.f);
-	ps.StartSize3D = Vector3(18.f, 18.f, 1.f);
+	ps.StartSize3D = Vector3(0.3f, 0.3f, 1.f);
 	Burst burst;
 	burst.Count = 20;
 	mEmitter = new Emitter(pos, ps, burst);//Resouse/bullet.png
@@ -23,8 +23,8 @@ TankTrajectory::TankTrajectory(const Vector3 & pos, bool looping)
 	aocip.rotate = Vector3::zero;
 	mEmitter->setAmountOfChangeInParticles(aocip);
 	ParticleRandomState prs;
-	prs.randomVec = Vector3(0.2f, 0.f, 0.2f);
-	prs.randomLife = 10.0f;
+	prs.randomVec = Vector3(0.05f, 0.f, 0.1f);
+	prs.randomLife = 5.0f;
 	prs.randomColor = Vector4(0.7f, 0.7f, 0.7f, 0.f);
 	mEmitter->setParticleRandomState(prs);
 

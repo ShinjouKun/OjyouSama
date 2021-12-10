@@ -1,4 +1,4 @@
 Normal
-Midium
-Heavy_b
+Light
+Light_b
 MachinGun

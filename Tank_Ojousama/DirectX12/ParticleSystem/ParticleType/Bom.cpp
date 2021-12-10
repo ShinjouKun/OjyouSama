@@ -9,13 +9,13 @@ Bom::Bom(const Vector3 & pos, bool looping)
 	ps.Duration = 0.2f;
 	ps.Looping = looping;
 	ps.StartDelay = 0.f;
-	ps.StartLifeTime = 30.f;
-	ps.StartSpeed = 5.f;
+	ps.StartLifeTime = 15.f;
+	ps.StartSpeed = 1.f;
 	ps.StartRotation3D = Vector3::zero;
 	ps.StartColor = Vector4(0.85f, 0.2f, 0.f, 1.f);
 	ps.GravityModifier = 0.f;
 	ps.StartVector = Vector3(0.0f, 0.0f, 0.f);
-	ps.StartSize3D = Vector3(18.f, 18.f, 1.f);
+	ps.StartSize3D = Vector3(0.5f, 0.5f, 1.f);
 	Burst burst;
 	burst.Count = 20;
 	mEmitter = new Emitter(pos, ps, burst);//Resouse/bullet.png

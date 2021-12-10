@@ -240,6 +240,7 @@ void ParticleManager::OllDraw()
 
 void ParticleManager::Add(const string& key, int life, const Vector3 & pos, const Vector3 & vel, const Vector3 & acc, float sScale, float eScale, const Vector4 & color, const Vector3& angle)
 {
+	return;
 	auto& d = particleDatas[key];
 	if (std::distance(d.particles.begin(), d.particles.end()) >= vertCount)
 	{

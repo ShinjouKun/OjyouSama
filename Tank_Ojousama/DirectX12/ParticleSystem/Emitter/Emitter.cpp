@@ -84,7 +84,7 @@ void Emitter::update()
 	//’Ç‰Áˆ—
 	int size = static_cast<int>(mDataList.size());
 	Random::initialize();
-	for (int i = 0; i < 50; ++i)//mBurst.Count
+	for (int i = 0; i < mBurst.Count; ++i)//mBurst.Count
 	{
 		if (!mIsGo)break;
 		if (mEnd)break;
