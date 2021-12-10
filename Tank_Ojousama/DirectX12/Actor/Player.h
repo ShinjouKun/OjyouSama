@@ -67,6 +67,7 @@ private:
 	bool BackMove;
 	Vector3 AIMPos;
 	//ステータス
+	int weaponMoveNum;
 	int UpDamage;//追加攻撃力
 	ItemHolder* item;
 	bool GameOver = false;
