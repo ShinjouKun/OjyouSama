@@ -23,7 +23,7 @@
     <ProjectGuid>{B7A7B929-B38A-4988-AB51-95012006B0B8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DirectX12</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -198,6 +198,11 @@
     <ClCompile Include="ParticleSystem\Compute\StructuredBuffer\StructuredBuffer.cpp" />
     <ClCompile Include="ParticleSystem\Emitter\Emitter.cpp" />
     <ClCompile Include="ParticleSystem\ParticleSystem.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleType\Bom.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleType\Explosion.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleType\MachineGunAttackParticle.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleType\NormalAttackParticle.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleType\TankTrajectory.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\testParticle.cpp" />
     <ClCompile Include="ParticleSystem\Particle\Particle.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
@@ -537,6 +542,11 @@
     <ClInclude Include="ParticleSystem\Emitter\EmitterData.h" />
     <ClInclude Include="ParticleSystem\ParticleData\ParticleData.h" />
     <ClInclude Include="ParticleSystem\ParticleSystem.h" />
+    <ClInclude Include="ParticleSystem\ParticleType\Bom.h" />
+    <ClInclude Include="ParticleSystem\ParticleType\Explosion.h" />
+    <ClInclude Include="ParticleSystem\ParticleType\MachineGunAttackParticle.h" />
+    <ClInclude Include="ParticleSystem\ParticleType\NormalAttackParticle.h" />
+    <ClInclude Include="ParticleSystem\ParticleType\TankTrajectory.h" />
     <ClInclude Include="ParticleSystem\ParticleType\testParticle.h" />
     <ClInclude Include="ParticleSystem\Particle\Particle.h" />
     <ClInclude Include="Scene\BaseScene.h" />

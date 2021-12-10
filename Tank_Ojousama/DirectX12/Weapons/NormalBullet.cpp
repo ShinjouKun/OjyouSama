@@ -26,8 +26,8 @@ void NormalBullet::Init()
 	num = to_string(number);
 	numName = name + num;
 	BulletModel->AddModel(numName, "Resouse/bullet.obj", "Resouse/bullet.png");
-	BulletParticleBox = make_shared<ParticleEmitterBox>(BulletParticle);
-	BulletParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
+	//BulletParticleBox = make_shared<ParticleEmitterBox>(BulletParticle);
+	//BulletParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
 	alive = 0;
 	death = false;
 	speed = 1.5f;
@@ -63,13 +63,13 @@ void NormalBullet::OnCollison(BaseCollider * col)
 {
 	if (objType == BULLET && (col->GetColObject()->GetType() == ObjectType::ENEMY || col->GetColObject()->GetType() == ObjectType::BOSS || col->GetColObject()->GetType() == ObjectType::ENEMYBULLET || col->GetColObject()->GetType() == ObjectType::BLOCK))
 	{
-		BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+		//BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
 		death = true;
 	}
 
 	if (objType == ENEMYBULLET && (col->GetColObject()->GetType() == ObjectType::PLAYER || col->GetColObject()->GetType() == ObjectType::BULLET || col->GetColObject()->GetType() == ObjectType::BLOCK || col->GetColObject()->GetType() == ObjectType::ITEM))
 	{
-		BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+		//BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
 		death = true;
 	}
 }
