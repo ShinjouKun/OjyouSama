@@ -30,7 +30,7 @@ private:
 
 	Camera* camera;
 	ObjectManager* objM;
-	std::shared_ptr<Sound> mSound;
+	std::shared_ptr<Sound> mBGM;
 	std::shared_ptr<Sound> mSE;
 	std::shared_ptr<Timer> mTimer;
 };

@@ -1,8 +1,8 @@
 #include "SummonEnemy.h"
 #include "../../Collision/SpherCollider.h"
-#include "../../Weapons/NormalBullet.h"
 #include "../../Utility/Timer/Timer.h"
-#include "AttackArea.h"
+#include "../../Sound/Sound.h"
+#include"../../Scene/BaseScene.h"
 
 SummonEnemy::SummonEnemy(
 	const Vector3 & pos,
@@ -22,7 +22,7 @@ SummonEnemy::SummonEnemy(
 
 SummonEnemy::~SummonEnemy()
 {
-	
+
 }
 
 void SummonEnemy::Init()
@@ -39,171 +39,69 @@ void SummonEnemy::Init()
 	mWithinPlayerFlag = false;
 	mAttackFlag = false;
 	mStep = false;
-	mCreateObject = false;
+	mDeathAnimation = false;
+	mDeadFlag = false;
 
+	mScale = Vector3(0.5f, 0.5f, 0.5f);
+	SetCollidder(Vector3(0.0f, 1.0f, 0.0f), 1.5f);
+
+	//列挙型初期化
+	objType = ObjectType::ENEMY;
 	mAttackStep = AttackStep::FALL_DOWN;
+	mDeathStep = DeathAnimationStep::RISE_SKY;
 
-	//mAttackArea = std::make_shared<AttackArea>(position, Vector3().zero, mObjManager, mModelRender, number);
-	//mAttackArea->SetActive(false);
+	//サウンド初期化
+	mAttackSE = std::make_shared<Sound>("SE/punti.mp3", false);
+	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDeathSE = std::make_shared<Sound>("SE/endingse.wav", false);
+	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
-
+	//タイマー初期化
 	mGetupTimer = std::make_shared<Timer>();
 	mGetupTimer->setTime(1.0f);
+	mRiseTime = std::make_shared<Timer>();
+	mRiseTime->setTime(1.0f);
+	mDeathTime = std::make_shared<Timer>();
+	mDeathTime->setTime(1.0f);
 
-	objType = ObjectType::ENEMY;
-	SetCollidder(new SphereCollider(Vector3(0.0f, 1.0f, 0.0f), 1.5f));
+	//パーティクル初期化
+	EXPLOSION_EFFECT = "Explosion";
+	mParticleEmitter = make_shared<ParticleEmitterBox>(mEffectManager);
+	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
 
-
-	mModelNum = to_string(number);
-	mModelNumName01 = mModelName01 + mModelNum;
-	mModelRender->AddModel(mModelNumName01, "Resouse/wood.obj", "Resouse/Big-treeA.png");
+	//モデル読み込み
+	mMyNumber = to_string(number);
+	mSummon = "SummonEnemy";
+	mSummonNum = mSummon + mMyNumber;
+	mModelRender->AddModel(mSummonNum, "Resouse/wood.obj", "Resouse/Big-treeA.png");
 }
 
 void SummonEnemy::Update()
 {
-	mPreviousPosition = position - velocity;
+	/*死亡状態監視*/
+	CheckAlive();
 
-	//プレイヤーの位置を監視
-	mPlayerPosition = mObjManager->GetPlayer().GetPosition();
+	//仮死状態なら処理しない
+	if (mDeathAnimation) return;
 
-	///*一度だけオブジェクトを生成*/
-	//CreateObject();
+	/*移動*/
+	Move();
 
-	if (HP <= 0)
-	{
-		death = true;
-	}
-
-	//範囲内にプレイヤーがいるなら
-	if (WithinDistance(mPlayerPosition,SEARCH_LENGTH))
-	{
-		mWithinPlayerFlag = true;
-
-		//突撃範囲内にプレイヤーがいるなら
-		if (WithinDistance(mPlayerPosition, FIND_LRNGTH))
-		{
-			speed = 0.3f;
-
-			if (WithinDistance(mPlayerPosition, ATTACK_LENGTH))
-			{
-				mAttackFlag = true;
-			}
-		}
-		else
-		{
-			speed = 0.2f;
-		}
-	}
-	else
-	{
-		mWithinPlayerFlag = false;
-	}
-
-	if (mWithinPlayerFlag && !mAttackFlag)
-	{
-
-		Vector3 distance = mPlayerPosition - position;
-		distance = distance.normal();
-		//二点間の角度を求める
-		float radian = atan2(distance.x, distance.z);
-		//回転を反映
-		angle.y = Math::toDegrees(radian) + 180.0f;
-		tt = -Math::toDegrees(radian) - 180.0f;
-
-		velocity = distance * speed;
-		position += velocity;
-
-#pragma region アニメーション
-
-		//右ステップ
-		if (mStep)
-		{
-			angle.z++;
-			if (angle.z > 25.0f)
-			{
-				mStep = false;
-			}
-		}
-		else
-		{
-			angle.z--;
-			if (angle.z < -25.0f)
-			{
-				mStep = true;
-			}
-		}
-
-#pragma endregion
-	}
-	else
-	{
-		angle.z = 0.0f;
-	}
-
-
-
-	if (mAttackFlag)
-	{
-		/*
-		その場に倒れこむ->この時当たり判定表示
-		->x軸を90度回転すればいいかな？
-		しばらく倒れたまま->約一秒
-		その場で起き上がる
-		起き上がり終わったら攻撃終了
-		*/
-
-		//Vector3 areaPos = RotateY(tt) * ATTACK_LENGTH;
-		//mAttackArea->SetActive(true, position + areaPos, Vector3(0.0f, tt, 0.0f));
-
-		switch (mAttackStep)
-		{
-		case SummonEnemy::FALL_DOWN:
-
-			angle.x += t;
-			if (angle.x > 90.0f)
-			{
-				mAttackStep = AttackStep::WAIT;
-			}
-
-			break;
-		case SummonEnemy::WAIT:
-
-			mGetupTimer->update();
-
-			if (mGetupTimer->isTime())
-			{
-				mGetupTimer->setTime(1.0f);
-				mAttackStep = AttackStep::GET_UP;
-			}
-
-			break;
-		case SummonEnemy::GET_UP:
-
-			angle.x -= t;
-			if (angle.x <= 0.0f)
-			{
-				mAttackFlag = false;
-				mAttackStep = AttackStep::FALL_DOWN;
-			}
-
-			break;
-		default:
-			break;
-		}
-	}
-
-
-
-	//ImGui::SliderInt("**********************", &HP, 0, 100);
+	/*倒れこみ攻撃*/
+	DownAttack();
 }
 
 void SummonEnemy::Rend()
 {
 	//表示状態かどうか
-    //if(!GetActive()) return;
+	//if(!GetActive()) return;
+
+	if (mDeathStep == DeathAnimationStep::EXPLOSION) return;
 
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	mModelRender->Draw(mModelNumName01, position, Vector3(angle.x,tt,angle.z), Vector3(0.5f, 0.5f, 0.5f));
+	mModelRender->Draw(mSummonNum, position, Vector3(angle.x, mFireAngle, angle.z), mScale);
 }
 
 void SummonEnemy::ImGuiDebug()
@@ -214,6 +112,8 @@ void SummonEnemy::OnCollison(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
+		//SE発射
+		mDamageSE->play();
 		HP -= col->GetColObject()->GetDamage();
 	}
 
@@ -237,12 +137,208 @@ void SummonEnemy::OnCollison(BaseCollider * col)
 	}
 }
 
-void SummonEnemy::CreateObject()
+void SummonEnemy::CheckAlive()
 {
-	if (mCreateObject) return;
+	if (HP <= 0)
+	{
+		//アニメーション(仮死状態)にする
+		mDeathAnimation = true;
+	}
 
-	mObjManager->Add(mAttackArea.get());
-	mCreateObject = true;
+	if (mDeadFlag)
+	{
+		death = true;
+	}
+
+	/*死亡アニメーション開始*/
+	DeathAnimation();
+}
+
+void SummonEnemy::Move()
+{
+	//前フレームの位置を取得
+	mPreviousPosition = position - velocity;
+
+	//プレイヤーの位置を監視
+	mPlayerPosition = mObjManager->GetPlayer().GetPosition();
+
+	//視野範囲内にプレイヤーがいるなら
+	if (WithinDistance(mPlayerPosition, SEARCH_LENGTH))
+	{
+		mWithinPlayerFlag = true;
+
+		//突撃範囲内にプレイヤーがいるなら
+		if (WithinDistance(mPlayerPosition, FIND_LRNGTH))
+		{
+			//突撃するとき、移動速度がすこし上がる
+			speed = 0.3f;
+
+			//攻撃範囲内にプレイヤーがいたら
+			if (WithinDistance(mPlayerPosition, ATTACK_LENGTH))
+			{
+				//攻撃中にする
+				mAttackFlag = true;
+			}
+		}
+		else
+		{
+			speed = 0.2f;
+		}
+	}
+	else
+	{
+		mWithinPlayerFlag = false;
+	}
+
+	//範囲内にプレイヤーがいる & 攻撃していない時
+	if (mWithinPlayerFlag && !mAttackFlag)
+	{
+		Vector3 distance = mPlayerPosition - position;
+		distance = distance.normal();
+		//二点間の角度を求める
+		float radian = atan2(distance.x, distance.z);
+		//回転を反映
+		angle.y = Math::toDegrees(radian) + 180.0f;
+		mFireAngle = -Math::toDegrees(radian) - 180.0f;
+
+		//移動する
+		velocity = distance * speed;
+		position += velocity;
+
+		/*移動アニメーション*/
+		MoveAnimation();
+	}
+	else
+	{
+		//脚の角度を元に戻す
+		angle.z = 0.0f;
+	}
+}
+
+void SummonEnemy::MoveAnimation()
+{
+	//右ステップ
+	if (mStep)
+	{
+		angle.z++;
+		if (angle.z > 25.0f)
+		{
+			mStep = false;
+		}
+	}
+	else
+	{
+		angle.z--;
+		if (angle.z < -25.0f)
+		{
+			mStep = true;
+		}
+	}
+}
+
+void SummonEnemy::DownAttack()
+{
+	//攻撃中出なければ処理しない
+	if (!mAttackFlag) return;
+
+	switch (mAttackStep)
+	{
+	case SummonEnemy::FALL_DOWN:
+		AttackStep_FallDown();
+		break;
+	case SummonEnemy::WAIT:
+		AttackStep_Wait();
+		break;
+	case SummonEnemy::GET_UP:
+		AttackStep_GetUp();
+		break;
+	default:
+		break;
+	}
+}
+
+void SummonEnemy::AttackStep_FallDown()
+{
+	angle.x += mDownSpeed;
+	if (angle.x > 90.0f)
+	{
+		mAttackStep = AttackStep::WAIT;
+		mAttackSE->play();
+	}
+}
+
+void SummonEnemy::AttackStep_Wait()
+{
+	mGetupTimer->update();
+
+	if (mGetupTimer->isTime())
+	{
+		mGetupTimer->setTime(1.0f);
+		mAttackStep = AttackStep::GET_UP;
+	}
+}
+
+void SummonEnemy::AttackStep_GetUp()
+{
+	angle.x -= mDownSpeed;
+	if (angle.x <= 0.0f)
+	{
+		mAttackFlag = false;
+		mAttackStep = AttackStep::FALL_DOWN;
+	}
+}
+
+void SummonEnemy::DeathAnimation()
+{
+	//仮死状態でない　なら処理しない
+	if (!mDeathAnimation) return;
+
+	switch (mDeathStep)
+	{
+	case SummonEnemy::RISE_SKY:
+		DeathAnimeStep_RiseSky();
+		break;
+	case SummonEnemy::EXPLOSION:
+		DeathAnimeStep_Explosion();
+		break;
+	default:
+		break;
+	}
+}
+
+void SummonEnemy::DeathAnimeStep_RiseSky()
+{
+	mRiseTime->update();
+
+	//時間になっていなければ
+	if (!mRiseTime->isTime())
+	{
+		//回転
+		mFireAngle += 50.0f;
+		//上昇
+		position.y += 0.2f;
+	}
+	else
+	{
+		//時間になったら(1フレームだけ呼ばれる)
+		//ここでSEを鳴らしたり、爆発させたりする
+		//エフェクト発射
+		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
+		//SE発射
+		mDeathSE->play();
+
+		mDeathStep = DeathAnimationStep::EXPLOSION;
+	}
+}
+
+void SummonEnemy::DeathAnimeStep_Explosion()
+{
+	mDeathTime->update();
+
+	if (mDeathTime->isTime())
+	{
+		mDeadFlag = true;
+	}
 }
 
 bool SummonEnemy::WithinDistance(const Vector3 & targetPosition, const float distance)

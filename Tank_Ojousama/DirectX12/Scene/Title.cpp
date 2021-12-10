@@ -5,7 +5,7 @@
 #include "../Sound/Sound.h"
 
 Title::Title():
-	mSound(nullptr)
+	mBGM(nullptr)
 {
 
 }
@@ -47,10 +47,10 @@ void Title::StartScene()
 	BaseScene::mModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
 	BaseScene::mModel->SetAncPoint("ArmL", Vector3(0.0f, -1.9f, -0.1f));
 
-	mSound = std::make_shared<Sound>("loop_157.mp3", false);
-	mSE = std::make_shared<Sound>("OkSE.mp3", false);
+	mBGM = std::make_shared<Sound>("BGM/loop_157.mp3", false);
+	mSE = std::make_shared<Sound>("SE/OkSE.mp3", false);
 	//mSound->play();
-	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	mBGM->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
@@ -65,7 +65,7 @@ void Title::UpdateScene()
 	{
 		fade1 = 0;
 	}
-	mSound->playLoop();
+	mBGM->playLoop();
 	if (fade1 <= 0)
 	{
 		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))

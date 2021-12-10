@@ -13,14 +13,21 @@ Operation::~Operation()
 
 void Operation::StartScene()
 {
-	mTimer = std::make_shared<Timer>(0.01f);
+	mTimer = std::make_shared<Timer>();
 	mTimer->setTime(0.2f);
 	BaseScene::mSprite->AddTexture("OperationP", "Resouse/controller.png");
 	BaseScene::mSprite->AddTexture("OperationB", "Resouse/operationback.png");
+
+	/*BGM’Ç‰Á*/
+	mBGM = std::make_shared<Sound>("BGM/loop_157.mp3", false);
+	mBGM->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 }
 
 void Operation::UpdateScene()
 {
+	//BGMÄ¶
+	mBGM->playLoop();
+
 	mTimer->update();
 	if (!mTimer->isTime()) return;
 	if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
@@ -32,7 +39,7 @@ void Operation::UpdateScene()
 void Operation::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData2D();
-	BaseScene::mSprite->Draw("OperationB", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->SetSize("OperationP", Vector2(1280, 720));
-	BaseScene::mSprite->Draw("OperationP", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("OperationB", Vector3(0.0f, 0.0f, 0.0f), 0.0f, Vector2(1.0f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	BaseScene::mSprite->SetSize("OperationP", Vector2(1280.0f, 720.0f));
+	BaseScene::mSprite->Draw("OperationP", Vector3(0.0f, 0.0f, 0.0f), 0.0f, Vector2(1.0f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 }

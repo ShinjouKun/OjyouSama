@@ -42,7 +42,13 @@ void Result::StartScene()
 	BaseScene::mModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
 	BaseScene::mModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
 	BaseScene::mModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
-	mSound = std::make_shared<Sound>("loop_157.mp3", false);
+
+
+	mSound = std::make_shared<Sound>("BGM/loop_157.mp3", false);
+	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	mFanfare = std::make_shared<Sound>("SE/Fanfare.mp3", false);
+	mFanfare->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mFanfare->play();
 
 	speed = 0;
 	ojyouY = 0.0f;
@@ -53,7 +59,6 @@ void Result::StartScene()
 	zensin = 0;
 
 	mTimer = std::make_shared<Timer>(0.01f);
-	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	//BaseScene::mMoney += 20000000;
 }
 

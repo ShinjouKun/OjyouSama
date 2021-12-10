@@ -54,7 +54,7 @@ void BossScene::StartScene()
 	BaseEnemy::SetEnemyAi(mEnemyAI.get());
 
 	BaseEnemy::SetImportantObject(mObjManager, BaseScene::mModel, BaseScene::mParticle, mBreadCreator);
-	BaseEnemy::SetAttackTarget(Vector3(50, 0, -100));
+	BaseEnemy::SetAttackTarget(Vector3(50, 0, -100));/*拠点の位置*/
 
 
 #pragma region 画像の読み込み
@@ -78,7 +78,8 @@ void BossScene::StartScene()
 
 #pragma endregion
 
-	mSound = std::make_shared<Sound>("loop_157.mp3", false);
+	//BGM設定
+	mSound = std::make_shared<Sound>("BGM/boss02.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 
 #pragma region ステージ内モデルの作成
@@ -148,27 +149,27 @@ void BossScene::StartScene()
 
 
 	//////岩投げの敵
-	//mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), /*mObjManager, BaseScene::mModel,*/ objectCount++));
-	//mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), /*mObjManager, BaseScene::mModel,*/ objectCount++));
+	mObjManager->Add(new MortarEnemy(Vector3(+100.0f, 0.0f, -200.0f), Vector3(0.0f, 180.0f, 0.0f), /*mObjManager, BaseScene::mModel,*/ objectCount++));
+	mObjManager->Add(new MortarEnemy(Vector3(-100.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), /*mObjManager, BaseScene::mModel,*/ objectCount++));
 
-	//遠距離の敵
-	//mObjManager->Add(new SniperEnemy(Vector3(0, 0, -50), Vector3(0, 180, 0), objectCount++, true));
-	//mObjManager->Add(new CEnemy(Vector3(-10, 0, -50), Vector3(0, 180, 0), objectCount++, true));
-	//mObjManager->Add(new BlowEnemy(Vector3(+10, 0, 0), Vector3(0, 180, 0), objectCount++, true));
+	////遠距離の敵
+	mObjManager->Add(new SniperEnemy(Vector3(20, 0, 400), Vector3(0, 180, 0), objectCount++, true));
+	mObjManager->Add(new CEnemy(Vector3(-10, 0, 400), Vector3(0, 180, 0), objectCount++, true));
+	mObjManager->Add(new BlowEnemy(Vector3(+10, 0, 400), Vector3(0, 180, 0), objectCount++, true));
 	//mObjManager->Add(new BlowEnemy(Vector3(-10, 0, 0), Vector3(0, 180, 0), objectCount++, true));
 	//mObjManager->Add(new BlowEnemy(Vector3(  0, 0, 0), Vector3(0, 180, 0), objectCount++, true, Vector3(0, 0, 1)));
 
-	//mObjManager->Add(new BirdEnemy(Vector3(100, 0.0f, 100), Vector3(0.0f, 90.0f, 0.0f),objectCount++));
+	mObjManager->Add(new BirdEnemy(Vector3(100, 0.0f, 100), Vector3(0.0f, 90.0f, 0.0f),objectCount++));
 
 	/*拠点を狙いに行くまでの境界線*/
-	//mObjManager->Add(new AdvanceBorderLine(Vector3(0, 0.0f, 50.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-150.0f, -2.0f, -2.0f), Vector3(150.0f, 2.0f, 1.0f)));
+	mObjManager->Add(new AdvanceBorderLine(Vector3(0, 0.0f, 500), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-150.0f, -2.0f, -2.0f), Vector3(150.0f, 2.0f, 1.0f)));
 
 	//mObjManager->Add(new Block(Vector3(0, 0.0f, 450.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 
 	//mObjManager->Add(new ElfTree(Vector3(0, 4.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 
 	////ボス
-	mBoss = new ElfTreeBoss(Vector3(0.0f, 0.0f, 200.0f), Vector3(0.0f, 180.0f, 0.0f), /*mObjManager, BaseScene::mModel,*/ BaseScene::mParticle, objectCount++);
+	mBoss = new ElfTreeBoss(Vector3(0.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), /*mObjManager, BaseScene::mModel,*/ BaseScene::mParticle, objectCount++);
 	mObjManager->Add(mBoss);
 
 #pragma endregion
@@ -180,7 +181,7 @@ void BossScene::StartScene()
 
 void BossScene::UpdateScene()
 {
-	mSound->playLoop();
+	//mSound->playLoop();
 	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	mTimer->update();
 	if (!mTimer->isTime()) return;

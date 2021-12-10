@@ -76,14 +76,14 @@ void Garage::StartScene()
 	camera->SetEye(Vector3(0.0f, 0, -120));
 	camera->SetTarget(Vector3(0.0f, 0, -100.0f));
 	mTimer = std::make_shared<Timer>(0.01f);
-	mSound = std::make_shared<Sound>("syata.mp3", false);
+	mSound = std::make_shared<Sound>("SE/syata.mp3", false);
 	mSound->play();
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
-	mBGM = std::make_shared<Sound>("garegeBGM.mp3", false);
+	mBGM = std::make_shared<Sound>("BGM/garegeBGM.mp3", false);
 	mBGM->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 
-	mSE = std::make_shared<Sound>("SelectSE.mp3", false);
+	mSE = std::make_shared<Sound>("SE/SelectSE.mp3", false);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 

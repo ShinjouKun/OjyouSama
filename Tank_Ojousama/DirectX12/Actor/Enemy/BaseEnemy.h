@@ -5,6 +5,8 @@
 #include "../../Render/ModelRenderer.h" //モデル貼り付け
 #include "../../Render/TexRenderer.h"	//ポリゴンの描画
 #include "../../Render/ParticleManager.h"//パーティクル描画
+#include "../../Sound/Sound.h"
+#include "../../Utility/Timer/Timer.h"
 #include "AttackArea.h"//子クラスで作ってるからここに書いてる
 
 #include "EnemyAI.h"
@@ -14,7 +16,6 @@ class WayPointManager;
 class ReportArea;
 class BreadCrumbCreater;
 class TestBreadCrumb;
-class Timer;
 
 /// <summary>
 /// 敵の基底クラス
@@ -69,12 +70,11 @@ public:
 	virtual void EnemyOnCollision(BaseCollider* col) = 0;
 	virtual void EnemyImGuiDebug() = 0;
 
-	virtual void Search() = 0; //未発見状態
-	virtual void Warning() = 0;//発見状態
-	virtual void Attack() = 0; //攻撃中
-
 	/*行動状態の変更*/
 	void ChangeState();
+
+	/*生存状態の監視*/
+	void AliveSurveillance();
 
 	/*オブジェクト検索まとめ()*/
 	virtual void SearchObject();
@@ -157,14 +157,10 @@ public:
 	/*オブジェクト生成に必要なデータをセット(ObjectManager, ModelRenderer,ParticleManager)*/
 	static void SetImportantObject(ObjectManager * manager, shared_ptr<ModelRenderer> modelRender, shared_ptr<ParticleManager> particleManager, shared_ptr<BreadCrumbCreater> breadCreator);
 
-
 private:
 
 	/*変数の初期化*/
 	void Initialize();
-
-	/*生存状態の監視*/
-	void AliveSurveillance();
 
 	/*扇の情報変更*/
 	void SetFanInfo(float range = 60.0f, float length = 30.0f);
@@ -250,9 +246,6 @@ protected:
 	static ObjectManager* mManager;
 	static std::shared_ptr<ModelRenderer> mRend;
 	static std::shared_ptr<ParticleManager> mPart;
-
-	//static std::shared_ptr<ParticleManager> mEffect;
-
 	static Vector3 mAttackTarget;//拠点進攻モードのターゲット
 
 private:
