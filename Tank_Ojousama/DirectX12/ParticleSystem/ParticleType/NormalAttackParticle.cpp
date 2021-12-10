@@ -40,7 +40,7 @@ void NormalAttackParticle::setPos(const Vector3 & pos)
 	mEmitter->setPos(pos);
 }
 
-void NormalAttackParticle::Attack()
+void NormalAttackParticle::Play()
 {
 	mEmitter->setIsGo();
 }

@@ -42,7 +42,7 @@ void MachineGunAttackParticle::setPos(const Vector3 & pos)
 	mEmitter->setPos(pos);
 }
 
-void MachineGunAttackParticle::Attack()
+void MachineGunAttackParticle::Play()
 {
 	mEmitter->setIsGo();
 }

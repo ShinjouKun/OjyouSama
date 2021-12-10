@@ -12,6 +12,8 @@ public:
 
 	void setPos(const Vector3& pos);
 
+	void Play();
+
 private:
 	Emitter* mEmitter;
 };

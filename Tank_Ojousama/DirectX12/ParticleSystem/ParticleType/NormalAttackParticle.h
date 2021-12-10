@@ -11,7 +11,7 @@ public:
 
 	void setPos(const Vector3& pos);
 
-	void Attack();
+	void Play();
 
 private:
 	Emitter* mEmitter;

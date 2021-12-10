@@ -10,7 +10,10 @@ class Explosion
 public:
 	Explosion(const Vector3& pos = Vector3::zero, bool looping = false);
 	~Explosion();
+
 	void setPos(const Vector3& pos);
+
+	void Play();
 
 private:
 	Emitter* mEmitter;
