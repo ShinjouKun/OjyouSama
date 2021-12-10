@@ -1,8 +1,6 @@
 #pragma once
 #include "BaseEnemy.h"
-#include "../../Render/ParticleManager.h"
 
-class Sound;
 class SniperEnemy : public BaseEnemy
 {
 public:
@@ -37,38 +35,62 @@ private:
 	virtual void EnemyOnCollision(BaseCollider* col) override;
 	virtual void EnemyImGuiDebug() override;
 
-	/*索敵状態*/
-	virtual void Search() override;
+	/*生存状態を監視*/
+	void CheckAlive();
 
-	/*追跡状態*/
-	virtual void Warning() override;
+	/*移動*/
+	void Move();
 
-	/*攻撃状態*/
-	virtual void Attack() override;
+	/*歩行アニメーション*/
+	void MoveAnimation();
+
+	/*攻撃*/
+	void Attack();
+
+	/*死亡時の演出*/
+	void DeathAnimation();
+
+	/*空に上昇*/
+	void DeathAnimeStep_RiseSky();
+
+	/*爆発&数秒停止*/
+	void DeathAnimeStep_Explosion();
 
 private:
-	//ObjectManager* objManager;                //オブジェクト管理者
-	//shared_ptr<ModelRenderer> modelRender;	  //モデル描画
-	//shared_ptr<ParticleManager> effectManager;//エフェクト描画
 
-	/*弾の識別番号*/
-	int bulletNumber = 0;
+	/*死亡アニメーションの遷移状況*/
+	enum DeathAnimationStep
+	{
+		RISE_SKY, //上空に舞い上がる
+		EXPLOSION,//消滅する
+	};
+	DeathAnimationStep mDeathStep;
 
-	//歩行アニメーション関連
-	float mLegRotate = 0.0f;//脚の現在の回転量
+	shared_ptr<Timer> mRiseTime; //上昇時間
+	shared_ptr<Timer> mDeathTime;//完全に死ぬまでの時間
+	shared_ptr<Sound> mAttackSE; //攻撃時のSE
+	shared_ptr<Sound> mDamageSE; //ダメージを受けた時のSE
+	shared_ptr<Sound> mDeathSE;  //死亡したときのSE
+	shared_ptr<ParticleEmitterBox> mParticleEmitter;//爆発のエフェクト
+
 	const float LEG_SPEED = 1.5f; //脚の回転速度
 	const float LEG_RANGE = 15.0f;//脚の最大回転量
-	bool mRotDirection = false;   //回転方向
 
-	string mLeftLeg;   //左足のモデル名
-	string mLLegNumber;//左足 + 識別番号
-	string mRightLeg;  //右足のモデル名
-	string mRLegNumber;//右足 + 識別番号
-	string mHead;      //頭の名前
-	string mHeadNumber;//頭 + 識別番号
-	string mBody;      //体の名前
-	string mBodyNumber;//体 + 識別番号
+	float mLegRotate = 0.0f;//脚の現在の回転量
 
-	std::shared_ptr<Sound> mSound;
-	std::shared_ptr<Sound> mSE;
+	int bulletNumber = 0;//弾の識別番号
+
+	bool mRotDirection = false;//回転方向
+	bool mDeathAnimation;      //死亡アニメーションを開始するか
+	bool mDeadFlag;            //死ぬ瞬間にtrueになるフラグ(保険)
+
+	string mLeftLeg;        //左足のモデル名
+	string mLLegNumber;     //左足 + 識別番号
+	string mRightLeg;       //右足のモデル名
+	string mRLegNumber;     //右足 + 識別番号
+	string mHead;           //頭の名前
+	string mHeadNumber;     //頭 + 識別番号
+	string mBody;           //体の名前
+	string mBodyNumber;     //体 + 識別番号
+	string EXPLOSION_EFFECT;//エフェクト名
 };

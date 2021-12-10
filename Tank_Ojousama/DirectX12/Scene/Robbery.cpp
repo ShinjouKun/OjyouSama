@@ -91,7 +91,7 @@ void Robbery::StartScene()
 	BaseScene::mModel->AddModel("KabeF", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeF2", "Resouse/Plane.obj", "Resouse/kabe.png");
 
-	mSound = std::make_shared<Sound>("loop_157.mp3", false);
+	mSound = std::make_shared<Sound>("BGM/loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	//ƒtƒ‰ƒOŒn
 	goalFlag = false;

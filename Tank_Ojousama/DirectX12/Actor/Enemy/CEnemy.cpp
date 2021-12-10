@@ -1,7 +1,6 @@
 #include "CEnemy.h"
-#include "../../Collision/SpherCollider.h"
 #include "../../Weapons/ElfBullet.h"
-#include "../../Utility/Timer/Timer.h"
+#include"../../Scene/BaseScene.h"
 #include "MemberEnemy.h"
 
 CEnemy::CEnemy(
@@ -27,30 +26,37 @@ void CEnemy::EnemyInit()
 {
 	HP = 10;
 	attackTime = 60;
+	mEnemyNumber = 0;
 
 	speed = 0.1f;
 	mRadius = 1.0f;
 	mSwingRange = 45.0f;
+	mAttackLength = 50.0f;
 	mFireAngle = angle.y;
-	//turretAngle = 0.0f;
-	mAttackLength = 10.0f;
 
 	death = false;
 	breadcrumbMode = true;
 	DESTRUCT_MODE = false;
 	TURNAROUND_MODE = false;
 	RECEIVEREPORT_MODE = false;
-
 	mOnlyOnceTrigger = false;
 	mSearchCommand = false;
 	mSearchResult = false;
+	mRotDirection = false;
+	mDeathAnimation = false;
+	mDeadFlag = false;
+
+	mMemberList.resize(MEMBER_COUNT);
+	mMemberPositionList.resize(MEMBER_COUNT);
 
 	scale = Vector3(1.0f, 1.0f, 1.0f);
 	mSearchPosition = Vector3().zero;
+	SetCollidder(Vector3().zero, mRadius);
 
 	objType = ObjectType::ENEMY;
-	//SetCollidder(new SphereCollider(position, radius));
-	SetCollidder(new SphereCollider(Vector3().zero, mRadius));
+	mMoveState = MoveState::NOT_FIND;
+	mDeathStep = DeathAnimationStep::RISE_SKY;
+	searchStep = SearchCommandStep::SEARCH_ORDER;
 
 	//センサーの初期化----------------
 	mFanRotateOrigin = -angle.y - 90.0f;
@@ -60,15 +66,26 @@ void CEnemy::EnemyInit()
 	fanInfo.rotate = mFanRotateOrigin;							   //回転角
 	//--------------------------------
 
-	mMoveState = MoveState::NOT_FIND;
-	searchStep = SearchCommandStep::SEARCH_ORDER;
+	//サウンド初期化
+	mAttackSE = std::make_shared<Sound>("SE/hirai.mp3", false);
+	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDeathSE = std::make_shared<Sound>("SE/Elf_Damage01.mp3", false);
+	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
-	mMemberList.resize(MEMBER_COUNT);
-	mMemberPositionList.resize(MEMBER_COUNT);
-	mEnemyNumber = 0;
-
+	//タイマー初期化
 	mSearchTimer = std::make_shared<Timer>();
 	mSearchTimer->setTime(SEARCH_INTERVAL);
+	mRiseTime = std::make_shared<Timer>();
+	mRiseTime->setTime(1.0f);
+	mDeathTime = std::make_shared<Timer>();
+	mDeathTime->setTime(1.0f);
+
+	//パーティクル初期化
+	EXPLOSION_EFFECT = "Explosion";
+	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
+	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
 
 #pragma region モデルの読み込み
 
@@ -105,48 +122,103 @@ void CEnemy::EnemyUpdate()
 	/*隊員を生成*/
 	OnlyOnceAction();
 
+	Invincible(1);//無敵時間
+
+	/*生存状態を監視*/
+	CheckAlive();
+
+	//仮死状態なら処理しない
+	if (mDeathAnimation) return;
+
 	/*共通の要素*/
 	ChangeState(); //状態変更
 	SearchObject();//パンくずやプレイヤーを探す
 
-	if (HP <= 0)
+
+	/*移動*/
+	Move();
+
+	/*攻撃*/
+	Attack();
+
+	/*移動指令*/
+	MoveOrder();
+
+	/*索敵指令*/
+	SearchOrder();
+}
+
+void CEnemy::EnemyRend()
+{
+	if (mDeathStep == DeathAnimationStep::EXPLOSION) return;
+
+	//モデルの描画
+	DirectXManager::GetInstance()->SetData3D();
+	mRend->Draw(mRLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(+mLegRotate, mFireAngle, 0), scale);//右脚
+	mRend->Draw(mLLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, mFireAngle, 0), scale);//左脚
+	mRend->Draw(mHeadNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);//頭と手
+	mRend->Draw(mBodyNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);//体と弓	
+}
+
+void CEnemy::EnemyOnCollision(BaseCollider * col)
+{
+	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
-		for (auto& list : mMemberList)
-		{
-			list->ReceiveCaptainLost(true);
-		}
+		mDamageSE->play();
+		//ダメージを受ける
+		HP -= col->GetColObject()->GetDamage();
 	}
 
-	if (moveFlag)
+	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
 	{
-		if (mRotDirection)
-		{
-			mLegRotate += LEG_SPEED;
-			if (mLegRotate > LEG_RANGE)
-			{
-				mRotDirection = false;
-			}
-		}
-		else
-		{
-			mLegRotate -= LEG_SPEED;
-			if (mLegRotate < -LEG_RANGE)
-			{
-				mRotDirection = true;
-			}
-		}
-	}
-	else
-	{
-		mLegRotate = 0.0f;
+		position = mPreviousPosition;
 	}
 
+	if (mAdvanceFlag && col->GetColObject()->GetType() == ObjectType::BORDER_LINE)
+	{
+		mHitBorderLine = true;
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::DEFENCEPOINT)
+	{
+		mHitSmokeFlag = true;
+	}
+}
+
+void CEnemy::EnemyImGuiDebug()
+{
+}
+
+void CEnemy::OnlyOnceAction()
+{
+	//すでに実行していたら 処理しない
+	if (mOnlyOnceTrigger) return;
 
 	for (int i = 0, end = static_cast<int>(mMemberList.size()); i < end; i++)
 	{
-		//int debugHP = mMemberList[i]->GetHP();
-        //ImGui::SliderInt("HP-------------------", &debugHP, 0, 500);
+		Vector3 pos = position + AngleToVectorY(360.0f / mMemberList.size() * i) * MEMBER_DISTANCE;
+		auto enemys = new MemberEnemy(pos, angle, mManager, mRend, mPart, mEnemyNumber++);
+		mMemberList[i] = enemys;
+		mManager->Add(enemys);
+	}
 
+	//処理が終わったらフラグを建てる
+	mOnlyOnceTrigger = true;
+}
+
+void CEnemy::MemberMove(int number)
+{
+	//離れた位置にポジションを指定
+	mMemberPositionList[number] = position + AngleToVectorY(360.0f / mMemberList.size() * number) * MEMBER_DISTANCE;
+
+	//隊員に位置情報を渡す。
+	mMemberList[number]->ReceivePosition(mMemberPositionList[number]);
+}
+
+void CEnemy::MoveOrder()
+{
+	for (int i = 0, end = static_cast<int>(mMemberList.size()); i < end; i++)
+	{
 		mAnyDeathFlag = false;
 
 		//生存状態を監視
@@ -164,7 +236,10 @@ void CEnemy::EnemyUpdate()
 		/*移動管理*/
 		MemberMove(i);
 	}
+}
 
+void CEnemy::SearchOrder()
+{
 	//索敵範囲内にプレイヤーがいるか
 	if (InsideDistance(mPlayerPosition, MEMBER_DISTANCE))
 	{
@@ -232,118 +307,136 @@ void CEnemy::EnemyUpdate()
 			}
 		}
 	}
+}
 
-	if (mAttackFlag)
+void CEnemy::CheckAlive()
+{
+	if (HP <= 0)
 	{
-		attackCount++;
-
-		if (attackCount > attackTime)
+		mDeathAnimation = true;
+		for (auto& list : mMemberList)
 		{
-			attackCount = 0;
-			Vector3 firePos = AngleToVectorY(fanInfo.rotate);
+			list->ReceiveCaptainLost(true);
+		}
+	}
 
-			//弾を発射！！
-			mManager->Add(new ElfBullet(position + firePos, Vector3(0, -angle.y, 0), mManager, mRend, mPart, objType, bulletNumber));
-			bulletNumber++;
-			mAttackFlag = false;
-			mMoveState = MoveState::NOT_FIND;
+	if (mDeadFlag)
+	{
+		death = true;
+	}
+
+	/*死亡アニメーションを開始*/
+	DeathAnimation();
+}
+
+void CEnemy::Move()
+{
+	//攻撃中は移動しない
+	if (mAttackFlag) return;
+
+	/*移動 & 追跡*/
+	TrackingObject();
+
+	/*移動のアニメーション*/
+	MoveAnimation();
+}
+
+void CEnemy::MoveAnimation()
+{
+	if (moveFlag)
+	{
+		if (mRotDirection)
+		{
+			mLegRotate += LEG_SPEED;
+			if (mLegRotate > LEG_RANGE)
+			{
+				mRotDirection = false;
+			}
+		}
+		else
+		{
+			mLegRotate -= LEG_SPEED;
+			if (mLegRotate < -LEG_RANGE)
+			{
+				mRotDirection = true;
+			}
 		}
 	}
 	else
 	{
-		TrackingObject();//移動関連
+		mLegRotate = 0.0f;
 	}
-
-	//ImGui::Checkbox("SearchCommand", &mSearchCommand);
-	//ImGui::Checkbox("SearchResult", &mSearchResult);
-
-	//float time = mSearchTimer->getCuttentTime();
-	//ImGui::SliderFloat("SearchTimer", &time, 0, time);
-
-	////プレイヤーの位置を取得
-	//float debugPlayerPosition[3] = { mPlayerPosition.x,mPlayerPosition.y,mPlayerPosition.z };
-	//ImGui::SliderFloat3("PlayerPosition----------", debugPlayerPosition, -1000.0f, 1000.0f);
-}
-
-void CEnemy::EnemyRend()
-{
-	//モデルの描画
-	DirectXManager::GetInstance()->SetData3D();
-	mRend->Draw(mRLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(+mLegRotate, mFireAngle, 0), scale);//右脚
-	mRend->Draw(mLLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, mFireAngle, 0), scale);//左脚
-	mRend->Draw(mHeadNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);//頭と手
-	mRend->Draw(mBodyNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);//体と弓	
-}
-
-void CEnemy::EnemyOnCollision(BaseCollider * col)
-{
-	if (col->GetColObject()->GetType() == ObjectType::BULLET)
-	{
-		//ダメージを受ける
-		HP -= col->GetColObject()->GetDamage();
-	}
-
-	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
-	{
-		position = mPreviousPosition;
-	}
-
-	if (mAdvanceFlag && col->GetColObject()->GetType() == ObjectType::BORDER_LINE)
-	{
-		mHitBorderLine = true;
-	}
-}
-
-void CEnemy::EnemyImGuiDebug()
-{
-}
-
-void CEnemy::Search()
-{
-	//SwingDirection(swingRange);
-}
-
-void CEnemy::Warning()
-{
-	//TrackingObject();
 }
 
 void CEnemy::Attack()
 {
-	//attackCount++;
+	if (!mAttackFlag) return;
 
-	////数秒ごとに当たり判定を自分の前方に表示する
-	//if (attackCount > attackTime)
-	//{
-	//	attackCount = 0;
+	attackCount++;
 
-	//	//攻撃が終わったら警戒状態に戻す
-	//	actionState = ActionState::WARNING;
-	//}
-}
-
-void CEnemy::OnlyOnceAction()
-{
-	//すでに実行していたら 処理しない
-	if (mOnlyOnceTrigger) return;
-
-	for (int i = 0, end = static_cast<int>(mMemberList.size()); i < end; i++)
+	if (attackCount > attackTime)
 	{
-		Vector3 pos = position + AngleToVectorY(360.0f / mMemberList.size() * i) * MEMBER_DISTANCE;
-		auto enemys = new MemberEnemy(pos, angle, mManager, mRend, mPart, mEnemyNumber++);
-		mMemberList[i] = enemys;
-		mManager->Add(enemys);
-	}
+		attackCount = 0;
+		Vector3 firePos = AngleToVectorY(fanInfo.rotate);
 
-	//処理が終わったらフラグを建てる
-	mOnlyOnceTrigger = true;
+		//弾を発射！！
+		mManager->Add(new ElfBullet(position + firePos, Vector3(0, -angle.y, 0), mManager, mRend, mPart, objType, bulletNumber));
+		bulletNumber++;
+		mAttackSE->play();
+		mAttackFlag = false;
+		mMoveState = MoveState::NOT_FIND;
+	}
 }
 
-void CEnemy::MemberMove(int number)
+void CEnemy::DeathAnimation()
 {
-	//離れた位置にポジションを指定
-	mMemberPositionList[number] = position + AngleToVectorY(360.0f / mMemberList.size() * number) * MEMBER_DISTANCE;
+	//仮死状態でない　なら処理しない
+	if (!mDeathAnimation) return;
 
-	//隊員に位置情報を渡す。
-	mMemberList[number]->ReceivePosition(mMemberPositionList[number]);
+	switch (mDeathStep)
+	{
+	case CEnemy::RISE_SKY:
+		DeathAnimeStep_RiseSky();
+		break;
+	case CEnemy::EXPLOSION:
+		DeathAnimeStep_Explosion();
+		break;
+	default:
+		break;
+	}
+}
+
+void CEnemy::DeathAnimeStep_RiseSky()
+{
+	mRiseTime->update();
+
+	//時間になっていなければ
+	if (!mRiseTime->isTime())
+	{
+		//回転
+		mFireAngle += 50.0f;
+		//上昇
+		position.y += 0.2f;
+	}
+	else
+	{
+		//時間になったら(1フレームだけ呼ばれる)
+		//ここでSEを鳴らしたり、爆発させたりする
+		//エフェクト発射
+		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
+		//SE発射
+		mDeathSE->play();
+
+		mDeathStep = DeathAnimationStep::EXPLOSION;
+	}
+}
+
+void CEnemy::DeathAnimeStep_Explosion()
+{
+	mDeathTime->update();
+
+	if (mDeathTime->isTime())
+	{
+		mDeadFlag = true;
+	}
 }

@@ -33,7 +33,10 @@ bool ElfTreeBoss::GetDeadFlag()
 
 void ElfTreeBoss::ChangeAttackState()
 {
+	//死亡アニメーション中は書士りない
 	if (mDeathAnimationFlag) return;
+
+	mPlayerPosition = mManager->GetPlayer().GetPosition();
 
 	Vector3 dist = mPlayerPosition - position;
 	float length = dist.Length();
@@ -41,6 +44,7 @@ void ElfTreeBoss::ChangeAttackState()
 	//索敵範囲内にいれば
 	if (length < SEARCH_LENGTH)
 	{
+
 		if (!mActionFlag)
 		{
 			Random::initialize();
@@ -106,7 +110,7 @@ void ElfTreeBoss::RapidFire()
 			mFireAngle = -Math::toDegrees(radian) - 180.0f;
 			angle.y = mFireAngle;
 
-			mManager->Add(new LaunchBullet(position, mPlayerPosition, mManager, mRend, mEffectManager, objType, mBulletCount++,true));
+			mManager->Add(new LaunchBullet(position, mPlayerPosition, mManager, mRend, mPart, objType, mBulletCount++,true));
 
 			//指定数連続で射撃する
 			if (mBulletCount >= RAPIDFIRE_COUNT)
@@ -151,7 +155,7 @@ void ElfTreeBoss::Summon()
 		//最初に用意した位置に、敵を生成
 		for (int i = 0, end = static_cast<int>(mSummonPoint.size()); i < end; i++)
 		{
-			mManager->Add(new SummonEnemy(mSummonPoint[i], angle, mManager, mRend, mEffectManager, mEnemyNumber++));
+			mManager->Add(new SummonEnemy(mSummonPoint[i], angle, mManager, mRend, mPart, mEnemyNumber++));
 		}
 
 		//召喚が終わったらフラグを戻す
@@ -167,69 +171,89 @@ void ElfTreeBoss::DeathAnimation()
 	//仮死状態 でないなら処理しない
 	if(!mDeathAnimationFlag) return;
 
-	switch (mDeathStep)
+	if (mDeathStep == DeathAnimationStep::EXPLOSION)
 	{
-	case ElfTreeBoss::EXPLOSION:
+		TestEffect();
+	}
+	else if (mDeathStep == DeathAnimationStep::DEATH_COUNT)
+	{
+		TestEffect2();
+	}
+}
 
-		mExplosionTime->update();
+void ElfTreeBoss::TestEffect()
+{
+	mExplosionTime->update();
 
-		//回転
-		angle.y += 20.0f;
+	c++;
 
-		if (!mExplosionTime->isTime())
+	//回転
+	angle.y += 20.0f;
+
+	//if (!mExplosionTime->isTime())
+	if (c < cc)
+	{
+
+		mEffectInterval->update();
+
+		if (!mOneShotSound)
 		{
-			mEffectInterval->update();
-
-			if (mEffectInterval->isTime())
-			{
-				//パーティクルを描画
-				Random::initialize();
-				//描画位置を毎回変える
-				float x = Random::randomRange(position.x - 10.0f, position.x +10.0f);
-				float y = Random::randomRange(0.0f, position.y + 40.0f);
-				float z = Random::randomRange(position.z - 10.0f, position.z + 10.0f);
-				//mParticleEmitter->EmitterUpdate(PARTICLE_EFFECT, Vector3(x, y, z), angle);
-				mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
-
-				/*できればSEも欲しいねうるさくない程度に*/
-				mSmallExplosion->play();
-
-				mEffectInterval->setTime(0.1f);
-			}
-		}
-		else
-		{
-			mExplosionTime->setTime(2.0f);//爆発が終わって消えて、死亡するまでの時間
-
-			/*ここででっかい爆発が起きてほしい*/
-			mBigExplosion->play();
-
-			for (int i = 0; i < 10; i++)
-			{
-				//パーティクルを描画
-				Random::initialize();
-				float x = Random::randomRange(position.x -10.0f, position.x+ 10.0f);
-				float y = Random::randomRange(0.0f, position.y + 40.0f);
-				float z = Random::randomRange(position.z -10.0f, position.z + 10.0f);
-				mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
-			}
-
-			mDeathStep = DeathAnimationStep::DEATH_COUNT;
+			/*一度だけ鳴らしたいよ*/
+			mSmallExplosion->play();
+			mOneShotSound = true;
 		}
 
-		break;
-	case ElfTreeBoss::DEATH_COUNT:
 
-		mExplosionTime->update();
-
-		if (mExplosionTime->isTime())
+		if (mEffectInterval->isTime())
 		{
-			mDeadFlag = true;
+			//パーティクルを描画
+			Random::initialize();
+			//描画位置を毎回変える
+			float x = Random::randomRange(position.x - 10.0f, position.x + 10.0f);
+			float y = Random::randomRange(0.0f, position.y + 40.0f);
+			float z = Random::randomRange(position.z - 10.0f, position.z + 10.0f);
+			//mParticleEmitter->EmitterUpdate(PARTICLE_EFFECT, Vector3(x, y, z), angle);
+			mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
+
+			///*できればSEも欲しいねうるさくない程度に*/
+			//mSmallExplosion->play();
+
+			mEffectInterval->setTime(0.5f);
+		}
+	}
+
+	//if(mExplosionTime->isTime())
+	if (c > cc)
+	{
+
+		mExplosionTime->setTime(2.0f);//爆発が終わって消えて、死亡するまでの時間
+
+		/*ここででっかい爆発が起きてほしい*/
+		mBigExplosion->play();
+		mDeathSE->play();
+
+		for (int i = 0; i < 10; i++)
+		{
+			//パーティクルを描画
+			Random::initialize();
+			float x = Random::randomRange(position.x - 10.0f, position.x + 10.0f);
+			float y = Random::randomRange(0.0f, position.y + 40.0f);
+			float z = Random::randomRange(position.z - 10.0f, position.z + 10.0f);
+			mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
 		}
 
-		break;
-	default:
-		break;
+		mDeathStep = DeathAnimationStep::DEATH_COUNT;
+	}
+}
+
+void ElfTreeBoss::TestEffect2()
+{
+	mExplosionTime->update();
+
+	if (mExplosionTime->isTime())
+	{
+
+		mDeadFlag = true;
 	}
 }
 
@@ -418,6 +442,7 @@ void ElfTreeBoss::EnemyInit()
 	mActionFlag = false;
 	mDeathAnimationFlag = false;
 	mDeadFlag = false;
+	mOneShotSound = false;
 
 	//各オブジェクトの初期位置をセット
 	mOffsetRightHand = Vector3(position.x /*- 10.0f*/, position.y + 15.0f, position.z);
@@ -431,8 +456,17 @@ void ElfTreeBoss::EnemyInit()
 	mTreeRoot = new TreeRoot(mRootPosition, angle, mManager, mRend, number);
 
 	//サウンドの設定
-	mSmallExplosion = std::make_shared<Sound>("Small_Explosion.wav", false);
-	mBigExplosion = std::make_shared<Sound>("Big_Explosion.mp3", false);
+	//mSmallExplosion = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mSmallExplosion = std::make_shared<Sound>("SE/Long.mp3", false);
+	mSmallExplosion->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mBigExplosion = std::make_shared<Sound>("SE/Big_Explosion.mp3", false);
+	mBigExplosion->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	//mAttackSE = std::make_shared<Sound>("SE/hirai.mp3", false);
+	//mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDeathSE = std::make_shared<Sound>("SE/Boss_Death.wav", false);
+	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
 	//各種タイマー初期化
 	mAimingTime = std::make_shared<Timer>();
@@ -491,7 +525,7 @@ void ElfTreeBoss::EnemyInit()
 	mRend->SetColor(mRootCircleNum, Vector4(1, 0, 0, 0.2f));
 
 	//パーティクル1
-	mParticleEmitter = make_shared<ParticleEmitterBox>(mEffectManager);
+	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
 	mParticleEmitter->LoadAndSet(PARTICLE_EFFECT, "Resouse/effect.png");
 	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
 
@@ -521,11 +555,9 @@ void ElfTreeBoss::EnemyUpdate()
 
 	if (mDeadFlag)
 	{
+
 		death = true;
 	}
-
-	//プレイヤーの位置を取得！
-	mPlayerPosition = mManager->GetPlayer().GetPosition();
 
 	//音量の調整
 	mSmallExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
@@ -537,8 +569,8 @@ void ElfTreeBoss::EnemyUpdate()
 	/*死亡アニメーション*/
 	DeathAnimation();
 
-	///*攻撃*/
-	//ChangeAttackState();
+	/*攻撃*/
+	ChangeAttackState();
 }
 
 void ElfTreeBoss::EnemyRend()
@@ -572,22 +604,12 @@ void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
+		//SE発射
+		mDamageSE->play();
 		HP -= col->GetColObject()->GetDamage();
 	}
 }
 
 void ElfTreeBoss::EnemyImGuiDebug()
-{
-}
-
-void ElfTreeBoss::Search()
-{
-}
-
-void ElfTreeBoss::Warning()
-{
-}
-
-void ElfTreeBoss::Attack()
 {
 }

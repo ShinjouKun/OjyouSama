@@ -29,7 +29,7 @@ void Option::StartScene()
 	BaseScene::mSprite->AddTexture("AimA3", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("Back", "Resouse/back.png");
 
-	mSound = std::make_shared<Sound>("loop_157.mp3", false);
+	mSound = std::make_shared<Sound>("BGM/loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 
 	mTimer = std::make_shared<Timer>(0.01f);

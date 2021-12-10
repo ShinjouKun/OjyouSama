@@ -80,9 +80,9 @@ void Defense::StartScene()
 	BaseScene::mModel->AddModel("KabeF", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeF2", "Resouse/Plane.obj", "Resouse/kabe.png");
 
-	mSound = std::make_shared<Sound>("loop_157.mp3", false);
+	mSound = std::make_shared<Sound>("BGM/loop_157.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
-	mSE = std::make_shared<Sound>("wave.mp3", false);
+	mSE = std::make_shared<Sound>("SE/wave.mp3", false);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	
 	mTimer = std::make_shared<Timer>(0.01f);

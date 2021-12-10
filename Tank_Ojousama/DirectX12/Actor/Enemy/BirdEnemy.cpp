@@ -1,7 +1,7 @@
 #include "BirdEnemy.h"
-#include "../../Collision/SpherCollider.h"
-#include "../../Utility/Timer/Timer.h"
 #include "../../Weapons/LaunchBullet.h"
+#include"../../Scene/BaseScene.h"
+
 
 BirdEnemy::BirdEnemy(
 	const Vector3 & pos, 
@@ -18,164 +18,36 @@ BirdEnemy::~BirdEnemy()
 {
 }
 
-//void BirdEnemy::Init()
-//{
-//	HP = 100;
-//	damage = 5;
-//
-//	speed = 0.8f;
-//	mRadius = 2.0f;
-//	mFireAngle = 0.0f;
-//
-//	mIntervalTime = std::make_shared<Timer>();
-//	mIntervalTime->setTime(1.0f);
-//	mReloadTime = std::make_shared<Timer>();
-//	mReloadTime->setTime(1.0f);
-//
-//	mScale = Vector3(2.0f, 2.0f, 2.0f);
-//	mOffsetPosition = position;//帰還位置を保存
-//	//↓帰還位置の真上を保存
-//	mOffsetRisePosition = Vector3(mOffsetPosition.x, mOffsetPosition.y + RISE_HEIGHT, mOffsetPosition.z);
-//
-//	death = false;
-//	mFireFlag = false;
-//
-//	objType = ObjectType::ENEMY;
-//
-//	SetCollidder(Vector3(0.0f, 5.0f, 0.0f), mRadius);
-//
-//	mActionStep = ActionStep::RISING;
-//
-//#pragma region モデルの読み込み
-//
-//	num = to_string(number);
-//
-//	//右手
-//	mWingRight = "BirdWingRight";
-//	mWingRNum = mWingRight + num;
-//	mModelRender->AddModel(mWingRNum, "Resouse/gorem_hands_R.obj", "Resouse/gorem.png");
-//
-//	//左手
-//	mWingLeft = "BirdWingLeft";
-//	mWingLNum = mWingLeft + num;
-//	mModelRender->AddModel(mWingLNum, "Resouse/gorem_hands_L.obj", "Resouse/gorem.png");
-//
-//	mModelRender->SetAncPoint(mWingRNum, Vector3(0.0f, -3.0f, 0.0f));
-//	mModelRender->SetAncPoint(mWingLNum, Vector3(0.0f, -3.0f, 0.0f));
-//
-//	//体
-//	mBody = "BirdBody";
-//	mBodyNum = mBody + num;
-//	mModelRender->AddModel(mBodyNum, "Resouse/gorem_body.obj", "Resouse/gorem.png");
-//#pragma endregion
-//}
-//
-//void BirdEnemy::Update()
-//{
-//	if (HP <= 0)
-//	{
-//		death = true;
-//	}
-//
-//	switch (mActionStep)
-//	{
-//	case BirdEnemy::RISING:
-//		Action_Rising();//上昇
-//		break;
-//	case BirdEnemy::MOVE:
-//		//この時だけ、プレイヤーの位置を取得できる
-//		mTargetPosition = mObjManager->GetPlayer().GetPosition();
-//		Action_Move(mTargetPosition);
-//		break;
-//	case BirdEnemy::FIRE:
-//		Action_Fire();
-//		break;
-//	case BirdEnemy::BACK:
-//		Action_Back(mOffsetRisePosition);//拠点の上空に戻る
-//		break;
-//	case BirdEnemy::DESCEND:
-//		Action_Descend();
-//		break;
-//	case BirdEnemy::RELOAD:
-//		Action_Reload();
-//		break;
-//	default:
-//		break;
-//	}
-//}
-//
-//void BirdEnemy::Rend()
-//{
-//	//if (!GetActive()) return;
-//
-//	//モデルの描画
-//	DirectXManager::GetInstance()->SetData3D();
-//	mModelRender->Draw(mWingRNum, Vector3(position.x, position.y + 7.0f, position.z), Vector3(0, mFireAngle, 0), mScale);
-//	mModelRender->Draw(mWingLNum, Vector3(position.x, position.y + 7.0f, position.z), Vector3(0, mFireAngle, 0), mScale);
-//	mModelRender->Draw(mBodyNum, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), mScale);
-//}
-//
-//void BirdEnemy::ImGuiDebug()
-//{
-//}
-//
-//void BirdEnemy::OnCollison(BaseCollider * col)
-//{
-//	if (col->GetColObject()->GetType() == ObjectType::BULLET)
-//	{
-//		HP -= col->GetColObject()->GetDamage();
-//	}
-//
-//	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
-//	{
-//		//カメラに当たっているとき、描画を行う。
-//		SetActive(true);
-//	}
-//}
-
 void BirdEnemy::Attack()
 {
-}
-
-void BirdEnemy::Move(const Vector3 & targetPosition)
-{
-	Vector3 distance = targetPosition - position;
-	float length = distance.Length();
-	distance = distance.normal();
-
-	//弾が、生成位置より下に行かないよ！
-	velocity = distance * mRiseSpeed;
-	position += velocity;
-}
-
-void BirdEnemy::MoveY(const Vector3 & targetPosition)
-{
-	//Yを省いた位置から、距離を求める
-	Vector3 holdTarget = Vector3(targetPosition.x, 0.0f, targetPosition.z);
-	Vector3 holdPosition = Vector3(position.x, 0.0f, position.z);
-	Vector3 distance = holdTarget - holdPosition;
-	float length = distance.Length();
-	distance = distance.normal();
-
-	//Yを省いた距離
-	Vector3 distHold = Vector3(distance.x, 0.0f, distance.z);
-
-	//弾が、生成位置より下に行かないよ！
-	velocity = distHold * speed;
-	position += velocity;
+	switch (mActionStep)
+	{
+	case BirdEnemy::RISING:
+		Action_Rising();//上昇
+		break;
+	case BirdEnemy::MOVE:
+		mTargetPosition = mManager->GetPlayer().GetPosition();
+		Action_Move(mTargetPosition);
+		break;
+	case BirdEnemy::FIRE:
+		Action_Fire();
+		break;
+	case BirdEnemy::BACK:
+		Action_Back(mOffsetRisePosition);//拠点の上空に戻る
+		break;
+	case BirdEnemy::DESCEND:
+		Action_Descend();
+		break;
+	case BirdEnemy::RELOAD:
+		Action_Reload();
+		break;
+	default:
+		break;
+	}
 }
 
 void BirdEnemy::Action_Rising()
 {
-	////真上に上昇
-	//Vector3 distance = mOffsetRisePosition - position;
-	//float length = distance.Length();
-	//distance = distance.normal();
-
-	////弾が、生成位置より下に行かないよ！
-	//velocity = distance * mRiseSpeed;
-	//position += velocity;
-
 	MovePoint(mOffsetRisePosition);
 
 	if (InsideDistance(mOffsetRisePosition, 0.5f))
@@ -188,7 +60,6 @@ void BirdEnemy::Action_Rising()
 void BirdEnemy::Action_Move(const Vector3 & targetPosition)
 {
 	//プレイヤーの元へ移動
-	//Move(targetPosition);
 	MovePointY(targetPosition);
 
 	if (InsideDistanceY(targetPosition, ATTACK_LENGTH))
@@ -206,6 +77,7 @@ void BirdEnemy::Action_Fire()
 		Vector3 firePosition = AngleToVectorY(mFireAngle);
 		mManager->Add(new LaunchBullet(position + firePosition, mTargetPosition, mManager, mRend, mPart, objType, mBulletNumber++,true));
 		mFireFlag = true;
+		mAttackSE->play();
 	}
 
 	mLegRotate -= LEG_SPEED;
@@ -218,15 +90,8 @@ void BirdEnemy::Action_Fire()
 
 	MovePointY(mPlayerPosition);
 
-	if (InsideDistanceY(mPlayerPosition, 1.0f))
+	if (InsideDistanceY(mPlayerPosition, 1.0f) && mFireFlag && mFinishAnimation)
 	{
-	}
-
-	/*mIntervalTime->update();*/
-
-	if (InsideDistanceY(mPlayerPosition, 1.0f) && /*mIntervalTime->isTime() && */mFireFlag && mFinishAnimation)
-	{
-		mIntervalTime->setTime(1.0f);
 		mActionStep = ActionStep::BACK;
 		mLegRotate = 0.0f;
 	}
@@ -235,7 +100,6 @@ void BirdEnemy::Action_Fire()
 void BirdEnemy::Action_Back(const Vector3 & targetPosition)
 {
 	//拠点に帰る
-	//Move(targetPosition);
 	MovePointY(mOffsetRisePosition);
 
 	if (InsideDistanceY(targetPosition, 0.5f))
@@ -284,45 +148,41 @@ bool BirdEnemy::InsideDistanceY(const Vector3 & distance, const float length) co
 	return true;
 }
 
-Vector3 BirdEnemy::AngleToVectorY(float angle) const
-{
-	Vector3 vector = Vector3(0, 0, 0);
-
-	//角度をラジアン角に戻す
-	float radian = Math::toRadians(angle);
-
-	float x = cosf(radian);
-	float z = sinf(radian);
-
-	return Vector3(x, 0, z).normal();
-}
-
 void BirdEnemy::EnemyInit()
 {
-	HP = 100;
+	HP = 5;
 	damage = 5;
 
 	speed = 0.8f;
 	mRadius = 2.0f;
 
-	mIntervalTime = std::make_shared<Timer>();
-	mIntervalTime->setTime(1.0f);
-	mReloadTime = std::make_shared<Timer>();
-	mReloadTime->setTime(1.0f);
+	mFinishAnimation = false;
+	death = false;
+	mFireFlag = false;
+
+	objType = ObjectType::ENEMY;
+	mActionStep = ActionStep::RISING;
 
 	mScale = Vector3(2.0f, 2.0f, 2.0f);
 	mOffsetPosition = position;//帰還位置を保存
 	//↓帰還位置の真上を保存
 	mOffsetRisePosition = Vector3(mOffsetPosition.x, mOffsetPosition.y + RISE_HEIGHT, mOffsetPosition.z);
-
-	death = false;
-	mFireFlag = false;
-
-	objType = ObjectType::ENEMY;
-
 	SetCollidder(Vector3(0.0f, 5.0f, 0.0f), mRadius);
 
-	mActionStep = ActionStep::RISING;
+	//タイマー初期化
+	mReloadTime = std::make_shared<Timer>();
+	mReloadTime->setTime(1.0f);
+
+	//サウンド初期化
+	mAttackSE = std::make_shared<Sound>("SE/Bird_Attack.mp3", false);
+	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
+	//パーティクル初期化
+	EXPLOSION_EFFECT = "Explosion";
+	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
+	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
 
 #pragma region モデルの読み込み
 
@@ -348,39 +208,14 @@ void BirdEnemy::EnemyInit()
 
 void BirdEnemy::EnemyUpdate()
 {
-	if (HP <= 0)
-	{
-		death = true;
-	}
+	//生存状態の監視
+	AliveSurveillance();
 
+	/*死亡状態監視*/
+	CheckAlive();
 
-	//ImGui::SliderFloat("-------------------------", &mLegRotate, -500, 500);
-
-	switch (mActionStep)
-	{
-	case BirdEnemy::RISING:
-		Action_Rising();//上昇
-		break;
-	case BirdEnemy::MOVE:
-		//この時だけ、プレイヤーの位置を取得できる
-		mTargetPosition = mManager->GetPlayer().GetPosition();
-		Action_Move(mTargetPosition);
-		break;
-	case BirdEnemy::FIRE:
-		Action_Fire();
-		break;
-	case BirdEnemy::BACK:
-		Action_Back(mOffsetRisePosition);//拠点の上空に戻る
-		break;
-	case BirdEnemy::DESCEND:
-		Action_Descend();
-		break;
-	case BirdEnemy::RELOAD:
-		Action_Reload();
-		break;
-	default:
-		break;
-	}
+	/*攻撃*/
+	Attack();
 }
 
 void BirdEnemy::EnemyRend()
@@ -402,6 +237,7 @@ void BirdEnemy::EnemyOnCollision(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
+		mDamageSE->play();
 		HP -= col->GetColObject()->GetDamage();
 	}
 
@@ -414,12 +250,14 @@ void BirdEnemy::EnemyOnCollision(BaseCollider * col)
 
 void BirdEnemy::EnemyImGuiDebug()
 {
+
 }
 
-void BirdEnemy::Search()
+void BirdEnemy::CheckAlive()
 {
-}
-
-void BirdEnemy::Warning()
-{
+	if (HP <= 0)
+	{
+		//エフェクト発射
+		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
+	}
 }

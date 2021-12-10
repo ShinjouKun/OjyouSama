@@ -75,9 +75,9 @@ void Select::StartScene()
 
 	BaseScene::mSprite->AddTexture("test", "Resouse/testend.png");
 
-	mSound = std::make_shared<Sound>("loop_157.mp3", false);
-	mSE = std::make_shared<Sound>("SelectSE.mp3", false);
-	mDecisionSE = std::make_shared<Sound>("OkSE.mp3", false);
+	mSound = std::make_shared<Sound>("BGM/loop_157.mp3", false);
+	mSE = std::make_shared<Sound>("SE/SelectSE.mp3", false);
+	mDecisionSE = std::make_shared<Sound>("SE/OkSE.mp3", false);
 
 	mTimer = std::make_shared<Timer>(0.01f);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);

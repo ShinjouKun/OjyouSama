@@ -1,9 +1,4 @@
 #pragma once
-#include "../BaseObject.h"
-#include"../ObjectManager.h"
-#include "../../Render/ModelRenderer.h"
-#include "../../Render/ParticleManager.h"
-
 #include "BaseEnemy.h"
 
 class Timer;
@@ -23,12 +18,6 @@ public:
 
 private:
 
-	//virtual void Init() override;
-	//virtual void Update() override;
-	//virtual void Rend() override;
-	//virtual void ImGuiDebug() override;
-	//virtual void OnCollison(BaseCollider * col) override;
-
 	//BaseEnemy‚©‚çŒp³
 	virtual void EnemyInit() override;
 	virtual void EnemyUpdate() override;
@@ -36,35 +25,36 @@ private:
 	virtual void EnemyOnCollision(BaseCollider* col) override;
 	virtual void EnemyImGuiDebug() override;
 
-	/*õ“Gó‘Ô*/
-	virtual void Search() override;
-
-	/*’ÇÕó‘Ô*/
-	virtual void Warning() override;
-
-	/*UŒ‚ó‘Ô*/
-	virtual void Attack() override;
-
-
-
 	void AttackStep_AIMING();
 	void AttackStep_FIRE();
 	void AttackStep_RELOAD();
 
-	/*Šp“x‚ğƒxƒNƒgƒ‹‚É•ÏŠ·*/
-	Vector3 AngleToVectorY(float angle)const;
+	/*¶‘¶ó‘Ô‚ğŠÄ‹*/
+	void CheckAlive();
+
+	/*UŒ‚*/
+	void Attack();
+
+	/*€–S‚Ì‰‰o*/
+	void DeathAnimation();
+
+	/*‹ó‚Éã¸*/
+	void DeathAnimeStep_RiseSky();
+
+	/*”š”­&”•b’â~*/
+	void DeathAnimeStep_Explosion();
 
 private:
-	//ObjectManager * mObjManager;
-	//shared_ptr<ModelRenderer> mModelRender;
-	//shared_ptr<ParticleManager> mEffectManager;
 
-	shared_ptr<Timer> mAimingTime;//‘_‚¤ŠÔ
-	shared_ptr<Timer> mReloadTime;//ƒŠƒ[ƒhŠÔ
+	/*€–SƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘JˆÚó‹µ*/
+	enum DeathAnimationStep
+	{
+		RISE_SKY, //ã‹ó‚É•‘‚¢ã‚ª‚é
+		EXPLOSION,//Á–Å‚·‚é
+	};
+	DeathAnimationStep mDeathStep;
 
-	Vector3 mScale;
-	Vector3 mTargetPosition;
-
+	/*UŒ‚‚Ì‘JˆÚó‹µ*/
 	enum AttackStep
 	{
 		AIMING,//Æ€‡‚í‚¹’†
@@ -73,19 +63,33 @@ private:
 	};
 	AttackStep mAttackStep;//UŒ‚—pó‘Ô
 
-	float mRadius;
-	float barrelAngle;
-	float mHandAngle;//˜r‚ÌŠp“x
+	shared_ptr<Timer> mAimingTime;//‘_‚¤ŠÔ
+	shared_ptr<Timer> mReloadTime;//ƒŠƒ[ƒhŠÔ
+	shared_ptr<Timer> mRiseTime;  //ã¸ŠÔ
+	shared_ptr<Timer> mDeathTime; //Š®‘S‚É€‚Ê‚Ü‚Å‚ÌŠÔ
+	shared_ptr<Sound> mAttackSE;  //UŒ‚‚ÌSE
+	shared_ptr<Sound> mDamageSE;  //UŒ‚‚ÌSE
+	shared_ptr<ParticleEmitterBox> mParticleEmitter;
 
-	bool mFireFlag;//’e‚ğ”­Ë‚µ‚½‚©
+	Vector3 mScale;         //‘å‚«‚³
+	Vector3 mTargetPosition;//’e‚ğ’e‚Ì—‰º’n“_
+
+	float mRadius;    //”¼Œa
+	float barrelAngle;//UŒ‚‚ÌŒü‚«
+	float mHandAngle; //˜r‚ÌŠp“x
 
 	int mBulletNumber;//”­Ë‚µ‚½’e”
 
-	string mHandRight;//–Cg‚Ì–¼‘O“o˜^
-	string mHandLeft;//–C“ƒ‚Ì–¼‘O“o˜^
-	string mBody;  //Ô‘Ì‚Ì–¼‘O“o˜^
-	string num;       //stringŒ^‚Ì¯•Ê”Ô†
-	string mHandRNum; //¯•Ê”Ô†+–Cg‚Ì–¼‘O
-	string mHandLNum; //¯•Ê”Ô†+–C“ƒ‚Ì–¼‘O
-	string mBodyNum;	  //¯•Ê”Ô†+Ô‘Ì‚Ì–¼‘O
+	bool mFireFlag;//’e‚ğ”­Ë‚µ‚½‚©
+	bool mDeathAnimation;//€–SƒAƒjƒ[ƒVƒ‡ƒ“‚ğŠJn‚·‚é‚©
+	bool mDeadFlag;//€‚ÊuŠÔ‚Étrue‚É‚È‚éƒtƒ‰ƒO(•ÛŒ¯)
+
+	string mHandRight;      //–Cg‚Ì–¼‘O“o˜^
+	string mHandLeft;       //–C“ƒ‚Ì–¼‘O“o˜^
+	string mBody;           //Ô‘Ì‚Ì–¼‘O“o˜^
+	string num;             //stringŒ^‚Ì¯•Ê”Ô†
+	string mHandRNum;       //¯•Ê”Ô†+–Cg‚Ì–¼‘O
+	string mHandLNum;       //¯•Ê”Ô†+–C“ƒ‚Ì–¼‘O
+	string mBodyNum;        //¯•Ê”Ô†+Ô‘Ì‚Ì–¼‘O
+	string EXPLOSION_EFFECT;//ƒGƒtƒFƒNƒg–¼
 };

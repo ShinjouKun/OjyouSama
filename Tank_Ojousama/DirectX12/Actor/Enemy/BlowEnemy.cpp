@@ -1,7 +1,6 @@
 #include "BlowEnemy.h"
 #include "../../ConstInfomation/Enemy/EnemyConstInfo.h"
 #include "../../ConstInfomation/Enemy/BlowEnemyConstInfo.h"
-#include "../../Sound/Sound.h"
 #include"../../Scene/BaseScene.h"
 
 namespace ECI = EnemyConstInfo;
@@ -39,21 +38,28 @@ void BlowEnemy::EnemyInit()
 	mRadius = ECI::RADIUS * BECI::RADIUS;
 	mSwingRange = ECI::SWING_RANGE * BECI::SWING_RANGE;
 	mFireAngle = BECI::FAN_RANGE;
-	//turretAngle = 0.0f;
 	mAttackLength = ECI::ATTACK_LENGTH * BECI::ATTACK_LENGTH;
 
-	death = false;
 	damage = 5;
 	breadcrumbMode = ECI::BRRADCRUMB_MODE;
 	DESTRUCT_MODE = ECI::DESTRUCT_MODE;
-	//turnaroundMode = ECI::TURNAROUND_MODE;
+	death = false;
 	TURNAROUND_MODE = true;
 	RECEIVEREPORT_MODE = true;
+	mRotDirection = false;
+	onTrigger = false;
+	mDeathAnimation = false;
+	mDeadFlag = false;
+	mDeathAnimation = false;
+	mDeadFlag = false;
 
 	scale = BECI::SCALE;
+	mLegRotate = 0.0f;
+	SetCollidder(Vector3().zero, mRadius);
 
 	objType = ObjectType::ENEMY;
-	SetCollidder(Vector3().zero, mRadius);
+	mMoveState = MoveState::NOT_FIND;
+	mDeathStep = DeathAnimationStep::RISE_SKY;
 
 	//センサーの初期化----------------
 	mFanRotateOrigin = -angle.y - 90.0f;
@@ -63,75 +69,75 @@ void BlowEnemy::EnemyInit()
 	fanInfo.rotate = mFanRotateOrigin;							   //回転角
 	//--------------------------------
 
-	//最初は索敵状態
-	mMoveState = MoveState::NOT_FIND;
+	////巡回ポイントの初期化------------------------------------
+	//pointCount = sizeof(patrolPoint) / sizeof(patrolPoint[0]);
+	//patrolPoint[0] = Vector3(position.x, position.y, position.z);
+	//patrolPoint[1] = Vector3(position.x + 10, position.y, position.z);
+	//patrolPoint[2] = Vector3(position.x + 10, position.y, position.z + 10);
+	//patrolPoint[3] = Vector3(position.x, position.y, position.z + 10);
+	////----------------------------------------------------------------
+	/// 
+	////マップのクリア
+	//breadMap.clear();
 
-	//マップのクリア
-	breadMap.clear();
-
+	//当たり判定オブジェクト生成
 	attackArea = new AttackArea(position, angle, mManager, mRend, mOriginNumber);
 	attackArea->SetActive(false);
 
-	//巡回ポイントの初期化------------------------------------
-	pointCount = sizeof(patrolPoint) / sizeof(patrolPoint[0]);
-	patrolPoint[0] = Vector3(position.x, position.y, position.z);
-	patrolPoint[1] = Vector3(position.x + 10, position.y, position.z);
-	patrolPoint[2] = Vector3(position.x + 10, position.y, position.z + 10);
-	patrolPoint[3] = Vector3(position.x, position.y, position.z + 10);
-	//----------------------------------------------------------------
+	//サウンド初期化
+	mAttackSE = std::make_shared<Sound>("SE/punti.mp3", false);
+	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDeathSE = std::make_shared<Sound>("SE/Elf_Damage02.mp3", false);
+	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
-	onTrigger = false;
+	//タイマー初期化
+	mRiseTime = std::make_shared<Timer>();
+	mRiseTime->setTime(1.0f);
+	mDeathTime = std::make_shared<Timer>();
+	mDeathTime->setTime(1.0f);
+
+	//パーティクル初期化
+	EXPLOSION_EFFECT = "Explosion";
+	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
+	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
 
 #pragma endregion
 
 #pragma region モデルの読み込み
 
-	////戦車の砲身(上下に移動する部分)Barrel
-	//tankBarrel = BECI::TANK_BARREL_NAME;
-	//num = to_string(number);
-	//numBarrel = tankBarrel + num;
-	//modelRender->AddModel(numBarrel, "Resouse/BoxTankATKAR.obj", "Resouse/BoxTankATKAR.png");
-	//modelRender->SetAncPoint(numBarrel, Vector3(-2.0f, -2.0f, -2.0f));//中心点の変更
-
+	//番号をintからstringに変換
 	mMyNumber = to_string(mOriginNumber);
 
+	//右足情報登録
 	mRightLeg =  BECI::TANK_RLEG_NAME;
-	mLeftLeg = BECI::TANK_LREG_NAME;
 	mRLegNumber = mRightLeg + mMyNumber;
-	mLLegNumber = mLeftLeg + mMyNumber;
-	mRend->AddModel(mRLegNumber,  "Resouse/EnemyModel/Elf_B/leg_R_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
-	mRend->AddModel(mLLegNumber, "Resouse/EnemyModel/Elf_B/leg_L_B.obj", "Resouse/EnemyModel/Elf_B/leg_LR2.png");
+	mRend->AddModel(mRLegNumber, "Resouse/EnemyModel/SpearElf/yari_elf_R.obj", "Resouse/EnemyModel/SpearElf/leg_LR2.png");
 	mRend->SetAncPoint(mRLegNumber, Vector3(0.0f, -2.0f, 0.0f));
+
+	//左足情報登録
+	mLeftLeg = BECI::TANK_LREG_NAME;
+	mLLegNumber = mLeftLeg + mMyNumber;
+	mRend->AddModel(mLLegNumber, "Resouse/EnemyModel/SpearElf/yari_elf_L.obj", "Resouse/EnemyModel/SpearElf/leg_LR2.png");
 	mRend->SetAncPoint(mLLegNumber, Vector3(0.0f, -2.0f, 0.0f));
 
-	////戦車の砲塔(上の部分)Turret
-	//tankTurret = BECI::TANK_TURRET_NAME;
-	//num = to_string(number);
-	//numTurret = tankTurret + num;
-	//modelRender->AddModel(numTurret, "Resouse/BoxTankATKBR.obj", "Resouse/BoxTankATKBR.png");
-	//modelRender->SetAncPoint(numTurret, Vector3(-2.0f, -2.0f, -2.0f));
-
-	//戦車の砲塔(上の部分)Turret
+	//顔情報登録
 	mHead = BECI::TANK_HEAD_NAME;
 	mHeadNumber = mHead + mMyNumber;
-	mRend->AddModel(mHeadNumber, "Resouse/EnemyModel/Elf_B/elf_head2.obj", "Resouse/EnemyModel/Elf_B/face_color2.png");
+	mRend->AddModel(mHeadNumber, "Resouse/EnemyModel/SpearElf/yari_elf_head.obj", "Resouse/EnemyModel/SpearElf/face_color3.png");
 
-	////戦車の車体(下の部分)Body
-	//tankBody = BECI::TANK_BODY_NAME;
-	//num = to_string(number);
-	//numBody = tankBody + num;
-	//modelRender->AddModel(numBody, "Resouse/BoxTankBTMR.obj", "Resouse/BoxTankBTMR.png");
-	//modelRender->SetAncPoint(numBody, Vector3(-2.0f, -2.0f, -2.0f));
-
-	//戦車の車体(下の部分)Body
+	//体情報登録
 	mBody = BECI::TANK_BODY_NAME;
 	mBodyNumber = mBody + mMyNumber;
-	mRend->AddModel(mBodyNumber, "Resouse/EnemyModel/Elf_B/elf_body2.obj", "Resouse/EnemyModel/Elf_B/hand_bow_color2.png");
+	mRend->AddModel(mBodyNumber, "Resouse/EnemyModel/SpearElf/yari_elf_body.obj", "Resouse/EnemyModel/SpearElf/face_color.png");
+
+	//手情報登録
+	mHand = "BlowHnad";
+	mHandNumber = mHand + mMyNumber;
+	mRend->AddModel(mHandNumber, "Resouse/EnemyModel/SpearElf/yari_te.obj", "Resouse/EnemyModel/SpearElf/yari_elf.png");
 
 #pragma endregion
-	mSE = std::make_shared<Sound>("punti.mp3", false);
-	//mSound->play();
-	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
 void BlowEnemy::EnemyUpdate()
@@ -139,89 +145,46 @@ void BlowEnemy::EnemyUpdate()
 	/*当たり判定オブジェクトを生成*/
 	CreateOneObject();
 
-	///*自爆機能*/
-	//DestructMode(BECI::MAX_HP / 2, destructMode);
+	Invincible(1);//無敵時間
 
+	/*死亡状態監視*/
+	CheckAlive();
 
-	///*無敵時間 & 振り向き処理*/
-	////Invincible(ECI::REPORT_INTERVAL);//無敵時間
-	Invincible(2);
+	//仮死状態なら処理しない
+	if (mDeathAnimation) return;
 
-	/*共通の要素*/
 	ChangeState(); //状態変更
 	SearchObject();//パンくずやプレイヤーを探す
-	
 
-	if (moveFlag)
-	{
-		if (mRotDirection)
-		{
-			mLegRotate += LEG_SPEED;
-			if (mLegRotate > LEG_RANGE)
-			{
-				mRotDirection = false;
-			}
-		}
-		else
-		{
-			mLegRotate -= LEG_SPEED;
-			if (mLegRotate < -LEG_RANGE)
-			{
-				mRotDirection = true;
-			}
-		}
-	}
-	else
-	{
-		mLegRotate = 0.0f;
-	}
+	/*移動*/
+	Move();
 
-	if (mAttackFlag)
-	{
-		Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * mAttackLength;
-		attackArea->SetActive(true, position + areaPos, -angle);
-
-		attackCount++;
-
-		//数秒ごとに当たり判定を自分の前方に表示する
-		if (attackCount > attackTime)
-		{
-			attackCount = 0;
-			attackArea->SetActive(false);
-			mSE->play();
-			//攻撃が終わったら警戒状態に戻す
-			/*mMoveState = MoveState::WARNING;*/
-			mAttackFlag = false;
-			mMoveState = MoveState::NOT_FIND;
-		}
-	}
-	else
-	{
-		TrackingObject();//移動関連
-	}
+	/*攻撃*/
+	Attack();
 }
 
 void BlowEnemy::EnemyRend()
 {
+	if (mDeathStep == DeathAnimationStep::EXPLOSION) return;
+
 	//モデルの描画
 	DirectXManager::GetInstance()->SetData3D();
 	mRend->Draw(mRLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(+mLegRotate, mFireAngle, 0), scale);
 	mRend->Draw(mLLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, mFireAngle, 0), scale);
 	mRend->Draw(mHeadNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);
 	mRend->Draw(mBodyNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);
+	mRend->Draw(mHandNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);
 }
 
 void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 {
-	//if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
-	//{
-	//	mTrackingBreadcrumb = false;
-	//}
-
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		//ダメージを受ける
 		HP -= col->GetColObject()->GetDamage();
+
+		//SE発射
+		mDamageSE->play();
 
 		/*報告*/
 		InitSearch();
@@ -273,39 +236,134 @@ void BlowEnemy::EnemyImGuiDebug()
 #endif // DEBUG
 }
 
-void BlowEnemy::Search()
+void BlowEnemy::CheckAlive()
 {
-	//PatrolPoint(patrolPoint,pointCount);
-	//SwingDirection(swingRange);
+	if (HP <= 0)
+	{
+		mDeathAnimation = true;
+	}
+
+	if (mDeadFlag)
+	{
+		death = true;
+	}
+
+	/*死亡アニメーションを開始*/
+	DeathAnimation();
 }
 
-void BlowEnemy::Warning()
+void BlowEnemy::Move()
 {
-	//ImGui::Text("ActionState == WARNING");
+	//攻撃中は移動しない
+	if (mAttackFlag) return;
 
-	//attackArea->SetActive(false);
+	/*移動 & 追跡*/
+	TrackingObject();
 
-	//TrackingObject();
+	/*移動のアニメーション*/
+	MoveAnimation();
+}
+
+void BlowEnemy::MoveAnimation()
+{
+	if (moveFlag)
+	{
+		if (mRotDirection)
+		{
+			mLegRotate += LEG_SPEED;
+			if (mLegRotate > LEG_RANGE)
+			{
+				mRotDirection = false;
+			}
+		}
+		else
+		{
+			mLegRotate -= LEG_SPEED;
+			if (mLegRotate < -LEG_RANGE)
+			{
+				mRotDirection = true;
+			}
+		}
+	}
+	else
+	{
+		mLegRotate = 0.0f;
+	}
 }
 
 void BlowEnemy::Attack()
 {
-	//ImGui::Text("ActionState == ATTACK");
+	if (mAttackFlag)
+	{
+		Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * mAttackLength;
+		attackArea->SetActive(true, position + areaPos, -angle);
+		mAttackSE->play();
 
-	//Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * attackLength;
-	//attackArea->SetActive(true, position + areaPos, -angle);
+		attackCount++;
 
-	//attackCount++;
+		//数秒ごとに当たり判定を自分の前方に表示する
+		if (attackCount > attackTime)
+		{
+			attackCount = 0;
+			attackArea->SetActive(false);
+			//攻撃が終わったら警戒状態に戻す
+			mAttackFlag = false;
+			mMoveState = MoveState::NOT_FIND;
+		}
+	}
+}
 
-	////数秒ごとに当たり判定を自分の前方に表示する
-	//if (attackCount > attackTime)
-	//{
-	//	attackCount = 0;
-	//	attackArea->SetActive(false);
+void BlowEnemy::DeathAnimation()
+{
+	//仮死状態でない　なら処理しない
+	if (!mDeathAnimation) return;
 
-	//	//攻撃が終わったら警戒状態に戻す
-	//	actionState = ActionState::WARNING;
-	//}
+	switch (mDeathStep)
+	{
+	case BlowEnemy::RISE_SKY:
+		DeathAnimeStep_RiseSky();
+		break;
+	case BlowEnemy::EXPLOSION:
+		DeathAnimeStep_Explosion();
+		break;
+	default:
+		break;
+	}
+}
+
+void BlowEnemy::DeathAnimeStep_RiseSky()
+{
+	mRiseTime->update();
+
+	//時間になっていなければ
+	if (!mRiseTime->isTime())
+	{
+		//回転
+		mFireAngle += 50.0f;
+		//上昇
+		position.y += 0.2f;
+	}
+	else
+	{
+		//時間になったら(1フレームだけ呼ばれる)
+		//ここでSEを鳴らしたり、爆発させたりする
+		//エフェクト発射
+		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
+		//SE発射
+		mDeathSE->play();
+
+		mDeathStep = DeathAnimationStep::EXPLOSION;
+	}
+}
+
+void BlowEnemy::DeathAnimeStep_Explosion()
+{
+	mDeathTime->update();
+
+	if (mDeathTime->isTime())
+	{
+		mDeadFlag = true;
+	}
 }
 
 void BlowEnemy::CreateOneObject()

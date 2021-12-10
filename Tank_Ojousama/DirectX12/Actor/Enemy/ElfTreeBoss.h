@@ -40,14 +40,14 @@ private:
 	virtual void EnemyOnCollision(BaseCollider* col) override;
 	virtual void EnemyImGuiDebug() override;
 
-	/*索敵状態*/
-	virtual void Search() override;
+	///*索敵状態*/
+	//virtual void Search() override;
 
-	/*追跡状態*/
-	virtual void Warning() override;
+	///*追跡状態*/
+	//virtual void Warning() override;
 
-	/*攻撃状態*/
-	virtual void Attack() override;
+	///*攻撃状態*/
+	//virtual void Attack() override;
 
 	/*攻撃パターンの決定*/
 	void ChangeAttackState();
@@ -60,6 +60,11 @@ private:
 
 	/*死亡時の演出*/
 	void DeathAnimation();
+
+
+	void TestEffect();
+
+	void TestEffect2();
 
 #pragma region 根っこ攻撃まとめ
 
@@ -112,6 +117,10 @@ private:
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
 	shared_ptr<Sound> mSmallExplosion;//小爆発
 	shared_ptr<Sound> mBigExplosion;  //大爆発
+	shared_ptr<Sound> mAttackSE; //攻撃時のSE
+	shared_ptr<Sound> mDamageSE; //ダメージを受けた時のSE
+	shared_ptr<Sound> mDeathSE;  //死亡したときのSE
+
 
 	shared_ptr<Timer> mAimingTime;  //狙う時間
 	shared_ptr<Timer> mReloadTime;  //リロード時間
@@ -135,7 +144,7 @@ private:
 	Vector3 mLeftHandPos;    //左手の位置
 	Vector3 mRootPosition;   //根っこの位置
 
-	const int MAX_HP = 200;       //最大体力
+	const int MAX_HP = 2;       //最大体力
 	const int RAPIDFIRE_COUNT = 3;//連続射撃の数
 	const int SUMMON_COUNT = 5;   //召喚数
 	int mBulletCount;//弾を発射した数
@@ -159,10 +168,10 @@ private:
 	bool mCreateObject;    //オブジェクトを生成したか
 	bool mFinishHandReturn;//両手が元の位置に戻ったか？
 	bool mFinishRootReturn;//根っこが元の位置に戻ったか？
-
 	bool mActionFlag;//攻撃アクション中かどうか
 	bool mDeathAnimationFlag;//死亡アニメーションを開始するか
 	bool mDeadFlag;//死ぬ前にtrueになるフラグ
+	bool mOneShotSound;
 
 	//胴体
 	string mStringNum;
@@ -182,4 +191,9 @@ private:
 	string PARTICLE_EFFECT = "DeathBomm";
 	//エフェクト2
 	string EXPLOSION_EFFECT = "Explosion";
+
+
+
+	int c = 0;
+	int cc = 180;
 };

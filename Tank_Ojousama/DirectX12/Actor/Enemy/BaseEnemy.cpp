@@ -6,7 +6,6 @@
 #include "../WayPointManager.h"
 #include "../BreadCrumbCreater.h"
 #include "../TestBreadCrumb.h"
-#include "../../Utility/Timer/Timer.h"
 
 EnemyAI* BaseEnemy::mEnemyAI = nullptr;
 ObjectManager* BaseEnemy::mManager = nullptr;
@@ -37,8 +36,8 @@ void BaseEnemy::Update()
 
 	mPlayerPosition = mManager->GetPlayer().GetPosition();
 
-	//生存状態の監視
-	AliveSurveillance();
+	////生存状態の監視
+	//AliveSurveillance();
 
 	//if (mAdvanceFlag)
 	/*{
@@ -442,6 +441,8 @@ void BaseEnemy::Invincible(int time)
 
 	invincibleCount++;
 
+	mMoveState = MoveState::TURN_AROUND;
+
 	//振り向き開始
 	TurnAround(time);
 
@@ -626,7 +627,6 @@ void BaseEnemy::TrackingObject()
 			{
 				mMoveState = MoveState::NOT_FIND;
 			}
-			
 		}
 
 		break;
@@ -654,7 +654,7 @@ void BaseEnemy::TrackingObject()
 		  ボスの行動をHPで管理し、攻撃パターンを返る
 		  */
 
-		//移動
+		  //移動
 		MovePoint(mAttackTarget);
 
 		//対象との距離が以下になったら到着完了とする。
@@ -707,8 +707,36 @@ void BaseEnemy::TrackingObject()
 		}
 
 		break;
-	default:
+
+	case BaseEnemy::TURN_AROUND:
+
+		//一定時間で索敵状態に戻る
+		warningCount++;
+
+		if (warningCount > warningTime)
+		{
+			warningCount = 0;
+
+			if (mAdvanceFlag)
+			{
+				if (mHitBorderLine)
+				{
+					mMoveState = MoveState::ADVANCE_BORDWERLINE;
+				}
+				else
+				{
+					mMoveState = MoveState::ADVANCE_ATTACKTARGET;
+				}
+			}
+			else
+			{
+				mMoveState = MoveState::NOT_FIND;
+			}
+		}
+
 		break;
+		default:
+			break;
 	}
 
 	////一定時間で索敵状態に戻る
@@ -977,19 +1005,19 @@ void BaseEnemy::DicideTurnAround()
 	hitPos = position;
 	hitAngle = angle;
 
-	//索敵状態でない or 振り向き機能がOFF なら処理をしない
-	if (mMoveState != MoveState::SEARCH || !TURNAROUND_MODE) return;
+	////索敵状態でない or 振り向き機能がOFF なら処理をしない
+	//if (mMoveState != MoveState::NOT_FIND || !TURNAROUND_MODE) return;
 
 	//当たった位置と、現在の自分の向きを一時保存する。
 	hitPos = mPlayerPosition;
 	hitAngle = angle;
-	mMoveState = MoveState::WARNING;
+	//mMoveState = MoveState::WARNING;
 }
 
 void BaseEnemy::TurnAround(int time)
 {
-	//振り向き機能がOFF or プレイヤーを追っている or 自爆状態 なら処理をしない
-	if (!TURNAROUND_MODE || mTrackingPlayer || isDestruct || mTrackingBreadcrumb || moveWayPoint) return;
+	////振り向き機能がOFF or プレイヤーを追っている or 自爆状態 なら処理をしない
+	//if (!TURNAROUND_MODE || mTrackingPlayer || isDestruct || mTrackingBreadcrumb || moveWayPoint) return;
 
 	//①距離を調べる
 	Vector3 distance = hitPos - position;
