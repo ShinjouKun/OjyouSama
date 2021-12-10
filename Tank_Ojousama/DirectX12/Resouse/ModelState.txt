@@ -1,4 +1,4 @@
-Other01
-Heavy
-Midium_b
-Mine
+Normal
+Midium
+Heavy_b
+MachinGun

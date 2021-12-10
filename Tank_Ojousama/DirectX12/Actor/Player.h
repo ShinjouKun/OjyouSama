@@ -10,15 +10,21 @@
 #include"../Utility/ModelChanger.h"
 #include"../Items/ItemHolder.h"
 
+
 class Listener;
 class Sound;
 class Timer;
+class NormalAttackParticle;
+class MachineGunAttackParticle;
+class TankTrajectory;
+class Bom;
+
 using namespace std;
 class Player :public BaseObject
 {
 public:
-	
-	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p,shared_ptr<TexRenderer>s,int sceneEffect);
+
+	Player(Vector3 pos, Vector3 angle, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, int sceneEffect);
 	~Player();
 	void StartCamScene();
 	void SceneCamMove1();//殲滅
@@ -39,7 +45,7 @@ public:
 	int GetHP() { return HP; }
 private:
 	ObjectManager* objM;
-    shared_ptr<ModelRenderer>playerModel;
+	shared_ptr<ModelRenderer>playerModel;
 	shared_ptr<ParticleManager>playerParticle;
 	shared_ptr<ParticleEmitterBox>playerParticleBox;
 	shared_ptr<TexRenderer>playerSprite;
@@ -55,9 +61,9 @@ private:
 	Vector3 TargetPos;
 	Vector3 CamVelocity;//カメラの移動量
 	//制御用フラグ
-	
+
 	bool sniperShotFlag = false;
-	bool shotFlag1 =false;
+	bool shotFlag1 = false;
 	bool shotFlag2 = false;
 	bool masingunShot = false;
 	int shotcnt1 = 0;
@@ -102,8 +108,11 @@ private:
 	// BaseObject を介して継承されました
 	virtual void ImGuiDebug() override;
 
-
-
+	//パーティクル
+	std::shared_ptr<NormalAttackParticle> mNormalAtkParticle;//Weapon1
+	std::shared_ptr<MachineGunAttackParticle> mMGAParticle;//Weapon2
+	std::shared_ptr<TankTrajectory> mTankTra;//軌跡
+	std::shared_ptr<Bom> mBom;//小爆発
 
 
 	//「1=Pキーで落とす」「2=距離で落とす」「3=時間で落とす」
@@ -115,5 +124,5 @@ private:
 	//パンくずを落とす間隔
 	int intervalCount = 0;
 	int intervalTime = 1;
-	
+
 };

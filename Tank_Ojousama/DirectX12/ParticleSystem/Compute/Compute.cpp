@@ -61,14 +61,14 @@ void Compute::init()
 	createBuffer();
 
 
-	mMatProjection3D = Matrix4::Identity;
-	mMatProjection3D.m[3][0] = -1.0f;
-	mMatProjection3D.m[3][1] = 1.0f;
-	mMatProjection3D.m[0][0] = 2.0f / Window::Window_Width;
-	mMatProjection3D.m[1][1] = -2.0f / Window::Window_Height;
+	//mMatProjection3D = Matrix4::Identity;
+	//mMatProjection3D.m[3][0] = -1.0f;
+	//mMatProjection3D.m[3][1] = 1.0f;
+	//mMatProjection3D.m[0][0] = 2.0f / Window::Window_Width;
+	//mMatProjection3D.m[1][1] = -2.0f / Window::Window_Height;
 
 
-	//mMatProjection3D = Matrix4::createPerspectiveFOV(60.f, Window::Window_Width, Window::Window_Height, 0.1f, 3000.0f);
+	mMatProjection3D = Matrix4::createPerspectiveFOV(60.f, Window::Window_Width, Window::Window_Height, 0.1f, 3000.0f);
 }
 
 void Compute::emitterUpdate(void* data, int dispatch)

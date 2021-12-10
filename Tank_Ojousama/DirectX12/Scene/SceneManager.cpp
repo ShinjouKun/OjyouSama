@@ -29,13 +29,13 @@ void SceneManager::Update()
 	}
 	//‡”Ô‚É’ˆÓ
 	mNowScene->Update();
-	mParticle->OllUpDate();
+	//mParticle->OllUpDate();
 }
 
 void SceneManager::Draw() const
 {
 	mNowScene->Draw();
-	mParticle->OllDraw();
+	//mParticle->OllDraw();
 }
 
 void SceneManager::SetSpriteToScene()

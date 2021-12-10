@@ -40,6 +40,11 @@ void Explosion::setPos(const Vector3 & pos)
 
 void Explosion::Play()
 {
-	mEmitter->setStop();
+	
 	mEmitter->setIsGo();
+}
+
+void Explosion::Stop()
+{
+	mEmitter->setStop();
 }

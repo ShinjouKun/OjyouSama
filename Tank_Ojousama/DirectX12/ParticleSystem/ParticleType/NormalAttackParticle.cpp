@@ -26,7 +26,7 @@ NormalAttackParticle::NormalAttackParticle(const Vector3 & pos, bool looping)
 	prs.randomVec = Vector3(0.5f, 0.5f, 0.0f);
 	mEmitter->setParticleRandomState(prs);
 
-	mEmitter->setStop();
+	
 
 	ParticleSystem::instance().add(mEmitter);
 }
@@ -43,4 +43,9 @@ void NormalAttackParticle::setPos(const Vector3 & pos)
 void NormalAttackParticle::Play()
 {
 	mEmitter->setIsGo();
+}
+
+void NormalAttackParticle::Stop()
+{
+	mEmitter->setStop();
 }

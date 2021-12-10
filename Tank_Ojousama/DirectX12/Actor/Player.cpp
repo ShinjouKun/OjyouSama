@@ -17,6 +17,12 @@
 #include"../Utility/Sequence/Sequence.h"
 #include"../Utility/ModelChanger.h"
 #include"../Items/ItemHolder.h"
+//パーティクル
+#include "../ParticleSystem/ParticleType/NormalAttackParticle.h"
+#include "../ParticleSystem/ParticleType/MachineGunAttackParticle.h"
+#include "../ParticleSystem/ParticleType/TankTrajectory.h"
+#include "../ParticleSystem/ParticleType/Bom.h"
+
 #define ToRad(deg)((deg)*(PI/180.0f))
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s,int sceneE)
 	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
@@ -100,6 +106,7 @@ void Player::UseWeapon1()
 	shotMoney += 10000;//一発一万円
 	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock,UpDamage));
 	shotFlag1 = true;
+	mNormalAtkParticle->Play();
 }
 
 void Player::UseWeapon2()
@@ -107,6 +114,7 @@ void Player::UseWeapon2()
 
 	if (modelChanger->GetWeaponState1() == WeaponsState::MachinGun)
 	{
+		mMGAParticle->Play();
 		masingunShot = true;
 		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock,UpDamage));
 	}
@@ -185,6 +193,16 @@ void Player::Init()
 	mSound = std::make_shared<Sound>("SE/bomb3.mp3", false);
 	mTimer = std::make_shared<Timer>();
 
+	//パーティクル初期化
+	mNormalAtkParticle = std::make_shared<NormalAttackParticle>(Vector3::zero, true);
+	mNormalAtkParticle->Stop();
+	mMGAParticle = std::make_shared<MachineGunAttackParticle>(Vector3::zero, true);
+	mMGAParticle->Stop();
+	mTankTra = std::make_shared<TankTrajectory>(Vector3::zero, true);
+	mTankTra->Stop();
+	mBom = std::make_shared<Bom>(Vector3::zero, true);
+	mBom->Stop();
+
 	shotMoney = 0;
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
 	playerSprite->AddTexture("HpGage", "Resouse/hpgage.png");
@@ -249,6 +267,11 @@ void Player::Update()
 	mTimer->update();
 
 	mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+	mNormalAtkParticle->setPos(position);
+	mMGAParticle->setPos(position);
+	mTankTra->setPos(position);
+	mBom->setPos(position);
+
 	//シーン演出 
 #pragma region シーン
 	switch (sceneEffectNum&&!sceneCamOk)
@@ -311,6 +334,7 @@ void Player::Update()
 		//キー押し処理
 		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
+			mTankTra->Play();
 			speedTime++;
 			if (speedTime >= speedLimitTime)
 			{
@@ -322,6 +346,7 @@ void Player::Update()
 		}
 		else if (Input::getKey(KeyCode::S) || Input::joyVertical() < 0)
 		{
+			mTankTra->Play();
 			speedTime++;
 			if (speedTime >= speedLimitTime)
 			{
@@ -577,6 +602,7 @@ void Player::OnCollison(BaseCollider* col)
 		{
 			HP -= col->GetColObject()->GetDamage();
 			HitFlag = true;
+			mBom->Play();
 		}
 	}
 

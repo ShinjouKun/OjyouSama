@@ -64,13 +64,13 @@ void ShotGunBullet::OnCollison(BaseCollider * col)
 {
 	if (objType == BULLET && (col->GetColObject()->GetType() == ObjectType::ENEMY || col->GetColObject()->GetType() == ObjectType::BOSS || col->GetColObject()->GetType() == ObjectType::ENEMYBULLET || col->GetColObject()->GetType() == ObjectType::BLOCK))
 	{
-		ParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+		//ParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
 		death = true;
 	}
 
 	if (objType == ENEMYBULLET && (col->GetColObject()->GetType() == ObjectType::PLAYER || col->GetColObject()->GetType() == ObjectType::BULLET || col->GetColObject()->GetType() == ObjectType::BLOCK || col->GetColObject()->GetType() == ObjectType::ITEM))
 	{
-		ParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+		//ParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
 		death = true;
 	}
 }

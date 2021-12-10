@@ -14,6 +14,8 @@ public:
 
 	void Play();
 
+	void Stop();
+
 private:
 	Emitter* mEmitter;
 };

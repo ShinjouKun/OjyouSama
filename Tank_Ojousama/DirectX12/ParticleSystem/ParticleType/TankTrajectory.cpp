@@ -42,6 +42,10 @@ void TankTrajectory::setPos(const Vector3 & pos)
 
 void TankTrajectory::Play()
 {
-	mEmitter->setStop();
 	mEmitter->setIsGo();
+}
+
+void TankTrajectory::Stop()
+{
+	mEmitter->setStop();
 }

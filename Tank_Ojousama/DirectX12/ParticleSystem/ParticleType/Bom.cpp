@@ -41,6 +41,11 @@ void Bom::setPos(const Vector3 & pos)
 
 void Bom::Play()
 {
-	mEmitter->setStop();
+	
 	mEmitter->setIsGo();
+}
+
+void Bom::Stop()
+{
+	mEmitter->setStop();
 }
