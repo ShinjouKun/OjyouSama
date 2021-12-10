@@ -10,7 +10,8 @@
 #include "../../Device/Window.h"
 #include "../../Render/Camera.h"
 
-Compute::Compute()
+Compute::Compute(std::string texName):
+	mTexName(texName)
 {
 }
 
@@ -575,10 +576,10 @@ HRESULT Compute::createBuffer()
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 
-	std::string texName = "Resouse/particle.jpg";
+
 
 	wchar_t wfxFilePath[256] = { L"" };
-	mbstowcs(wfxFilePath, texName.c_str(), 256);
+	mbstowcs(wfxFilePath, mTexName.c_str(), 256);
 
 	hr = LoadFromWICFile(
 		wfxFilePath,

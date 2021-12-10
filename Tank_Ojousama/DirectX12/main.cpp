@@ -51,7 +51,6 @@ unique_ptr<SceneManager>mScene;//このクラスだけが持つポインタ
 #include "Sound/SoundSystem.h"
 //パーティクル
 #include "ParticleSystem/ParticleSystem.h"
-#include "ParticleSystem/ParticleType/testParticle.h"
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
@@ -307,7 +306,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//パーティクル
 	shared_ptr<ParticleManager>paricle = make_shared<ParticleManager>(pipeLine);
 	auto& particleSystem = ParticleSystem::instance();
-	//new testParticle(Vector3(500, Window::Window_Height / 2, -122), true);
 	
 	//モデル
 	shared_ptr<ModelRenderer>model = make_shared<ModelRenderer>(pipeLine);
@@ -327,7 +325,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	nums.setDev(DirectXManager::GetInstance()->Dev());
 	while (true)
 	{
-
 		if (window->ProcesssMessage()) { break; }//メッセージ処理
 		
 		DirectXManager::GetInstance()->PostEffctBegin();

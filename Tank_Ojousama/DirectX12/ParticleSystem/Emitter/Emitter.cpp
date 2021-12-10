@@ -4,8 +4,9 @@
 
 #include "../../Utility/Random.h"
 
-Emitter::Emitter(const Vector3& pos, const ParticleSystems& ps, const Burst& burst) :
+Emitter::Emitter(const Vector3& pos, const ParticleSystems& ps, const Burst& burst, std::string texName) :
 	mActive(true),
+	mEnd(false),
 	mPos(new Vector3(0.0f, 0.0f, 0.0f)),
 	mVec(new Vector3(0.0f, 0.0f, 0.0f)),
 	mRandomVec(new Vector3(0.0f, 0.0f, 0.0f)),
@@ -16,7 +17,7 @@ Emitter::Emitter(const Vector3& pos, const ParticleSystems& ps, const Burst& bur
 	mPRS(),
 	mPS(),
 	mTimer(new Timer()),
-	mCompute(new Compute())
+	mCompute(new Compute(texName))
 {
 	mPos->x = pos.x;
 	mPos->y = pos.y;
@@ -51,8 +52,7 @@ void Emitter::update()
 	mTimer->update();
 	if (mTimer->isTime() && !mParticleSystems.Looping)
 	{
-		mActive = false;
-		return;
+		mEnd = true;
 	}
 
 	//çÌèúèàóù
@@ -74,11 +74,17 @@ void Emitter::update()
 		}
 	}
 
+	if (mEnd && mDataList.empty())
+	{
+		mActive = false;
+	}
+
 	//í«â¡èàóù
 	int size = static_cast<int>(mDataList.size());
 	Random::initialize();
 	for (int i = 0; i < 50; ++i)//mBurst.Count
 	{
+		if (mEnd)break;
 		if (size > MAX_PARTICLE_SIZE - 1) break;
 		ParticleData data;
 		data.lifeTime = mParticleSystems.StartLifeTime + Random::randomRange(-mPRS.randomLife, mPRS.randomLife);
@@ -87,7 +93,7 @@ void Emitter::update()
 		data.pos.z = mPos->z;
 		data.vec = mParticleSystems.StartVector + Random::randomRange(-mPRS.randomVec, mPRS.randomVec);
 		data.temp1 = 0;
-		data.col = mParticleSystems.StartColor + Vector4(Random::randomRange(-mPRS.randomColor.x, mPRS.randomColor.x), Random::randomRange(-mPRS.randomColor.y, mPRS.randomColor.y), Random::randomRange(-mPRS.randomColor.z, mPRS.randomColor.z), Random::randomRange(-mPRS.randomColor.w, mPRS.randomColor.w));
+		data.col = mParticleSystems.StartColor + Vector4(Random::randomRange(0.f, mPRS.randomColor.x), Random::randomRange(0.f, mPRS.randomColor.y), Random::randomRange(0.f, mPRS.randomColor.z), Random::randomRange(0.f, mPRS.randomColor.w));
 		data.size = mParticleSystems.StartSize3D + Random::randomRange(-mPRS.randomSize3D, mPRS.randomSize3D);
 		data.speed = mParticleSystems.StartSpeed + Random::randomRange(-mPRS.randomSpeed, mPRS.randomSpeed);
 		data.rotate = Vector3::zero;//mParticleSystems.StartRotation3D;
