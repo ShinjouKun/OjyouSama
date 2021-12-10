@@ -22,6 +22,8 @@ public:
 	static Matrix4 RotateZ(float angleZ);//Z‰ñ“]
 
 	static Matrix4 createLookAt(const Vector3& eye, const Vector3& target, const Vector3& up);
+
+	static Matrix4 createPerspectiveFOV(float fovY, float width, float height, float _near, float _far);
 	
 private:
 
