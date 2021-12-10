@@ -79,7 +79,7 @@ void Emitter::update()
 	Random::initialize();
 	for (int i = 0; i < 50; ++i)//mBurst.Count
 	{
-		if (size >= MAX_PARTICLE_SIZE) break;
+		if (size > MAX_PARTICLE_SIZE - 1) break;
 		ParticleData data;
 		data.lifeTime = mParticleSystems.StartLifeTime + Random::randomRange(-mPRS.randomLife, mPRS.randomLife);
 		data.pos.x = mPos->x;

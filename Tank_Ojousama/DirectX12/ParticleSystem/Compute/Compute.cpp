@@ -215,7 +215,8 @@ void Compute::particleDraw(int dataSize)
 	cmdList->SetGraphicsRootDescriptorTable(1, gpuHandle);
 
 	//•`‰æƒRƒ}ƒ“ƒh
-	cmdList->DrawInstanced(static_cast<UINT>(std::distance(v.begin(), v.end())), 1, 0, 0);
+	//cmdList->DrawInstanced(static_cast<UINT>(std::distance(v.begin(), v.end())), 1, 0, 0);
+	cmdList->DrawInstanced(dataSize, 1, 0, 0);
 }
 
 void Compute::barrier(ID3D12Resource * p, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after)
