@@ -11,6 +11,7 @@ using namespace Microsoft::WRL;
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include <string>
 #include <vector>
 
 class RWStructuredBuffer;
@@ -32,7 +33,7 @@ class Compute
 		Matrix4 matbillboard;
 	};
 public:
-	Compute();
+	Compute(std::string texName = "Resouse/particle.jpg");
 	~Compute();
 
 	//èIóπèàóù
@@ -92,4 +93,5 @@ private:
 	ID3D12Resource* mTexBuff;
 
 	Matrix4 mMatProjection3D;
+	std::string mTexName;
 };

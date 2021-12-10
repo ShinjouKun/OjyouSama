@@ -47,6 +47,7 @@ void ParticleSystem::update()
 		{
 			//‘½•ª‚±‚ê‚Å‚¢‚¯‚é‚Í‚¸cc
 			std::swap(mEmitters[i], mEmitters.back());
+			mEmitters.pop_back();
 			--end;
 			if (i == end)break;//ÅŒã‚É‚È‚Á‚Ä‚¢‚½‚ç”²‚¯‚é
 		}

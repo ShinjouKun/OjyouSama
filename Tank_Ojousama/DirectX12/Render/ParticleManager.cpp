@@ -278,6 +278,7 @@ void ParticleEmitterBox::LoadAndSet(const string& key, const string& filename)
 
 void ParticleEmitterBox::EmitterUpdate(const string& key, const Vector3& pos, const Vector3& angle)
 {
+	//’e‚ª“–‚½‚Á‚½‚Æ‚«“™
 	this->pos = pos;
 	this->angle = angle;
 	for (int i = 0; i < 10; i++)
@@ -302,6 +303,7 @@ void ParticleEmitterBox::EmitterUpdate(const string& key, const Vector3& pos, co
 
 void ParticleEmitterBox::EmitterUpdateBIG(const string & key, const Vector3 & pos, const Vector3 & angle)
 {
+	//“GŽ€–S
 	this->pos = pos;
 	this->angle = angle;
 	for (int i = 0; i < 15; i++)
@@ -326,6 +328,7 @@ void ParticleEmitterBox::EmitterUpdateBIG(const string & key, const Vector3 & po
 
 void ParticleEmitterBox::EmitterUpdateUpGas(const string & key, const Vector3 & pos, const Vector3& angle)
 {
+	//ƒLƒƒƒ^ƒsƒ‰‚Ì‰Œ
 	this->pos = pos;
 	this->angle = angle;
 	for (int i = 0; i < 10; i++)
@@ -345,6 +348,7 @@ void ParticleEmitterBox::EmitterUpdateUpGas(const string & key, const Vector3 & 
 
 void ParticleEmitterBox::EmitterUpdateFireGas(const string & key, const Vector3 & pos, const Vector3 & angle)
 {
+	//ƒeƒBƒ‰ƒm‚Ì‰Î‰Š(‚¢‚ç‚ñ)
 	this->pos = pos;
 	this->angle = angle;
 	for (int i = 0; i < 10; i++)

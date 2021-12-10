@@ -5,6 +5,7 @@
 
 #include <list>
 #include <vector>
+#include <string>
 
 class Timer;
 class Compute;
@@ -15,7 +16,7 @@ constexpr int MAX_PARTICLE_SIZE = 10000;//パーティクルの最大個数
 class Emitter
 {
 public:
-	Emitter(const Vector3& pos, const ParticleSystems& ps, const Burst& burst);
+	Emitter(const Vector3& pos, const ParticleSystems& ps, const Burst& burst, std::string texName = "Resouse/particle.jpg");
 	~Emitter();
 
 	void update();
@@ -31,6 +32,8 @@ public:
 	void setAmountOfChangeInParticles(const AmountOfChangeInParticles& aocip);
 	void setParticleRandomState(const ParticleRandomState& prs);
 	void setParticleRotateState(const ParticleRotateState& prs);
+	void setIsGo();
+	void setStop();
 
 private:
 	void add();
@@ -43,7 +46,10 @@ private:
 	Emitter& operator=(Emitter&&) = delete;
 
 private:
-	bool mActive;
+	bool mActive;//生きているかどうか
+	bool mEnd;//終了フラグ
+	bool mIsGo;//停止機能を使うなら
+	bool mStop;//停止させるかどうか
 	Vector3* mPos;//エミッターの位置
 	Vector3* mVec;//パーティク用ベクトル
 	Vector3* mRandomVec;//ランダム要素用
