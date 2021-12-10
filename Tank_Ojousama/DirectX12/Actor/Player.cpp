@@ -107,6 +107,7 @@ void Player::UseWeapon2()
 
 	if (modelChanger->GetWeaponState1() == WeaponsState::MachinGun)
 	{
+		masingunShot = true;
 		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock,UpDamage));
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::Mine)
@@ -227,6 +228,7 @@ void Player::Init()
 	sceneCount = 0;
 	sceneCamOk = false;
 	sceneCamPlayerOk = false;
+	masingunShot = false;
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 
 	//コライダーの情報をセット
@@ -484,6 +486,10 @@ void Player::Update()
 				bulletStock++;
 				shotcnt2 = 0;
 			}
+			else
+			{
+				masingunShot = false;
+			}
 		}
 
 		//球数上限を設け
@@ -501,20 +507,29 @@ void Player::Update()
 void Player::Rend()
 {
 	Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
-	/*ojyouXR = -90.0f;
-	ojyouXL = -90.0f;*/
-	/*ojyouZR = 90.0f;
-	ojyouZL = -90.0f;*/
-	//ojyouY -= 10.0f;
+	if (!masingunShot)
+	{
+		ojyouXR = -90.0f;
+		ojyouXL = -90.0f;
+		ojyouZR = 45.0f;
+		ojyouZL = -45.0f;
+	}
+	else
+	{
+		ojyouXR = 0.0f;
+		ojyouXL = 0.0f;
+		ojyouZR = 0.0f;
+		ojyouZL = 0.0f;
+	}
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	if (!sniperShotFlag&&sceneCamPlayerOk)
 	{
 		playerModel->Draw(modelChanger->GetModelName(3), Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 		playerModel->Draw(modelChanger->GetModelName(4), Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
 
-		playerModel->Draw(modelChanger->GetModelName(0), Vector3(position.x-0.2f, position.y + 3.2f, position.z), Vector3(ojyouXR, -ojyouY, ojyouZR), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw(modelChanger->GetModelName(1), Vector3(position.x, position.y, position.z), Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw(modelChanger->GetModelName(2), Vector3(position.x+0.2f, position.y + 3.2f, position.z), Vector3(ojyouXL, -ojyouY, ojyouZL), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(0), Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXR, -atkAngle, ojyouZR), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(1), Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(2), Vector3(position.x, position.y + 3.2f, position.z), Vector3(ojyouXL, -atkAngle, ojyouZL), Vector3(1.5f, 1.5f, 1.5f));
 	}
 
 

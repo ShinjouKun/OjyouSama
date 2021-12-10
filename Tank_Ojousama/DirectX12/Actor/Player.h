@@ -59,6 +59,7 @@ private:
 	bool sniperShotFlag = false;
 	bool shotFlag1 =false;
 	bool shotFlag2 = false;
+	bool masingunShot = false;
 	int shotcnt1 = 0;
 	int shotcnt2 = 0;
 	bool moveFlag;

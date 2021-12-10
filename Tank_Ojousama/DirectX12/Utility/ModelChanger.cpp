@@ -41,9 +41,9 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 			if (state[3] == "MachinGun")
 			{
 				playerModel->AddModel("ArmR_rifle_r", "Resouse/R_hands_rifle_r.obj", "Resouse/rifle_hands_red.png");
-				playerModel->SetAncPoint("ArmR_rifle_r", Vector3(0.0f, -2.1f, -0.1f));
+				playerModel->SetAncPoint("ArmR_rifle_r", Vector3(0.6f, -2.1f, -0.5f));
 				playerModel->AddModel("ArmL_rifle_r", "Resouse/L_hands_rifle_r.obj", "Resouse/rifle_hands_red.png");
-				playerModel->SetAncPoint("ArmL_rifle_r", Vector3(0.0f, -2.1f, -0.1f));
+				playerModel->SetAncPoint("ArmL_rifle_r", Vector3(-0.6f, -2.1f, -0.5f));
 				modelKey[0] = "ArmR_rifle_r";
 				modelKey[2] = "ArmL_rifle_r";
 			}
@@ -70,9 +70,9 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 			if (state[3] == "MachinGun")
 			{
 				playerModel->AddModel("ArmR_rifle_b", "Resouse/R_hands_rifle_b.obj", "Resouse/rifle_hands_black.png");
-				playerModel->SetAncPoint("ArmR_rifle_b", Vector3(0.0f, -2.1f, -0.1f));
+				playerModel->SetAncPoint("ArmR_rifle_b", Vector3(0.6f, -2.1f, -0.5f));
 				playerModel->AddModel("ArmL_rifle_b", "Resouse/L_hands_rifle_b.obj", "Resouse/rifle_hands_black.png");
-				playerModel->SetAncPoint("ArmL_rifle_b", Vector3(0.0f, -2.1f, -0.1f));
+				playerModel->SetAncPoint("ArmL_rifle_b", Vector3(-0.6f, -2.1f, -0.5f));
 				modelKey[0] = "ArmR_rifle_b";
 				modelKey[2] = "ArmL_rifle_b";
 			}
@@ -99,9 +99,9 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		if (state[3] == "MachinGun")
 		{
 			playerModel->AddModel("ArmR_rifle", "Resouse/R_hands_rifle.obj", "Resouse/rifle_hands.png");
-			playerModel->SetAncPoint("ArmR_rifle", Vector3(0.0f, -2.1f, -0.1f));
+			playerModel->SetAncPoint("ArmR_rifle", Vector3(0.6f, -2.1f, -0.5f));
 			playerModel->AddModel("ArmL_rifle", "Resouse/L_hands_rifle.obj", "Resouse/rifle_hands.png");
-			playerModel->SetAncPoint("ArmL_rifle", Vector3(0.0f, -2.1f, -0.1f));
+			playerModel->SetAncPoint("ArmL_rifle", Vector3(-0.6f, -2.1f, -0.5f));
 			modelKey[0] = "ArmR_rifle";
 			modelKey[2] = "ArmL_rifle";
 		}
