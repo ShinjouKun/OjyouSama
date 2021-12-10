@@ -79,6 +79,7 @@ private:
 	bool HitFlag;//–³“GŽžŠÔ‚Ì‚½‚ß
 	int HitCount;
 	float ojyouY;
+	float ojyouZ;
 	float ojyouXR;
 	float ojyouZR;
 	float ojyouXL;

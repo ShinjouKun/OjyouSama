@@ -107,13 +107,18 @@ void SniperEnemy::EnemyInit()
 #pragma endregion
 
 	mSE = std::make_shared<Sound>("hirai.mp3", false);
+	mSound = std::make_shared<Sound>("down.mp3", false);
 	//mSound->play();
-	//mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
 void SniperEnemy::EnemyUpdate()
 {
+	if (HP <= 0)
+	{
+		mSound->play();
+	}
 	Invincible(2);//–³“GŽžŠÔ
 
 	/*‹¤’Ê‚Ì—v‘f*/

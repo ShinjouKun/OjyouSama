@@ -30,7 +30,7 @@ void Title::StartScene()
 	camera->SetEye(Vector3(0.0f,0 ,-122));
 	camera->SetTarget(Vector3(0.0f, 0,-100.0f));
 	ojoP = Vector3(0, -25, -113);
-	BaseScene::mSprite->AddTexture("Title", "Resouse/title_rogo.png");
+	BaseScene::mSprite->AddTexture("Title", "Resouse/Title.png");
 	BaseScene::mSprite->AddTexture("Push", "Resouse/start.png");
 	BaseScene::mSprite->AddTexture("Heart", "Resouse/heart.png");
 	BaseScene::mSprite->AddTexture("Fade1", "Resouse/fade.png");
@@ -99,7 +99,7 @@ void Title::DrawScene()
 	//BaseScene::mModel->Draw("Ground", Vector3(-20.0f, 4.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("Title", Vector3(100, 100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("Push", Vector3(600, 300, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Push", Vector3(550, 300, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	//BaseScene::mSprite->SetSize("Heart", Vector2(1280+kakudai3, 720+kakudai));
 	//BaseScene::mSprite->SetAncPoint("Heart", Vector2(640.0f+kakudai3, 360.0f+kakudai));
 	//BaseScene::mSprite->Draw("Heart",Vector3(-640.0f-kakudai4, -360.0f-kakudai2, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
