@@ -16,6 +16,7 @@ Garage::~Garage()
 
 void Garage::StartScene()
 {
+	bm = 0;
 	fade = 0;
 	fadeF = false;
 	fadeFB = false;
@@ -136,6 +137,63 @@ void Garage::UpdateScene()
 	{
 		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 		{
+			if (!M_Head_buy&&bodyNum == 1)
+			{
+				
+				bm = BaseScene::mMoney -= 2000000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				M_Head_buy = true;
+			}
+			else if (!H_Head_buy&&bodyNum == 2)
+			{
+				bm = BaseScene::mMoney - 3500000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				H_Head_buy = true;
+			}
+			else if(!M_Bottom_buy&&bottomNum == 1)
+			{
+				bm = BaseScene::mMoney - 2000000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				M_Bottom_buy = true;
+			}
+			else if(!H_Bottom_buy&&bottomNum == 2)
+			{
+				bm = BaseScene::mMoney - 3000000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				H_Bottom_buy = true;
+			}
+			else if(!M_Ojyou_buy&&headNum == 1)
+			{
+				bm = BaseScene::mMoney - 2000000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				M_Ojyou_buy = true;
+			}
+			else if (!H_Ojyou_buy&&headNum == 2)
+			{
+				bm = BaseScene::mMoney - 4000000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				H_Ojyou_buy = true;
+			}
+
+
 			fadeFB = true;
 			mSound->play();
 			mChanger->Save();

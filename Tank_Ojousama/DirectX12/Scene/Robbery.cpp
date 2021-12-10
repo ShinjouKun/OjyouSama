@@ -102,7 +102,7 @@ void Robbery::StartScene()
 	goalLine = 500.0f;
 	//とりあえず行きのスポーン
 	StartWayEnemySpown();
-	objM->Add(new Treasure(Vector3(0, 0, 0), Vector3(0, 0, 0), objM, BaseScene::mModel));
+	objM->Add(new Treasure(Vector3(0, 0, 0), Vector3(0, 180.0f, 0), objM, BaseScene::mModel));
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 450.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,2));
 	objM->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), objM));
 	mTimer = std::make_shared<Timer>(0.01f);
