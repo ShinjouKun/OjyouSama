@@ -32,6 +32,8 @@ public:
 	void setAmountOfChangeInParticles(const AmountOfChangeInParticles& aocip);
 	void setParticleRandomState(const ParticleRandomState& prs);
 	void setParticleRotateState(const ParticleRotateState& prs);
+	void setIsGo();
+	void setStop();
 
 private:
 	void add();
@@ -44,8 +46,10 @@ private:
 	Emitter& operator=(Emitter&&) = delete;
 
 private:
-	bool mActive;
-	bool mEnd;
+	bool mActive;//生きているかどうか
+	bool mEnd;//終了フラグ
+	bool mIsGo;//停止機能を使うなら
+	bool mStop;//停止させるかどうか
 	Vector3* mPos;//エミッターの位置
 	Vector3* mVec;//パーティク用ベクトル
 	Vector3* mRandomVec;//ランダム要素用

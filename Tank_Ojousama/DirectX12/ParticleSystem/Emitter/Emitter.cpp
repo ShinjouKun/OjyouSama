@@ -7,6 +7,8 @@
 Emitter::Emitter(const Vector3& pos, const ParticleSystems& ps, const Burst& burst, std::string texName) :
 	mActive(true),
 	mEnd(false),
+	mIsGo(true),
+	mStop(false),
 	mPos(new Vector3(0.0f, 0.0f, 0.0f)),
 	mVec(new Vector3(0.0f, 0.0f, 0.0f)),
 	mRandomVec(new Vector3(0.0f, 0.0f, 0.0f)),
@@ -84,6 +86,7 @@ void Emitter::update()
 	Random::initialize();
 	for (int i = 0; i < 50; ++i)//mBurst.Count
 	{
+		if (!mIsGo)break;
 		if (mEnd)break;
 		if (size > MAX_PARTICLE_SIZE - 1) break;
 		ParticleData data;
@@ -103,6 +106,11 @@ void Emitter::update()
 
 		mDataList.emplace_back(data);
 		++size;
+	}
+
+	if (mStop)
+	{
+		mIsGo = false;
 	}
 
 	std::copy(mPendingDataList.begin(), mPendingDataList.end(), std::back_inserter(mDataList));
@@ -158,6 +166,16 @@ void Emitter::setParticleRandomState(const ParticleRandomState & prs)
 void Emitter::setParticleRotateState(const ParticleRotateState & prs)
 {
 	mPS = prs;
+}
+
+void Emitter::setIsGo()
+{
+	mIsGo = true;
+}
+
+void Emitter::setStop()
+{
+	mStop = true;
 }
 
 void Emitter::add()
