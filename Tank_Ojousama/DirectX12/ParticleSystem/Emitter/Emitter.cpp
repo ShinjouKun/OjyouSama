@@ -87,9 +87,9 @@ void Emitter::update()
 		data.pos.z = mPos->z;
 		data.vec = mParticleSystems.StartVector + Random::randomRange(-mPRS.randomVec, mPRS.randomVec);
 		data.temp1 = 0;
-		data.col = mParticleSystems.StartColor;
-		data.size = mParticleSystems.StartSize3D;
-		data.speed = mParticleSystems.StartSpeed;
+		data.col = mParticleSystems.StartColor + Vector4(Random::randomRange(-mPRS.randomColor.x, mPRS.randomColor.x), Random::randomRange(-mPRS.randomColor.y, mPRS.randomColor.y), Random::randomRange(-mPRS.randomColor.z, mPRS.randomColor.z), Random::randomRange(-mPRS.randomColor.w, mPRS.randomColor.w));
+		data.size = mParticleSystems.StartSize3D + Random::randomRange(-mPRS.randomSize3D, mPRS.randomSize3D);
+		data.speed = mParticleSystems.StartSpeed + Random::randomRange(-mPRS.randomSpeed, mPRS.randomSpeed);
 		data.rotate = Vector3::zero;//mParticleSystems.StartRotation3D;
 		data.axis = Vector3::zero;
 		data.gravity = mParticleSystems.GravityModifier;

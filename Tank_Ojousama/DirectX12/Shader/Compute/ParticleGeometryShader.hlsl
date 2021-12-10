@@ -38,7 +38,7 @@ void GS(
 		offset.y = offset_arry[i].y * input[0].size.y;
 		offset.z = 0;
 		offset.w = 0;
-
+		/*
 		//回転用変数
 		float x = offset.x;
 		float y = offset.y;
@@ -55,7 +55,7 @@ void GS(
 		//x軸回転
 		offset.y += y * cos(input[0].rotate.x) - z * sin(input[0].rotate.x);
 		offset.z += y * sin(input[0].rotate.x) + z * cos(input[0].rotate.x);
-
+		*/
 		offset = mul(matBillboard, offset);
 		//オフセット分ずらす(ワールド座標)
 		o.pos = input[0].svpos + offset;

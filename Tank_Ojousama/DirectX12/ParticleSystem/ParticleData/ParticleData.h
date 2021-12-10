@@ -47,10 +47,10 @@ struct ParticleData
 struct ParticleDrawData
 {
 	Vector3 pos;
-	float temp = 0;
+	float temp;
 	Vector4 color;
 	Vector3 size;
-	float temp2 = 0;
+	float temp2;
 	Vector3 rotate;
-	float temp3 = 0;
+	float temp3;
 };

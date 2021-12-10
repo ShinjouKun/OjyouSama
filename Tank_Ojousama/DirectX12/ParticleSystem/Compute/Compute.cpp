@@ -66,6 +66,8 @@ void Compute::init()
 	mMatProjection3D.m[0][0] = 2.0f / Window::Window_Width;
 	mMatProjection3D.m[1][1] = -2.0f / Window::Window_Height;
 
+
+	//mMatProjection3D = Matrix4::createPerspectiveFOV(60.f, Window::Window_Width, Window::Window_Height, 0.1f, 3000.0f);
 }
 
 void Compute::emitterUpdate(void* data, int dispatch)
@@ -172,14 +174,14 @@ void Compute::particleDraw(int dataSize)
 	std::vector<ParticleDrawData> v;
 	v.assign((ParticleDrawData*)data, (ParticleDrawData*)data + dataSize);
 
-	ParticleDrawData* vertMap;
+	ParticleVertex* vertMap;
 	mVertBuff->Map(0, nullptr, (void**)&vertMap);
 	for (int i = 0, end = v.size(); i < end; ++i)
 	{
 		vertMap->pos = v[i].pos;
 		vertMap->color = v[i].color;
-		vertMap->rotate = v[i].rotate;
 		vertMap->size = v[i].size;
+		vertMap->rotate = v[i].rotate;
 		++vertMap;
 	}
 	//vertMap = (ParticleDrawData*)data;
@@ -409,6 +411,8 @@ HRESULT Compute::createPiprLine()
 	//ラスタライザステート
 	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);//いったん標準をセット
 	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//背面カリングしない
+
+	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
 
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
