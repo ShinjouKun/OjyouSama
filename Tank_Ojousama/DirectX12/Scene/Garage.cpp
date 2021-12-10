@@ -28,6 +28,10 @@ void Garage::StartScene()
 	objM->Claer();
 	mChanger = new ModelChanger();
 	mChanger->Init();
+	headNum = 0;
+	bodyNum = 0;
+	bottomNum = 0;
+	weaponNum = 0;
 
 	BaseScene::mSprite->AddTexture("Sentaku1", "Resouse/Sankaku.png");
 	BaseScene::mSprite->AddTexture("Sentaku2", "Resouse/Sankaku.png");
@@ -35,6 +39,8 @@ void Garage::StartScene()
 	BaseScene::mSprite->AddTexture("Sentaku4", "Resouse/Sankaku.png");
 	BaseScene::mSprite->AddTexture("Sentaku5", "Resouse/Sankaku.png");
 	BaseScene::mSprite->AddTexture("Sentaku6", "Resouse/Sankaku.png");
+	BaseScene::mSprite->AddTexture("Sentaku7", "Resouse/Sankaku.png");
+	BaseScene::mSprite->AddTexture("Sentaku8", "Resouse/Sankaku.png");
 	BaseScene::mSprite->AddTexture("Garege", "Resouse/garege.jpg");
 	BaseScene::mSprite->AddTexture("Syata", "Resouse/syata.jpg");
 	BaseScene::mSprite->AddTexture("BackS", "Resouse/backselect.png");
@@ -49,6 +55,8 @@ void Garage::StartScene()
 	SentakuPos4 = Vector3((Window::Window_Width / 2) - 230, 350 + 64,0);
 	SentakuPos5 = Vector3((Window::Window_Width / 2) + 230, 450, 0);
 	SentakuPos6 = Vector3((Window::Window_Width / 2) - 230, 450 + 64, 0);
+	SentakuPos7 = Vector3((Window::Window_Width / 2) + 230, 550, 0);
+	SentakuPos8 = Vector3((Window::Window_Width / 2) - 230, 550 + 64, 0);
 	//‚¨ì—l—pƒ‚ƒfƒ‹«
 	BaseScene::mModel->AddModel("TankPlayerA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
 	BaseScene::mModel->AddModel("TankPlayerB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
@@ -56,34 +64,34 @@ void Garage::StartScene()
 	BaseScene::mModel->AddModel("TankPlayerC", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
 	BaseScene::mModel->AddModel("TankPlayerD", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
 
+	BaseScene::mModel->AddModel("TankPlayerE", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2_B.png");
+	BaseScene::mModel->AddModel("TankPlayerF", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2_B.png");
+
 	//BaseScene::mModel->AddModel("TankPlayerC","Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
 	//BaseScene::mModel->AddModel("TankPlayerD", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
 
-	BaseScene::mModel->AddModel("ArmR1", "Resouse/R_hands.obj", "Resouse/hands_one.png");
-	BaseScene::mModel->SetAncPoint("ArmR1", Vector3(0.0f, -2.1f, -0.1f));
 	BaseScene::mModel->AddModel("OjyouSama1", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
 	BaseScene::mModel->SetAncPoint("OjyouSama1", Vector3(0.0f, 0.0f, -0.1f));
-	BaseScene::mModel->AddModel("ArmL1", "Resouse/L_hands.obj", "Resouse/hands_one.png");
-	BaseScene::mModel->SetAncPoint("ArmL1", Vector3(0.0f, -2.1f, -0.1f));
 
-	BaseScene::mModel->AddModel("ArmR2", "Resouse/R_hands.obj", "Resouse/hands_one.png");
-	BaseScene::mModel->SetAncPoint("ArmR2", Vector3(0.0f, -2.1f, -0.1f));
-	BaseScene::mModel->AddModel("OjyouSama2", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
+	BaseScene::mModel->AddModel("OjyouSama2", "Resouse/ojousama_body_black.obj", "Resouse/ojosama_black.png");
 	BaseScene::mModel->SetAncPoint("OjyouSama2", Vector3(0.0f, 0.0f, -0.1f));
-	BaseScene::mModel->AddModel("ArmL2", "Resouse/L_hands.obj", "Resouse/hands_one.png");
-	BaseScene::mModel->SetAncPoint("ArmL2", Vector3(0.0f, -2.1f, -0.1f));
+
+	BaseScene::mModel->AddModel("OjyouSama_r", "Resouse/ojousama_body_red.obj", "Resouse/ojosama_red.png");
+	BaseScene::mModel->SetAncPoint("OjyouSama_r", Vector3(0.0f, 0.0f, -0.1f));
+
+
 
 	camera->SetEye(Vector3(0.0f, 0, -120));
 	camera->SetTarget(Vector3(0.0f, 0, -100.0f));
 	mTimer = std::make_shared<Timer>(0.01f);
-	mSound = std::make_shared<Sound>("SE/syata.mp3", false);
+	mSound = std::make_shared<Sound>("syata.mp3", false);
 	mSound->play();
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
-	mBGM = std::make_shared<Sound>("BGM/garegeBGM.mp3", false);
+	mBGM = std::make_shared<Sound>("garegeBGM.mp3", false);
 	mBGM->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 
-	mSE = std::make_shared<Sound>("SE/SelectSE.mp3", false);
+	mSE = std::make_shared<Sound>("SelectSE.mp3", false);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
@@ -94,11 +102,35 @@ void Garage::UpdateScene()
 	if (!mTimer->isTime()) return;
 	if (keyflag < 0)
 	{
-		keyflag = 2;
+		keyflag = 3;
 	}
-	if (keyflag > 2)
+	if (keyflag > 3)
 	{
 		keyflag = 0;
+	}
+	if (headNum < 0)
+	{
+		headNum = 2;
+	}
+	if (headNum > 2)
+	{
+		headNum = 0;
+	}
+	if (bodyNum < 0)
+	{	
+		bodyNum = 2;
+	}	
+	if (bodyNum > 2)
+	{	
+		bodyNum = 0;
+	}
+	if (bottomNum < 0)
+	{
+		bottomNum = 2;
+	}
+	if (bottomNum > 2)
+	{
+		bottomNum = 0;
 	}
 	if (fadeF)
 	{
@@ -122,26 +154,52 @@ void Garage::UpdateScene()
 		}
 		if (Input::getKey(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
-			if (ChangeFlag == false)
+			switch (keyflag)
 			{
-				ChangeFlag = true;
-			}
-			else
-			{
-				ChangeFlag = false;
+			case 0:
+				headNum += 1;
+				break;
+			case 1:
+				bodyNum += 1;
+				break;
+			case 2:
+				bottomNum += 1;
+				break;
+			case 3:
+				weaponNum += 1;
+				break;
+			default:
+				headNum = 0;
+				bodyNum = 0;
+				bottomNum = 0;
+				weaponNum = 0;
+				break;
 			}
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}		
 		if (Input::getKey(KeyCode::A) || Input::joyHorizontal() < 0)
 		{
-			if (ChangeFlag == false)
+			switch (keyflag)
 			{
-				ChangeFlag = true;
-			}
-			else
-			{
-				ChangeFlag = false;
+			case 0:
+				headNum -= 1;
+				break;
+			case 1:
+				bodyNum -= 1;
+				break;
+			case 2:
+				bottomNum -= 1;
+				break;
+			case 3:
+				weaponNum -= 1;
+				break;
+			default:
+				headNum = 0;
+				bodyNum = 0;
+				bottomNum = 0;
+				weaponNum = 0;
+				break;
 			}
 			mSE->play();
 			mTimer->setTime(0.2f);
@@ -151,18 +209,28 @@ void Garage::UpdateScene()
 			SAlfa1 = 1.0f;
 			SAlfa2 = 0.5f;
 			SAlfa3 = 0.5f;
+			SAlfa4 = 0.5f;
 		}
 		if (keyflag == 1)
 		{
 			SAlfa1 = 0.5f;
 			SAlfa2 = 1.0f;
 			SAlfa3 = 0.5f;
+			SAlfa4 = 0.5f;
 		}
 		if (keyflag == 2)
 		{
 			SAlfa1 = 0.5f;
 			SAlfa2 = 0.5f;
 			SAlfa3 = 1.0f;
+			SAlfa4 = 0.5f;
+		}
+		if (keyflag == 4)
+		{
+			SAlfa1 = 0.5f;
+			SAlfa2 = 0.5f;
+			SAlfa3 = 0.5f;
+			SAlfa4 = 1.0f;
 		}
 	}
 	if (fadeF == false)
@@ -195,6 +263,8 @@ void Garage::DrawScene()
 	BaseScene::mSprite->Draw("Sentaku4", SentakuPos4, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa2));
 	BaseScene::mSprite->Draw("Sentaku5", SentakuPos5, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa3));
 	BaseScene::mSprite->Draw("Sentaku6", SentakuPos6, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa3));
+	BaseScene::mSprite->Draw("Sentaku7", SentakuPos7, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa4));
+	BaseScene::mSprite->Draw("Sentaku8", SentakuPos8, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa4));
 	BaseScene::mSprite->Draw("BackS", Vector3(0,0,0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	if (keyflag == 0)
 	{
@@ -218,29 +288,77 @@ void Garage::DrawScene()
 	if (fadeF)
 	{
 		if (fadeFB) return;
-		if (ChangeFlag == false)
+		switch (headNum)
 		{
-			BaseScene::mModel->Draw("ArmR1", Vector3(0, -2 + 3.2f, -113), Vector3(150, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+		case 0:
 			BaseScene::mModel->Draw("OjyouSama1", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
-			BaseScene::mModel->Draw("ArmL1", Vector3(0, -2 + 3.2f, -113), Vector3(150, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
-			BaseScene::mModel->Draw("TankPlayerA", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
-			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeHead(Normal);
-			mChanger->ChangeBody(Light);
-			mChanger->ChangeBottom(Light_b);
-			
-		}
-
-		else if (ChangeFlag)
-		{
-			BaseScene::mModel->Draw("ArmR2", Vector3(0.5f, -2 + 3.2f, -113), Vector3(150, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
-			BaseScene::mModel->Draw("OjyouSama2", Vector3(0.5f, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
-			BaseScene::mModel->Draw("ArmL2", Vector3(0.5f, -2 + 3.2f, -113), Vector3(150, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
-			BaseScene::mModel->Draw("TankPlayerC", Vector3(0, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
-			BaseScene::mModel->Draw("TankPlayerD", Vector3(0, -2, -113), Vector3(0, -30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			break;
+		case 1:
+			BaseScene::mModel->Draw("OjyouSama2", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeHead(Other01);
+			break;
+		case 2:
+			BaseScene::mModel->Draw("OjyouSama_r", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeHead(Other02);
+			break;
+		default:
+			BaseScene::mModel->Draw("OjyouSama1", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeHead(Normal);
+			break;
+		}
+		switch (bodyNum)
+		{
+		case 0:
+			BaseScene::mModel->Draw("TankPlayerA", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeBody(Light);
+			break;
+		case 1:
+			BaseScene::mModel->Draw("TankPlayerC", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBody(Midium);
+			break;
+		case 2:
+			BaseScene::mModel->Draw("TankPlayerE", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeBody(Heavy);
+			break;
+		default:
+			BaseScene::mModel->Draw("TankPlayerA", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeBody(Light);
+			break;
+		}
+		switch (bottomNum)
+		{
+		case 0:
+			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeBottom(Light_b);
+			break;
+		case 1:
+			BaseScene::mModel->Draw("TankPlayerD", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBottom(Midium_b);
+			break;
+		case 2:
+			BaseScene::mModel->Draw("TankPlayerF", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeBottom(Heavy_b);
+			break;
+		default:
+			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeBottom(Light_b);
+			break;
+		}
+		switch (weaponNum)
+		{
+		case 0:
+			mChanger->ChangeWeapons1(MachinGun);
+			break;
+		case 1:
+			mChanger->ChangeWeapons1(ShotGun);
+			break;
+		case 2:
+			mChanger->ChangeWeapons1(Mine);
+			break;
+		default:
+			mChanger->ChangeWeapons1(MachinGun);
+			break;
 		}
 	}
 	objM->Draw();
