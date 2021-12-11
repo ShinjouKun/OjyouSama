@@ -104,7 +104,7 @@ void Select::UpdateScene()
 		fade += 0.01f;
 		if (fade >= 1)
 		{
-			NextScene(std::make_shared<Robbery>());
+			NextScene(std::make_shared<Defense>());
 			//NextScene(std::make_shared<GamePlay>());
 		}
 	}

@@ -163,10 +163,7 @@ void Defense::StartScene()
 
 void Defense::UpdateScene()
 {
-	if (Input::getKey(KeyCode::B))
-	{
-		
-	}
+	
 	mSound->playLoop();
 	//ƒpƒ“‚­‚¸‚ð—Ž‚Æ‚·
 	mBreadCreator->DropBreadCrumb();

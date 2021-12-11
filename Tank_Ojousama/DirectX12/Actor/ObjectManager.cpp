@@ -223,3 +223,18 @@ BaseObject & ObjectManager::GetEnemy() const
 	return *enemy;
 }
 
+BaseObject & ObjectManager::GetCastle() const
+{
+	BaseObject* castle = nullptr;
+
+	for (auto& type : objectList)
+	{
+		if (type->GetType() == ObjectType::DEFENCEPOINT)
+		{
+			castle = type;
+		}
+	}
+
+	return *castle;
+}
+

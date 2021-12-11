@@ -24,6 +24,7 @@ public:
 	BaseObject & GetPlayer() const;
 	BaseObject & GetGolem() const;
 	BaseObject & GetEnemy() const;
+	BaseObject & GetCastle()const;
 private:
 	std::vector<BaseObject*>objectList;//Žg‚¤‚à‚Ì
 	std::vector<BaseObject*>addObjectList;//’Ç‰Á‚µ‚½‚à‚Ì‚ÌˆêŽž•Û‘¶—p

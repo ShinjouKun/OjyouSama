@@ -34,7 +34,7 @@ Player::~Player()
 
 void Player::StartCamScene()
 {
-	sceneCount++;
+	//sceneCount++;
 	switch (sceneEffectNum)
 	{
 	case 1:
@@ -45,10 +45,23 @@ void Player::StartCamScene()
 		camera->SetTarget(Vector3(0, 0, position.z));
 		break;
 	case 2:
+		//強奪
 		break;
 	case 3:
+		//タワーディフェンス
+		position = Vector3(0, 0, 500.0f);
+		sceneCamPlayerOk = true;
+		sceneCamPos = Vector3(-70.0f, 100.0f, 450.0f);
+		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
+		camera->SetTarget(Vector3(0,0, position.z));
 		break;
 	case 4:
+		//ボス
+		//殲滅戦
+		position = Vector3(0, 0, -130);
+		sceneCamPos = Vector3(120, 80, -130);
+		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
+		camera->SetTarget(Vector3(0, 0, position.z));
 		break;
 	default:
 		break;
@@ -88,29 +101,84 @@ void Player::SceneCamMove2()
 
 void Player::SceneCamMove3()
 {
+	camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, sceneCamPos.z - 50.0f));
+	camera->SetTarget(Vector3(position.x, position.y, position.z + 50.0f));
+	if(sceneCamPos.y <= 4.0f)
+	{
+		
+		sceneCamPos.x = position.x -= sceneCamPos.x * 0.03f;
+		if (sceneCamPos.x == position.x)
+		{
+			sceneCamPos.z += 0.5f;
+			if (sceneCamPos.z >= 550.0f)
+			{
+				sceneCamOk = true;
+			}
+		}
+	}
+	else
+	{
+		sceneCamPos.x += 0.5f;
+		sceneCamPos.y -= 0.3f;
+	}
 }
 
 void Player::SceneCamMove4()
 {
+	if (position.z >= 520)
+	{
+		sceneCamPlayerOk = true;
+		if (sceneCamPos.x <= 0)
+		{
+			sceneCamOk = true;
+		}
+		else
+		{
+			sceneCamPos.x -= 3.0f;
+			sceneCamPos.y -= 2.0f;
+			camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
+			camera->SetTarget(Vector3(0, 0, position.z));
+		}
+	}
+	else
+	{
+		position.z += 4.0f;
+		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
+		camera->SetTarget(Vector3(0, 0, position.z));
+	}
 }
 
 
 void Player::UseWeapon1()
 {
-	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock,UpDamage));
 	shotFlag1 = true;
 }
 
 void Player::UseWeapon2()
 {
-	objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock));
+	
+	if (modelChanger->GetWeaponState1() == WeaponsState::MachinGun)
+	{
+		masingunShot = true;
+		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
+	}
+	if (modelChanger->GetWeaponState1() == WeaponsState::Mine)
+	{
+		objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
+	}
+	if (modelChanger->GetWeaponState1() == WeaponsState::ShotGun)
+	{
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 1, UpDamage));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock + 2, UpDamage));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle - 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 3, UpDamage));
+		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle - 20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 4, UpDamage));
+	}
+
 	//objM->Add(new MissileBullet(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
-	//objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0,0,0), objM, playerModel, playerParticle, objType, bulletStock));
-	/*objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock));
-	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle+10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+1));
-	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock+2));
-	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle-10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+3));
-	objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle-20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock+4));*/
+	//
+
 	shotFlag2 = true;
 }
 
@@ -167,13 +235,16 @@ void Player::AngleReset()
 void Player::Init()
 {
 	
-	mSound = std::make_shared<Sound>("bomb3.mp3", false);
+	//mSound = std::make_shared<Sound>("bomb3.mp3", false);
 	mTimer = std::make_shared<Timer>();
 
 
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
 	playerSprite->AddTexture("HpGage", "Resouse/hpgage.png");
 	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
+	playerSprite->AddTexture("Blood", "Resouse/blood.png");
+	playerSprite->AddTexture("Blood2", "Resouse/blood2.png");
+	playerSprite->AddTexture("Blood3", "Resouse/blood3.png");
 	//model
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
@@ -203,10 +274,13 @@ void Player::Init()
 	bulletStock = 0;
 	HitFlag = false;
 	sniperShotFlag = false;
+	masingunShot = false;
 	HitCount = 0;
-	sceneCount = 0;
+	//sceneCount = 0;
 	sceneCamOk = false;
 	sceneCamPlayerOk = false;
+	damageFade = false;
+	damageFadeYpos = 0;
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 
 	//コライダーの情報をセット
@@ -231,26 +305,30 @@ void Player::Update()
 	}
 	mTimer->update();
 
-	mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+	//mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 	//シーン演出 
 #pragma region シーン
-	switch (sceneEffectNum&&!sceneCamOk)
+	if (!sceneCamOk)
 	{
-	case 1:
-		SceneCamMove1();
-		break;
-	case 2:
-		SceneCamMove2();
-		break;
-	case 3:
-		SceneCamMove3();
-		break;
-	case 4:
-		SceneCamMove4();
-		break;
-	default:
-		break;
+		switch (sceneEffectNum)
+		{
+		case 1:
+			SceneCamMove1();
+			break;
+		case 2:
+			SceneCamMove2();
+			break;
+		case 3:
+			SceneCamMove3();
+			break;
+		case 4:
+			SceneCamMove4();
+			break;
+		default:
+			break;
+		}
 	}
+	
 #pragma endregion
 	
 	
@@ -263,9 +341,13 @@ void Player::Update()
 		if (HitFlag)
 		{
 			HitCount++;
+			damageFade -= 0.01f;
+			damageFadeYpos -= 0.2f;
 			if (HitCount >= 90)
 			{
 				HitCount = 0;
+				damageFade = 1.0f;
+				damageFadeYpos = 0.0f;
 				HitFlag = false;
 			}
 		}
@@ -445,7 +527,7 @@ void Player::Update()
 				UseWeapon1();
 				bulletStock++;
 				shotcnt1 = 0;
-				mSound->play();
+				//mSound->play();
 			}
 		}
 		if (shotFlag2)
@@ -465,6 +547,10 @@ void Player::Update()
 				bulletStock++;
 				shotcnt2 = 0;
 			}
+			else
+			{
+				masingunShot = false;
+			}
 		}
 
 		//球数上限を設け
@@ -482,11 +568,20 @@ void Player::Update()
 void Player::Rend()
 {
 	Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
-	/*ojyouXR = -90.0f;
-	ojyouXL = -90.0f;*/
-	/*ojyouZR = 90.0f;
-	ojyouZL = -90.0f;*/
-	//ojyouY -= 10.0f;
+	if (!masingunShot)
+	{
+		ojyouXR = -90.0f;
+		ojyouXL = -90.0f;
+		ojyouZR = 45.0f;
+		ojyouZL = -45.0f;
+	}
+	else
+	{
+		ojyouXR = 0.0f;
+		ojyouXL = 0.0f;
+		ojyouZR = 0.0f;
+		ojyouZL = 0.0f;
+	}
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	if (!sniperShotFlag&&sceneCamPlayerOk)
 	{
@@ -500,6 +595,12 @@ void Player::Rend()
 
 
 	DirectXManager::GetInstance()->SetData2D();
+	if (sceneCamOk&&HitFlag)
+	{
+		playerSprite->Draw("Blood", Vector3(500, 0 - damageFadeYpos, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, damageFade));
+		playerSprite->Draw("Blood2", Vector3(0, 500 - damageFadeYpos, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, damageFade));
+		playerSprite->Draw("Blood3", Vector3(900, 200 - damageFadeYpos, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, damageFade));
+	}
 	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("WeponUi", Vector3(1280 -180, 720-180, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));

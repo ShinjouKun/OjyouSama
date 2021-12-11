@@ -170,6 +170,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood2.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood3.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/castle_aicon.png");
 	
 	//‚¨•ó
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs.obj");

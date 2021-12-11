@@ -35,7 +35,7 @@ private:
 	//–³“GŽžŠÔ‚Ì‚½‚ß
 	bool HitFlag;
 	int HitCount;
-	float MaxHp;
+	int MaxHp;
 	int MessCount1;
 	int MessCount2;
 	int MessCount3;

@@ -1,7 +1,8 @@
 #include "Castle.h"
 #include"../Collision/SpherCollider.h"
 #include "../Collision/BaseCollider.h"
-
+#include"../Utility/Sequence/Sequence.h"
+#include"../Device/Window.h"
 
 Castle::Castle(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> modelRender, shared_ptr<TexRenderer>s,shared_ptr<ParticleManager> effect)
 	:Model(modelRender),Sprite(s),Particle(effect)
@@ -21,14 +22,15 @@ void Castle::Init()
 	Sprite->AddTexture("Messege1", "Resouse/messege1.png");
 	Sprite->AddTexture("Messege2", "Resouse/messege2.png");
 	Sprite->AddTexture("Messege3", "Resouse/messege3.png");
-
-	HP = 50;//‚Æ‚è‚ ‚¦‚¸
-	MaxHp = HP;
+	Sprite->AddTexture("HpAicon", "Resouse/castle_aicon.png");
+	MaxHp = 200;
+	HP = MaxHp;//‚Æ‚è‚ ‚¦‚¸
+	
 	death = false;
 	HitFlag = false;
 	HitCount = 0;
 	objType = ObjectType::DEFENCEPOINT;
-	SetCollidder(Vector3(0, 0, 0), 10.0f);
+	SetCollidder(Vector3(0, 4.0f, 0), 5.0f);
 	MessFlag1 = false;
 	MessFlag2 = false;
 	MessFlag3 = false;
@@ -39,6 +41,8 @@ void Castle::Init()
 
 void Castle::Update()
 {
+	
+	
 	if (HitFlag)
 	{
 		HitCount++;
@@ -81,10 +85,13 @@ void Castle::Update()
 
 void Castle::Rend()
 {
+	Sequence::instance().set(HP, Vector2(Window::Window_Width / 2-32, 0), Vector2(64, 64));
+
 	DirectXManager::GetInstance()->SetData3D();
 	Model->Draw("DefCanp", position, angle, Vector3(10, 10, 10));
 
 	DirectXManager::GetInstance()->SetData2D();
+	Sprite->Draw("HpAicon", Vector3(Window::Window_Width / 2 - 96, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	Sprite->SetSize("Messege1", Vector2(1280, 180));
 	Sprite->SetSize("Messege2", Vector2(1280, 180));
 	Sprite->SetSize("Messege3", Vector2(1280, 180));
@@ -104,6 +111,7 @@ void Castle::Rend()
 
 void Castle::ImGuiDebug()
 {
+	
 }
 
 void Castle::OnCollison(BaseCollider * col)

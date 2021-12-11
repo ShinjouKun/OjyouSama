@@ -106,18 +106,18 @@ void SniperEnemy::EnemyInit()
 
 #pragma endregion
 
-	mSE = std::make_shared<Sound>("hirai.mp3", false);
-	mSound = std::make_shared<Sound>("down.mp3", false);
+	//mSE = std::make_shared<Sound>("hirai.mp3", false);
+	//mSound = std::make_shared<Sound>("down.mp3", false);
 	//mSound->play();
-	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	//mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	//mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
 void SniperEnemy::EnemyUpdate()
 {
 	if (HP <= 0)
 	{
-		mSound->play();
+		//mSound->play();
 	}
 	Invincible(2);//–³“GŽžŠÔ
 
@@ -214,7 +214,7 @@ void SniperEnemy::EnemyUpdate()
 			bulletNumber++;
 			mAttackFlag = false;
 			mMoveState = MoveState::NOT_FIND;
-			mSE->play();
+			//mSE->play();
 		}
 	}
 	else
@@ -269,16 +269,16 @@ void SniperEnemy::EnemyImGuiDebug()
 {
 
 }
-
-void SniperEnemy::Search()
-{
-
-}
-
-void SniperEnemy::Warning()
-{
-
-}
+//
+//void SniperEnemy::Search()
+//{
+//
+//}
+//
+//void SniperEnemy::Warning()
+//{
+//
+//}
 
 void SniperEnemy::Attack()
 {
