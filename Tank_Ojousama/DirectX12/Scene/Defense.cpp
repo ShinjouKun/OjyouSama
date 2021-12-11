@@ -16,6 +16,7 @@
 #include "../Actor/ElfRock.h"
 
 #include "../Actor/Enemy/SniperEnemy.h"
+#include"../Actor/Enemy/BlowEnemy.h"
 
 Defense::Defense()
 	:mSound(nullptr)
@@ -254,7 +255,7 @@ void Defense::Wave1EnemySpown()
 {
 	enemyDeath = 0;
 	//‚±‚±‚Ì‰º‚©‚çadd
-	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), 0));
+	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), 0,true));
 	spown1 = true;
 }
 
@@ -262,7 +263,8 @@ void Defense::Wave2EnemySpown()
 {
 	enemyDeath = 0;
 	//‚±‚±‚Ì‰º‚©‚çadd
-	objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), 1));
+	objM->Add(new BlowEnemy(Vector3(-30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), 1,true));
+	
 	spown2 = true;
 }
 
@@ -270,7 +272,7 @@ void Defense::Wave3EnemySpown()
 {
 	enemyDeath = 0;
 	//‚±‚±‚Ì‰º‚©‚çadd
-	objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), 2));
+	objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), 3,true));
 	spown3 = true;
 }
 
@@ -346,7 +348,7 @@ void Defense::Wave3()
 		}
 		if (enemyDeath >= wave3EnemysCount)
 		{
-			BaseScene::mStageFlag2 = true;
+			BaseScene::mStageFlag3 = true;
 			NextScene(std::make_shared<Result>());
 		}
 	}

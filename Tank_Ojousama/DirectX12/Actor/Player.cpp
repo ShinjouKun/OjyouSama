@@ -234,7 +234,7 @@ void Player::AngleReset()
 void Player::Init()
 {
 	
-	//mSound = std::make_shared<Sound>("bomb3.mp3", false);
+	mSound = std::make_shared<Sound>("SE/bomb3.mp3", false);
 	mTimer = std::make_shared<Timer>();
 
 
@@ -304,7 +304,7 @@ void Player::Update()
 	}
 	mTimer->update();
 
-	//mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+	mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 	//シーン演出 
 #pragma region シーン
 	if (!sceneCamOk)
@@ -530,7 +530,7 @@ void Player::Update()
 				UseWeapon1();
 				bulletStock++;
 				shotcnt1 = 0;
-				//mSound->play();
+				mSound->play();
 			}
 		}
 		if (shotFlag2)

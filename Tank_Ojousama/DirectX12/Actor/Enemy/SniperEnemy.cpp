@@ -1,10 +1,7 @@
 #include "SniperEnemy.h"
-#include "../../Weapons/NormalBullet.h"
 #include "../../Weapons/ElfBullet.h"
-#include "../../Collision/SpherCollider.h"
 #include "../../ConstInfomation/Enemy/EnemyConstInfo.h"
 #include "../../ConstInfomation/Enemy/SniperEnemyConstInfo.h"
-#include "../../Sound/Sound.h"
 #include"../../Scene/BaseScene.h"
 
 namespace ECI = EnemyConstInfo;
@@ -31,8 +28,6 @@ SniperEnemy::~SniperEnemy()
 
 void SniperEnemy::EnemyInit()
 {
-#pragma region 変数の初期化
-	//SetActive(false);
 	HP = ECI::MAX_HP * SECI::MAX_HP;
 	warningTime = ECI::WARNING_TIME * SECI::WARNING_TIME * 60;
 	attackTime = ECI::ATTACK_TIME * SECI::ATTACK_TIME * 60;
@@ -41,41 +36,57 @@ void SniperEnemy::EnemyInit()
 	mRadius = ECI::RADIUS * SECI::RADIUS;
 	mSwingRange = ECI::SWING_RANGE * SECI::SWING_RANGE;
 	mFireAngle = SECI::FAN_RANGE;
-	//turretAngle = 0.0f;
 	mAttackLength = ECI::ATTACK_LENGTH * SECI::ATTACK_LENGTH;
 
+	breadcrumbMode = ECI::BRRADCRUMB_MODE;
+	DESTRUCT_MODE = ECI::DESTRUCT_MODE;
 	death = false;
 	mTrackingPlayer = false;
 	mTrackingBreadcrumb = false;
 	RECEIVEREPORT_MODE = true;
-	breadcrumbMode = ECI::BRRADCRUMB_MODE;
-	DESTRUCT_MODE = ECI::DESTRUCT_MODE;
-	//turnaroundMode = ECI::TURNAROUND_MODE;
 	TURNAROUND_MODE = true;
+	mDeathAnimation = false;
+	mDeadFlag = false;
 
+	mLegRotate = 0.0f;
+
+	SetActive(false);
 	scale = SECI::SCALE;
 
+	mMoveState = MoveState::NOT_FIND;
 	objType = ObjectType::ENEMY;
-	SetCollidder(new SphereCollider(Vector3().zero, mRadius));
+	mDeathStep = DeathAnimationStep::RISE_SKY;
+	SetCollidder(Vector3().zero, mRadius);
 
-	//センサーの初期化
+	//センサーの初期化-------------------------------------------------------
 	mFanRotateOrigin = -angle.y - 90.0f;
 	fanInfo.position = Vector3(position.x, position.y, position.z);//位置
 	fanInfo.fanRange = 200.0f;									   //θの角度
 	fanInfo.length = 60.0f;										   //長さ
 	fanInfo.rotate = mFanRotateOrigin;							   //回転角
+	//-----------------------------------------------------------------------
 
-	//最初は索敵状態
-	mMoveState = MoveState::NOT_FIND;
+	////マップのクリア
+	//breadMap.clear();
 
-	//マップのクリア
-	breadMap.clear();
+	//サウンドの初期化
+	mAttackSE = std::make_shared<Sound>("SE/hirai.mp3", false);
+	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDeathSE = std::make_shared<Sound>("SE/Elf_Damage01.mp3", false);
+	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
-	SetActive(false);
+	//タイマーの初期化
+	mRiseTime = std::make_shared<Timer>();
+	mRiseTime->setTime(1.0f);
+	mDeathTime = std::make_shared<Timer>();
+	mDeathTime->setTime(1.0f);
 
-	mLegRotate = 0.0f;
-
-#pragma endregion
+	//パーティクル初期化
+	EXPLOSION_EFFECT = "Explosion";
+	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
+	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
 
 #pragma region モデルの読み込み
 
@@ -105,77 +116,106 @@ void SniperEnemy::EnemyInit()
 	mRend->AddModel(mBodyNumber, "Resouse/EnemyModel/Elf_A/elf_body.obj", "Resouse/EnemyModel/Elf_A/hand_bow_color.png");
 
 #pragma endregion
-
-	//mSE = std::make_shared<Sound>("hirai.mp3", false);
-	//mSound = std::make_shared<Sound>("down.mp3", false);
-	//mSound->play();
-	//mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	//mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
 void SniperEnemy::EnemyUpdate()
 {
-	if (HP <= 0)
-	{
-		//mSound->play();
-	}
-	Invincible(2);//無敵時間
+	Invincible(1);//無敵時間
+
+	/*死亡状態監視*/
+	CheckAlive();
+
+	//仮死状態なら処理しない
+	if (mDeathAnimation) return;
 
 	/*共通の要素*/
 	ChangeState(); //状態変更
 	SearchObject();//パンくずやプレイヤーを探す
 
-	//if (mMoveState == MoveState::WARNING)
-	//{
-	//	if (mRotDirection)
-	//	{
-	//		mLegRotate += LEG_SPEED;
-	//		if (mLegRotate > LEG_RANGE)
-	//		{
-	//			mRotDirection = false;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		mLegRotate -= LEG_SPEED;
-	//		if (mLegRotate < -LEG_RANGE)
-	//		{
-	//			mRotDirection = true;
-	//		}
-	//	}
-	//}
-	//else
-	//{
-	//	mLegRotate = 0.0f;
-	//}
+	/*移動*/
+	Move();
 
+	/*攻撃*/
+	Attack();
+}
 
-	//if (mMoveState == MoveState::SEARCH)
-	//{
-	//	//首振り索敵型
-	//	SwingDirection(mSwingRange);
-	//}
-	//else if (mMoveState == MoveState::WARNING)
-	//{
-	//	//追跡機能
-	//	TrackingObject();
-	//}
-	//else if (mMoveState == MoveState::ATTACK)
-	//{
-	//	attackCount++;
+void SniperEnemy::EnemyRend()
+{
+	if (mDeathStep == DeathAnimationStep::EXPLOSION) return;
 
-	//	if (attackCount > attackTime)
-	//	{
-	//		attackCount = 0;
-	//		Vector3 firePos = AngleToVectorY(fanInfo.rotate);
+	DirectXManager::GetInstance()->SetData3D();
+	mRend->Draw(mRLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(+mLegRotate, mFireAngle, 0), scale);//右脚
+	mRend->Draw(mLLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, mFireAngle, 0), scale);//左脚
+	mRend->Draw(mHeadNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);//頭と手
+	mRend->Draw(mBodyNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);//体と弓	
+}
 
-	//		//弾を発射！！
-	//		mManager->Add(new ElfBullet(position + firePos, Vector3(0, -angle.y, 0), mManager, mRend, effectManager, objType, bulletNumber));
-	//		bulletNumber++;
-	//		mMoveState = MoveState::WARNING;
-	//	}
-	//}
+void SniperEnemy::EnemyOnCollision(BaseCollider * col)
+{
+	/*if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
+	{
+		SetActive(true);
+	}*/
 
+	if (col->GetColObject()->GetType() == ObjectType::BULLET)
+	{
+		//ダメージを受ける
+		HP -= col->GetColObject()->GetDamage();
+
+		//SE発射
+		mDamageSE->play();
+
+		/*報告*/
+		InitSearch();
+	}
+
+	if (mAdvanceFlag && col->GetColObject()->GetType() == ObjectType::BORDER_LINE)
+	{
+		mHitBorderLine = true;
+	}
+
+	if (col->GetColObject()->GetType() == ObjectType::DEFENCEPOINT)
+	{
+		mHitSmokeFlag = true;
+	}
+}
+
+void SniperEnemy::EnemyImGuiDebug()
+{
+
+}
+
+void SniperEnemy::CheckAlive()
+{
+	if (HP <= 0)
+	{
+		//アニメーション(仮死状態)にする
+		mDeathAnimation = true;
+	}
+
+	if (mDeadFlag)
+	{
+		death = true;
+	}
+
+	/*死亡アニメーションを開始*/
+	DeathAnimation();
+}
+
+void SniperEnemy::Move()
+{
+	//攻撃中は移動しない
+	if (mAttackFlag) return;
+
+	/*移動 & 追跡*/
+	TrackingObject();
+
+	/*移動のアニメーション*/
+	MoveAnimation();
+}
+
+void SniperEnemy::MoveAnimation()
+{
 	if (moveFlag)
 	{
 		if (mRotDirection)
@@ -199,88 +239,77 @@ void SniperEnemy::EnemyUpdate()
 	{
 		mLegRotate = 0.0f;
 	}
-
-	if (mAttackFlag)
-	{
-		attackCount++;
-
-		if (attackCount > attackTime)
-		{
-			attackCount = 0;
-			Vector3 firePos = AngleToVectorY(fanInfo.rotate);
-
-			//弾を発射！！
-			mManager->Add(new ElfBullet(position + firePos, Vector3(0, -angle.y, 0), mManager, mRend, mPart, objType, bulletNumber));
-			bulletNumber++;
-			mAttackFlag = false;
-			mMoveState = MoveState::NOT_FIND;
-			//mSE->play();
-		}
-	}
-	else
-	{
-		TrackingObject();//移動関連
-	}
 }
-
-void SniperEnemy::EnemyRend()
-{
-	DirectXManager::GetInstance()->SetData3D();
-	mRend->Draw(mRLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(+mLegRotate, mFireAngle, 0), scale);//右脚
-	mRend->Draw(mLLegNumber, Vector3(position.x, position.y + 2.0f, position.z), Vector3(-mLegRotate, mFireAngle, 0), scale);//左脚
-	mRend->Draw(mHeadNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);//頭と手
-	mRend->Draw(mBodyNumber, Vector3(position.x, position.y, position.z), Vector3(0, mFireAngle, 0), scale);//体と弓	
-}
-
-void SniperEnemy::EnemyOnCollision(BaseCollider * col)
-{
-	/*if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
-	{
-		SetActive(true);
-	}*/
-
-	//if (col->GetColObject()->GetType() == ObjectType::BREADCRUMB)
-	//{
-	//	mTrackingBreadcrumb = false;
-	//}
-
-	if (col->GetColObject()->GetType() == ObjectType::BULLET)
-	{
-		//ダメージを受ける
-		HP -= col->GetColObject()->GetDamage();
-
-		/*報告*/
-		InitSearch();
-	}
-
-	if (mAdvanceFlag && col->GetColObject()->GetType() == ObjectType::BORDER_LINE)
-	{
-		mHitBorderLine = true;
-	}
-
-	if (col->GetColObject()->GetType() == ObjectType::DEFENCEPOINT)
-	{
-
-		mHitSmokeFlag = true;
-	}
-}
-
-void SniperEnemy::EnemyImGuiDebug()
-{
-
-}
-//
-//void SniperEnemy::Search()
-//{
-//
-//}
-//
-//void SniperEnemy::Warning()
-//{
-//
-//}
 
 void SniperEnemy::Attack()
 {
+	if (!mAttackFlag) return;
+	attackCount++;
 
+	if (attackCount > attackTime)
+	{
+		attackCount = 0;
+		Vector3 firePos = AngleToVectorY(fanInfo.rotate);
+
+		//弾を発射！！
+		mManager->Add(new ElfBullet(position + firePos, Vector3(0.0, -angle.y, 0.0f), mManager, mRend, mPart, objType, bulletNumber));
+		bulletNumber++;
+		mAttackSE->play();
+		mAttackFlag = false;
+		mMoveState = MoveState::NOT_FIND;
+	}
+
+}
+
+void SniperEnemy::DeathAnimation()
+{
+	//仮死状態でない　なら処理しない
+	if (!mDeathAnimation) return;
+
+	switch (mDeathStep)
+	{
+	case SniperEnemy::RISE_SKY:
+		DeathAnimeStep_RiseSky();
+		break;
+	case SniperEnemy::EXPLOSION:
+		DeathAnimeStep_Explosion();
+		break;
+	default:
+		break;
+	}
+}
+
+void SniperEnemy::DeathAnimeStep_RiseSky()
+{
+	mRiseTime->update();
+
+	//時間になっていなければ
+	if (!mRiseTime->isTime())
+	{
+		//回転
+		mFireAngle += 50.0f;
+		//上昇
+		position.y += 0.2f;
+	}
+	else
+	{
+		//時間になったら(1フレームだけ呼ばれる)
+		//ここでSEを鳴らしたり、爆発させたりする
+		//エフェクト発射
+		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
+		//SE発射
+		mDeathSE->play();
+
+		mDeathStep = DeathAnimationStep::EXPLOSION;
+	}
+}
+
+void SniperEnemy::DeathAnimeStep_Explosion()
+{
+	mDeathTime->update();
+
+	if (mDeathTime->isTime())
+	{
+		mDeadFlag = true;
+	}
 }

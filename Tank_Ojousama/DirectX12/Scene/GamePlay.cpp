@@ -251,8 +251,8 @@ void GamePlay::StartScene()
 	BaseScene::mModel->AddModel("KabeL4", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeF", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeF2", "Resouse/Plane.obj", "Resouse/kabe.png");
-	mSound = std::make_shared<Sound>("loop_157.mp3", false);
-    mHidan = std::make_shared<Sound>("down.mp3", false);
+	mSound = std::make_shared<Sound>("BGM/loop_12.wav", false);
+    mHidan = std::make_shared<Sound>("SE/down.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	mHidan->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	//プレイヤーは最後に、又はUIクラスを作る

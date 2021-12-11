@@ -273,6 +273,7 @@ ParticleEmitterBox::~ParticleEmitterBox()
 
 void ParticleEmitterBox::LoadAndSet(const string& key, const string& filename)
 {
+	return;
 	TexLoader::GetInstance(pipeLine)->Load(filename);
 	particle->CreateParticleData(key, filename);
 }
