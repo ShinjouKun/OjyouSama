@@ -18,14 +18,14 @@
 #include"../Utility/ModelChanger.h"
 #include"../Items/ItemHolder.h"
 
-#include "../ParticleSystem/ParticleType/Bom.h"
+#include "../ParticleSystem/ParticleType/Hit.h"
 #include "../ParticleSystem/ParticleType/MachineGunAttackParticle.h"
 #include "../ParticleSystem/ParticleType/NormalAttackParticle.h"
 #include "../ParticleSystem/ParticleType/TankTrajectory.h"
 
 #define ToRad(deg)((deg)*(PI/180.0f))
-Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s,int sceneE)
-	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
+Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, int sceneE)
+	:playerModel(m), playerParticle(p), playerSprite(s), mSound(nullptr),
 	listener(std::make_shared<Listener>())
 {
 	position = pos;
@@ -46,7 +46,7 @@ void Player::StartCamScene()
 		//殲滅戦
 		position = Vector3(0, 0, -130);
 		sceneCamPos = Vector3(120, 80, -130);
-		camera->SetEye(Vector3(sceneCamPos.x,sceneCamPos.y,position.z));
+		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
 		camera->SetTarget(Vector3(0, 0, position.z));
 		break;
 	case 2:
@@ -58,7 +58,7 @@ void Player::StartCamScene()
 		sceneCamPlayerOk = true;
 		sceneCamPos = Vector3(-70.0f, 100.0f, 450.0f);
 		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
-		camera->SetTarget(Vector3(0,0, position.z));
+		camera->SetTarget(Vector3(0, 0, position.z));
 		break;
 	case 4:
 		//ボス
@@ -71,12 +71,12 @@ void Player::StartCamScene()
 	default:
 		break;
 	}
-	
+
 }
 
 void Player::SceneCamMove1()
 {
-	
+
 	if (position.z >= 520)
 	{
 		sceneCamPlayerOk = true;
@@ -108,9 +108,9 @@ void Player::SceneCamMove3()
 {
 	camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, sceneCamPos.z - 50.0f));
 	camera->SetTarget(Vector3(position.x, position.y, position.z + 50.0f));
-	if(sceneCamPos.y <= 4.0f)
+	if (sceneCamPos.y <= 4.0f)
 	{
-		
+
 		sceneCamPos.x = position.x -= sceneCamPos.x * 0.03f;
 		if (sceneCamPos.x == position.x)
 		{
@@ -156,7 +156,7 @@ void Player::SceneCamMove4()
 
 void Player::UseWeapon1()
 {
-	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock,UpDamage));
+	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 	shotFlag1 = true;
 	mNormalAtkParticle->setPos(position);//後で調整
 	mNormalAtkParticle->Play();
@@ -164,7 +164,7 @@ void Player::UseWeapon1()
 
 void Player::UseWeapon2()
 {
-	
+
 	if (modelChanger->GetWeaponState1() == WeaponsState::MachinGun)
 	{
 		masingunShot = true;
@@ -243,20 +243,20 @@ void Player::AngleReset()
 
 void Player::Init()
 {
-	
+
 	mSound = std::make_shared<Sound>("SE/bomb3.mp3", false);
 	mTimer = std::make_shared<Timer>();
 
 	//パーティクル初期化
 	mNormalAtkParticle = std::make_shared<NormalAttackParticle>(Vector3::zero, true);
-	mMGAParticle       = std::make_shared<MachineGunAttackParticle>(Vector3::zero, true);
-	mTankTra           = std::make_shared<TankTrajectory>(Vector3::zero, true);
-	mBom               = std::make_shared<Bom>(Vector3::zero, true);
+	mMGAParticle = std::make_shared<MachineGunAttackParticle>(Vector3::zero, true);
+	mTankTra = std::make_shared<TankTrajectory>(Vector3::zero, true);
+	mHit = std::make_shared<Hit>(Vector3::zero, true);
 
 	mNormalAtkParticle->Stop();
 	mMGAParticle->Stop();
 	mTankTra->Stop();
-	mBom->Stop();
+	mHit->Stop();
 
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
 	playerSprite->AddTexture("HpGage", "Resouse/hpgage.png");
@@ -276,7 +276,7 @@ void Player::Init()
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	playerSprite->AddTexture("AIM_S", "Resouse/croshear.png");
-	
+
 	death = false;
 	SetTresureGet(false);//宝未入手
 	objType = ObjectType::PLAYER;
@@ -287,7 +287,7 @@ void Player::Init()
 	aimPos_Y = 360.0f;
 	fireAngle = 0.0f;
 	speed = 0.0f;
-	
+
 	speedTime = 0.0f;
 	speedLimitTime = 10.0f;
 	cameraSpeed = 1.0f;
@@ -304,7 +304,7 @@ void Player::Init()
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 
 	//コライダーの情報をセット
-	SetCollidder(Vector3(0,0,0), 1.0f);
+	SetCollidder(Vector3(0, 0, 0), 1.0f);
 	ojyouY = 0.0f;
 	ojyouZ = 0.0f;
 	ojyouXR = 0.0f;
@@ -353,10 +353,10 @@ void Player::Update()
 	{
 		sceneCamFinish = true;
 	}
-	
+
 #pragma endregion
-	
-	
+
+
 	if (!GameOver&&sceneCamOk)
 	{
 		if (HP <= 0)
@@ -376,14 +376,14 @@ void Player::Update()
 				HitFlag = false;
 			}
 		}
-		
+
 		velocity = Vector3(0, 0, 0);
 		speed = Easing::ease_inout_cubic(speedTime, 0, maxSpeed, 20.0f);
 		velocity = RotateY(angle.y + 90.0f)*speed;
 
 		CamVelocity = Vector3(0, 0, 0);
 		moveFlag = false;
-	
+
 		ImGuiDebug();//デバッグ用
 		AngleReset();
 		if (FrontMove)
@@ -429,11 +429,11 @@ void Player::Update()
 			}
 
 		}
-		if (Input::getKey(KeyCode::D)|| Input::joyHorizontal() > 0)
+		if (Input::getKey(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
 			angle.y += 1.0f;
 		}
-		if (Input::getKey(KeyCode::A) || Input::joyHorizontal()< 0)
+		if (Input::getKey(KeyCode::A) || Input::joyHorizontal() < 0)
 		{
 			angle.y -= 1.0f;
 		}
@@ -459,7 +459,7 @@ void Player::Update()
 			TargetPos.y = 3.0f;
 			CamPos_Y = 1.6f;
 		}
-		if (Input::getKey(KeyCode::DOWNARROW) || Input::joyRightVertical()<0)
+		if (Input::getKey(KeyCode::DOWNARROW) || Input::joyRightVertical() < 0)
 		{
 			aimPos_Y += 4.5f;
 			CamPos_Y += 0.04f;
@@ -479,11 +479,11 @@ void Player::Update()
 			CamPos_Y = 2.5f;
 			TargetPos.y = 2.5f;
 		}
-		if (Input::getKey(KeyCode::RIGHTARROW) || Input::joyRightHorizontal()>0)
+		if (Input::getKey(KeyCode::RIGHTARROW) || Input::joyRightHorizontal() > 0)
 		{
 			atkAngle += cameraSpeed;
 		}
-		if (Input::getKey(KeyCode::LEFTARROW)|| Input::joyRightHorizontal()<0)
+		if (Input::getKey(KeyCode::LEFTARROW) || Input::joyRightHorizontal() < 0)
 		{
 			atkAngle -= cameraSpeed;
 		}
@@ -508,13 +508,13 @@ void Player::Update()
 		{
 			position.z = -250;
 		}
-	
+
 		if (Input::getKeyDown(KeyCode::E) || Input::getJoyDown(JoyCode::X))
 		{
 			Item();
 		}
-		
-		if(Input::getKeyDown(KeyCode::Q)|| Input::getJoyDown(JoyCode::LeftButton))
+
+		if (Input::getKeyDown(KeyCode::Q) || Input::getJoyDown(JoyCode::LeftButton))
 		{
 			if (mTimer->isTime()) {
 				sniperShotFlag = !sniperShotFlag;
@@ -535,9 +535,9 @@ void Player::Update()
 			CamVelocity = RotateY(atkAngle - 90.0f)*2.1f;
 			CameraPos = position + CamVelocity;
 			camera->SetEye(Vector3(CameraPos.x, CameraPos.y + CamPos_Y, CameraPos.z));
-			camera->SetTarget(Vector3(position.x, position.y+TargetPos.y, position.z));
+			camera->SetTarget(Vector3(position.x, position.y + TargetPos.y, position.z));
 		}
-		
+
 
 
 		if (shotFlag1)
@@ -617,9 +617,9 @@ void Player::Rend()
 		playerModel->Draw(modelChanger->GetModelName(3), Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 		playerModel->Draw(modelChanger->GetModelName(4), Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
 
-		playerModel->Draw(modelChanger->GetModelName(0), Vector3(position.x-0.2f, position.y + 3.2f + ojyouZ, position.z), Vector3(ojyouXR, -ojyouY, ojyouZR), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(0), Vector3(position.x - 0.2f, position.y + 3.2f + ojyouZ, position.z), Vector3(ojyouXR, -ojyouY, ojyouZR), Vector3(1.5f, 1.5f, 1.5f));
 		playerModel->Draw(modelChanger->GetModelName(1), Vector3(position.x, position.y + ojyouZ, position.z), Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw(modelChanger->GetModelName(2), Vector3(position.x+0.2f, position.y + 3.2f + ojyouZ, position.z), Vector3(ojyouXL, -ojyouY, ojyouZL), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(2), Vector3(position.x + 0.2f, position.y + 3.2f + ojyouZ, position.z), Vector3(ojyouXL, -ojyouY, ojyouZL), Vector3(1.5f, 1.5f, 1.5f));
 	}
 
 
@@ -628,7 +628,7 @@ void Player::Rend()
 	{
 		playerSprite->Draw("Film", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
-	
+
 	if (sceneCamOk&&HitFlag)
 	{
 		playerSprite->Draw("Blood", Vector3(500, 0 - damageFadeYpos, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, damageFade));
@@ -637,16 +637,16 @@ void Player::Rend()
 	}
 	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	playerSprite->Draw("WeponUi", Vector3(1280 -180, 720-180, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	playerSprite->Draw("WeponUi", Vector3(1280 - 180, 720 - 180, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	if (!sniperShotFlag)
 	{
 		playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 	else
 	{
-		playerSprite->Draw("AIM_S", Vector3(0,0,0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("AIM_S", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
-	
+
 	if (GameOver)
 	{
 		DirectXManager::GetInstance()->SetData2D();
@@ -671,8 +671,8 @@ void Player::OnCollison(BaseCollider* col)
 		{
 			HP -= col->GetColObject()->GetDamage();
 			HitFlag = true;
-			mBom->setPos(position);//後で調整
-			mBom->Play();
+			mHit->setPos(position);//後で調整
+			mHit->Play();
 		}
 	}
 

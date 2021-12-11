@@ -17,7 +17,7 @@ class Timer;
 class NormalAttackParticle;
 class MachineGunAttackParticle;
 class TankTrajectory;
-class Bom;
+class Hit;
 
 using namespace std;
 class Player :public BaseObject
@@ -113,7 +113,7 @@ private:
 	std::shared_ptr<NormalAttackParticle> mNormalAtkParticle;//Weapon1
 	std::shared_ptr<MachineGunAttackParticle> mMGAParticle;//Weapon2
 	std::shared_ptr<TankTrajectory> mTankTra;//軌跡
-	std::shared_ptr<Bom> mBom;//小爆発
+	std::shared_ptr<Hit> mHit;//小爆発
 
 
 	//「1=Pキーで落とす」「2=距離で落とす」「3=時間で落とす」

@@ -176,6 +176,7 @@ void Emitter::setIsGo()
 void Emitter::setStop()
 {
 	mStop = true;
+	mIsGo = false;
 }
 
 void Emitter::add()
