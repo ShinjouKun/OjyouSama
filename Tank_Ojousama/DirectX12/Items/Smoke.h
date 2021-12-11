@@ -10,7 +10,7 @@ class Player;
 class Smoke :public Item
 {
 public:
-	Smoke(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int maxAlive, int addHp);
+	Smoke(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp);
 	~Smoke();
 
 private:
@@ -30,7 +30,6 @@ private:
 private:
 	ObjectManager* objM;
 	Player* player = nullptr;
-	int alive_max;
 	int smokePoint;
 	int saveHP;
 

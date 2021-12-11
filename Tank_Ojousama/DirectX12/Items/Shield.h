@@ -10,7 +10,7 @@ class Player;
 class Shield :public Item
 {
 public:
-	Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemState, int num, int maxAlive, int addHp);
+	Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemState, int num, int addHp);
 	~Shield();
 
 private:
@@ -30,7 +30,6 @@ private:
 private:
 	ObjectManager* objM;
 	Player* player = nullptr;
-	int alive_max;
 	int guadePoint;
 	int saveHP;
 	int damege;

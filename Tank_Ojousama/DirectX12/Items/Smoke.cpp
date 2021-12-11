@@ -1,7 +1,7 @@
 #include "Smoke.h"
 #include "../Collision/SpherCollider.h"
 
-Smoke::Smoke(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int maxAlive, int addHp)
+Smoke::Smoke(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp)
 {
 	position = pos;
 	angle = ang;
@@ -9,7 +9,6 @@ Smoke::Smoke(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shar
 	objType = ObjectType::ITEM;
 	itemName = ItemNames::smock;
 	itemState = itemStates;
-	alive_max = maxAlive;
 	smokePoint = addHp;
 	num = number;
 }
@@ -45,10 +44,6 @@ void Smoke::Update()
 		angle.z = 0;
 	}
 
-	if (alive >= alive_max && !isGet)
-	{
-		death = true;
-	}
 
 	if (ItemHolder::GetInstance()->GetUseFlag())
 	{

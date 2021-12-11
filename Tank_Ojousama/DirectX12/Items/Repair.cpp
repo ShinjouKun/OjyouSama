@@ -1,7 +1,7 @@
 #include "Repair.h"
 #include "../Collision/SpherCollider.h"
 
-Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int maxAlive, int addHp):ItemModel(m)
+Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int aliveNum, int addHp):ItemModel(m),ItemUseTex(s)
 {
 	position = pos;
 	angle = ang;
@@ -9,9 +9,9 @@ Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, share
 	objType = ObjectType::ITEM;
 	itemName = ItemNames::heal;
 	itemState = itemStates;
-	alive_max = maxAlive;
 	healPoint = addHp;
-	num = number;
+	number = num;
+	alive = aliveNum;
 }
 
 Repair::~Repair()
@@ -24,12 +24,15 @@ void Repair::Init()
 	death = false;
 	isGet = false;
 	active = false;
+	itemFade = 1.0f;
+	fadeCount = 0;
 	SetCollidder(Vector3(0,0,0), 0.5f);
 	alive = 0;
 	name = "Repair";
 	num = to_string(number);
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
+	ItemUseTex->AddTexture(numName, "Resouse/heal.png");
 	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
 	if (itemState == ItemState::Low)
 	{
@@ -46,10 +49,6 @@ void Repair::Update()
 		angle.z = 0;
 	}
 
-	if (alive >= alive_max&&!isGet)
-	{
-		death = true;
-	}
 
 	if (ItemHolder::GetInstance()->GetUseFlag())
 	{
@@ -87,11 +86,21 @@ void Repair::Heal()
 	{
 		return;
 	}
+	itemFade -= 0.1f;
+	fadeCount++;
 	
-	saveHP=objM->GetPlayer().GetHP()+healPoint;
+
+	DirectXManager::GetInstance()->SetData2D();
+	ItemUseTex->Draw(numName,Vector3(0,0,0),0,Vector2(1,1),Vector4(1,1,1,itemFade));
 	
-	objM->GetPlayer().SetHP(saveHP);
-	active = false;
-	ItemHolder::GetInstance()->SetUseFlag(false);
-	death = true;
+	if (fadeCount >= 30)
+	{
+		saveHP = objM->GetPlayer().GetHP() + healPoint;
+		fadeCount = 0;
+		itemFade = 1.0f;
+		objM->GetPlayer().SetHP(saveHP);
+		active = false;
+		ItemHolder::GetInstance()->SetUseFlag(false);
+		death = true;
+	}
 }

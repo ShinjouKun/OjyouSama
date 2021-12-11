@@ -2,7 +2,7 @@
 #include "../Collision/SpherCollider.h"
 
 
-Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int maxAlive, int addHp) :ItemModel(m)
+Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp) :ItemModel(m)
 {
 	position = pos;
 	angle = ang;
@@ -11,7 +11,6 @@ Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, share
 	itemName = ItemNames::dome;
 	itemState = itemStates;
 	//itemHolder = holder;
-	alive_max = maxAlive;
 	guadePoint = addHp;
 }
 
@@ -46,10 +45,10 @@ void Shield::Update()
 		angle.z = 0;
 	}
 
-	if (alive >= alive_max && !isGet)
+	/*if (alive >= alive_max && !isGet)
 	{
 		death = true;
-	}
+	}*/
 
 	if (ItemHolder::GetInstance()->GetUseFlag())
 	{

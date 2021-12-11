@@ -372,9 +372,6 @@
     <ClCompile Include="Weapons\ElfBullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Items\ItemBox.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Operation.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -919,9 +916,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Weapons\ElfBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Items\ItemBox.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Operation.h">
