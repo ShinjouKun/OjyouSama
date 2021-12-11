@@ -54,7 +54,7 @@ private:
 	std::shared_ptr<Sound> mSound;
 	std::shared_ptr<Sound> mSE;
 	//ウェーブ制御用
-	int interval;//次のウェーブまでの待機カウント
+	int interval = 0;//次のウェーブまでの待機カウント
 	bool spown1;//エネミー出す用のフラグ
 	bool spown2;//エネミー出す用のフラグ
 	bool spown3;//エネミー出す用のフラグ

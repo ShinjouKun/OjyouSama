@@ -244,6 +244,7 @@ void Player::Init()
 	playerSprite->AddTexture("Blood", "Resouse/blood.png");
 	playerSprite->AddTexture("Blood2", "Resouse/blood2.png");
 	playerSprite->AddTexture("Blood3", "Resouse/blood3.png");
+	playerSprite->AddTexture("Film", "Resouse/Film.png");
 	//model
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
@@ -598,6 +599,11 @@ void Player::Rend()
 
 
 	DirectXManager::GetInstance()->SetData2D();
+	if (!sceneCamFinish)
+	{
+		playerSprite->Draw("Film", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
+	
 	if (sceneCamOk&&HitFlag)
 	{
 		playerSprite->Draw("Blood", Vector3(500, 0 - damageFadeYpos, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, damageFade));
@@ -618,7 +624,6 @@ void Player::Rend()
 	
 	if (GameOver)
 	{
-		
 		DirectXManager::GetInstance()->SetData2D();
 		playerSprite->Draw("DETH", Vector3(500, 200, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}

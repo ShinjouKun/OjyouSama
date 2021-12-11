@@ -200,7 +200,7 @@ void Defense::DrawScene()
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 200.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
-
+	
 
 	BaseScene::mModel->Draw("KabeR2", Vector3(-160.0f, 60.0f, 200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeL2", Vector3(160.0f, 60.0f, 200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
@@ -211,7 +211,10 @@ void Defense::DrawScene()
 
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
-
+	if (spown1&&interval <= 120)
+	{
+		BaseScene::mSprite->Draw("Wave1", Vector3(0,0,0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
+	}
 	if (pose)
 	{
 		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
@@ -281,7 +284,7 @@ void Defense::Wave1()
 
 	//テキスト表示
 	//インターバル
-
+	interval++;
 	//敵のadd
 	if (!spown1)
 	{
