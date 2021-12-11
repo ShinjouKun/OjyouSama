@@ -61,6 +61,7 @@ private:
 	//リザルトフラグ
 	bool resultFlag = false;
 	int time = 0;
+	float timer = 0;
 	//ボリューム用フラグ
 	bool OpFlag1;
 	bool OpFlag2;
@@ -80,6 +81,9 @@ private:
 
 	shared_ptr<EnemyAI> mEnemyAI;
 	std::shared_ptr<Timer> mTimer;
+
+	std::shared_ptr<Timer> mParticleTimer;
+	std::shared_ptr<ParticleEmitterBox>ParticleBox;
 
 	Camera* cam;
 	bool spawnFlag;//一番目

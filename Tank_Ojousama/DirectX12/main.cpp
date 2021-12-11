@@ -126,6 +126,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Bom.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/garege.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/syata.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/smoke.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/croshear.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/back.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/backselect.png");
@@ -140,6 +141,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeiRo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/gameover.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/testend.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/map_base.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/map_1_clear.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/map_2_clear.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/map_3_clear.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/map_4_clear.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/messege1.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/messege2.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/messege3.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
@@ -156,6 +165,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/greenflo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/pinkflo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpgage.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/Title.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood2.png");

@@ -3,12 +3,13 @@
 #include"ObjectManager.h"
 #include"../Render/ParticleManager.h"
 #include"../Render/ModelRenderer.h"
+#include "../Render/TexRenderer.h"
 
 class Castle:public BaseObject
 {
 public:
 	Castle(Vector3 pos,Vector3 angle,ObjectManager* objM,
-		shared_ptr<ModelRenderer>modelRender, shared_ptr<ParticleManager> effect);
+		shared_ptr<ModelRenderer>modelRender, shared_ptr<TexRenderer>s, shared_ptr<ParticleManager> effect);
 	~Castle();
 
 private:
@@ -27,10 +28,19 @@ private:
 private:
 	ObjectManager* objM;
 	shared_ptr<ModelRenderer>Model;
+	shared_ptr<TexRenderer>Sprite;
 	shared_ptr<ParticleManager>Particle;
 	shared_ptr<ParticleEmitterBox>ParticleBox;
 
 	//–³“GŽžŠÔ‚Ì‚½‚ß
 	bool HitFlag;
 	int HitCount;
+	float MaxHp;
+	int MessCount1;
+	int MessCount2;
+	int MessCount3;
+
+	bool MessFlag1;
+	bool MessFlag2;
+	bool MessFlag3;
 };
