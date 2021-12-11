@@ -200,8 +200,10 @@
     <ClCompile Include="ParticleSystem\ParticleSystem.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\Bom.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\Explosion.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleType\Hit.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\MachineGunAttackParticle.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\NormalAttackParticle.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleType\SmokeParticle.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\TankTrajectory.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\testParticle.cpp" />
     <ClCompile Include="ParticleSystem\Particle\Particle.cpp" />
@@ -544,8 +546,10 @@
     <ClInclude Include="ParticleSystem\ParticleSystem.h" />
     <ClInclude Include="ParticleSystem\ParticleType\Bom.h" />
     <ClInclude Include="ParticleSystem\ParticleType\Explosion.h" />
+    <ClInclude Include="ParticleSystem\ParticleType\Hit.h" />
     <ClInclude Include="ParticleSystem\ParticleType\MachineGunAttackParticle.h" />
     <ClInclude Include="ParticleSystem\ParticleType\NormalAttackParticle.h" />
+    <ClInclude Include="ParticleSystem\ParticleType\SmokeParticle.h" />
     <ClInclude Include="ParticleSystem\ParticleType\TankTrajectory.h" />
     <ClInclude Include="ParticleSystem\ParticleType\testParticle.h" />
     <ClInclude Include="ParticleSystem\Particle\Particle.h" />
