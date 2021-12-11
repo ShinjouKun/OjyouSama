@@ -1,7 +1,7 @@
 #include "Smoke.h"
 #include "../Collision/SpherCollider.h"
 
-Smoke::Smoke(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, ItemState itemStates, int num, int maxAlive, int addHp)
+Smoke::Smoke(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int maxAlive, int addHp)
 {
 	position = pos;
 	angle = ang;

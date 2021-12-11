@@ -1,13 +1,16 @@
 #pragma once
 #include "Item.h"
 #include "ItemHolder.h"
+#include "../Render/TexRenderer.h"
+#include "../Render/ModelRenderer.h"
+#include "../Render/ParticleManager.h"
 
 class Player;
 
 class Smoke :public Item
 {
 public:
-	Smoke(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemState itemStates, int num, int maxAlive, int addHp);
+	Smoke(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int maxAlive, int addHp);
 	~Smoke();
 
 private:
