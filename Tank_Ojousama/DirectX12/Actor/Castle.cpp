@@ -23,7 +23,7 @@ void Castle::Init()
 	Sprite->AddTexture("Messege2", "Resouse/messege2.png");
 	Sprite->AddTexture("Messege3", "Resouse/messege3.png");
 	Sprite->AddTexture("HpAicon", "Resouse/castle_aicon.png");
-	MaxHp = 200;
+	MaxHp = 150;
 	HP = MaxHp;//‚Æ‚è‚ ‚¦‚¸
 	
 	death = false;
@@ -85,12 +85,13 @@ void Castle::Update()
 
 void Castle::Rend()
 {
-	Sequence::instance().set(HP, Vector2(Window::Window_Width / 2-32, 0), Vector2(64, 64));
+	
 
 	DirectXManager::GetInstance()->SetData3D();
 	Model->Draw("DefCanp", position, angle, Vector3(10, 10, 10));
 
 	DirectXManager::GetInstance()->SetData2D();
+	Sequence::instance().set(HP, Vector2(Window::Window_Width / 2 - 32, 0), Vector2(64, 64));
 	Sprite->Draw("HpAicon", Vector3(Window::Window_Width / 2 - 96, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	Sprite->SetSize("Messege1", Vector2(1280, 180));
 	Sprite->SetSize("Messege2", Vector2(1280, 180));

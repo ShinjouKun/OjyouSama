@@ -34,7 +34,6 @@ Player::~Player()
 
 void Player::StartCamScene()
 {
-	//sceneCount++;
 	switch (sceneEffectNum)
 	{
 	case 1:
@@ -276,7 +275,7 @@ void Player::Init()
 	sniperShotFlag = false;
 	masingunShot = false;
 	HitCount = 0;
-	//sceneCount = 0;
+	sceneCamFinish = false;
 	sceneCamOk = false;
 	sceneCamPlayerOk = false;
 	damageFade = false;
@@ -327,6 +326,10 @@ void Player::Update()
 		default:
 			break;
 		}
+	}
+	else
+	{
+		sceneCamFinish = true;
 	}
 	
 #pragma endregion
