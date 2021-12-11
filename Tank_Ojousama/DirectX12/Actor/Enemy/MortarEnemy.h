@@ -3,6 +3,8 @@
 
 class Timer;
 
+class Explosion;
+
 //ŒÅ’è–C‘ä‚Ì“G
 class MortarEnemy :public BaseEnemy
 {
@@ -70,6 +72,8 @@ private:
 	shared_ptr<Sound> mAttackSE;  //UŒ‚‚ÌSE
 	shared_ptr<Sound> mDamageSE;  //UŒ‚‚ÌSE
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
+
+	std::shared_ptr<Explosion> mExplosion;//¬”š”­
 
 	Vector3 mScale;         //‘å‚«‚³
 	Vector3 mTargetPosition;//’e‚ğ’e‚Ì—‰º’n“_

@@ -797,8 +797,8 @@ void BaseEnemy::InitSearch()
 		return;
 	}
 
-	//2:Ž©•ª‚ÌˆÊ’uî•ñ‚ðAI‚É“]‘—
-	mEnemyAI->SetValue(position);
+	////2:Ž©•ª‚ÌˆÊ’uî•ñ‚ðAI‚É“]‘—
+	//mEnemyAI->SetValue(position);
 }
 
 //void BaseEnemy::GetAllWayPoint()

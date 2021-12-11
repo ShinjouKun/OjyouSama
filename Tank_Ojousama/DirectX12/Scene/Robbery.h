@@ -28,15 +28,14 @@ public:
 	~Robbery();
 
 private:
+
+
 	void StartWayEnemySpown();//行き道
 	void BackWayEnemySpown();//帰り道(帰りは複数で激し目でもいい)
 
-
 	// BaseScene を介して継承されました
 	virtual void StartScene() override;
-
 	virtual void UpdateScene() override;
-
 	virtual void DrawScene() override;
 
 	//ポーズ
@@ -46,28 +45,19 @@ private:
 	//リザルト画面
 	void ResultF();
 
-	Camera* camera;
-	ObjectManager* objM;
-	std::shared_ptr<Sound> mSound;
-	std::shared_ptr<Sound> mSE;
-	std::shared_ptr<Timer> mTimer;
-	//ゲーム進行管理用
-	bool treasureGet = false;//目標を入力しているか？
-	bool goalFlag = false;//ゴールにいるか？
-	float goalLine;//ゴールのZ地点
-	bool startSpownFlag = false;
-	bool backSpownFlag = false;
-	//ポーズフラグ
-	bool pose = false;
-	//設定フラグ
-	bool settingFlag = false;
-	//リザルトフラグ
-	bool resultFlag = false;
-	int time = 0;
-	//ボリューム用フラグ
-	bool OpFlag1;
-	bool OpFlag2;
-	bool OpFlag3;
+private:
+
+	Camera* mCamera;           //カメラ
+	ItemHolder* mItemHolder;   //アイテムホルダー
+	ObjectManager* mObjManager;//オブジェクトマネージャー
+
+	std::shared_ptr<Sound> mBGM;  //BGM再生
+	std::shared_ptr<Sound> mSE;	  //※ポーズ開いた時
+	std::shared_ptr<Timer> mTimer;//ポーズ用タイマー
+	std::shared_ptr<BreadCrumbCreater>mBreadCreator;//パンくず生成
+	//std::shared_ptr<WayPointManager> mpointManager; //WayPoint生成
+	//std::shared_ptr<EnemyAI> mEnemyAI;              //敵AI生成
+
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;
@@ -75,9 +65,19 @@ private:
 	Vector3 setcamerapos = Vector3(10, 0, 10);
 	Vector3 optionPos;
 
-	ItemHolder* itemHolder;
+	int objectCount;//オブジェクト数
+	int mTime = 0;
 
-	shared_ptr<BreadCrumbCreater>mBreadCreator;
-	shared_ptr<WayPointManager> mpointManager;
-	shared_ptr<EnemyAI> mEnemyAI;
+	//ゲーム進行管理用
+	bool mTreasureGet = false;   //目標を入力しているか？
+	bool mGoalFlag = false;      //ゴールにいるか？
+	float mGoalLine;             //ゴールのZ地点
+	bool mStartSpownFlag = false;//最初から生成されている敵
+	bool mBackSpownFlag = false; //宝箱を取ったら出現する敵
+	bool mPose = false;          //ポーズフラグ
+	bool mSettingFlag = false;   //設定フラグ
+	bool mResultFlag = false;    //リザルトフラグ
+	bool OpFlag1;                //ボリューム用フラグ01
+	bool OpFlag2;                //ボリューム用フラグ02
+	bool OpFlag3;                //ボリューム用フラグ03
 };
