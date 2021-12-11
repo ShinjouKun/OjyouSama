@@ -17,6 +17,12 @@
 #include"../Utility/Sequence/Sequence.h"
 #include"../Utility/ModelChanger.h"
 #include"../Items/ItemHolder.h"
+
+#include "../ParticleSystem/ParticleType/Bom.h"
+#include "../ParticleSystem/ParticleType/MachineGunAttackParticle.h"
+#include "../ParticleSystem/ParticleType/NormalAttackParticle.h"
+#include "../ParticleSystem/ParticleType/TankTrajectory.h"
+
 #define ToRad(deg)((deg)*(PI/180.0f))
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s,int sceneE)
 	:playerModel(m), playerParticle(p), playerSprite(s),mSound(nullptr),
@@ -152,6 +158,8 @@ void Player::UseWeapon1()
 {
 	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock,UpDamage));
 	shotFlag1 = true;
+	mNormalAtkParticle->setPos(position);//後で調整
+	mNormalAtkParticle->Play();
 }
 
 void Player::UseWeapon2()
@@ -161,6 +169,8 @@ void Player::UseWeapon2()
 	{
 		masingunShot = true;
 		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
+		mMGAParticle->setPos(position);//後で調整
+		mMGAParticle->Play();
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::Mine)
 	{
@@ -237,6 +247,16 @@ void Player::Init()
 	mSound = std::make_shared<Sound>("SE/bomb3.mp3", false);
 	mTimer = std::make_shared<Timer>();
 
+	//パーティクル初期化
+	mNormalAtkParticle = std::make_shared<NormalAttackParticle>(Vector3::zero, true);
+	mMGAParticle       = std::make_shared<MachineGunAttackParticle>(Vector3::zero, true);
+	mTankTra           = std::make_shared<TankTrajectory>(Vector3::zero, true);
+	mBom               = std::make_shared<Bom>(Vector3::zero, true);
+
+	mNormalAtkParticle->Stop();
+	mMGAParticle->Stop();
+	mTankTra->Stop();
+	mBom->Stop();
 
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
 	playerSprite->AddTexture("HpGage", "Resouse/hpgage.png");
@@ -305,6 +325,7 @@ void Player::Update()
 	mTimer->update();
 
 	mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+
 	//シーン演出 
 #pragma region シーン
 	if (!sceneCamOk)
@@ -375,6 +396,8 @@ void Player::Update()
 		//キー押し処理
 		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
+			mTankTra->setPos(position);//後で調整
+			mTankTra->Play();
 			speedTime++;
 			if (speedTime >= speedLimitTime)
 			{
@@ -386,6 +409,8 @@ void Player::Update()
 		}
 		else if (Input::getKey(KeyCode::S) || Input::joyVertical() < 0)
 		{
+			mTankTra->setPos(position);//後で調整
+			mTankTra->Play();
 			speedTime++;
 			if (speedTime >= speedLimitTime)
 			{
@@ -641,6 +666,8 @@ void Player::OnCollison(BaseCollider* col)
 		{
 			HP -= col->GetColObject()->GetDamage();
 			HitFlag = true;
+			mBom->setPos(position);//後で調整
+			mBom->Play();
 		}
 	}
 
