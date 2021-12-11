@@ -175,15 +175,18 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		{
 			if (state[3] != "ShotGun")
 			{
+				SetWeaponNum(3);
 				weapons1 = Mine;
 			}
 			else
 			{
+				SetWeaponNum(2);
 				weapons1 = ShotGun;
 			}
 		}
 		else
 		{
+			SetWeaponNum(1);
 			weapons1 = MachinGun;
 		}
 	}
@@ -306,6 +309,11 @@ void ModelChanger::SetUpDamage(int up)
 void ModelChanger::SetSpeed(float value)
 {
 	speed = value;
+}
+
+void ModelChanger::SetWeaponNum(int num)
+{
+	Weapon = num;
 }
 
 string ModelChanger::GetModelName(int num)

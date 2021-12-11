@@ -62,12 +62,14 @@ public:
 	int GetUpDamage() { return upDamage; }
 	void SetSpeed(float value);//‘¬“x
 	float GetSpeed() { return speed; }
-
+	int GetWeaponNum() { return Weapon; }
+	void SetWeaponNum(int num);
 	string GetModelName(int num);//0`2‚¨ì—l,3íÔ(–C“ƒj,4íÔ(Ô‘Ìj
 
 	int hp;//HP
 	int upDamage;//UŒ‚—Í
 	float speed;
+	int Weapon;
 private:
 
 	std::vector<std::string> state;

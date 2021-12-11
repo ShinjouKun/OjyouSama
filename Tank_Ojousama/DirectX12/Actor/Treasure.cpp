@@ -18,6 +18,7 @@ void Treasure::Init()
 	SetActive(false);
 	death = false;
 	get = false;
+	angle = Vector3(0.0f,0.0f,0.0f);
 	objType = ObjectType::TREASURE;
 	scale = Vector3(1.0f, 1.0f, 1.0f);
 	mModelRender->AddModel("Treasure","Resouse/boxs.obj","Resouse/boxs.png");
@@ -36,6 +37,7 @@ void Treasure::Rend()
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	if (get)
 	{
+		angle.y += 2.0f;
 		scale = Vector3(0.2f, 0.2f, 0.2f);
 		position = mObjManager->GetPlayer().GetPosition();
 		mModelRender->Draw("Treasure", Vector3(position.x,4.5f,position.z), angle, scale);

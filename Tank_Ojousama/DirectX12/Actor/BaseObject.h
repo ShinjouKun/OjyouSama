@@ -62,10 +62,12 @@ public:
 	virtual bool GetActive() { return IsActive; }
 	virtual bool GetTreasure() {return getTreasure;}
 	virtual int GetShotCount() { return shotMoney; }
+	virtual bool GetSceneFinish() { return sceneCamFinish; }
 	void SetShotCount(int money);
 	void SetTresureGet(bool val);
 	void SetActive(bool val);
 	void SetNumber(int num);
+	void SetSceneCamFinish(bool val);
 	int GetNumber();
 
 	//個体番号
@@ -75,6 +77,7 @@ public:
 	void SetID(size_t id);
 	size_t AiID;//AI番号
 protected:
+	bool sceneCamFinish;//カメラ演出終了
 	int shotMoney;//一発ごとの値段
 	bool getTreasure;//クリアに必要なアイテムを確保したか？
 	ObjectType objType;

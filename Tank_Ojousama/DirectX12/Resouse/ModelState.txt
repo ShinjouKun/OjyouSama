@@ -1,4 +1,4 @@
-Normal
-Light
+Other01
+Midium
 Light_b
-Cannon
+MachinGun

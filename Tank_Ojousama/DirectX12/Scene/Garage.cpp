@@ -16,6 +16,7 @@ Garage::~Garage()
 
 void Garage::StartScene()
 {
+	bm = 0;
 	fade = 0;
 	fadeF = false;
 	fadeFB = false;
@@ -84,14 +85,14 @@ void Garage::StartScene()
 	camera->SetEye(Vector3(0.0f, 0, -120));
 	camera->SetTarget(Vector3(0.0f, 0, -100.0f));
 	mTimer = std::make_shared<Timer>(0.01f);
-	mSound = std::make_shared<Sound>("syata.mp3", false);
+	mSound = std::make_shared<Sound>("SE/syata.mp3", false);
 	mSound->play();
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
-	mBGM = std::make_shared<Sound>("garegeBGM.mp3", false);
+	mBGM = std::make_shared<Sound>("BGM/garegeBGM.mp3", false);
 	mBGM->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 
-	mSE = std::make_shared<Sound>("SelectSE.mp3", false);
+	mSE = std::make_shared<Sound>("SE/SelectSE.mp3", false);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 }
 
@@ -136,6 +137,63 @@ void Garage::UpdateScene()
 	{
 		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 		{
+			if (!M_Head_buy&&bodyNum == 1)
+			{
+				
+				bm = BaseScene::mMoney -= 2000000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				M_Head_buy = true;
+			}
+			else if (!H_Head_buy&&bodyNum == 2)
+			{
+				bm = BaseScene::mMoney - 3500000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				H_Head_buy = true;
+			}
+			else if(!M_Bottom_buy&&bottomNum == 1)
+			{
+				bm = BaseScene::mMoney - 2000000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				M_Bottom_buy = true;
+			}
+			else if(!H_Bottom_buy&&bottomNum == 2)
+			{
+				bm = BaseScene::mMoney - 3000000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				H_Bottom_buy = true;
+			}
+			else if(!M_Ojyou_buy&&headNum == 1)
+			{
+				bm = BaseScene::mMoney - 2000000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				M_Ojyou_buy = true;
+			}
+			else if (!H_Ojyou_buy&&headNum == 2)
+			{
+				bm = BaseScene::mMoney - 4000000;
+				if (bm <= 0)
+				{
+					return;
+				}
+				H_Ojyou_buy = true;
+			}
+
+
 			fadeFB = true;
 			mSound->play();
 			mChanger->Save();

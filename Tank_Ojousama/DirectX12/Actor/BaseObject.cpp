@@ -131,6 +131,11 @@ void BaseObject::SetNumber(int num)
 	number = num;
 }
 
+void BaseObject::SetSceneCamFinish(bool val)
+{
+	sceneCamFinish = val;
+}
+
 int BaseObject::GetNumber()
 {
 	return number;

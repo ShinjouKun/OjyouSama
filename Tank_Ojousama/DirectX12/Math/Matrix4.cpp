@@ -1,4 +1,5 @@
 #include "Matrix4.h"
+#include "Math.h"
 #include<memory>
 #include<cmath>
 
@@ -138,6 +139,20 @@ Matrix4 Matrix4::createLookAt(const Vector3 & eye, const Vector3 & target, const
 	    {trans.x,trans.y,trans.z,1.0f}
 	};
 
+	return Matrix4(temp);
+}
+
+Matrix4 Matrix4::createPerspectiveFOV(float fovY, float width, float height, float _near, float _far)
+{
+	float yScale = Math::cot(fovY / 2.0f);
+	float xScale = yScale * height / width;// height / width
+	float temp[4][4] =
+	{
+		{ xScale, 0.0f, 0.0f, 0.0f },
+		{ 0.0f, yScale, 0.0f, 0.0f },
+		{ 0.0f, 0.0f, _far / (_far - _near), 1.0f },
+		{ 0.0f, 0.0f, -_near * _far / (_far - _near), 0.0f }
+	};
 	return Matrix4(temp);
 }
 

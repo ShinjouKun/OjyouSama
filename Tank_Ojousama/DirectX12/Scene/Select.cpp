@@ -47,7 +47,7 @@ void Select::StartScene()
 	selectposition = Vector3(32, 64, 0);
 	targetPos1 = Vector3(320, 180, 0.0f);
 	targetPos2 = Vector3(400, 540 - 64, 0.0f);
-	targetPos3 = Vector3(960, 120, 0.0f);
+	targetPos3 = Vector3(870, 200, 0.0f);
 	targetPos4 = Vector3(850, 540 - 64, 0.0f);
 	syutu = Vector3(32, 64 - 32, 0.0f);
 	operation = Vector3(20, 124 - 32, 0.0f);
@@ -61,6 +61,10 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("target2", "Resouse/select.png");
 	BaseScene::mSprite->AddTexture("target3", "Resouse/select.png");
 	BaseScene::mSprite->AddTexture("target4", "Resouse/select.png");
+	BaseScene::mSprite->AddTexture("flower1", "Resouse/pinkflo.png");
+	BaseScene::mSprite->AddTexture("flower2", "Resouse/blueflo.png");
+	BaseScene::mSprite->AddTexture("flower3", "Resouse/greenflo.png");
+	BaseScene::mSprite->AddTexture("flower4", "Resouse/redflo.png");
 	BaseScene::mSprite->AddTexture("Syutugeki", "Resouse/syutugeki.png");
 	BaseScene::mSprite->AddTexture("Garage", "Resouse/garezi.png");
 	BaseScene::mSprite->AddTexture("Option", "Resouse/opusyon.png");
@@ -70,7 +74,10 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("SetumeiBoss", "Resouse/setumeibos.png");
 	BaseScene::mSprite->AddTexture("SetumeiDef", "Resouse/setumeiDe.png");
 	BaseScene::mSprite->AddTexture("SetumeiRob", "Resouse/setumeiRo.png");
-	BaseScene::mSprite->AddTexture("Sentaku", "Resouse/sentaku.png");
+	BaseScene::mSprite->AddTexture("Sentaku", "Resouse/map_base.png");
+	BaseScene::mSprite->AddTexture("SentakuClear1", "Resouse/map_1_clear.png");
+	BaseScene::mSprite->AddTexture("SentakuClear2", "Resouse/map_2_clear.png");
+	BaseScene::mSprite->AddTexture("SentakuClear3", "Resouse/map_3_clear.png");
 	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
 
 	BaseScene::mSprite->AddTexture("test", "Resouse/testend.png");
@@ -88,12 +95,17 @@ void Select::StartScene()
 void Select::UpdateScene()
 {
 	Sequence::instance().set(BaseScene::mMoney, Vector2(0, 0), Vector2(32, 32));
+	if (BaseScene::mMoney <= 0)
+	{
+
+	}
 	if (fadeF1)
 	{
 		fade += 0.01f;
 		if (fade >= 1)
 		{
-			NextScene(std::make_shared<GamePlay>());
+			NextScene(std::make_shared<Defense>());
+			//NextScene(std::make_shared<GamePlay>());
 		}
 	}
 	if (fadeF2)
@@ -109,7 +121,7 @@ void Select::UpdateScene()
 		fade += 0.01f;
 		if (fade >= 1)
 		{
-			NextScene(std::make_shared<Defense>());
+			NextScene(std::make_shared<Robbery>());
 		}
 	}	
 	if (fadeF4)
@@ -117,7 +129,7 @@ void Select::UpdateScene()
 		fade += 0.01f;
 		if (fade >= 1)
 		{
-			NextScene(std::make_shared<Robbery>());
+			NextScene(std::make_shared<Defense>());
 		}
 	}
 	mSound->playLoop();
@@ -257,7 +269,7 @@ void Select::UpdateScene()
 		{
 			if (BaseScene::mStageFlag1)
 			{
-				setumeiDefFlag = true;
+				setumeiRobFlag = true;
 				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 				{
 					fadeF3 = true;
@@ -267,7 +279,7 @@ void Select::UpdateScene()
 		}
 		if (position.x >= targetPos3.x && position.x <= targetPos3.x + 64 && position.y >= targetPos3.y && position.y <= targetPos3.y + 64)
 		{
-			if (BaseScene::mStageFlag2)
+			if (BaseScene::mStageFlag3)
 			{
 				setumeiBossFlag = true;
 				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
@@ -279,9 +291,9 @@ void Select::UpdateScene()
 		}
 		if (position.x >= targetPos4.x && position.x <= targetPos4.x + 64 && position.y >= targetPos4.y && position.y <= targetPos4.y + 64)
 		{
-			if (BaseScene::mStageFlag3)
+			if (BaseScene::mStageFlag2)
 			{
-				setumeiRobFlag = true;
+				setumeiDefFlag = true;
 				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 				{
 					fadeF4 = true;
@@ -342,6 +354,14 @@ void Select::DrawScene()
 	//BaseScene::mModel->Draw("Sora", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	DirectXManager::GetInstance()->SetData2D();
 
+	BaseScene::mSprite->SetSize("Sentaku", Vector2(1280, 720));
+	BaseScene::mSprite->SetSize("SentakuClear1", Vector2(1280, 720));
+	BaseScene::mSprite->SetSize("SentakuClear2", Vector2(1280, 720));
+	BaseScene::mSprite->SetSize("SentakuClear3", Vector2(1280, 720));
+	BaseScene::mSprite->SetSize("flower1", Vector2(64, 64));
+	BaseScene::mSprite->SetSize("flower2", Vector2(64, 64));
+	BaseScene::mSprite->SetSize("flower3", Vector2(64, 64));
+	BaseScene::mSprite->SetSize("flower4", Vector2(64, 64));
 	BaseScene::mSprite->Draw("Sentaku", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target", targetPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	if (!BaseScene::mStageFlag1)
@@ -350,23 +370,32 @@ void Select::DrawScene()
 	}
 	else if(BaseScene::mStageFlag1)
 	{
+		BaseScene::mSprite->Draw("SentakuClear1", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("flower1", targetPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}
 	if (!BaseScene::mStageFlag2)
 	{
-		BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 0.5f));
+		BaseScene::mSprite->Draw("target3", targetPos4, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 0.5f));
 	}
 	else if (BaseScene::mStageFlag2)
 	{
-		BaseScene::mSprite->Draw("target3", targetPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("SentakuClear2", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("target3", targetPos4, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("flower2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("flower1", targetPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}
 	if (!BaseScene::mStageFlag3)
 	{
-		BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
+		BaseScene::mSprite->Draw("target4", targetPos3, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
 	}
 	else if (BaseScene::mStageFlag3)
 	{
-		BaseScene::mSprite->Draw("target4", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("SentakuClear3", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("target4", targetPos3, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("flower3", targetPos4, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("flower2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("flower1", targetPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}
 
 	if (selectFlag == false)

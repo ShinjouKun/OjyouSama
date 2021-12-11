@@ -240,6 +240,7 @@ void ParticleManager::OllDraw()
 
 void ParticleManager::Add(const string& key, int life, const Vector3 & pos, const Vector3 & vel, const Vector3 & acc, float sScale, float eScale, const Vector4 & color, const Vector3& angle)
 {
+	return;
 	auto& d = particleDatas[key];
 	if (std::distance(d.particles.begin(), d.particles.end()) >= vertCount)
 	{
@@ -272,12 +273,14 @@ ParticleEmitterBox::~ParticleEmitterBox()
 
 void ParticleEmitterBox::LoadAndSet(const string& key, const string& filename)
 {
+	return;
 	TexLoader::GetInstance(pipeLine)->Load(filename);
 	particle->CreateParticleData(key, filename);
 }
 
 void ParticleEmitterBox::EmitterUpdate(const string& key, const Vector3& pos, const Vector3& angle)
 {
+	//’e‚ª“–‚½‚Á‚½‚Æ‚«“™
 	this->pos = pos;
 	this->angle = angle;
 	for (int i = 0; i < 10; i++)
@@ -302,6 +305,7 @@ void ParticleEmitterBox::EmitterUpdate(const string& key, const Vector3& pos, co
 
 void ParticleEmitterBox::EmitterUpdateBIG(const string & key, const Vector3 & pos, const Vector3 & angle)
 {
+	//“GŽ€–S
 	this->pos = pos;
 	this->angle = angle;
 	for (int i = 0; i < 15; i++)
@@ -326,6 +330,7 @@ void ParticleEmitterBox::EmitterUpdateBIG(const string & key, const Vector3 & po
 
 void ParticleEmitterBox::EmitterUpdateUpGas(const string & key, const Vector3 & pos, const Vector3& angle)
 {
+	//ƒLƒƒƒ^ƒsƒ‰‚Ì‰Œ
 	this->pos = pos;
 	this->angle = angle;
 	for (int i = 0; i < 10; i++)
@@ -345,6 +350,7 @@ void ParticleEmitterBox::EmitterUpdateUpGas(const string & key, const Vector3 & 
 
 void ParticleEmitterBox::EmitterUpdateFireGas(const string & key, const Vector3 & pos, const Vector3 & angle)
 {
+	//ƒeƒBƒ‰ƒm‚Ì‰Î‰Š(‚¢‚ç‚ñ)
 	this->pos = pos;
 	this->angle = angle;
 	for (int i = 0; i < 10; i++)

@@ -399,6 +399,19 @@ ID3D12GraphicsCommandList * DirectXManager::CmdList() const
 	return cmdList.Get();
 }
 
+void DirectXManager::waitGPU(ID3D12CommandQueue * queue)
+{
+	//コマンドリストの実行完了をまつ
+	queue->Signal(fence.Get(), ++fenceVal);
+	if (fence->GetCompletedValue() != fenceVal)
+	{
+		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+		fence->SetEventOnCompletion(fenceVal, event);
+		WaitForSingleObject(event, INFINITE);
+		CloseHandle(event);
+	}
+}
+
 long long DirectXManager::currentTime()
 {
 	std::chrono::system_clock::duration d = std::chrono::system_clock::now().time_since_epoch();

@@ -16,6 +16,7 @@
 #include "../Actor/ElfRock.h"
 
 #include "../Actor/Enemy/SniperEnemy.h"
+#include"../Actor/Enemy/BlowEnemy.h"
 
 Defense::Defense()
 	:mSound(nullptr)
@@ -47,7 +48,7 @@ void Defense::StartScene()
 	//敵にAIセット
 	BaseEnemy::SetEnemyAi(mEnemyAI.get());
 
-	BaseEnemy::SetAttackTarget(Vector3(0.0f,0.0f,500.0f));
+	BaseEnemy::SetAttackTarget(Vector3(0.0f, 0.0f, 500.0f));
 
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
@@ -84,14 +85,14 @@ void Defense::StartScene()
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	mSE = std::make_shared<Sound>("SE/wave.mp3", false);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	
+
 	mTimer = std::make_shared<Timer>(0.01f);
 	interval = 0;
 	enemyDeath = 0;
 	//実際の敵数よりデカくするな
 	wave1EnemysCount = 1;
-	wave2EnemysCount = 20;
-	wave3EnemysCount = 25;
+	wave2EnemysCount = 1;
+	wave3EnemysCount = 1;
 	spown1 = false;
 	spown2 = false;
 	spown3 = false;
@@ -102,7 +103,7 @@ void Defense::StartScene()
 	//障害物配置
 	int objectCount = 0;
 #pragma region Z最後列の石たち（敵側）
-	
+
 	objM->Add(new ElfRock(Vector3(150.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(140.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(130.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
@@ -111,18 +112,18 @@ void Defense::StartScene()
 	objM->Add(new ElfRock(Vector3(100.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(90.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(80.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	
+
 	objM->Add(new ElfRock(Vector3(50.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(40.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(30.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(20.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	
+
 	objM->Add(new ElfRock(Vector3(-20.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(-30.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(-40.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(-50.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(-80.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	
+
 	objM->Add(new ElfRock(Vector3(-90.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(-100.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
 	objM->Add(new ElfRock(Vector3(-110.0f, 4.0f, 330.0f), Vector3(0, 0.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
@@ -155,41 +156,43 @@ void Defense::StartScene()
 #pragma endregion
 
 
-	objM->Add(new Castle(Vector3(0.0f, -10.0f, 550.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle));
-	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,3));
+	objM->Add(new Castle(Vector3(0.0f, -10.0f, 550.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle));
+	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, 3));
 	objM->Add(new CameraEye(Vector3(0, 0.0f, 180), Vector3(0, 0, 0), objM));
 
 }
 
 void Defense::UpdateScene()
 {
+	mTimer->update();
+	if (!mTimer->isTime()) return;
+	Pose();
+	Setting();
 	mSound->playLoop();
 	//パンくずを落とす
 	mBreadCreator->DropBreadCrumb();
 	mEnemyAI->Update();
 	if (!wave1Clear)
 	{
-		mSE->play();
-		Wave1();
+		if (objM->GetPlayer().GetSceneFinish())
+		{
+			mSE->play();
+			Wave1();
+		}
+
 	}
-	if (wave1Clear && !wave2Clear)
+	else if (!wave2Clear)
 	{
 		mSE->play();
 		Wave2();
 	}
-	if (wave1Clear&&wave2Clear && !wave3Clear)
+	else if (!wave3Clear)
 	{
 		mSE->play();
 		Wave3();
 	}
-	if (wave3Clear)
-	{
-		BaseScene::mStageFlag2 = true;
-	}
-	mTimer->update();
-	if (!mTimer->isTime()) return;
-	Pose();
-	Setting();
+
+
 }
 
 void Defense::DrawScene()
@@ -198,7 +201,7 @@ void Defense::DrawScene()
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 200.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
 	
-	
+
 	BaseScene::mModel->Draw("KabeR2", Vector3(-160.0f, 60.0f, 200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeL2", Vector3(160.0f, 60.0f, 200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeR", Vector3(-160.0f, 60.0f, 400.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
@@ -208,7 +211,10 @@ void Defense::DrawScene()
 
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
-
+	if (spown1&&interval <= 120)
+	{
+		BaseScene::mSprite->Draw("Wave1", Vector3(0,0,0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
+	}
 	if (pose)
 	{
 		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
@@ -252,7 +258,7 @@ void Defense::Wave1EnemySpown()
 {
 	enemyDeath = 0;
 	//ここの下からadd
-	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 450.0f), Vector3(0.0f, 180.0f, 0.0f), 0));
+	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), 0,true));
 	spown1 = true;
 }
 
@@ -260,7 +266,8 @@ void Defense::Wave2EnemySpown()
 {
 	enemyDeath = 0;
 	//ここの下からadd
-	objM->Add(new SniperEnemy(Vector3(6.0f, 0.0f, 450.0f), Vector3(0.0f, 180.0f, 0.0f), 0));
+	objM->Add(new BlowEnemy(Vector3(-30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), 1,true));
+	
 	spown2 = true;
 }
 
@@ -268,15 +275,16 @@ void Defense::Wave3EnemySpown()
 {
 	enemyDeath = 0;
 	//ここの下からadd
+	objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), 3,true));
 	spown3 = true;
 }
 
 void Defense::Wave1()
 {
-	
+
 	//テキスト表示
 	//インターバル
-	
+	interval++;
 	//敵のadd
 	if (!spown1)
 	{
@@ -295,7 +303,7 @@ void Defense::Wave1()
 			wave1Clear = true;
 		}
 	}
-	
+
 }
 
 void Defense::Wave2()
@@ -304,20 +312,24 @@ void Defense::Wave2()
 	//インターバル
 
 	//敵のadd
- 	if (!spown2)
+	if (!spown2)
 	{
 		Wave2EnemySpown();
 	}
+	else
+	{
+		////場にエネミーが残っているか？
+		if (objM->GetEnemy().GetHP() <= 0)
+		{
+			enemyDeath++;
+		}
+		if (enemyDeath >= wave2EnemysCount)
+		{
+			wave2Clear = true;
+		}
+	}
+
 	
-	////場にエネミーが残っているか？
-	if (objM->GetEnemy().GetHP() <= 0)
-	{
-		enemyDeath++;
-	}
-	if (enemyDeath >= wave1EnemysCount)
-	{
-		wave2Clear = true;
-	}
 }
 
 void Defense::Wave3()
@@ -326,14 +338,24 @@ void Defense::Wave3()
 	//インターバル
 
 	//敵のadd
-	if(!spown3)
+	if (!spown3)
 	{
 		Wave3EnemySpown();
 	}
-	BaseScene::mStageFlag2 = true;
-	NextScene(std::make_shared<Result>());
-
-	//ボスを倒した？
+	else
+	{
+		////場にエネミーが残っているか？
+		if (objM->GetEnemy().GetHP() <= 0)
+		{
+			enemyDeath++;
+		}
+		if (enemyDeath >= wave3EnemysCount)
+		{
+			BaseScene::mStageFlag3 = true;
+			NextScene(std::make_shared<Result>());
+		}
+	}
+	
 }
 
 void Defense::Pose()

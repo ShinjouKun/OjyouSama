@@ -222,7 +222,7 @@ void GamePlay::StartScene()
 	//objM->Add(new BlowEnemy(Vector3(200.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 3));
 	//objM->Add(new BlowEnemy(Vector3( 80.0f, 0.0f, -200.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 4));
 
-	
+
 
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
@@ -263,6 +263,9 @@ void GamePlay::StartScene()
 
 	mTimer = std::make_shared<Timer>(0.01f);
 	
+	ParticleBox = make_shared<ParticleEmitterBox>(BaseScene::mParticle);
+	ParticleBox->LoadAndSet("Smoke", "Resouse/smoke.jpg");
+	mParticleTimer = std::make_shared<Timer>(0.01f);
 }
 
 void GamePlay::UpdateScene()
@@ -288,6 +291,14 @@ void GamePlay::UpdateScene()
 	mBreadCreator->DropBreadCrumb();
 	mEnemyAI->Update();
 
+	if (resultFlag)
+	{
+		timer += 1;
+		if (timer >= 60)
+		{
+			NextScene(std::make_shared<GameOver>());
+		}
+	}	
 
 	mTimer->update();
 	if (!mTimer->isTime()) return;
@@ -345,16 +356,13 @@ void GamePlay::UpdateScene()
 	if (objM->GetGolem().GetHp() <= 0)
 	{
 		BaseScene::mStageFlag1 = true;
-		int s = objM->GetPlayer().GetShotCount();
-		BaseScene::mMoney -= s;
 		NextScene(std::make_shared<Result>());
 	}
 	if (objM->GetPlayer().GetHp() <= 0)
 	{
-		BaseScene::mMoney -= 3000000;
-		NextScene(std::make_shared<GameOver>());
+		mParticleTimer->update();
+		resultFlag = true;
 	}
-	
 	//if (objM->GetEnemy().GetHP() <= 0)
 	//{
 	//	mHidan->play();
@@ -408,12 +416,9 @@ void GamePlay::DrawScene()
 			BaseScene::mSprite->Draw("AimA3", OpAimA3, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
 		}
 	}
-	if (resultFlag && time >= 300)
+	if (resultFlag )
 	{
-		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("SBack", selectbackPos, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("Ritorai", Vector3(820, 180, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("SelectAim", selectposition, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		ParticleBox->EmitterUpdate("Smoke", Vector3(objM->GetPlayer().GetPosition().x , 0, objM->GetPlayer().GetPosition().z), Vector3(0, 0, 0));
 	}
 }
 
@@ -421,7 +426,7 @@ void GamePlay::DrawScene()
 void GamePlay::Pose()
 {
 	//ƒ|[ƒY
-	if (pose == false && settingFlag == false)
+	if (pose == false && settingFlag == false )
 	{
 		objM->Update();
 		/*if (Input::getKey(KeyCode::E) || Input::getJoyDown(JoyCode::A))
@@ -660,7 +665,7 @@ void GamePlay::ResultF()
 	{
 		if (objM->GetGolem().GetHp() <= 0)
 		{
-			
+			BaseScene::mMoney += 20000000;
 			NextScene(std::make_shared<Result>());
 		}
 	}
