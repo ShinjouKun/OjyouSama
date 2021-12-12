@@ -250,12 +250,14 @@ void Player::Init()
 	//パーティクル初期化
 	mNormalAtkParticle = std::make_shared<NormalAttackParticle>(Vector3::zero, true);
 	mMGAParticle = std::make_shared<MachineGunAttackParticle>(Vector3::zero, true);
-	mTankTra = std::make_shared<TankTrajectory>(Vector3::zero, true);
+	mTankTraL = std::make_shared<TankTrajectory>(Vector3::zero, true);
+	mTankTraR = std::make_shared<TankTrajectory>(Vector3::zero, true);
 	mHit = std::make_shared<Hit>(Vector3::zero, true);
 
 	mNormalAtkParticle->Stop();
 	mMGAParticle->Stop();
-	mTankTra->Stop();
+	mTankTraL->Stop();
+	mTankTraR->Stop();
 	mHit->Stop();
 
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
@@ -398,8 +400,7 @@ void Player::Update()
 		//キー押し処理
 		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
-			mTankTra->setPos(position);//後で調整
-			mTankTra->Play();
+			TrajectoryPlay();
 			speedTime++;
 			if (speedTime >= speedLimitTime)
 			{
@@ -411,8 +412,7 @@ void Player::Update()
 		}
 		else if (Input::getKey(KeyCode::S) || Input::joyVertical() < 0)
 		{
-			mTankTra->setPos(position);//後で調整
-			mTankTra->Play();
+			TrajectoryPlay();
 			speedTime++;
 			if (speedTime >= speedLimitTime)
 			{
@@ -659,6 +659,16 @@ void Player::Rend()
 void Player::SetHP(int value)
 {
 	HP = value;
+}
+
+void Player::TrajectoryPlay()
+{
+	Vector3 axis = angle;
+	axis.normalize();
+	mTankTraL->setPos(Vector3(position.x - 1.f, position.y, position.z + axis.y));//後で調整
+	mTankTraR->setPos(Vector3(position.x + 1.f, position.y, position.z - axis.y));//後で調整
+	mTankTraL->Play();
+	mTankTraR->Play();
 }
 
 

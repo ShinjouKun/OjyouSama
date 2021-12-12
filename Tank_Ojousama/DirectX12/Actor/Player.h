@@ -43,6 +43,10 @@ public:
 	virtual void Rend() override;
 	void SetHP(int value);//体力変更
 	int GetHP() { return HP; }
+
+private:
+	void TrajectoryPlay();
+
 private:
 	ObjectManager* objM;
 	shared_ptr<ModelRenderer>playerModel;
@@ -112,7 +116,8 @@ private:
 	//パーティクル
 	std::shared_ptr<NormalAttackParticle> mNormalAtkParticle;//Weapon1
 	std::shared_ptr<MachineGunAttackParticle> mMGAParticle;//Weapon2
-	std::shared_ptr<TankTrajectory> mTankTra;//軌跡
+	std::shared_ptr<TankTrajectory> mTankTraL;//軌跡
+	std::shared_ptr<TankTrajectory> mTankTraR;//軌跡
 	std::shared_ptr<Hit> mHit;//小爆発
 
 
