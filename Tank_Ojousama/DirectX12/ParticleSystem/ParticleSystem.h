@@ -24,6 +24,9 @@ public:
 	//描画
 	void draw();
 
+	//中身をすべて消す
+	void reset();
+
 private:
 	//コピー禁止
 	ParticleSystem(const ParticleSystem&) = delete;

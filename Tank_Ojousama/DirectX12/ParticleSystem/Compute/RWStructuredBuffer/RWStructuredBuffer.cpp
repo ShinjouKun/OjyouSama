@@ -1,5 +1,7 @@
 #include "RWStructuredBuffer.h"
 
+#include <cassert>
+
 RWStructuredBuffer::RWStructuredBuffer():
 	mNumElement(0),
 	mSizeOfElement(0),
@@ -39,7 +41,7 @@ void RWStructuredBuffer::init(int sizeOfelement, int numElement, void * initData
 
 	for (auto& buffer : mBufferOnGPU)
 	{
-		mDev->CreateCommittedResource(
+		auto hr = mDev->CreateCommittedResource(
 			&prop,
 			D3D12_HEAP_FLAG_NONE,
 			&desc,
@@ -47,11 +49,21 @@ void RWStructuredBuffer::init(int sizeOfelement, int numElement, void * initData
 			nullptr,
 			IID_PPV_ARGS(&buffer)
 		);
+
+		if (FAILED(hr))
+		{
+			assert(0);
+		}
+
 		//構造化バッファをCPUからアクセス可能な仮想アドレス空間にマッピングする。
 		//マップ、アンマップのオーバーヘッドを軽減するためにはこのインスタンスが生きている間は行わない。
 		{
 			CD3DX12_RANGE readRange(0, 0);
-			buffer->Map(0, &readRange, reinterpret_cast<void**>(&mBufferOnCPU[bufferNo]));
+			hr = buffer->Map(0, &readRange, reinterpret_cast<void**>(&mBufferOnCPU[bufferNo]));
+			if (FAILED(hr))
+			{
+				assert(0);
+			}
 		}
 		if (initData != nullptr)
 		{

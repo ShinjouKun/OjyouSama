@@ -2,6 +2,7 @@
 #include"Title.h"
 #include"GamePlay.h"
 #include "Result.h"
+#include "../ParticleSystem/ParticleSystem.h"
 
 SceneManager::SceneManager(shared_ptr<TexRenderer> sprite, shared_ptr<ModelRenderer> model, shared_ptr<ParticleManager>particle)
 	:mSprite(sprite), mModel(model), mParticle(particle),
@@ -21,6 +22,9 @@ void SceneManager::Update()
 	auto next = mNowScene->GetNextScene();
 	if (next)
 	{
+		//パーティクルシステムの中身リセット
+		ParticleSystem::instance().reset();
+		
 		mNowScene = next;
 		
 		SetModelToScene();

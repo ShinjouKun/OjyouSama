@@ -64,7 +64,11 @@ void ParticleSystem::draw()
 	}
 }
 
-
+void ParticleSystem::reset()
+{
+	mPendingEmitter.clear();
+	mEmitters.clear();
+}
 
 
 ParticleSystem* ParticleSystem::mInstance = nullptr;

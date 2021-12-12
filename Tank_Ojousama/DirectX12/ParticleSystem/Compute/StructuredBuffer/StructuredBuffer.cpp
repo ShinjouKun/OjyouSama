@@ -1,5 +1,7 @@
 #include "StructuredBuffer.h"
 
+#include <cassert>
+
 StructuredBuffer::StructuredBuffer() :
 	mNumElement(0),
 	mSizeOfElement(0),
@@ -41,11 +43,19 @@ void StructuredBuffer::init(int sizeOfElement, int numElement, void * initData)
 			IID_PPV_ARGS(&buffer)
 		);
 
+		if (FAILED(hr))
+		{
+			assert(0);
+		}
 		//構造化バッファをCPUからアクセス可能な仮想アドレス空間にマッピングする。
 		//マップ、アンマップのオーバーヘッドを軽減するためにはこのインスタンスが生きている間は行わない。
 		{
 			CD3DX12_RANGE readRange(0, 0);
-			buffer->Map(0, &readRange, reinterpret_cast<void**>(&mBufferOnCPU[bufferNo]));
+			hr = buffer->Map(0, &readRange, reinterpret_cast<void**>(&mBufferOnCPU[bufferNo]));
+			if (FAILED(hr))
+			{
+				assert(0);
+			}
 		}
 		if (initData != nullptr)
 		{
