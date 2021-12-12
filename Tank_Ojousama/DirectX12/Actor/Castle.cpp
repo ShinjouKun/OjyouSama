@@ -30,7 +30,7 @@ void Castle::Init()
 	HitFlag = false;
 	HitCount = 0;
 	objType = ObjectType::DEFENCEPOINT;
-	SetCollidder(Vector3(0, 4.0f, 0), 5.0f);
+	SetCollidder(Vector3(0, 4.0f, 0.0f), 5.0f);
 	MessFlag1 = false;
 	MessFlag2 = false;
 	MessFlag3 = false;
@@ -46,7 +46,7 @@ void Castle::Update()
 	if (HitFlag)
 	{
 		HitCount++;
-		if (HitCount >= 300)
+		if (HitCount >= 90)
 		{
 			HitCount = 0;
 			HitFlag = false;
@@ -117,7 +117,7 @@ void Castle::ImGuiDebug()
 
 void Castle::OnCollison(BaseCollider * col)
 {
-	if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET && !HitFlag )
+	if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET &&!HitFlag )
 	{
 		HitFlag = true;	
 		HP -= col->GetColObject()->GetDamage();
