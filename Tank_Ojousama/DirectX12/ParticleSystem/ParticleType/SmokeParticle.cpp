@@ -9,22 +9,23 @@ SmokeParticle::SmokeParticle(const Vector3 & pos, bool looping)
 	ps.Duration = 0.2f;
 	ps.Looping = looping;
 	ps.StartDelay = 0.f;
-	ps.StartLifeTime = 15.f;
+	ps.StartLifeTime = 300.f;
 	ps.StartSpeed = 1.f;
 	ps.StartRotation3D = Vector3::zero;
-	ps.StartColor = Vector4(0.85f, 0.2f, 0.f, 1.f);
-	ps.GravityModifier = 0.f;
+	ps.StartColor = Vector4(0.02f, 0.02f, 0.02f, 0.1f);
+	ps.GravityModifier = 0.001f;
 	ps.StartVector = Vector3(0.0f, 0.0f, 0.f);
-	ps.StartSize3D = Vector3(0.5f, 0.5f, 1.f);
+	ps.StartSize3D = Vector3(6.5f, 6.5f, 1.f);
 	Burst burst;
-	burst.Count = 20;
+	burst.Count = 50;
 	mEmitter = new Emitter(pos, ps, burst);//Resouse/bullet.png
 	AmountOfChangeInParticles aocip;
 	aocip.rotate = Vector3::zero;
 	mEmitter->setAmountOfChangeInParticles(aocip);
 	ParticleRandomState prs;
-	prs.randomVec = Vector3(1.f, 1.f, 0.f);
-	prs.randomLife = 10.0f;
+	prs.randomVec = Vector3(0.25f, 0.15f, 0.25f);
+	prs.randomLife = 50.0f;
+	prs.randomColor = Vector4(0.f, 0.f, 0.f, 0.1f);
 	mEmitter->setParticleRandomState(prs);
 
 	ParticleSystem::instance().add(mEmitter);

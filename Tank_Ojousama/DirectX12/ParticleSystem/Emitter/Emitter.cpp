@@ -84,28 +84,34 @@ void Emitter::update()
 	//í«â¡èàóù
 	int size = static_cast<int>(mDataList.size());
 	Random::initialize();
-	for (int i = 0; i < mBurst.Count; ++i)//mBurst.Count
-	{
-		if (!mIsGo)break;
-		if (mEnd)break;
-		if (size > MAX_PARTICLE_SIZE - 1) break;
-		ParticleData data;
-		data.lifeTime = mParticleSystems.StartLifeTime + Random::randomRange(-mPRS.randomLife, mPRS.randomLife);
-		data.pos.x = mPos->x;
-		data.pos.y = mPos->y;
-		data.pos.z = mPos->z;
-		data.vec = mParticleSystems.StartVector + Random::randomRange(-mPRS.randomVec, mPRS.randomVec);
-		data.temp1 = 0;
-		data.col = mParticleSystems.StartColor + Vector4(Random::randomRange(0.f, mPRS.randomColor.x), Random::randomRange(0.f, mPRS.randomColor.y), Random::randomRange(0.f, mPRS.randomColor.z), Random::randomRange(0.f, mPRS.randomColor.w));
-		data.size = mParticleSystems.StartSize3D + Random::randomRange(-mPRS.randomSize3D, mPRS.randomSize3D);
-		data.speed = mParticleSystems.StartSpeed + Random::randomRange(-mPRS.randomSpeed, mPRS.randomSpeed);
-		data.rotate = Vector3::zero;//mParticleSystems.StartRotation3D;
-		data.axis = Vector3::zero;
-		data.gravity = mParticleSystems.GravityModifier;
-		data.active = true;
 
-		mDataList.emplace_back(data);
-		++size;
+	if (mIsGo || !mEnd)
+	{
+		int end = size + mBurst.Count;
+		if (end > MAX_PARTICLE_SIZE - 1)
+		{
+			end = (MAX_PARTICLE_SIZE - 1);
+		}
+		for (int i = size; i < end; ++i)//mBurst.Count
+		{
+			ParticleData data;
+			data.lifeTime = mParticleSystems.StartLifeTime + Random::randomRange(-mPRS.randomLife, mPRS.randomLife);
+			data.pos.x = mPos->x;
+			data.pos.y = mPos->y;
+			data.pos.z = mPos->z;
+			data.vec = mParticleSystems.StartVector + Random::randomRange(-mPRS.randomVec, mPRS.randomVec);
+			data.temp1 = 0;
+			data.col = mParticleSystems.StartColor + Vector4(Random::randomRange(0.f, mPRS.randomColor.x), Random::randomRange(0.f, mPRS.randomColor.y), Random::randomRange(0.f, mPRS.randomColor.z), Random::randomRange(0.f, mPRS.randomColor.w));
+			data.size = mParticleSystems.StartSize3D + Random::randomRange(-mPRS.randomSize3D, mPRS.randomSize3D);
+			data.speed = mParticleSystems.StartSpeed + Random::randomRange(-mPRS.randomSpeed, mPRS.randomSpeed);
+			data.rotate = Vector3::zero;//mParticleSystems.StartRotation3D;
+			data.axis = Vector3::zero;
+			data.gravity = mParticleSystems.GravityModifier;
+			data.active = true;
+
+			mDataList.emplace_back(data);
+			++size;
+		}
 	}
 
 	if (mStop)
