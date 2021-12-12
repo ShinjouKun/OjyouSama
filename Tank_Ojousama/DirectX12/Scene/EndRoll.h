@@ -2,9 +2,6 @@
 #include<memory>
 #include"BaseScene.h"
 #include "../Device/Input.h"
-#include "../Actor/Player.h"
-#include "../Actor/EnemyTank.h"
-#include "../Actor/Block.h"
 #include "../Actor/ObjectManager.h"
 #include "../Render/Camera.h"
 #include "../Render/ModelRenderer.h"
@@ -12,11 +9,11 @@
 
 class Sound;
 class Timer;
-class GameClear :public BaseScene
+class EndRoll :public BaseScene
 {
 public:
-	GameClear();
-	~GameClear();
+	EndRoll();
+	~EndRoll();
 
 private:
 	// BaseScene ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
@@ -27,9 +24,7 @@ private:
 	virtual void DrawScene() override;
 
 	ObjectManager* objM;
-	shared_ptr<ModelRenderer>playerModel;
 	std::shared_ptr<Sound> mSound;
-	Player* player;//ƒvƒŒƒCƒ„[‚ÌÀ‘Ì¶¬
 	Camera * camera;
 	int time = 0;
 
@@ -39,11 +34,6 @@ private:
 	Vector3 camerapos = Vector3(0, 0, 0);
 	Vector3 setcamerapos = Vector3(10, 0, 10);
 	int speed;
-	float ojyouZ;
-	float ojyouY;
-	float ojyouXR;
-	float ojyouXL;
-	float pos = 3;
 	float fade1;
 	float fade2;
 	bool fadeF;

@@ -11,6 +11,7 @@
 #include"../Actor/CameraEye.h"
 #include "../Actor/WayPointManager.h"
 #include "../Actor/BreadCrumbCreater.h"
+#include "GameOver.h"
 
 #include "../Actor/ElfTree.h"
 #include "../Actor/ElfRock.h"
@@ -91,6 +92,9 @@ void Defense::StartScene()
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	mSE = std::make_shared<Sound>("SE/wave.mp3", false);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
+	ParticleBox = make_shared<ParticleEmitterBox>(BaseScene::mParticle);
+	ParticleBox->LoadAndSet("Smoke", "Resouse/smoke.jpg");
 
 	mTimer = std::make_shared<Timer>(0.01f);
 	interval = 0;
@@ -175,6 +179,14 @@ void Defense::StartScene()
 void Defense::UpdateScene()
 {
 	mTimer->update();
+	if (resultFlag)
+	{
+		timer += 1;
+		if (timer >= 60)
+		{
+			NextScene(std::make_shared<GameOver>());
+		}
+	}
 	if (!mTimer->isTime()) return;
 	Pose();
 	Setting();
@@ -213,7 +225,10 @@ void Defense::UpdateScene()
 		Wave3();
 	}
 
-
+	if (objM->GetPlayer().GetHp() <= 0)
+	{
+		resultFlag = true;
+	}
 }
 
 void Defense::DrawScene()
@@ -273,12 +288,9 @@ void Defense::DrawScene()
 			BaseScene::mSprite->Draw("AimA3", OpAimA3, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
 		}
 	}
-	if (resultFlag && time >= 300)
+	if (resultFlag)
 	{
-		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("SBack", selectbackPos, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("Ritorai", Vector3(820, 180, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("SelectAim", selectposition, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		ParticleBox->EmitterUpdate("Smoke", Vector3(objM->GetPlayer().GetPosition().x, 0, objM->GetPlayer().GetPosition().z), Vector3(0, 0, 0));
 	}
 }
 

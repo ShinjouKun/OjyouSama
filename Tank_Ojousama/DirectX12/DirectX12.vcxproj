@@ -218,9 +218,12 @@
     <ClCompile Include="Actor\EnemyTank.cpp" />
     <ClCompile Include="Scene\BossScene.cpp" />
     <ClCompile Include="Scene\Defense.cpp" />
+    <ClCompile Include="Scene\EndRoll.cpp" />
+    <ClCompile Include="Scene\GameClear.cpp" />
     <ClCompile Include="Scene\GameOver.cpp" />
     <ClCompile Include="Scene\GamePlay.cpp" />
     <ClCompile Include="Scene\Garage.cpp" />
+    <ClCompile Include="Scene\Opening.cpp" />
     <ClCompile Include="Scene\Operation.cpp" />
     <ClCompile Include="Scene\Option.cpp" />
     <ClCompile Include="Scene\Result.cpp" />
@@ -566,10 +569,12 @@
     <ClInclude Include="Actor\EnemyTank.h" />
     <ClInclude Include="Scene\BossScene.h" />
     <ClInclude Include="Scene\Defense.h" />
+    <ClInclude Include="Scene\EndRoll.h" />
     <ClInclude Include="Scene\GameClear.h" />
     <ClInclude Include="Scene\GameOver.h" />
     <ClInclude Include="Scene\GamePlay.h" />
     <ClInclude Include="Scene\Garage.h" />
+    <ClInclude Include="Scene\Opening.h" />
     <ClInclude Include="Scene\Operation.h" />
     <ClInclude Include="Scene\Option.h" />
     <ClInclude Include="Scene\Result.h" />

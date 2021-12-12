@@ -1,6 +1,6 @@
 #include "Title.h"
 #include"Select.h"
-//#include"Collision.h"
+#include"Opening.h"
 #include "../Collision/Collision.h"
 #include "../Sound/Sound.h"
 
@@ -78,7 +78,7 @@ void Title::UpdateScene()
 			fade2 += 0.01;
 			if (fade2 >= 1)
 			{
-				NextScene(std::make_shared<Select>());
+				NextScene(std::make_shared<Opening>());
 			}
 		}
 	}
