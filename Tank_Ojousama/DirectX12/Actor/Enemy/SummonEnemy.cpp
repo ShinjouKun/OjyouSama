@@ -25,6 +25,11 @@ SummonEnemy::~SummonEnemy()
 
 }
 
+bool SummonEnemy::GetDeathFlag() const
+{
+	return mDeadFlag;
+}
+
 void SummonEnemy::Init()
 {
 	//Å‰‚Í”ñ•\¦ó‘Ô
