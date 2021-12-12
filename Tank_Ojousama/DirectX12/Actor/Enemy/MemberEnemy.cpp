@@ -181,6 +181,12 @@ bool MemberEnemy::GetDeadFlag() const
 	return mDeadFlag;
 }
 
+void MemberEnemy::SetMoveRange(const Vector3 & moveRangeMin, const Vector3 & moveRangeMax)
+{
+	mMoveRangeMin = moveRangeMin;
+	mMoveRangeMax = moveRangeMax;
+}
+
 void MemberEnemy::ReceivePosition(const Vector3& targetPosition)
 {
 	mFixedPosition = targetPosition;
@@ -229,6 +235,9 @@ void MemberEnemy::Init()
 	mAttackTarget = Vector3().zero;
 	mSearchTarget = Vector3().zero;
 	mRandomDirection = Vector3(0.0f, 0.0f, 0.1f);
+
+	/*むりやりんご*/
+	mMoveRangeMax = Vector3(0.0f, 0.0f, 520.0f);
 
 	death = false;
 	mDeadFlag = false;
@@ -393,8 +402,32 @@ void MemberEnemy::Move()
 	//移動
 	MoveTarget(mFixedPosition, 1.0f);
 
+	/*行動制限*/
+	MoveRange();
+
 	/*歩行アニメーション*/
 	MoveAnimation();
+}
+
+void MemberEnemy::MoveRange()
+{
+	if (position.x < mMoveRangeMin.x)
+	{
+		position.x = mMoveRangeMin.x;
+	}
+	else if (position.x > mMoveRangeMax.x)
+	{
+		position.x = mMoveRangeMax.x;
+	}
+
+	if (position.z < mMoveRangeMin.z)
+	{
+		position.z = mMoveRangeMin.z;
+	}
+	else if (position.z > mMoveRangeMax.z)
+	{
+		position.z = mMoveRangeMax.z;
+	}
 }
 
 void MemberEnemy::MoveAnimation()

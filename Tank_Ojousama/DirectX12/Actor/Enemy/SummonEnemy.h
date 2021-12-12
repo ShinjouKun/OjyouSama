@@ -23,6 +23,9 @@ public:
 
 	~SummonEnemy();
 
+	/*€–S‚µ‚½‚©‚Ç‚¤‚©*/
+	bool GetDeathFlag() const;
+
 private:
 
 	/*eƒNƒ‰ƒX‚©‚çŒp³*/

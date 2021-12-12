@@ -26,6 +26,9 @@ public:
 	/*死亡したかどうか*/
 	bool GetDeadFlag() const;
 
+	/*移動制限(最小値, 最大値)*/
+	void SetMoveRange(const Vector3& moveRangeMin, const Vector3& moveRangeMax);
+
 	/*目標位置を隊長から受け取る*/
 	void ReceivePosition(const Vector3& targetPosition);
 
@@ -57,6 +60,9 @@ private:
 
 	/*移動*/
 	void Move();
+
+	/*移動範囲*/
+	void MoveRange();
 
 	/*歩行アニメーション*/
 	void MoveAnimation();
@@ -130,12 +136,14 @@ private:
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
 
 	Vector3 scale;
-	Vector3 mFixedPosition; //固定位置
-	Vector3 mAttackTarget;  //攻撃位置
-	Vector3 mSearchTarget;  //索敵位置
-	Vector3 mSearchPosition;//索敵結果位置
-	Vector3 mRandomDirection;//ランダム移動方向
-	Vector3 mPreviousPosition;
+	Vector3 mFixedPosition;   //固定位置
+	Vector3 mAttackTarget;    //攻撃位置
+	Vector3 mSearchTarget;    //索敵位置
+	Vector3 mSearchPosition;  //索敵結果位置
+	Vector3 mRandomDirection; //ランダム移動方向
+	Vector3 mPreviousPosition;//1フレーム前の位置
+	Vector3 mMoveRangeMin;    //最小移動範囲
+	Vector3 mMoveRangeMax;    //最大移動範囲
 
 
 	const float SEARCH_RANGE = 30.0f;//索敵範囲(円)

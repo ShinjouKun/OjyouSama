@@ -28,7 +28,7 @@ void CEnemy::EnemyInit()
 	attackTime = 60;
 	mEnemyNumber = 0;
 
-	speed = 0.1f;
+	speed = 0.35f;
 	mRadius = 1.0f;
 	mSwingRange = 45.0f;
 	mAttackLength = 50.0f;
@@ -61,7 +61,7 @@ void CEnemy::EnemyInit()
 	//センサーの初期化----------------
 	mFanRotateOrigin = -angle.y - 90.0f;
 	fanInfo.position = Vector3(position.x, position.y, position.z);//位置
-	fanInfo.fanRange = 180.0f;									   //θの角度
+	fanInfo.fanRange = 360.0f;									   //θの角度
 	fanInfo.length = 30.0f;										   //長さ
 	fanInfo.rotate = mFanRotateOrigin;							   //回転角
 	//--------------------------------

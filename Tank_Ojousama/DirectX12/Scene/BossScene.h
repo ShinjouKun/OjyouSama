@@ -58,6 +58,7 @@ private:
 	bool OpFlag2;
 	bool OpFlag3;
 	bool mBossDeadFlag;
+	float timer = 0;
 
 	Vector3 posePos;
 	Vector3 selectbackPos;
@@ -71,6 +72,7 @@ private:
 
 	shared_ptr<EnemyAI> mEnemyAI;
 	std::shared_ptr<Timer> mTimer;
+	std::shared_ptr<ParticleEmitterBox>ParticleBox;
 
 	ElfTreeBoss * mBoss;
 };

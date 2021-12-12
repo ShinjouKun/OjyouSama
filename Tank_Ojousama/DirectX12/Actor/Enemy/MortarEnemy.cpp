@@ -2,6 +2,7 @@
 #include "../../Weapons/LaunchBullet.h"
 #include "../../Utility/Random.h"
 #include"../../Scene/BaseScene.h"
+#include "../../ParticleSystem/ParticleType/Explosion.h"
 
 MortarEnemy::MortarEnemy(
 	const Vector3 & pos,
@@ -204,6 +205,9 @@ void MortarEnemy::EnemyInit()
 	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
 	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
 
+	mExplosion = std::make_shared<Explosion>(Vector3::zero, true);
+	mExplosion->Stop();
+
 #pragma region ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý
 
 	num = to_string(number);
@@ -272,7 +276,12 @@ void MortarEnemy::EnemyOnCollision(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
-		HP -= col->GetColObject()->GetDamage();
+
+		int test = col->GetColObject()->GetDamage();
+
+		HP -= test;
+		mExplosion->setPos(position);
+		mExplosion->Play();
 		mDamageSE->play();
 	}
 

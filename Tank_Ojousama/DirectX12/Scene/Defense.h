@@ -54,7 +54,10 @@ private:
 	std::shared_ptr<Sound> mSound;
 	std::shared_ptr<Sound> mSE;
 	//ウェーブ制御用
+	Vector3 waveMove;
 	int interval = 0;//次のウェーブまでの待機カウント
+	int spownCount;
+	
 	bool spown1;//エネミー出す用のフラグ
 	bool spown2;//エネミー出す用のフラグ
 	bool spown3;//エネミー出す用のフラグ
@@ -72,10 +75,12 @@ private:
 	//リザルトフラグ
 	bool resultFlag = false;
 	int time = 0;
+	float timer = 0;
 	//ボリューム用フラグ
 	bool OpFlag1;
 	bool OpFlag2;
 	bool OpFlag3;
+	float timer = 0;
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;
@@ -90,4 +95,5 @@ private:
 
 	std::shared_ptr<Timer> mTimer;
 	shared_ptr<EnemyAI> mEnemyAI;
+	std::shared_ptr<ParticleEmitterBox>ParticleBox;
 };

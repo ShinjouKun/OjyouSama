@@ -223,6 +223,20 @@ BaseObject & ObjectManager::GetEnemy() const
 	return *enemy;
 }
 
+vector<BaseObject*> ObjectManager::GetEnemyList() const
+{
+	std::vector<BaseObject*> eL;
+	for (int i = 0;i < objectList.size();i++)
+	{
+		if (objectList[i]->GetType()== ObjectType::ENEMY)
+		{
+			eL.push_back(objectList[i]);
+		}
+	}
+	return eL;
+}
+
+
 BaseObject & ObjectManager::GetCastle() const
 {
 	BaseObject* castle = nullptr;

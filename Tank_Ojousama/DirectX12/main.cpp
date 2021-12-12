@@ -174,6 +174,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Film.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/heal.png");
+
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/endhing.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/flower.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/flower2.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/flower3.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/theend.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/opening.png");
 	
 	//お宝
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs.obj");
@@ -236,6 +243,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ground.obj");
 	//いろいろ使えるプレーン
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Plane.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Plane1.obj");
 
 	//木
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/wood.obj");
@@ -313,6 +321,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//防衛拠点
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
+
+
+	//ボス用のシールド
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/BossBarrier/boss_barrier.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/flower.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/flower1.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/flower2.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/flower3.obj");
+
 
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
