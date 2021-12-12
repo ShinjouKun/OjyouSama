@@ -272,6 +272,7 @@ void Player::Init()
 	maxHP = modelChanger->GetHP();
 	HP = maxHP;
 	maxSpeed = modelChanger->GetSpeed();
+	UpDamage = modelChanger->GetUpDamage();
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");

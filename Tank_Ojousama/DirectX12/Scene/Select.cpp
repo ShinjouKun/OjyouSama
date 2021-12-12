@@ -104,8 +104,7 @@ void Select::UpdateScene()
 		fade += 0.01f;
 		if (fade >= 1)
 		{
-			NextScene(std::make_shared<Defense>());
-			//NextScene(std::make_shared<GamePlay>());
+			NextScene(std::make_shared<GamePlay>());
 		}
 	}
 	if (fadeF2)
@@ -217,8 +216,8 @@ void Select::UpdateScene()
 			SelectAlfa5 = 0.5f;
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
-				NextScene(std::make_shared<GameClear>());
-				//NextScene(std::make_shared<Garage>());
+				//NextScene(std::make_shared<GameClear>());
+				NextScene(std::make_shared<Garage>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}

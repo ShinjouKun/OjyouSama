@@ -27,11 +27,6 @@ void Opening::StartScene()
 
 void Opening::UpdateScene()
 {
-	ImGui::Begin("pose");
-	ImGui::DragFloat("selectflag", &pos.x,0,100);
-	ImGui::DragFloat("pos", &pos.y , -50 , 1);
-	ImGui::DragFloat("ctflag", &pos.z ,-10 ,1);
-	ImGui::End();
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
 	pos.y += 0.05f;
