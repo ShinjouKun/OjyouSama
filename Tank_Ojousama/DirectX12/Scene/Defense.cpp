@@ -20,6 +20,8 @@
 #include"../Actor/Enemy/BirdEnemy.h"
 #include"../Actor/Enemy/CEnemy.h"
 #include"../Actor/Enemy/MortarEnemy.h"
+#include"../Actor/Enemy/AdvanceBorderLine.h"
+#include"../Scene/GameOver.h"
 
 Defense::Defense()
 	:mSound(nullptr)
@@ -41,6 +43,7 @@ void Defense::StartScene()
 	selectposition = Vector3(180, 180, 0);
 	optionPos = Vector3(180, 180, 0);
 	waveMove = Vector3(-360.0f, 0, 0);
+
 	//パンくず生成機作成
 	mBreadCreator = std::make_shared<BreadCrumbCreater>(objM);
 	//WayPoint生成機作成(生成位置,見た目をつけるかどうか)
@@ -52,7 +55,7 @@ void Defense::StartScene()
 	BaseEnemy::SetEnemyAi(mEnemyAI.get());
 
 	BaseEnemy::SetAttackTarget(Vector3(0.0f, 0.0f, 500.0f));
-
+	objM->Add(new AdvanceBorderLine(Vector3(0, 0.0f, 400), Vector3(0, 0, 0), objM, BaseScene::mModel, 1, Vector3(-150.0f, -2.0f, -2.0f), Vector3(150.0f, 2.0f, 1.0f)));
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("AIM2", "Resouse/AIM64.png");
@@ -176,7 +179,14 @@ void Defense::UpdateScene()
 	Pose();
 	Setting();
 	mSound->playLoop();
-
+	if (resultFlag)
+	{
+		timer += 1;
+		if (timer >= 60)
+		{
+			NextScene(std::make_shared<GameOver>());
+		}
+	}
 	if (objM->GetPlayer().GetHp() <= 0)
 	{
 		resultFlag = true;

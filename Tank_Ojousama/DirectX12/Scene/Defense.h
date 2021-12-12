@@ -75,6 +75,7 @@ private:
 	//リザルトフラグ
 	bool resultFlag = false;
 	int time = 0;
+	float timer = 0;
 	//ボリューム用フラグ
 	bool OpFlag1;
 	bool OpFlag2;
