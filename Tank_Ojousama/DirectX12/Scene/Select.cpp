@@ -6,9 +6,9 @@
 #include"Garage.h"
 #include"BossScene.h"
 #include "Robbery.h"
-#include"Result.h"
+#include"Opening.h"
 #include "Defense.h"
-#include "GameOver.h"
+#include "GameClear.h"
 #include "../Collision/Collision.h"
 #include "../Device/Input.h"
 #include "../Sound/Sound.h"
@@ -217,8 +217,8 @@ void Select::UpdateScene()
 			SelectAlfa5 = 0.5f;
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
-				//NextScene(std::make_shared<GameOver>());
-				NextScene(std::make_shared<Garage>());
+				NextScene(std::make_shared<GameClear>());
+				//NextScene(std::make_shared<Garage>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
 			}

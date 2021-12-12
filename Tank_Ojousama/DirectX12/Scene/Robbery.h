@@ -68,6 +68,7 @@ private:
 	bool OpFlag1;
 	bool OpFlag2;
 	bool OpFlag3;
+	float timer = 0;
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;
@@ -80,4 +81,6 @@ private:
 	shared_ptr<BreadCrumbCreater>mBreadCreator;
 	shared_ptr<WayPointManager> mpointManager;
 	shared_ptr<EnemyAI> mEnemyAI;
+	std::shared_ptr<ParticleEmitterBox>ParticleBox;
+
 };

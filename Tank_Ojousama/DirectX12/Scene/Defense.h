@@ -76,6 +76,7 @@ private:
 	bool OpFlag1;
 	bool OpFlag2;
 	bool OpFlag3;
+	float timer = 0;
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;
@@ -90,4 +91,5 @@ private:
 
 	std::shared_ptr<Timer> mTimer;
 	shared_ptr<EnemyAI> mEnemyAI;
+	std::shared_ptr<ParticleEmitterBox>ParticleBox;
 };

@@ -10,6 +10,7 @@
 #include"../Actor/CameraEye.h"
 #include "../Actor/WayPointManager.h"
 #include "../Actor/BreadCrumbCreater.h"
+#include "GameOver.h"
 
 #include "../Actor/ElfTree.h"
 #include "../Actor/ElfRock.h"
@@ -106,6 +107,9 @@ void Robbery::StartScene()
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 450.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,2));
 	objM->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), objM));
 	mTimer = std::make_shared<Timer>(0.01f);
+
+	ParticleBox = make_shared<ParticleEmitterBox>(BaseScene::mParticle);
+	ParticleBox->LoadAndSet("Smoke", "Resouse/smoke.jpg");
 }
 
 void Robbery::UpdateScene()
@@ -116,6 +120,14 @@ void Robbery::UpdateScene()
 	mEnemyAI->Update();
 	mTimer->update();
 	
+	if (resultFlag)
+	{
+		timer += 1;
+		if (timer >= 60)
+		{
+			NextScene(std::make_shared<GameOver>());
+		}
+	}
 	if (!mTimer->isTime()) return;
 	Pose();
 	Setting();
@@ -138,6 +150,10 @@ void Robbery::UpdateScene()
 		BaseScene::mStageFlag3 = true;
 		NextScene(std::make_shared<Result>());
 		//ƒNƒŠƒA
+	}
+	if (objM->GetPlayer().GetHp() <= 0)
+	{
+		resultFlag = true;
 	}
 }
 
@@ -190,12 +206,9 @@ void Robbery::DrawScene()
 			BaseScene::mSprite->Draw("AimA3", OpAimA3, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
 		}
 	}
-	if (resultFlag && time >= 300)
+	if (resultFlag)
 	{
-		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("SBack", selectbackPos, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("Ritorai", Vector3(820, 180, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("SelectAim", selectposition, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		ParticleBox->EmitterUpdate("Smoke", Vector3(objM->GetPlayer().GetPosition().x, 0, objM->GetPlayer().GetPosition().z), Vector3(0, 0, 0));
 	}
 }
 void Robbery::Pose()

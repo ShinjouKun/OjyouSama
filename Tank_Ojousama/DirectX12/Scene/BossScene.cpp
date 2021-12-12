@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include"Select.h"
 #include"Result.h"
+#include "GameOver.h"
 #include "../Sound/Sound.h"
 #include "../Actor/WayPointManager.h"
 #include "../Actor/BreadCrumbCreater.h"
@@ -82,6 +83,8 @@ void BossScene::StartScene()
 	mSound = std::make_shared<Sound>("BGM/boss02.mp3", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 
+	ParticleBox = make_shared<ParticleEmitterBox>(BaseScene::mParticle);
+	ParticleBox->LoadAndSet("Smoke", "Resouse/smoke.jpg");
 #pragma region ステージ内モデルの作成
 
 	int objectCount = 0;
@@ -184,6 +187,14 @@ void BossScene::UpdateScene()
 	//mSound->playLoop();
 	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	mTimer->update();
+	if (resultFlag)
+	{
+		timer += 1;
+		if (timer >= 60)
+		{
+			NextScene(std::make_shared<GameOver>());
+		}
+	}
 	if (!mTimer->isTime()) return;
 	Pose();
 	Setting();
@@ -201,6 +212,10 @@ void BossScene::UpdateScene()
 	{
 		if (mBossDeadFlag) return;
 		NextScene(std::make_shared<Title>());
+	}
+	if (mObjManager->GetPlayer().GetHp() <= 0)
+	{
+		resultFlag = true;
 	}
 }
 
@@ -240,12 +255,9 @@ void BossScene::DrawScene()
 			BaseScene::mSprite->Draw("AimA3", OpAimA3, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
 		}
 	}
-	if (resultFlag && time >= 300)
+	if (resultFlag)
 	{
-		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("SBack", selectbackPos, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("Ritorai", Vector3(820, 180, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("SelectAim", selectposition, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		ParticleBox->EmitterUpdate("Smoke", Vector3(mObjManager->GetPlayer().GetPosition().x, 0, mObjManager->GetPlayer().GetPosition().z), Vector3(0, 0, 0));
 	}
 }
 
