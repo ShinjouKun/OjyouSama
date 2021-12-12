@@ -65,6 +65,11 @@ void Repair::Rend()
 		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 		ItemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), Vector3(1, 1, 1));
 	}
+	if (active)
+	{
+		DirectXManager::GetInstance()->SetData2D();
+		ItemUseTex->Draw(numName, Vector3(0, 0, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, itemFade));
+	}
 }
 
 void Repair::ImGuiDebug()
@@ -88,10 +93,6 @@ void Repair::Heal()
 	}
 	itemFade -= 0.1f;
 	fadeCount++;
-	
-
-	DirectXManager::GetInstance()->SetData2D();
-	ItemUseTex->Draw(numName,Vector3(0,0,0),0,Vector2(1,1),Vector4(1,1,1,itemFade));
 	
 	if (fadeCount >= 30)
 	{
