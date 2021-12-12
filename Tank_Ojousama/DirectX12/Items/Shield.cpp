@@ -2,16 +2,15 @@
 #include "../Collision/SpherCollider.h"
 
 
-Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemState itemStates, int num, int maxAlive, int addHp) :ItemModel(m)
+Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp) :ItemModel(m),itemUseTex(s)
 {
 	position = pos;
 	angle = ang;
 	objM = obj;
 	objType = ObjectType::ITEM;
-	itemName = ItemNames::heal;
+	itemName = ItemNames::dome;
 	itemState = itemStates;
 	//itemHolder = holder;
-	alive_max = maxAlive;
 	guadePoint = addHp;
 }
 
@@ -29,8 +28,9 @@ void Shield::Init()
 	name = "Repair";
 	num = to_string(number);
 	numName = name + num;
-	ItemModel->AddModel(numName, "Resouse/item2.obj", "Resouse/item2.png");
+	ItemModel->AddModel(numName, "Resouse/shield.obj", "Resouse/shield.png");
 	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
+	itemUseTex->AddTexture(numName, "");
 	if (itemState == ItemState::Low)
 	{
 		guadePoint = 20;
@@ -46,10 +46,10 @@ void Shield::Update()
 		angle.z = 0;
 	}
 
-	if (alive >= alive_max && !isGet)
+	/*if (alive >= alive_max && !isGet)
 	{
 		death = true;
-	}
+	}*/
 
 	if (ItemHolder::GetInstance()->GetUseFlag())
 	{

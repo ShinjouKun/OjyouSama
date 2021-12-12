@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib item.mtl
+mtllib smokeModel.mtl
 g default
 v -0.103481 0.982801 0.500000
 v 0.000000 0.982801 0.500000
@@ -238,7 +238,7 @@ vn -0.999981 0.000000 0.006205
 vn -0.999985 0.004967 0.002347
 s 1
 g pCube1
-usemtl blinn3SG
+usemtl blinn1SG
 f 62/4/1 52/5/2 4/3/3
 f 4/3/3 52/5/2 5/2/4
 f 1/1/5 5/2/4 52/5/2

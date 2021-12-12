@@ -172,6 +172,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/blood3.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/castle_aicon.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Film.png");
+
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/heal.png");
+
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/endhing.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/flower.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/flower2.png");
@@ -201,17 +204,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//お嬢様
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sg_ojosama_R.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojosama_body.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sg_ojosama_L.obj");
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle_b.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sg_ojosama_L_b.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojousama_body_black.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle_b.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sg_ojosama_R_b.obj");
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle_r.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sg_ojosama_L_r.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ojousama_body_red.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle_r.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/sg_ojosama_R_r.obj");
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle.obj");
@@ -298,12 +307,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_R.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_L.obj");
 
-	//アイテムボックス
-	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item_box.obj");
 	//回復アイテム
 	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item.obj");
 	//シールド
-	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item2.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouce/shield.obj");
+	//スモーク
+	ModelLoader::GetInstance(pipeLine)->Load("Resouce/smokeModel.obj");
 
 	//鳥の敵
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_leg.obj");

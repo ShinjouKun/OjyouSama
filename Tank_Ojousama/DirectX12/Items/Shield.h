@@ -1,13 +1,16 @@
 #pragma once
 #include "Item.h"
 #include "ItemHolder.h"
+#include "../Render/TexRenderer.h"
+#include "../Render/ModelRenderer.h"
+#include "../Render/ParticleManager.h"
 
 class Player;
 
 class Shield :public Item
 {
 public:
-	Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, ItemState itemState, int num, int maxAlive, int addHp);
+	Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemState, int num, int addHp);
 	~Shield();
 
 private:
@@ -27,10 +30,10 @@ private:
 private:
 	ObjectManager* objM;
 	Player* player = nullptr;
-	int alive_max;
 	int guadePoint;
 	int saveHP;
 	int damege;
 
 	shared_ptr<ModelRenderer>ItemModel;
+	shared_ptr<TexRenderer> itemUseTex;
 };

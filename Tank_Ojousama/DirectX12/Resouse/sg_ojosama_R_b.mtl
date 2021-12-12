@@ -1,8 +1,8 @@
-newmtl blinn3SG
+newmtl blinn27SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-map_Kd item1.png
+map_Kd sg_ojosama_B.png
 Ni 1.00
 Ks 0.50 0.50 0.50
