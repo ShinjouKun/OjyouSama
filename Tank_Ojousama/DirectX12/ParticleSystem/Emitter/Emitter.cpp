@@ -85,7 +85,7 @@ void Emitter::update()
 	int size = static_cast<int>(mDataList.size());
 	Random::initialize();
 
-	if (mIsGo || !mEnd)
+	if (mIsGo && !mEnd)
 	{
 		int end = size + mBurst.Count;
 		if (end > MAX_PARTICLE_SIZE - 1)

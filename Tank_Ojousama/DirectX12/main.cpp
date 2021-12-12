@@ -308,11 +308,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/gorem_hands_L.obj");
 
 	//回復アイテム
-	ModelLoader::GetInstance(pipeLine)->Load("Resouce/item.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/item.obj");
 	//シールド
-	ModelLoader::GetInstance(pipeLine)->Load("Resouce/shield.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/shield.obj");
 	//スモーク
-	ModelLoader::GetInstance(pipeLine)->Load("Resouce/smokeModel.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/smokeModel.obj");
 
 	//鳥の敵
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Eagle/eagle_leg.obj");

@@ -360,6 +360,7 @@ void GamePlay::UpdateScene()
 	}
 	if (objM->GetPlayer().GetHp() <= 0)
 	{
+		
 		mParticleTimer->update();
 		resultFlag = true;
 	}

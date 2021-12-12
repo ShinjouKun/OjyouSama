@@ -156,6 +156,7 @@ void Player::SceneCamMove4()
 
 void Player::UseWeapon1()
 {
+	BaseScene::mMoney -= 10000;
 	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 	shotFlag1 = true;
 	mNormalAtkParticle->setPos(position);//Œã‚Å’²®
@@ -167,6 +168,7 @@ void Player::UseWeapon2()
 
 	if (modelChanger->GetWeaponState1() == WeaponsState::MachinGun)
 	{
+		BaseScene::mMoney -= 1000;
 		masingunShot = true;
 		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 		mMGAParticle->setPos(position);//Œã‚Å’²®
@@ -174,10 +176,12 @@ void Player::UseWeapon2()
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::Mine)
 	{
+		BaseScene::mMoney -= 20000;
 		objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::ShotGun)
 	{
+		BaseScene::mMoney -= 15000;
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 1, UpDamage));
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock + 2, UpDamage));
@@ -364,6 +368,7 @@ void Player::Update()
 	{
 		if (HP <= 0)
 		{
+			BaseScene::mMoney -= 500000;
 			GameOver = true;
 		}
 		if (HitFlag)

@@ -315,7 +315,7 @@ void Robbery::UpdateScene()
 	if (mGoalFlag)
 	{
 		//ÉNÉäÉA
-		BaseScene::mStageFlag3 = true;
+		BaseScene::mStageFlag2 = true;
 		NextScene(std::make_shared<Result>());
 	}
 }
