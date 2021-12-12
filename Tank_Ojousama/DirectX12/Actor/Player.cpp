@@ -252,6 +252,7 @@ void Player::Init()
 	maxHP = modelChanger->GetHP();
 	HP = maxHP;
 	maxSpeed = modelChanger->GetSpeed();
+	UpDamage = modelChanger->GetUpDamage();
 	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
 	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");
@@ -620,12 +621,6 @@ void Player::Rend()
 	else
 	{
 		playerSprite->Draw("AIM_S", Vector3(0,0,0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
-	
-	if (GameOver)
-	{
-		DirectXManager::GetInstance()->SetData2D();
-		playerSprite->Draw("DETH", Vector3(500, 200, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}
 
 }
