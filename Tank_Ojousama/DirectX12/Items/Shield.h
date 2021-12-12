@@ -35,4 +35,5 @@ private:
 	int damege;
 
 	shared_ptr<ModelRenderer>ItemModel;
+	shared_ptr<TexRenderer> itemUseTex;
 };

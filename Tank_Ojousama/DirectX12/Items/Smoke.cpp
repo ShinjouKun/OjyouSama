@@ -27,7 +27,7 @@ void Smoke::Init()
 	name = "Smoke";
 	num = to_string(number);
 	numName = name + num;
-	ItemModel->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
+	ItemModel->AddModel(numName, "Resouse/smokeModel.obj", "Resouse/smokeModel.png");
 	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
 	if (itemState == ItemState::Low)
 	{

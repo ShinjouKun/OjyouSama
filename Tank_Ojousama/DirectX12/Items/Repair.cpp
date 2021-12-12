@@ -31,9 +31,9 @@ void Repair::Init()
 	name = "Repair";
 	num = to_string(number);
 	numName = name + num;
-	ItemModel->AddModel(numName, "Resouse/bill.obj", "Resouse/bill.png");
+	ItemModel->AddModel(numName, "Resouse/item.obj", "Resouse/item1.png");
 	ItemUseTex->AddTexture(numName, "Resouse/heal.png");
-	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
+	ItemModel->SetAncPoint(numName, Vector3(1.0f, 2.0f, 3.0f));
 	if (itemState == ItemState::Low)
 	{
 		healPoint = 20;
