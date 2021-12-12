@@ -450,9 +450,6 @@
     <ClCompile Include="ParticleSystem\Emitter\Emitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleSystem\Particle\Particle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ParticleSystem\ParticleType\testParticle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -1060,9 +1057,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem\Emitter\EmitterData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem\Particle\Particle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem\ParticleData\ParticleData.h">

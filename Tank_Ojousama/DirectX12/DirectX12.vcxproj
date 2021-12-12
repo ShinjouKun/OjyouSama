@@ -205,7 +205,6 @@
     <ClCompile Include="ParticleSystem\ParticleType\SmokeParticle.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\TankTrajectory.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\testParticle.cpp" />
-    <ClCompile Include="ParticleSystem\Particle\Particle.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Actor\Block.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
@@ -553,7 +552,6 @@
     <ClInclude Include="ParticleSystem\ParticleType\SmokeParticle.h" />
     <ClInclude Include="ParticleSystem\ParticleType\TankTrajectory.h" />
     <ClInclude Include="ParticleSystem\ParticleType\testParticle.h" />
-    <ClInclude Include="ParticleSystem\Particle\Particle.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Actor\Block.h" />
     <ClInclude Include="Render\Camera.h" />
