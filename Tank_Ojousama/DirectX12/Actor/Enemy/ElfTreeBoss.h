@@ -1,14 +1,10 @@
 #pragma once
-#include "../BaseObject.h"
-#include "../ObjectManager.h"
-#include "../../Render/ModelRenderer.h"
-#include "../../Render/ParticleManager.h"
-
 #include "BaseEnemy.h"
 
 class Timer;
 class TreeRoot;
 class Sound;
+class SummonEnemy;
 
 class ElfTreeBoss : public BaseEnemy
 {
@@ -23,15 +19,10 @@ public:
 
 	~ElfTreeBoss();
 
+	/*ボスが死んだかどうかを確認*/
 	bool GetDeadFlag();
 
 private:
-
-	//virtual void Init() override;
-	//virtual void Update() override;
-	//virtual void Rend() override;
-	//virtual void ImGuiDebug() override;
-	//virtual void OnCollison(BaseCollider * col) override;
 
 	//BaseEnemyから継承
 	virtual void EnemyInit() override;
@@ -39,15 +30,6 @@ private:
 	virtual void EnemyRend() override;
 	virtual void EnemyOnCollision(BaseCollider* col) override;
 	virtual void EnemyImGuiDebug() override;
-
-	///*索敵状態*/
-	//virtual void Search() override;
-
-	///*追跡状態*/
-	//virtual void Warning() override;
-
-	///*攻撃状態*/
-	//virtual void Attack() override;
 
 	/*攻撃パターンの決定*/
 	void ChangeAttackState();
@@ -61,10 +43,11 @@ private:
 	/*死亡時の演出*/
 	void DeathAnimation();
 
+	/*回りながら爆発する*/
+	void DeathAnimation_Explosion();
 
-	void TestEffect();
-
-	void TestEffect2();
+	/*時間になったら死亡する*/
+	void DeathAnimation_DeathCount();
 
 #pragma region 根っこ攻撃まとめ
 
@@ -104,6 +87,7 @@ private:
 	};
 	RootAttackStep mRootStep;
 
+	//死亡アニメーションの状態遷移
 	enum DeathAnimationStep
 	{
 		EXPLOSION,
@@ -111,14 +95,15 @@ private:
 	};
 	DeathAnimationStep mDeathStep;
 
-	ObjectManager* mObjManager;
-	shared_ptr<ModelRenderer> mModelRender;
-	shared_ptr<ParticleManager> mEffectManager;
+	//ObjectManager* mObjManager;
+	//shared_ptr<ModelRenderer> mModelRender;
+	//shared_ptr<ParticleManager> mEffectManager;
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
 	shared_ptr<Sound> mSmallExplosion;//小爆発
 	shared_ptr<Sound> mBigExplosion;  //大爆発
 	shared_ptr<Sound> mAttackSE; //攻撃時のSE
 	shared_ptr<Sound> mDamageSE; //ダメージを受けた時のSE
+	shared_ptr<Sound> mNoDeathSE;//無敵のときのSE
 	shared_ptr<Sound> mDeathSE;  //死亡したときのSE
 
 
@@ -131,11 +116,12 @@ private:
 
 	TreeRoot * mTreeRoot;//木の根
 
-	std::vector<Vector3> mSummonPoint;//召喚位置
-	std::vector<string> testNum;
-	std::vector<string> testNumName;
+	std::vector<SummonEnemy*> mSummonList;//召喚した敵のリスト
+	std::vector<Vector3> mSummonPoint;    //召喚位置
+	std::vector<string> mSummonName;      //召喚するモデルの名前
+	std::vector<string> mSummonNum;       //召喚するモデルの番号
 
-	const Vector3 FIRE_POSITION = Vector3(0, 50, 0);//弾の発射位置
+	const Vector3 FIRE_POSITION = Vector3(0, 15, 0);//弾の発射位置
 	Vector3 mPlayerPosition; //プレイヤーの位置
 	Vector3 mOffsetRightHand;//右手の固定位置
 	Vector3 mOffsetLeftHand; //左手の固定位置
@@ -144,7 +130,7 @@ private:
 	Vector3 mLeftHandPos;    //左手の位置
 	Vector3 mRootPosition;   //根っこの位置
 
-	const int MAX_HP = 2;       //最大体力
+	const int MAX_HP = 500;       //最大体力
 	const int RAPIDFIRE_COUNT = 3;//連続射撃の数
 	const int SUMMON_COUNT = 5;   //召喚数
 	int mBulletCount;//弾を発射した数
@@ -162,16 +148,17 @@ private:
 	float mSummonRotate;//召喚中の魔法陣の回転
 	float mHandAngle;
 
-	bool mShotBullet;      //弾発射の状態管理(狙い→発射)
-	bool mSummonEnemy;     //敵を召喚したか
-	bool mDrawSummonPoint; //召喚中の警告を表示
-	bool mCreateObject;    //オブジェクトを生成したか
-	bool mFinishHandReturn;//両手が元の位置に戻ったか？
-	bool mFinishRootReturn;//根っこが元の位置に戻ったか？
-	bool mActionFlag;//攻撃アクション中かどうか
+	bool mShotBullet;        //弾発射の状態管理(狙い→発射)
+	bool mSummonEnemy;       //敵を召喚したか
+	bool mDrawSummonPoint;   //召喚中の警告を表示
+	bool mCreateObject;      //オブジェクトを生成したか
+	bool mFinishHandReturn;  //両手が元の位置に戻ったか？
+	bool mFinishRootReturn;  //根っこが元の位置に戻ったか？
+	bool mActionFlag;        //攻撃アクション中かどうか
 	bool mDeathAnimationFlag;//死亡アニメーションを開始するか
-	bool mDeadFlag;//死ぬ前にtrueになるフラグ
-	bool mOneShotSound;
+	bool mDeadFlag;          //死ぬ前にtrueになるフラグ
+	bool mOneShotSound;      //死亡SEを鳴らしたかどうか
+	bool mSummonAlive;       //召喚した敵が生きているか
 
 	//胴体
 	string mStringNum;
@@ -192,8 +179,7 @@ private:
 	//エフェクト2
 	string EXPLOSION_EFFECT = "Explosion";
 
-
-
-	int c = 0;
-	int cc = 180;
+	//バリア
+	string mBarrier = "Barrier";
+	string mBarrierNum;
 };

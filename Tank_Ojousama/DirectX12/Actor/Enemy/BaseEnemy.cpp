@@ -94,11 +94,11 @@ void BaseEnemy::OnCollison(BaseCollider * col)
 
 	if (col->GetColObject()->GetType() == ObjectType::ENEMY)
 	{
-		//Ž©•ª‚Ì”Ô†‚ª‘ŠŽè‚æ‚è¬‚³‚©‚Á‚½‚ç
-		if (col->GetColObject()->GetID() > GetID())
-		{
-			position = mPreviousPosition;
-		}
+		////Ž©•ª‚Ì”Ô†‚ª‘ŠŽè‚æ‚è¬‚³‚©‚Á‚½‚ç
+		//if (col->GetColObject()->GetID() > GetID())
+		//{
+		//	position = mPreviousPosition;
+		//}
 	}
 
 	//if (!GetActive()) return;
@@ -797,8 +797,8 @@ void BaseEnemy::InitSearch()
 		return;
 	}
 
-	//2:Ž©•ª‚ÌˆÊ’uî•ñ‚ðAI‚É“]‘—
-	mEnemyAI->SetValue(position);
+	////2:Ž©•ª‚ÌˆÊ’uî•ñ‚ðAI‚É“]‘—
+	//mEnemyAI->SetValue(position);
 }
 
 //void BaseEnemy::GetAllWayPoint()
