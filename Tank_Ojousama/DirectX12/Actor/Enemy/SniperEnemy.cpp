@@ -159,6 +159,9 @@ void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
+		int test = col->GetColObject()->GetDamage();
+
+
 		//ƒ_ƒ[ƒW‚ðŽó‚¯‚é
 		HP -= col->GetColObject()->GetDamage();
 

@@ -276,7 +276,10 @@ void MortarEnemy::EnemyOnCollision(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
-		HP -= col->GetColObject()->GetDamage();
+
+		int test = col->GetColObject()->GetDamage();
+
+		HP -= test;
 		mExplosion->setPos(position);
 		mExplosion->Play();
 		mDamageSE->play();

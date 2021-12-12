@@ -103,6 +103,7 @@ private:
 	shared_ptr<Sound> mBigExplosion;  //大爆発
 	shared_ptr<Sound> mAttackSE; //攻撃時のSE
 	shared_ptr<Sound> mDamageSE; //ダメージを受けた時のSE
+	shared_ptr<Sound> mNoDeathSE;//無敵のときのSE
 	shared_ptr<Sound> mDeathSE;  //死亡したときのSE
 
 
@@ -129,7 +130,7 @@ private:
 	Vector3 mLeftHandPos;    //左手の位置
 	Vector3 mRootPosition;   //根っこの位置
 
-	const int MAX_HP = 200;       //最大体力
+	const int MAX_HP = 500;       //最大体力
 	const int RAPIDFIRE_COUNT = 3;//連続射撃の数
 	const int SUMMON_COUNT = 5;   //召喚数
 	int mBulletCount;//弾を発射した数

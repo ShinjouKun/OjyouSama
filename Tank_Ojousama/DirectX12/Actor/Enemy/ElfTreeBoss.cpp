@@ -445,8 +445,8 @@ void ElfTreeBoss::EnemyInit()
 	mSummonAlive = false;
 
 	//各オブジェクトの初期位置をセット
-	mOffsetRightHand = Vector3(position.x /*- 10.0f*/, position.y + 15.0f, position.z);
-	mOffsetLeftHand = Vector3(position.x  /*+ 10.0f*/, position.y + 15.0f, position.z);
+	mOffsetRightHand = Vector3(position.x, position.y + 15.0f, position.z);
+	mOffsetLeftHand = Vector3(position.x, position.y + 15.0f, position.z);
 	mOffsetRootPos = Vector3(position.x, position.y - 20.0f, position.z);
 	mRightHandPos = mOffsetRightHand;
 	mLeftHandPos = mOffsetLeftHand;
@@ -466,6 +466,8 @@ void ElfTreeBoss::EnemyInit()
 	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDeathSE = std::make_shared<Sound>("SE/Boss_Death.wav", false);
 	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mNoDeathSE = std::make_shared<Sound>("SE/Boss_NoDamage.wav", false);
+	mNoDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
 	//各種タイマー初期化
 	mAimingTime = std::make_shared<Timer>();
@@ -525,7 +527,8 @@ void ElfTreeBoss::EnemyInit()
 
 	//バリア
 	mBarrierNum = mBarrier + mStringNum;
-	mRend->AddModel(mBarrierNum, "Resouse/maru.obj", "Resouse/marui.png");
+	mRend->AddModel(mBarrierNum, "Resouse/EnemyModel/BossBarrier/boss_barrier.obj", "Resouse/EnemyModel/BossBarrier/boss_barrier.png");
+	//mRend->SetColor(mBarrierNum, Vector4(1, 1, 1, 0.5f));
 
 	//パーティクル1
 	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
@@ -587,10 +590,6 @@ void ElfTreeBoss::EnemyUpdate()
 		mSummonAlive = false;
 	}
 
-
-
-
-
 	//音量の調整
 	mSmallExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 	mBigExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
@@ -622,12 +621,10 @@ void ElfTreeBoss::EnemyRend()
 		mRend->Draw(mRootCircleNum, Vector3(mRootPosition.x, position.y - 3, mRootPosition.z), angle, Vector3(5, 5, 5));
 	}
 
-	if (mSummonAlive)
-	{
-		mRend->Draw(mBarrierNum, Vector3(position.x, position.y + 15.0f, position.z), angle, Vector3(20, 20, 20));
-	}
-
-	
+	//if (mSummonAlive)
+	//{
+	//	mRend->Draw(mBarrierNum, Vector3(position.x, position.y, position.z), angle, Vector3(5, 5, 5));
+	//}
 
 	//表示状態の時だけ、警告を表示
 	if (mDrawSummonPoint)
@@ -644,11 +641,17 @@ void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		//雑魚敵が召喚されている時、ダメージを受けない
-		if (mSummonAlive) return;
-
-		//SE発射
-		mDamageSE->play();
-		HP -= col->GetColObject()->GetDamage();
+		if (mSummonAlive)
+		{
+			//SE発射
+			mNoDeathSE->play();
+		}
+		else
+		{
+			//SE発射
+			mDamageSE->play();
+			HP -= col->GetColObject()->GetDamage();
+		}
 	}
 }
 

@@ -311,6 +311,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//防衛拠点
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 
+	//ボス用のシールド
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/BossBarrier/boss_barrier.obj");
+
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
 	
