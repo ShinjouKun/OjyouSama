@@ -723,7 +723,7 @@ void Player::Rend()
 	}
 	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	playerSprite->Draw("WeponUi", Vector3(1280 - 180, 720 - 180, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	if (!sniperShotFlag)
 	{
 		playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
