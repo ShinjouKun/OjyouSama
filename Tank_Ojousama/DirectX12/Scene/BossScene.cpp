@@ -4,6 +4,7 @@
 #include"Select.h"
 #include"Result.h"
 #include "GameOver.h"
+#include "GameClear.h"
 #include "../Sound/Sound.h"
 #include "../Actor/WayPointManager.h"
 #include "../Actor/BreadCrumbCreater.h"
@@ -192,13 +193,13 @@ void BossScene::UpdateScene()
 	if (mBoss->GetDeadFlag())
 	{
 		mBossDeadFlag = true;
-		NextScene(std::make_shared<Result>());
+		NextScene(std::make_shared<GameClear>());
 	}
 
 	if (mObjManager->GetPlayer().GetHp() <= 0)
 	{
 		if (mBossDeadFlag) return;
-		NextScene(std::make_shared<Title>());
+		NextScene(std::make_shared<GameOver>());
 	}
 	if (mObjManager->GetPlayer().GetHp() <= 0)
 	{
@@ -319,7 +320,7 @@ void BossScene::Pose()
 		{
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
 			{
-				NextScene(std::make_shared<GamePlay>());
+				NextScene(std::make_shared<BossScene>());
 			}
 		}
 		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))

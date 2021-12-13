@@ -75,6 +75,10 @@ private:
 	bool moveFlag;
 	bool FrontMove;
 	bool BackMove;
+	bool GPS = false;
+	bool RSS = false;
+	bool DSS = false;
+	bool BSS = false;
 	Vector3 AIMPos;
 	//ステータス
 	int weaponMoveNum;

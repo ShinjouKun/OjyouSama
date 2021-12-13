@@ -123,6 +123,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeOjoSelect.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeHeadSelect.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/GaregeBodySelect.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/GarageWeponSelect.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/GarageSelect.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Bom.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/garege.jpg");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/syata.jpg");
@@ -181,6 +183,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/flower3.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/theend.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/opening.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/gameplaysetumei.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/robberysetumei.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/difencesetumei.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/bossscenesetumei.png");
 	
 	//‚¨•ó
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs.obj");
