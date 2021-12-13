@@ -2,6 +2,7 @@
 #include "BaseEnemy.h"
 
 class Timer;
+class TexRenderer;
 
 //‹ó‚ğ”ò‚ñ‚Å‚¢‚é“G
 class BirdEnemy : public BaseEnemy
@@ -11,6 +12,7 @@ public:
 	BirdEnemy(
 		const Vector3& pos,
 		const Vector3& ang,
+		//shared_ptr<TexRenderer> texRender,
 		int num
 	);
 
@@ -53,6 +55,7 @@ private:
 	};
 	ActionStep mActionStep;//UŒ‚—pó‘Ô
 
+	shared_ptr<TexRenderer> mTexRender;//ƒeƒNƒXƒ`ƒƒ•`‰æ—p
 	shared_ptr<Timer> mIntervalTime;
 	shared_ptr<Timer> mReloadTime;
 	shared_ptr<Sound> mAttackSE;//UŒ‚‚ÌSE

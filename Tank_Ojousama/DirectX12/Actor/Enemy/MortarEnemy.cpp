@@ -195,9 +195,9 @@ void MortarEnemy::EnemyInit()
 	mDeathTime->setTime(1.0f);
 
 	//サウンド初期化
-	mAttackSE = std::make_shared<Sound>("SE/Golem_Attack.mp3", false);
+	mAttackSE = std::make_shared<Sound>("SE/Golem_Attack.mp3", true);
 	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mDamageSE = std::make_shared<Sound>("SE/Golem_Damage.mp3", false);
+	mDamageSE = std::make_shared<Sound>("SE/Golem_Damage.mp3", true);
 	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
 	//パーティクル初期化
