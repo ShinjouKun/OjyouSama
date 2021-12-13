@@ -2,8 +2,10 @@
 #include "../Collision/SpherCollider.h"
 #include "../Sound/Sound.h"
 #include"../Scene/BaseScene.h"
+#include"../ParticleSystem/ParticleType/SmokeParticle.h"
 
 Smoke::Smoke(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp)
+	:ItemModel(m)
 {
 	position = pos;
 	angle = ang;
@@ -32,10 +34,8 @@ void Smoke::Init()
 	ItemModel->AddModel(numName, "Resouse/smokeModel.obj", "Resouse/smokeModel.png");
 	ItemModel->SetAncPoint(numName, Vector3( 0, 2.0f, 0));
 	getSE = std::make_shared<Sound>("SE/getItem.mp3", false);
-	if (itemState == ItemState::Low)
-	{
-		smokePoint = 20;
-	}
+	mSmokeParticle = std::make_shared<SmokeParticle>(Vector3::zero, true);
+	mSmokeParticle->Stop();
 }
 
 void Smoke::Update()
@@ -51,6 +51,7 @@ void Smoke::Update()
 	if (ItemHolder::GetInstance()->GetUseFlag())
 	{
 		active = true;
+		pPos=objM->GetPlayer().GetPosition();
 	}
 
 	Smoker();
@@ -87,7 +88,19 @@ void Smoke::Smoker()
 		return;
 	}
 
+	mSmokeParticle->setPos(pPos);
 	objType = ObjectType::SMOKE;
+	
+	smokePoint--;
 
+	if (smokePoint <= 0)
+	{
+		mSmokeParticle->Stop();
+		death = true;
+	}
+	else
+	{
+		mSmokeParticle->Play();
+	}
 	
 }

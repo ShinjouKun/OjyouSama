@@ -7,6 +7,7 @@
 
 class Player;
 class Sound;
+class SmokeParticle;
 
 class Smoke :public Item
 {
@@ -36,7 +37,10 @@ private:
 
 	bool IsBlind;
 
-	shared_ptr<ModelRenderer>ItemModel;
-	std::shared_ptr<Sound>getSE;
+	Vector3 pPos;
+
+	shared_ptr<ModelRenderer> ItemModel;
+	std::shared_ptr<Sound> getSE;
+	std::shared_ptr<SmokeParticle> mSmokeParticle;
 
 };
