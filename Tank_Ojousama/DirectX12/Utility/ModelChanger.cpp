@@ -6,7 +6,7 @@ ModelChanger::ModelChanger()
 	modelKey.clear();
 	state.resize(4);
 	modelKey.resize(5);
-	b.resize(9);
+	buys.clear();
 	buys.resize(9);
 }
 
@@ -21,13 +21,7 @@ void ModelChanger::Init()
 	body = BodyState::Light;
 	bottom = BottomState::Light_b;
 	weapons1 = WeaponsState::Cannon;
-	b.clear();
-	editor->Read("Resouse/BuysState.txt", b);
-
-	for (int i = 0; i == b.size()-1; i++)
-	{
-		buys.emplace_back(std::stoi(b[i]));
-	}
+	
 	editor = new TextEditor();
 	editor->Init();
 	Save();
@@ -239,7 +233,8 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 
 void ModelChanger::Save()
 {
-	int buy_n = 0;
+	buys.clear();
+	editor->Read("Resouse/BuysState.txt", buys);
 	switch (head)
 	{
 	case Normal:
@@ -247,15 +242,15 @@ void ModelChanger::Save()
 		break;
 	case Other01:
 		state[0] = "Other01";
-		buy_n = buys[1];
-		if (buy_n != 1 &&BaseScene::mMoney >= 0)
+		
+		if (buys[1] == "nonBuy"&&BaseScene::mMoney >= 0)
 		{
 			buys[1] = 1;
 			BaseScene::mMoney -= 5000000;
 		}
 		break;
 	case Other02:
-		if (buys[0] != 1 && BaseScene::mMoney >= 0)
+		if (buys[0] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[0] = 1;
 			BaseScene::mMoney -= 2000000;
@@ -273,7 +268,7 @@ void ModelChanger::Save()
 		state[1] = "Light";
 		break;
 	case Midium:
-		if (buys[2] != 1 && BaseScene::mMoney >= 0)
+		if (buys[2] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[2] = 1;
 			BaseScene::mMoney -= 2000000;
@@ -281,7 +276,7 @@ void ModelChanger::Save()
 		state[1] = "Midium";
 		break;
 	case Heavy:
-		if (buys[3] != 1 && BaseScene::mMoney >= 0)
+		if (buys[3] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
 			buys[3] = 1;
 			BaseScene::mMoney -= 5000000;
@@ -300,7 +295,7 @@ void ModelChanger::Save()
 		
 		break;
 	case Midium_b:
-		if (buys[4] != 1 && BaseScene::mMoney >= 0)
+		if (buys[4] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
 			buys[4] = 1;
 			BaseScene::mMoney -= 2000000;
@@ -309,7 +304,7 @@ void ModelChanger::Save()
 	
 		break;
 	case Heavy_b:
-		if (buys[5] != 1 && BaseScene::mMoney >= 0)
+		if (buys[5] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
 			buys[5] = 1;
 			BaseScene::mMoney -= 5000000;
@@ -328,7 +323,7 @@ void ModelChanger::Save()
 		state[3] = "Cannon";
 		break;
 	case MachinGun:
-		if (buys[6] != 1 && BaseScene::mMoney >= 0)
+		if (buys[6] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[6] = 1;
 			BaseScene::mMoney -= 1000000;
@@ -336,7 +331,7 @@ void ModelChanger::Save()
 		state[3] = "MachinGun";
 		break;
 	case ShotGun:
-		if (buys[7] != 1 && BaseScene::mMoney >= 0)
+		if (buys[7] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[7] = 1;
 			BaseScene::mMoney -= 500000;
@@ -344,7 +339,7 @@ void ModelChanger::Save()
 		state[3] = "ShotGun";
 		break;
 	case Mine:
-		if (buys[8] != 1 && BaseScene::mMoney >= 0)
+		if (buys[8] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[8] = 1;
 			BaseScene::mMoney -= 2000000;
@@ -355,19 +350,15 @@ void ModelChanger::Save()
 		state[3] = "Cannon";
 		break;
 	}
-	std::vector<string> bu;
-	bu.clear();
-	for (int i = 0; i == buys.size()-1; i++)
-	{
-		bu.emplace_back(std::to_string(buys[i]));
-	}
 	
-	editor->Write("Resouse/BuysState.txt", bu);
+	
+	editor->Write("Resouse/BuysState.txt", buys);
 	editor->Write("Resouse/ModelState.txt", state);
-	bu.clear();
-	bu.resize(9);
 	state.clear();
 	state.resize(4);
+	buys.clear();
+	buys.resize(9);
+
 }
 
 
@@ -416,16 +407,15 @@ string ModelChanger::GetModelName(int num)
 	return modelKey[num];
 }
 
-void ModelChanger::SetBuysNum(int buy)
+void ModelChanger::SetBuysNum(string buy)
 {
-	for (int i = 0;i = buys.size();i++)
+	for (int i = 0;i == buys.size()-1;i++)
 	{
 		buys[i] = buy;
 	}
-	
+	editor->Write("Resouse/BuysState.txt", buys);
 }
-
-int ModelChanger::GetBuysNum(int buy) const
+string ModelChanger::GetBuysNum(int buy)
 {
 	return buys[buy];
 }

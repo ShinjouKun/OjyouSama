@@ -363,6 +363,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//ƒV[ƒ“
 	mScene = std::make_unique<SceneManager>(sprite, model, paricle);
+	std::vector<string> buys(9,"nonBuy");
+	TextEditor* text = new TextEditor();
+	text->Write("Resouse/BuysState.txt", buys);
 
 	//”šŠÖ˜A
 	auto & nums = Sequence::instance();
