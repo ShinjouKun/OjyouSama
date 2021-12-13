@@ -22,7 +22,7 @@ void Opening::StartScene()
 	fadeF = false;
 	BaseScene::mSprite->AddTexture("Fade2", "Resouse/fade.png");
 	BaseScene::mModel->AddModel("Open", "Resouse/Plane1.obj", "Resouse/opening.png");
-	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
+	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/back_sky.png");
 }
 
 void Opening::UpdateScene()
@@ -52,8 +52,8 @@ void Opening::UpdateScene()
 void Opening::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
+	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(50, 50, 50));
 	BaseScene::mModel->Draw("Open",pos, Vector3(47, 0 ,0), Vector3(100, 200, 1));	
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("Fade2", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade2));
-	//BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(7, 7, 7));
 }

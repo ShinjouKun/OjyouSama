@@ -4,7 +4,7 @@
 #include "../Collision/Collision.h"
 #include "../Sound/Sound.h"
 
-Title::Title():
+Title::Title() :
 	mBGM(nullptr)
 {
 
@@ -12,7 +12,7 @@ Title::Title():
 
 Title::~Title()
 {
-	
+
 }
 
 void Title::StartScene()
@@ -27,8 +27,8 @@ void Title::StartScene()
 	ojyouY = 0.0f;
 	ojyouXR = 0.0f;
 	ojyouXL = 0.0f;
-	camera->SetEye(Vector3(0.0f,0 ,-122));
-	camera->SetTarget(Vector3(0.0f, 0,-100.0f));
+	camera->SetEye(Vector3(0.0f, 0, -122));
+	camera->SetTarget(Vector3(0.0f, 0, -100.0f));
 	ojoP = Vector3(0, -25, -113);
 	BaseScene::mSprite->AddTexture("Title", "Resouse/Title.png");
 	BaseScene::mSprite->AddTexture("Push", "Resouse/start.png");
@@ -93,16 +93,18 @@ void Title::DrawScene()
 	BaseScene::mModel->Draw("TankPlayerA", ojoP, Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
 	//playerModel->Draw("TankPlayerHou", Vector3(position.x, position.y, position.z), Vector3(fireAngle, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("TankPlayerB", ojoP, Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
-	BaseScene::mModel->Draw("ArmR", Vector3(ojoP.x, ojoP.y+25.0f, ojoP.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
+	BaseScene::mModel->Draw("ArmR", Vector3(ojoP.x, ojoP.y + 25.0f, ojoP.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
 	BaseScene::mModel->Draw("OjyouSama", ojoP, Vector3(0, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
-	BaseScene::mModel->Draw("ArmL", Vector3(ojoP.x, ojoP.y+25.0f, ojoP.z), Vector3(ojyouXL, -ojyouY,0), Vector3(10.0f, 10.0f, 10.0f));
+	BaseScene::mModel->Draw("ArmL", Vector3(ojoP.x, ojoP.y + 25.0f, ojoP.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
 	//BaseScene::mModel->Draw("Ground", Vector3(-20.0f, 4.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	DirectXManager::GetInstance()->SetData2D();
-	BaseScene::mSprite->Draw("Title", Vector3(100, 100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("Push", Vector3(550, 300, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	//BaseScene::mSprite->SetSize("Heart", Vector2(1280+kakudai3, 720+kakudai));
-	//BaseScene::mSprite->SetAncPoint("Heart", Vector2(640.0f+kakudai3, 360.0f+kakudai));
-	//BaseScene::mSprite->Draw("Heart",Vector3(-640.0f-kakudai4, -360.0f-kakudai2, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("Fade1",Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade1));
+	BaseScene::mSprite->Draw("Title", Vector3(385, -10, 0), 0.0f, Vector2(1.2f, 1.2f), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Push", Vector3(290, 580, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	//	BaseScene::mSprite->Draw("Title", Vector3(385, -10, 0), 0.0f, Vector2(1.2f, 1.2f), Vector4(1, 1, 1, 1));
+		//BaseScene::mSprite->Draw("Push", Vector3(290, 580, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		//BaseScene::mSprite->SetSize("Heart", Vector2(1280+kakudai3, 720+kakudai));
+		//BaseScene::mSprite->SetAncPoint("Heart", Vector2(640.0f+kakudai3, 360.0f+kakudai));
+		//BaseScene::mSprite->Draw("Heart",Vector3(-640.0f-kakudai4, -360.0f-kakudai2, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Fade1", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade1));
 	BaseScene::mSprite->Draw("Fade2", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade2));
 }
