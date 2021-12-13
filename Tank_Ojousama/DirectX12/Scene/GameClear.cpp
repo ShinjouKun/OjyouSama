@@ -101,6 +101,9 @@ void GameClear::UpdateScene()
 			fade2 += 0.01;
 			if (fade2 >= 1)
 			{
+				BaseScene::mStageFlag1 = false;
+				BaseScene::mStageFlag2 = false;
+				BaseScene::mStageFlag3 = false;
 				NextScene(std::make_shared<Title>());
 			}
 		}
