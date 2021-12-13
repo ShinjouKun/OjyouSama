@@ -351,6 +351,8 @@ void ModelChanger::Save()
 		break;
 	}
 	
+
+
 	
 	editor->Write("Resouse/BuysState.txt", buys);
 	editor->Write("Resouse/ModelState.txt", state);
