@@ -18,6 +18,7 @@
 #include "../Actor/ElfRock.h"
 #include "../Actor/Treasure.h"
 #include "../Actor/BetaTestBlock.h"
+#include "../Actor/Castle.h"
 
 Robbery::Robbery()
 	:mBGM(nullptr)
@@ -41,8 +42,8 @@ void Robbery::StartWayEnemySpown()
 	mObjManager->Add(new MortarEnemy(Vector3(50.0f,  0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
 
 	//遠距離の敵
-	mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 4.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 4.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
+	mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
+	mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
 
 #pragma endregion
 
@@ -274,6 +275,10 @@ void Robbery::StartScene()
 
 	//宝箱生成
 	mObjManager->Add(new Treasure(Vector3(0.0f, 0, 70.0f), Vector3(0, 180.0f, 0), mObjManager, BaseScene::mModel));
+
+	//城モデル
+	mObjManager->Add(new Castle(Vector3(0.0f, -10.0f, 500.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle));
+
 
 	//プレイヤー生成
 	mObjManager->Add(new Player(Vector3(0.0f, 4.0f, 0.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, 3));

@@ -399,11 +399,11 @@ void MemberEnemy::Move()
 	//隊長が死んでいたら処理しない
 	if (mCaptainLost) return;
 
-	//移動
-	MoveTarget(mFixedPosition, 1.0f);
-
 	/*行動制限*/
 	MoveRange();
+
+	//移動
+	MoveTarget(mFixedPosition, 1.0f);
 
 	/*歩行アニメーション*/
 	MoveAnimation();

@@ -83,8 +83,8 @@ void AttackArea::Rend()
 {
 	if (!isActive) return;
 
-	DirectXManager::GetInstance()->SetData3D();
-	mModelRender->Draw(keyname, position,Vector3(angle.x, -angle.y, angle.z) , scale);
+	//DirectXManager::GetInstance()->SetData3D();
+	//mModelRender->Draw(keyname, position,Vector3(angle.x, -angle.y, angle.z) , scale);
 }
 
 void AttackArea::OnCollison(BaseCollider* info)

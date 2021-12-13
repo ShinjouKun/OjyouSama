@@ -238,6 +238,9 @@ void MortarEnemy::EnemyUpdate()
 	/*¶‘¶ó‘Ô‚ğŠÄ‹*/
 	CheckAlive();
 
+	//‰¼€ó‘Ô‚È‚çˆ—‚µ‚È‚¢
+	if (mDeathAnimation) return;
+
 	switch (mAttackStep)
 	{
 
@@ -253,9 +256,6 @@ void MortarEnemy::EnemyUpdate()
 	default:
 		break;
 	}
-
-	//‰¼€ó‘Ô‚È‚çˆ—‚µ‚È‚¢
-	if (mDeathAnimation) return;
 
 	/*UŒ‚*/
 	void Attack();
