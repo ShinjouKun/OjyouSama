@@ -70,11 +70,11 @@ void SniperEnemy::EnemyInit()
 	//breadMap.clear();
 
 	//サウンドの初期化
-	mAttackSE = std::make_shared<Sound>("SE/hirai.mp3", false);
+	mAttackSE = std::make_shared<Sound>("SE/hirai.mp3", true);
 	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
 	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mDeathSE = std::make_shared<Sound>("SE/Elf_Damage01.mp3", false);
+	mDeathSE = std::make_shared<Sound>("SE/Elf_Damage01.mp3", true);
 	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
 	//タイマーの初期化

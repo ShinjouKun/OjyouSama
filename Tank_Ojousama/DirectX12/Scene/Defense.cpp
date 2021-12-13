@@ -114,6 +114,8 @@ void Defense::StartScene()
 	wave2Clear = false;
 	wave3Clear = false;
 
+	mCastleCollapses = false;
+
 	//障害物配置
 	int objectCount = 0;
 #pragma region Z最後列の石たち（敵側）
@@ -178,6 +180,7 @@ void Defense::StartScene()
 
 void Defense::UpdateScene()
 {
+	
 	mTimer->update();
 	if (resultFlag)
 	{
@@ -199,9 +202,15 @@ void Defense::UpdateScene()
 			NextScene(std::make_shared<GameOver>());
 		}
 	}
-	if (objM->GetPlayer().GetHp() <= 0||objM->GetCastle().GetHP() <= 0)
+	//プレイヤーの体力が0かつ城の体力が0で無いとき
+	if (objM->GetPlayer().GetHp() <= 0 && !mCastleCollapses)
 	{
 		resultFlag = true;
+	}
+	//城の体力がゼロになったら
+	if (objM->GetCastle().GetHP() <= 0)
+	{
+		mCastleCollapses = true;
 	}
 	//パンくずを落とす
 	mBreadCreator->DropBreadCrumb();
@@ -222,6 +231,13 @@ void Defense::UpdateScene()
 		Wave3();
 	}
 
+	if (mCastleCollapses && !resultFlag)
+	{
+		if (objM->GetCastle().GetPosition().y <= -100.f)
+		{
+			resultFlag = true;
+		}
+	}
 }
 
 void Defense::DrawScene()
@@ -336,8 +352,8 @@ void Defense::Wave2EnemySpown()
 	objM->Add(new BlowEnemy(Vector3(25.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new BlowEnemy(Vector3(-25.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 
-	objM->Add(new BirdEnemy(Vector3(50.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), enemyCount++));
-	objM->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), enemyCount++));
+	objM->Add(new BirdEnemy(Vector3(50.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
+	objM->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
 
 	objM->Add(new SniperEnemy(Vector3(-80.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new SniperEnemy(Vector3(80.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
@@ -365,8 +381,8 @@ void Defense::Wave3EnemySpown()
 	objM->Add(new SniperEnemy(Vector3(40.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 
-	objM->Add(new BirdEnemy(Vector3(40.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), enemyCount++));
-	objM->Add(new BirdEnemy(Vector3(-70.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), enemyCount++));
+	objM->Add(new BirdEnemy(Vector3(40.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
+	objM->Add(new BirdEnemy(Vector3(-70.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
 
 	objM->Add(new CEnemy(Vector3(40.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new CEnemy(Vector3(-40.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));

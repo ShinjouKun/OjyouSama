@@ -2,6 +2,7 @@
 #include "BaseEnemy.h"
 
 class Timer;
+class TexRenderer;
 
 //空を飛んでいる敵
 class BirdEnemy : public BaseEnemy
@@ -11,6 +12,7 @@ public:
 	BirdEnemy(
 		const Vector3& pos,
 		const Vector3& ang,
+		shared_ptr<TexRenderer> texRender,
 		int num
 	);
 
@@ -53,6 +55,7 @@ private:
 	};
 	ActionStep mActionStep;//攻撃用状態
 
+	shared_ptr<TexRenderer> mTexRender;//テクスチャ描画用
 	shared_ptr<Timer> mIntervalTime;
 	shared_ptr<Timer> mReloadTime;
 	shared_ptr<Sound> mAttackSE;//攻撃時のSE
@@ -75,6 +78,7 @@ private:
 
 	bool mFinishAnimation = false;//アニメーションが終了しているか
 	bool mFireFlag;               //弾を発射したか
+	bool mCreateItem;             //アイテムを生成したか？
 
 	int mBulletNumber;//発射した弾数
 

@@ -63,6 +63,8 @@ void Repair::Update()
 	Heal();
 	getSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 	healSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+
+	FallDown();
 }
 
 void Repair::Rend()
@@ -111,5 +113,13 @@ void Repair::Heal()
 		active = false;
 		ItemHolder::GetInstance()->SetUseFlag(false);
 		death = true;
+	}
+}
+
+void Repair::FallDown()
+{
+	if (position.y >= 0.0f)
+	{
+		position += Vector3(0.0f, -1.0f, 0.0f) * 0.3f;
 	}
 }

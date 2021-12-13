@@ -30,6 +30,9 @@ private:
 
 	void Heal();
 
+	/*’n–Ê‚æ‚è‚‚¢‚Æ‚±‚ë‚É‚ ‚Á‚½‚ç—‚¿‚Ä‚­‚é*/
+	void FallDown();
+
 private:
 	ObjectManager* objM;
 	Player* player=nullptr;

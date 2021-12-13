@@ -61,6 +61,8 @@ void Shield::Update()
 
 	Guade();
 	getSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+
+	FallDown();
 }
 
 void Shield::Rend()
@@ -111,4 +113,12 @@ void Shield::Guade()
 		death = true;
 	}
 
+}
+
+void Shield::FallDown()
+{
+	if (position.y >= 0.0f)
+	{
+		position += Vector3(0.0f, -1.0f, 0.0f) * 0.3f;
+	}
 }

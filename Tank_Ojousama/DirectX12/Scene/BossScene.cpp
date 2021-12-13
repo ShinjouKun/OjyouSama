@@ -129,8 +129,8 @@ void BossScene::StartScene()
 	//mObjManager->Add(new ElfRock(Vector3(+70, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
 
 	//ä‚ìäÇ∞ÇÃìGÇéÁÇÈä‚Left
-	//mObjManager->Add(new ElfRock(Vector3(55.0f, 4.0f, 350.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, 0, 2));
-	//mObjManager->Add(new ElfRock(Vector3(80.0f, 4.0f, 350.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, 1, 2));
+	mObjManager->Add(new ElfRock(Vector3(55.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, 0, 3));
+	mObjManager->Add(new ElfRock(Vector3(80.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, 1, 3));
 	//mObjManager->Add(new ElfRock(Vector3(90.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
 	//mObjManager->Add(new ElfRock(Vector3(-90, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
 	//mObjManager->Add(new ElfRock(Vector3(-130, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
@@ -150,13 +150,13 @@ void BossScene::StartScene()
 	//ç∂
 	mObjManager->Add(new BetaTestBlock(Vector3(-100, 0.0f, 400.0f), Vector3(90, 90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
 
-	////ä‚ìäÇ∞ÇÃìG
-	//mObjManager->Add(new MortarEnemy(Vector3(+80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-	//mObjManager->Add(new MortarEnemy(Vector3(-80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+	//ä‚ìäÇ∞ÇÃìG
+	mObjManager->Add(new MortarEnemy(Vector3(+80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+	mObjManager->Add(new MortarEnemy(Vector3(-80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
 
-	////íπÇÃìG
-	//mObjManager->Add(new BirdEnemy(Vector3(+80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), objectCount++));
-	//mObjManager->Add(new BirdEnemy(Vector3(-80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), objectCount++));
+	//íπÇÃìG
+	mObjManager->Add(new BirdEnemy(Vector3(+80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
+	mObjManager->Add(new BirdEnemy(Vector3(-80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
 
 	//É{ÉX
 	mBoss = new ElfTreeBoss(Vector3(0.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), BaseScene::mParticle, objectCount++);

@@ -56,6 +56,8 @@ void Smoke::Update()
 
 	Smoker();
 	getSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+
+	FallDown();
 }
 
 void Smoke::Rend()
@@ -103,4 +105,12 @@ void Smoke::Smoker()
 		mSmokeParticle->Play();
 	}
 	
+}
+
+void Smoke::FallDown()
+{
+	if (position.y >= 0.0f)
+	{
+		position += Vector3(0.0f, -1.0f, 0.0f) * 0.3f;
+	}
 }

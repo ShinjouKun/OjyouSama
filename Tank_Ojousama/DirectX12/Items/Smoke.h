@@ -29,18 +29,20 @@ private:
 
 	void Smoker();
 
+	/*’n–Ê‚æ‚è‚‚¢‚Æ‚±‚ë‚É‚ ‚Á‚½‚ç—‚¿‚Ä‚­‚é*/
+	void FallDown();
+
 private:
 	ObjectManager* objM;
 	Player* player = nullptr;
 	int smokePoint;
 	int saveHP;
 
-	bool IsBlind;
-
 	Vector3 pPos;
 
-	shared_ptr<ModelRenderer> ItemModel;
-	std::shared_ptr<Sound> getSE;
-	std::shared_ptr<SmokeParticle> mSmokeParticle;
+	bool IsBlind;
 
+	shared_ptr<ModelRenderer>ItemModel;
+	std::shared_ptr<Sound>getSE;
+	std::shared_ptr<SmokeParticle> mSmokeParticle;
 };
