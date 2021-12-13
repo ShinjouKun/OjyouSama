@@ -33,6 +33,7 @@ void Garage::StartScene()
 	bodyNum = 0;
 	bottomNum = 0;
 	weaponNum = 0;
+	gSelect = 0;
 
 	BaseScene::mSprite->AddTexture("Sentaku1", "Resouse/Sankaku.png");
 	BaseScene::mSprite->AddTexture("Sentaku2", "Resouse/Sankaku.png");
@@ -49,6 +50,8 @@ void Garage::StartScene()
 	BaseScene::mSprite->AddTexture("sOjo", "Resouse/GaregeOjoSelect.png");
 	BaseScene::mSprite->AddTexture("sHead", "Resouse/GaregeHeadSelect.png");
 	BaseScene::mSprite->AddTexture("sBody", "Resouse/GaregeBodySelect.png");
+	BaseScene::mSprite->AddTexture("sWepon", "Resouse/GarageWeponSelect.png");
+	BaseScene::mSprite->AddTexture("GSelect", "Resouse/GarageSelect.png");
 
 	SentakuPos1 = Vector3((Window::Window_Width / 2) + 230, 250, 0);
 	SentakuPos2 = Vector3((Window::Window_Width / 2) - 230, 250 + 64,0);
@@ -100,6 +103,7 @@ void Garage::UpdateScene()
 {
 	mBGM->playLoop();
 	mTimer->update();
+
 	if (!mTimer->isTime()) return;
 	if (keyflag < 0)
 	{
@@ -225,6 +229,7 @@ void Garage::UpdateScene()
 				break;
 			case 3:
 				weaponNum += 1;
+				gSelect += 95;
 				break;
 			default:
 				headNum = 0;
@@ -251,6 +256,7 @@ void Garage::UpdateScene()
 				break;
 			case 3:
 				weaponNum -= 1;
+				gSelect -= 95;
 				break;
 			default:
 				headNum = 0;
@@ -283,7 +289,7 @@ void Garage::UpdateScene()
 			SAlfa3 = 1.0f;
 			SAlfa4 = 0.5f;
 		}
-		if (keyflag == 4)
+		if (keyflag == 3)
 		{
 			SAlfa1 = 0.5f;
 			SAlfa2 = 0.5f;
@@ -308,6 +314,7 @@ void Garage::UpdateScene()
 			NextScene(std::make_shared<Select>());
 		}
 	}
+
 }
 
 void Garage::DrawScene()
@@ -338,6 +345,20 @@ void Garage::DrawScene()
 	{
 		BaseScene::mSprite->SetSize("sBody", Vector2(300, 300));
 		BaseScene::mSprite->Draw("sBody", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}	
+	if (keyflag == 3)
+	{
+		if (gSelect >= 191)
+		{
+			gSelect = 0;
+		}
+		if (gSelect <= -1)
+		{
+			gSelect = 190;
+		}
+		BaseScene::mSprite->SetSize("sWepon", Vector2(300, 300));
+		BaseScene::mSprite->Draw("sWepon", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("GSelect", Vector3(990 + gSelect, 420, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 		BaseScene::mSprite->SetSize("Syata", Vector2(1280, 720));
 		BaseScene::mSprite->Draw("Syata", Vector3(0, fade, 0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
@@ -409,10 +430,10 @@ void Garage::DrawScene()
 			mChanger->ChangeWeapons1(MachinGun);
 			break;
 		case 1:
-			mChanger->ChangeWeapons1(ShotGun);
+			mChanger->ChangeWeapons1(Mine);
 			break;
 		case 2:
-			mChanger->ChangeWeapons1(Mine);
+			mChanger->ChangeWeapons1(ShotGun);
 			break;
 		default:
 			mChanger->ChangeWeapons1(MachinGun);

@@ -45,6 +45,7 @@ private:
 	int bodyNum;
 	int bottomNum;
 	int weaponNum;
+	float gSelect;
 
 	Camera* camera;
 	Vector3 camerapos = Vector3(0, 0, 0);

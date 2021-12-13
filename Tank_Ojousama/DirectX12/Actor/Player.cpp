@@ -77,12 +77,13 @@ void Player::StartCamScene()
 
 void Player::SceneCamMove1()
 {
-
+	GPS = true;
 	if (position.z >= 520)
 	{
 		sceneCamPlayerOk = true;
 		if (sceneCamPos.x <= 0)
 		{
+			GPS = false;
 			sceneCamOk = true;
 		}
 		else
@@ -107,6 +108,7 @@ void Player::SceneCamMove2()
 
 void Player::SceneCamMove3()
 {
+	DSS = true;
 	camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, sceneCamPos.z - 50.0f));
 	camera->SetTarget(Vector3(position.x, position.y, position.z + 50.0f));
 	if (sceneCamPos.y <= 4.0f)
@@ -118,6 +120,7 @@ void Player::SceneCamMove3()
 			sceneCamPos.z += 0.5f;
 			if (sceneCamPos.z >= 550.0f)
 			{
+				DSS = false;
 				sceneCamOk = true;
 			}
 		}
@@ -131,11 +134,13 @@ void Player::SceneCamMove3()
 
 void Player::SceneCamMove4()
 {
+	BSS = true;
 	if (position.z >= 520)
 	{
 		sceneCamPlayerOk = true;
 		if (sceneCamPos.x <= 0)
 		{
+			BSS = false;
 			sceneCamOk = true;
 		}
 		else
@@ -281,6 +286,10 @@ void Player::Init()
 	playerSprite->AddTexture("Blood2", "Resouse/blood2.png");
 	playerSprite->AddTexture("Blood3", "Resouse/blood3.png");
 	playerSprite->AddTexture("Film", "Resouse/Film.png");
+	playerSprite->AddTexture("GamaplaySetumei", "Resouse/gameplaysetumei.png");
+	playerSprite->AddTexture("RobberySetumei", "Resouse/robberysetumei.png");
+	playerSprite->AddTexture("DefenceSetumei", "Resouse/difencesetumei.png");
+	playerSprite->AddTexture("BossSceneSetumei", "Resouse/bossscenesetumei.png");
 	//model
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
@@ -644,6 +653,38 @@ void Player::Rend()
 	if (!sceneCamFinish)
 	{
 		playerSprite->Draw("Film", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
+	if (GPS)
+	{
+		playerSprite->Draw("GamaplaySetumei", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
+	else
+	{
+		playerSprite->Draw("GamaplaySetumei", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0));
+	}
+	if (RSS)
+	{
+		playerSprite->Draw("RobberySetumei", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
+	else
+	{
+		playerSprite->Draw("RobberySetumei", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0));
+	}
+	if (DSS)
+	{
+		playerSprite->Draw("DefenceSetumei", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}	
+	else 
+	{
+		playerSprite->Draw("DefenceSetumei", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0));
+	}
+	if (BSS)
+	{
+		playerSprite->Draw("BossSceneSetumei", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
+	else
+	{
+		playerSprite->Draw("BossSceneSetumei", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0));
 	}
 
 	if (sceneCamOk&&HitFlag)

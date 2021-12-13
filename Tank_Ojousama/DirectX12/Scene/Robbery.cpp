@@ -455,7 +455,7 @@ void Robbery::Pose()
 		{
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
 			{
-				NextScene(std::make_shared<GamePlay>());
+				NextScene(std::make_shared<Robbery>());
 			}
 		}
 		if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
