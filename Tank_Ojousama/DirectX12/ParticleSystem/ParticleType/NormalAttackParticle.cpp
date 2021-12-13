@@ -23,7 +23,7 @@ NormalAttackParticle::NormalAttackParticle(const Vector3 & pos, bool looping)
 	aocip.rotate = Vector3::zero;
 	mEmitter->setAmountOfChangeInParticles(aocip);
 	ParticleRandomState prs;
-	prs.randomVec = Vector3(0.5f, 0.5f, 0.0f);
+	prs.randomVec = Vector3(0.5f, 0.5f, 0.5f);
 	prs.randomLife = 5.f;
 	
 	mEmitter->setParticleRandomState(prs);

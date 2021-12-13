@@ -23,7 +23,7 @@ MachineGunAttackParticle::MachineGunAttackParticle(const Vector3 & pos, bool loo
 	aocip.rotate = Vector3::zero;
 	mEmitter->setAmountOfChangeInParticles(aocip);
 	ParticleRandomState prs;
-	prs.randomVec = Vector3(0.5f, 0.5f, 0.1f);
+	prs.randomVec = Vector3(0.5f, 0.5f, 0.5f);
 	prs.randomLife = 5.f;
 	mEmitter->setParticleRandomState(prs);
 

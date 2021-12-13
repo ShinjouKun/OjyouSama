@@ -9,7 +9,7 @@ Explosion::Explosion(const Vector3 & pos, bool looping)
 	ps.Duration = 0.6f;
 	ps.Looping = looping;
 	ps.StartDelay = 0.f;
-	ps.StartLifeTime = 20.f;
+	ps.StartLifeTime = 50.f;
 	ps.StartSpeed = 1.f;
 	ps.StartRotation3D = Vector3::zero;
 	ps.StartColor = Vector4(0.85f, 0.2f, 0.f, 1.f);
@@ -17,13 +17,13 @@ Explosion::Explosion(const Vector3 & pos, bool looping)
 	ps.StartVector = Vector3(0.0f, 0.0f, 0.f);
 	ps.StartSize3D = Vector3(1.f, 1.f, 1.f);
 	Burst burst;
-	burst.Count = 30;
+	burst.Count = 50;
 	mEmitter = new Emitter(pos, ps, burst, "Resouse/bullet.png");
 	AmountOfChangeInParticles aocip;
 	aocip.rotate = Vector3::zero;
 	mEmitter->setAmountOfChangeInParticles(aocip);
 	ParticleRandomState prs;
-	prs.randomVec = Vector3(0.5f, 0.5f, 0.0f);
+	prs.randomVec = Vector3(0.5f, 0.5f, 0.5f);
 	prs.randomLife = 10.f;
 	mEmitter->setParticleRandomState(prs);
 

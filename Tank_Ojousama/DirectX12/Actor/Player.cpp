@@ -159,7 +159,10 @@ void Player::UseWeapon1()
 	BaseScene::mMoney -= 10000;
 	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 	shotFlag1 = true;
-	mNormalAtkParticle->setPos(position);//Œã‚Å’²®
+
+	auto axis = CamVelocity;
+	axis.normalize();
+	mNormalAtkParticle->setPos(Vector3(position.x - (axis.x * 2.5f), position.y + 1.5f, position.z - (axis.z * 2.5f)));//Œã‚Å’²®
 	mNormalAtkParticle->Play();
 }
 
@@ -171,7 +174,10 @@ void Player::UseWeapon2()
 		BaseScene::mMoney -= 1000;
 		masingunShot = true;
 		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
-		mMGAParticle->setPos(position);//Œã‚Å’²®
+		
+		auto axis = CamVelocity;
+		axis.normalize();
+		mMGAParticle->setPos(Vector3(position.x - (axis.x * 2.5f), position.y + 1.5f, position.z - (axis.z * 2.5f)));//Œã‚Å’²®
 		mMGAParticle->Play();
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::Mine)
