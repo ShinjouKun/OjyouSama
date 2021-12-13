@@ -5,6 +5,9 @@
 #include"../Render/ModelRenderer.h"
 #include "../Render/TexRenderer.h"
 
+class Sound;
+class Explosion;
+
 class Castle:public BaseObject
 {
 public:
@@ -25,12 +28,23 @@ private:
 	virtual void ImGuiDebug() override;
 
 	virtual void OnCollison(BaseCollider * col) override;
+
+	void translate(const Vector3& pos);
 private:
 	ObjectManager* objM;
 	shared_ptr<ModelRenderer>Model;
 	shared_ptr<TexRenderer>Sprite;
 	shared_ptr<ParticleManager>Particle;
 	shared_ptr<ParticleEmitterBox>ParticleBox;
+
+	shared_ptr<Sound> mSound;
+	shared_ptr<Explosion> mExplosion1;
+	shared_ptr<Explosion> mExplosion2;
+	shared_ptr<Explosion> mExplosion3;
+	shared_ptr<Explosion> mExplosion4;
+	shared_ptr<Explosion> mExplosion5;
+
+	float mRange;
 
 	//–³“GŽžŠÔ‚Ì‚½‚ß
 	bool HitFlag;

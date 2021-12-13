@@ -80,6 +80,8 @@ private:
 	bool OpFlag1;
 	bool OpFlag2;
 	bool OpFlag3;
+	//é•ö‚ê‚éƒtƒ‰ƒO
+	bool mCastleCollapses;
 	
 	Vector3 posePos;
 	Vector3 selectbackPos;

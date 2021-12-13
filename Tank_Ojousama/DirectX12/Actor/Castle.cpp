@@ -3,6 +3,9 @@
 #include "../Collision/BaseCollider.h"
 #include"../Utility/Sequence/Sequence.h"
 #include"../Device/Window.h"
+#include "../Sound/Sound.h"
+#include "../ParticleSystem/ParticleType/Explosion.h"
+#include "../Scene/BaseScene.h"
 
 Castle::Castle(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> modelRender, shared_ptr<TexRenderer>s,shared_ptr<ParticleManager> effect)
 	:Model(modelRender),Sprite(s),Particle(effect)
@@ -37,11 +40,42 @@ void Castle::Init()
 	MessCount1 = 0;
 	MessCount2 = 0;
 	MessCount3 = 0;
+
+	mExplosion1 = std::make_shared<Explosion>(Vector3::zero, true);
+	mExplosion1->setPos(position);
+	mExplosion1->Stop();
+	mExplosion2 = std::make_shared<Explosion>(Vector3::zero, true);
+	mExplosion2->setPos(Vector3(position.x - 25.f, position.y, position.z - 20.f));
+	mExplosion2->Stop();
+	mExplosion3 = std::make_shared<Explosion>(Vector3::zero, true);
+	mExplosion3->setPos(Vector3(position.x + 25.f, position.y, position.z - 20.f));
+	mExplosion3->Stop();
+	mExplosion4 = std::make_shared<Explosion>(Vector3::zero, true);
+	mExplosion4->setPos(Vector3(position.x - 25.f, position.y, position.z + 20.f));
+	mExplosion4->Stop();
+	mExplosion5 = std::make_shared<Explosion>(Vector3::zero, true);
+	mExplosion5->setPos(Vector3(position.x + 25.f, position.y, position.z + 20.f));
+	mExplosion5->Stop();
+
+	mSound = std::make_shared<Sound>("SE/Castle_Damage.wav", false);
+	mRange = 1.f;
 }
 
 void Castle::Update()
 {
-	
+	if (HP <= 0)
+	{
+		mExplosion1->Play();
+		mExplosion2->Play();
+		mExplosion3->Play();
+		mExplosion4->Play();
+		mExplosion5->Play();
+		position.y -= 1.f;
+		position.x += mRange;
+		position.z += mRange;
+		mRange *= -1.f;
+		return;
+	}
 	
 	if (HitFlag)
 	{
@@ -121,5 +155,12 @@ void Castle::OnCollison(BaseCollider * col)
 	{
 		HitFlag = true;	
 		HP -= col->GetColObject()->GetDamage();
+		mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+		mSound->play();
 	}
+}
+
+void Castle::translate(const Vector3 & pos)
+{
+	position += pos;
 }
