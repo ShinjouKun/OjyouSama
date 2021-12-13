@@ -65,15 +65,14 @@ public:
 	int GetWeaponNum() { return Weapon; }
 	void SetWeaponNum(int num);
 	string GetModelName(int num);//0`2‚¨ì—l,3íÔ(–C“ƒj,4íÔ(Ô‘Ìj
-	void SetBuysNum(int buy);
-	int GetBuysNum(int buy)const;
+	void SetBuysNum(string buy);
+	string GetBuysNum(int buy);
 	int hp;//HP
 	int upDamage;//UŒ‚—Í
 	float speed;
 	int Weapon;
 private:
-	std::vector<string> b;
-	std::vector<int> buys;//w“üƒŠƒXƒg
+	std::vector<std::string> buys;//w“üƒŠƒXƒg
 	std::vector<std::string> state;
 	std::vector<std::string> modelKey;
 	HeadState head;
