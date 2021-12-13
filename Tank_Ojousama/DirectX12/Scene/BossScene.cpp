@@ -57,7 +57,6 @@ void BossScene::StartScene()
 	BaseEnemy::SetImportantObject(mObjManager, BaseScene::mModel, BaseScene::mParticle, mBreadCreator);
 	BaseEnemy::SetAttackTarget(Vector3(50, 0, -100));/*‹’“_‚ÌˆÊ’u*/
 
-
 #pragma region ‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
@@ -150,13 +149,13 @@ void BossScene::StartScene()
 	//¶
 	mObjManager->Add(new BetaTestBlock(Vector3(-100, 0.0f, 400.0f), Vector3(90, 90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
 
-	//Šâ“Š‚°‚Ì“G
-	mObjManager->Add(new MortarEnemy(Vector3(+80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-	mObjManager->Add(new MortarEnemy(Vector3(-80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+	////Šâ“Š‚°‚Ì“G
+	//mObjManager->Add(new MortarEnemy(Vector3(+80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+	//mObjManager->Add(new MortarEnemy(Vector3(-80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
 
-	//’¹‚Ì“G
-	mObjManager->Add(new BirdEnemy(Vector3(+80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), objectCount++));
-	mObjManager->Add(new BirdEnemy(Vector3(-80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), objectCount++));
+	////’¹‚Ì“G
+	//mObjManager->Add(new BirdEnemy(Vector3(+80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), objectCount++));
+	//mObjManager->Add(new BirdEnemy(Vector3(-80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), objectCount++));
 
 	//ƒ{ƒX
 	mBoss = new ElfTreeBoss(Vector3(0.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), BaseScene::mParticle, objectCount++);
@@ -171,7 +170,7 @@ void BossScene::StartScene()
 
 void BossScene::UpdateScene()
 {
-	//mSound->playLoop();
+	mSound->playLoop();
 	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	mTimer->update();
 	if (resultFlag)
