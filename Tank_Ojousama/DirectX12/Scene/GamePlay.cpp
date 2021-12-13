@@ -306,7 +306,7 @@ void GamePlay::UpdateScene()
 	Setting();
 
 	/////*‰“‹——£UŒ‚‚Ì“G*/
-	if (!spawnFlag)
+	if (!spawnFlag&&objM->GetPlayer().GetSceneFinish())
 	{
 		
 		objM->Add(new SniperEnemy(Vector3(0.0f,   0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), 0));
@@ -324,7 +324,7 @@ void GamePlay::UpdateScene()
 		spawnFlag = true;
 	}
 	
-	if (!spawnFlag2&&objM->GetPlayer().GetPosition().z <= 320.0f)
+	if (!spawnFlag2&&objM->GetPlayer().GetPosition().z <= 320.0f&&objM->GetPlayer().GetSceneFinish())
 	{
 		objM->Add(new BlowEnemy(Vector3(20.0f,    0.0f, 230.0f), Vector3(0, 180, 0),  10));
 		objM->Add(new BlowEnemy(Vector3(-20.0f,   0.0f, 230.0f), Vector3(0, 180, 0),  11));
@@ -337,7 +337,7 @@ void GamePlay::UpdateScene()
 	}
 
 
-	if (!spawnFlag3&&objM->GetPlayer().GetPosition().z <= 200.0f)
+	if (!spawnFlag3&&objM->GetPlayer().GetPosition().z <= 200.0f&&objM->GetPlayer().GetSceneFinish())
 	{
 		objM->Add(new SniperEnemy(Vector3(2.0f,   0.0f, 140.0f), Vector3(0.0f, 180.0f, 0.0f), 17));
 		objM->Add(new SniperEnemy(Vector3(+60.0f, 0.0f, 150.0f), Vector3(0.0f, 225.0f, 0.0f), 18));

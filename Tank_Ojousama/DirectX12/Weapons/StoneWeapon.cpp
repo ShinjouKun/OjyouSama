@@ -20,6 +20,7 @@ void StoneWeapon::Init()
 {
 	SetBulletType();
 	attckStart = 0;
+	z = 0;
 	damage = 10;
 	name = "Stone";
 	num = to_string(number);
@@ -31,7 +32,7 @@ void StoneWeapon::Init()
 	death = false;
 	speed = 1.5f;
 	//コライダーの情報をセット
-	SetCollidder(Vector3(position.x, position.y, position.z), 1.5f);
+	SetCollidder(Vector3(0,0,0), 2.5f);
 }
 
 void StoneWeapon::Update()
@@ -62,7 +63,8 @@ void StoneWeapon::Update()
 void StoneWeapon::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	Model->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(1, 1, 1));
+	z += 2.5f;
+	Model->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, z), Vector3(1, 1, 1));
 }
 
 void StoneWeapon::ImGuiDebug()

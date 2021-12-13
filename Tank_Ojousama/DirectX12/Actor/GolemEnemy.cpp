@@ -141,16 +141,32 @@ bool GolemEnemy::Distance(const Vector3 & otherPos, float dist)
 
 void GolemEnemy::Safe()
 {
-	rndCount++;
-	if (rndCount >= 240)
+	if (!objM->GetPlayer().GetSceneFinish())
 	{
-		//AvoidMove();
+		position.y = -6.0f;
+		ArmPosL.y = -6.0f;
+		zL = 45.0f;
+		zR = -35.0f;
+		ArmPosR.y = -6.0f;
 	}
 }
 
 void GolemEnemy::Battele()
 {
 	//攻撃カウント開始
+	if (position.y >= 4.0f)
+	{
+		position.y = 4.0f;
+		ArmPosL.y = 8.0f;
+		ArmPosR.y = 8.0f;
+	}
+	else
+	{
+		position.y += 1.0f;
+		ArmPosL.y += 1.5f;
+		ArmPosR.y += 2.0f;
+	}
+	
 	moveCount++;
 	AttackCount++;
 	if (AttackCount >= 240)//四秒
@@ -365,7 +381,7 @@ void GolemEnemy::LangeAttack()
 	{
 		bulletStock++;
 		objM->Add(new StoneWeapon(Vector3(position.x, position.y+1.0f, position.z),
-			Vector3(targetAngleX, -bodyAngle.y, 0),
+			Vector3(0, -bodyAngle.y, 0),
 			objM, Model, Particle, objType, bulletStock));
 		stoneShotFlag = true;
 	}
@@ -373,7 +389,7 @@ void GolemEnemy::LangeAttack()
 	//岩を投げる
 	angleVec = Vector3(0, 0, 0);
 	angleVec = GetEnemyVec(angleVec);
-	targetAngleX = 10;
+	//targetAngleX = 10;
 	bodyAngle.y = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
 	zR = 15.0f;
 	zL = -15.0f;
@@ -500,6 +516,8 @@ Vector3 GolemEnemy::GetEnemyVec(const Vector3 & vec)
 void GolemEnemy::Init()
 {
 	SetActive(false);
+	startFlag = false;
+
 	maxSpeed = 2.0f;
 	speedTime = 0.0f;
 	speedLimitTime = 360.0f;
@@ -563,8 +581,8 @@ void GolemEnemy::Update()
 	}
 	ImGuiDebug();
 	Senser();
-	ySpeed = Easing::ease_in_cubic(sin(speedTime), 0, maxSpeed, 3.0f);
-	position.y += ySpeed;
+	//ySpeed = Easing::ease_in_cubic(sin(speedTime), 0, maxSpeed, 3.0f);
+	//position.y += ySpeed;
 	if (HitFlag)
 	{
 		HitCount++;
@@ -609,14 +627,10 @@ void GolemEnemy::Update()
 
 void GolemEnemy::Rend()
 {
-	if (GetActive())
-	{
 		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 		Model->Draw(numNameBody, Vector3(position.x, position.y, position.z), Vector3(bodyAngle.x, -bodyAngle.y, 0), Vector3(3.0f, 3.0f, 3.0f));
 		Model->Draw(numNameArmR, Vector3(ArmPosR.x, ArmPosR.y, ArmPosR.z), Vector3(ArmAngleR, -bodyAngle.y, zR), Vector3(3.0f, 3.0f, 3.0f));
 		Model->Draw(numNameArmL, Vector3(ArmPosL.x, ArmPosL.y, ArmPosL.z), Vector3(ArmAngleL, -bodyAngle.y, zL), Vector3(3.0f, 3.0f, 3.0f));
-	}
-		
 }
 
 void GolemEnemy::ImGuiDebug()
