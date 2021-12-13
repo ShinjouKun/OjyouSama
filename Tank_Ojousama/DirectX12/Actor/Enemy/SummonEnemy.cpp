@@ -58,9 +58,9 @@ void SummonEnemy::Init()
 	//サウンド初期化
 	mAttackSE = std::make_shared<Sound>("SE/punti.mp3", false);
 	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mDamageSE = std::make_shared<Sound>("SE/Summon_Damage.wav", false);
 	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mDeathSE = std::make_shared<Sound>("SE/endingse.wav", false);
+	mDeathSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
 	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
 	//タイマー初期化
