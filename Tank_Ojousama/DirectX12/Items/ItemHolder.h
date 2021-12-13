@@ -11,13 +11,18 @@ public:
 	~ItemHolder();
 
 	static ItemHolder* GetInstance();
-	void UseItem();
+	void UseItem(ItemNames item);
 	void AddItem(ItemNames item);
-	void UseUlt();
+	void UseUlt(ItemNames ult);
 	void AddUlt(ItemNames item);
 
-	void SetUseFlag(bool value);
-	bool GetUseFlag() { return useItems; };
+	void SetUseRepair(bool value);
+	void SetUseSmoke(bool value);
+	void SetUseShield(bool value);
+	bool GetUseRepair() { return useRepair; };
+	bool GetUseSmoke() { return useSmoke; };
+	bool GetUseShield() { return useShield; };
+	int GetItemNum(ItemNames item);
 
 private:
 
@@ -31,7 +36,7 @@ private:
 	unordered_map<ItemNames, int> items;
 	unordered_map<ItemNames, int> ults;
 	int count;
-	bool useItems;
-	ItemNames itemName;
-	ItemNames ultName;
+	bool useRepair;
+	bool useSmoke;
+	bool useShield;
 };

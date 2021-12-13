@@ -18,7 +18,9 @@ ItemHolder * ItemHolder::GetInstance()
 void ItemHolder::Init()
 {
 	count = 0;
-	useItems = false;
+	useRepair = false;
+	useSmoke = false;
+	useShield = false;
 }
 
 void ItemHolder::Update()
@@ -32,10 +34,10 @@ void ItemHolder::Reset()
 }
 
 //使う時
-void ItemHolder::UseItem()
+void ItemHolder::UseItem(ItemNames item)
 {
 	
-	count = items[itemName]-1;
+	count = items[item]-1;
 
 	if (count < 0)
 	{
@@ -43,23 +45,33 @@ void ItemHolder::UseItem()
 	}
 	
 	
-	items.insert_or_assign(itemName, count);
+	items.insert_or_assign(item, count);
 
-	SetUseFlag(true);
+	if (item == ItemNames::heal)
+	{
+		SetUseRepair(true);
+	}
+	if (item == ItemNames::dome)
+	{
+		SetUseShield(true);
+	}
+	if (item == ItemNames::smock)
+	{
+		SetUseSmoke(true);
+	}
 }
 
 //アイテム取った時
 void ItemHolder::AddItem(ItemNames item)
 {
 	count = items.count(item)+1;
-	itemName = item;
 
 	items.insert_or_assign( item, count );
 }
 
-void ItemHolder::UseUlt()
+void ItemHolder::UseUlt(ItemNames item)
 {
-	count = ults[ultName] - 1;
+	count = ults[item] - 1;
 
 	if (count < 0)
 	{
@@ -67,20 +79,45 @@ void ItemHolder::UseUlt()
 	}
 
 
-	ults.insert_or_assign(ultName, count);
+	ults.insert_or_assign(item, count);
 
-	SetUseFlag(true);
+	if (item == ItemNames::heal)
+	{
+		SetUseRepair(true);
+	}
+	if (item == ItemNames::dome)
+	{
+		SetUseShield(true);
+	}
+	if (item == ItemNames::smock)
+	{
+		SetUseSmoke(true);
+	}
 }
 
 void ItemHolder::AddUlt(ItemNames item)
 {
 	count = ults.count(item) + 1;
-	ultName = item;
 
-	ults.insert_or_assign(ultName, count);
+	ults.insert_or_assign(item, count);
 }
 
-void ItemHolder::SetUseFlag(bool value)
+void ItemHolder::SetUseRepair(bool value)
 {
-	useItems = value;
+	useRepair = value;
+}
+
+void ItemHolder::SetUseSmoke(bool value)
+{
+	useSmoke = value;
+}
+
+void ItemHolder::SetUseShield(bool value)
+{
+	useShield = value;
+}
+
+int ItemHolder::GetItemNum(ItemNames item)
+{
+	return items[item];
 }

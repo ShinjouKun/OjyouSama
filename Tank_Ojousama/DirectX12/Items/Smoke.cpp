@@ -48,10 +48,11 @@ void Smoke::Update()
 	}
 
 
-	if (ItemHolder::GetInstance()->GetUseFlag())
+	if (ItemHolder::GetInstance()->GetUseSmoke())
 	{
 		active = true;
 		pPos=objM->GetPlayer().GetPosition();
+		ItemHolder::GetInstance()->SetUseSmoke(false);
 	}
 
 	Smoker();

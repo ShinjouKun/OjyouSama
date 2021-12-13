@@ -14,6 +14,7 @@ Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, share
 	itemState = itemStates;
 	//itemHolder = holder;
 	guadePoint = addHp;
+	damege = 0;
 }
 
 Shield::~Shield()
@@ -54,7 +55,7 @@ void Shield::Update()
 		death = true;
 	}*/
 
-	if (ItemHolder::GetInstance()->GetUseFlag())
+	if (ItemHolder::GetInstance()->GetUseShield())
 	{
 		active = true;
 	}
@@ -92,10 +93,7 @@ void Shield::OnCollison(BaseCollider * col)
 		getSE->play();
 	}
 
-	if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET)
-	{
-		damege = col->GetColObject()->GetDamage();
-	}
+	
 }
 
 void Shield::Guade()
@@ -105,10 +103,17 @@ void Shield::Guade()
 		return;
 	}
 
-	guadePoint -= damage;
+	if (objM->GetPlayer().GetDamage() >= 0)
+	{
+		damege = objM->GetPlayer().GetDamage();
+	}
+
+	guadePoint -= damege;
+	damage = 0;
 
 	if (guadePoint <= 0)
 	{
+		ItemHolder::GetInstance()->SetUseShield(false);
 		active = false;
 		death = true;
 	}

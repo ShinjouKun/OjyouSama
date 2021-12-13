@@ -18,6 +18,10 @@
 #include "../Actor/Enemy/CEnemy.h"
 #include "../Actor/Enemy/MortarEnemy.h"
 
+#include "../Items/Repair.h"
+#include "../Items/Shield.h"
+#include "../Items/Smoke.h"
+
 GamePlay::GamePlay()
 	:mSound(nullptr)
 {
@@ -260,6 +264,8 @@ void GamePlay::StartScene()
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,1));
 	objM->Add(new CameraEye(Vector3(0,  0.0f, 180), Vector3(0, 0, 0), objM));
 	objM->Add(new Repair(Vector3(20.0f, 0.0f, 480.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite,  ItemState::Low, 0, 50000, 20));
+	objM->Add(new Smoke(Vector3(25.0f, 0.0f, 480.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,  ItemState::Low, 0, 50000));
+	objM->Add(new Shield(Vector3(15.0f, 0.0f, 480.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite,  ItemState::Low, 0, 20));
 
 	mTimer = std::make_shared<Timer>(0.01f);
 	

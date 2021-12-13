@@ -190,6 +190,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/difencesetumei.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/bossscenesetumei.png");
 
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/RepairIcon.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/SmokeIcon.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/ShieldIcon.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/X.png");
+
 	//‚¨•ó
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs_huta.obj");

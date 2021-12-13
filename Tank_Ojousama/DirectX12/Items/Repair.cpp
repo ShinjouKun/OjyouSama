@@ -55,7 +55,7 @@ void Repair::Update()
 	}
 
 
-	if (ItemHolder::GetInstance()->GetUseFlag())
+	if (ItemHolder::GetInstance()->GetUseRepair())
 	{
 		active = true;
 	}
@@ -111,7 +111,7 @@ void Repair::Heal()
 		itemFade = 1.0f;
 		objM->GetPlayer().SetHP(saveHP);
 		active = false;
-		ItemHolder::GetInstance()->SetUseFlag(false);
+		ItemHolder::GetInstance()->SetUseRepair(false);
 		death = true;
 	}
 }
