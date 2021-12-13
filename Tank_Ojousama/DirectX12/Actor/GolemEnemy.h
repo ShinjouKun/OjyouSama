@@ -90,6 +90,8 @@ private:
 	bool HitFlag;
 	int HitCount;
 	//ステータス
+	
+	bool startFlag;
 	float ySpeed;
 	int speedTime;
 	float maxSpeed;
