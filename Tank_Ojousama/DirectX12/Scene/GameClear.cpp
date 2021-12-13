@@ -114,6 +114,7 @@ void GameClear::DrawScene()
 	BaseScene::mModel->Draw("TankPlayerB", Vector3(2, 0, 10), Vector3(0, -90, 0), Vector3(2.5f, 2.5f, 2.5f));
 	BaseScene::mModel->Draw("OjyouSama", Vector3(-3, -2.5f , 4), Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
+	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(2, 7, 2));
 #pragma region ‰Ô—p
 	BaseScene::mModel->Draw("Flower1", Vector3(0, -0 , 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
 	BaseScene::mModel->Draw("Flower2", Vector3(5, -0 , 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
@@ -164,8 +165,7 @@ void GameClear::DrawScene()
 	BaseScene::mModel->Draw("Flower47", Vector3(-10, -0 , 54), Vector3(0, 0, 0), Vector3(1, 1, 1));
 	BaseScene::mModel->Draw("Flower48", Vector3(-20, -0 , 54), Vector3(0, 0, 0), Vector3(1, 1, 1));
 #pragma endregion
-
-	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(2, 7, 2));
+	
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("End", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Fade1", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade1));
