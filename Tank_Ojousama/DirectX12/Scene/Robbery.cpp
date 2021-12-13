@@ -183,6 +183,7 @@ void Robbery::StartScene()
 #pragma region モデルの読み込み
 
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
+	BaseScene::mModel->AddModel("Shiro", "Resouse/castle.obj", "Resouse/castle.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/sougen.png");
 	BaseScene::mModel->AddModel("KabeR", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeL", "Resouse/Plane.obj", "Resouse/kabe.png");
@@ -277,11 +278,11 @@ void Robbery::StartScene()
 	mObjManager->Add(new Treasure(Vector3(0.0f, 0, 70.0f), Vector3(0, 180.0f, 0), mObjManager, BaseScene::mModel));
 
 	//城モデル
-	mObjManager->Add(new Castle(Vector3(0.0f, -10.0f, 500.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle));
+	//mObjManager->Add(new Castle(Vector3(0.0f, -10.0f, 500.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle));
 
 
 	//プレイヤー生成
-	mObjManager->Add(new Player(Vector3(0.0f, 4.0f, 0.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, 3));
+	mObjManager->Add(new Player(Vector3(0.0f, 4.0f, 0.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, 2));
 	mObjManager->Add(new CameraEye(Vector3(0, 0, 180), Vector3(0, 0, 0), mObjManager));
 }
 
@@ -330,7 +331,7 @@ void Robbery::DrawScene()
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 200.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
-
+	BaseScene::mModel->Draw("Shiro", Vector3(0, -10.0f, 550.0f), Vector3(0, 0, 0), Vector3(10, 10, 10));
 	BaseScene::mModel->Draw("KabeR4", Vector3(-170.0f, 60.0f, -200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeL4", Vector3(170.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeR3", Vector3(-170.0f, 60.0f, 0.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));

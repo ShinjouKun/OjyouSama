@@ -52,6 +52,10 @@ void Player::StartCamScene()
 		break;
 	case 2:
 		//強奪
+		position = Vector3(0, 0, 100);
+		sceneCamPos = Vector3(120, 80, 100);
+		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
+		camera->SetTarget(Vector3(0, 0, position.z));
 		break;
 	case 3:
 		//タワーディフェンス
@@ -96,7 +100,7 @@ void Player::SceneCamMove1()
 	}
 	else
 	{
-		position.z += 4.0f;
+		position.z += 3.0f;
 		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
 		camera->SetTarget(Vector3(0, 0, position.z));
 	}
@@ -104,6 +108,29 @@ void Player::SceneCamMove1()
 
 void Player::SceneCamMove2()
 {
+	RSS = true;
+	if (position.z >= 510)
+	{
+		sceneCamPlayerOk = true;
+		if (sceneCamPos.x <= 0)
+		{
+			RSS = false;
+			sceneCamOk = true;
+		}
+		else
+		{
+			sceneCamPos.x -= 3.0f;
+			sceneCamPos.y -= 2.0f;
+			camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
+			camera->SetTarget(Vector3(0, 0, position.z));
+		}
+	}
+	else
+	{
+		position.z += 4.0f;
+		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
+		camera->SetTarget(Vector3(0, 0, position.z));
+	}
 }
 
 void Player::SceneCamMove3()
@@ -623,6 +650,7 @@ void Player::Update()
 void Player::Rend()
 {
 	Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
+	
 	if (!masingunShot)
 	{
 		ojyouXR = -90.0f;
@@ -643,9 +671,9 @@ void Player::Rend()
 		playerModel->Draw(modelChanger->GetModelName(3), Vector3(position.x, position.y, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
 		playerModel->Draw(modelChanger->GetModelName(4), Vector3(position.x, position.y, position.z), Vector3(0, -angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
 
-		playerModel->Draw(modelChanger->GetModelName(0), Vector3(position.x - 0.2f, position.y + 3.2f + ojyouZ, position.z), Vector3(ojyouXR, -ojyouY, ojyouZR), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw(modelChanger->GetModelName(1), Vector3(position.x, position.y + ojyouZ, position.z), Vector3(0, -ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-		playerModel->Draw(modelChanger->GetModelName(2), Vector3(position.x + 0.2f, position.y + 3.2f + ojyouZ, position.z), Vector3(ojyouXL, -ojyouY, ojyouZL), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(0), Vector3(position.x - 0.2f, position.y + 3.2f + ojyouZ, position.z), Vector3(ojyouXR, -atkAngle, ojyouZR), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(1), Vector3(position.x, position.y + ojyouZ, position.z), Vector3(0, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
+		playerModel->Draw(modelChanger->GetModelName(2), Vector3(position.x + 0.2f, position.y + 3.2f + ojyouZ, position.z), Vector3(ojyouXL, -atkAngle, ojyouZL), Vector3(1.5f, 1.5f, 1.5f));
 	}
 
 
@@ -705,11 +733,7 @@ void Player::Rend()
 		playerSprite->Draw("AIM_S", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 
-	if (GameOver)
-	{
-		DirectXManager::GetInstance()->SetData2D();
-		playerSprite->Draw("DETH", Vector3(500, 200, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-	}
+	
 
 }
 
@@ -731,7 +755,7 @@ void Player::TrajectoryPlay()
 
 void Player::OnCollison(BaseCollider* col)
 {
-	if (!HitFlag)
+	if (!HitFlag&&sceneCamFinish)
 	{
 		if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET
 			|| col->GetColObject()->GetType() == ObjectType::ENEMY

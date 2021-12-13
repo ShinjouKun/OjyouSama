@@ -199,7 +199,7 @@ void Defense::UpdateScene()
 			NextScene(std::make_shared<GameOver>());
 		}
 	}
-	if (objM->GetPlayer().GetHp() <= 0)
+	if (objM->GetPlayer().GetHp() <= 0||objM->GetCastle().GetHP() <= 0)
 	{
 		resultFlag = true;
 	}
@@ -225,10 +225,6 @@ void Defense::UpdateScene()
 		Wave3();
 	}
 
-	if (objM->GetPlayer().GetHp() <= 0)
-	{
-		resultFlag = true;
-	}
 }
 
 void Defense::DrawScene()
@@ -369,8 +365,8 @@ void Defense::Wave3EnemySpown()
 
 	objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(40.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+	objM->Add(new SniperEnemy(Vector3(40.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+	objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 
 	objM->Add(new BirdEnemy(Vector3(40.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), enemyCount++));
 	objM->Add(new BirdEnemy(Vector3(-70.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), enemyCount++));
@@ -380,8 +376,8 @@ void Defense::Wave3EnemySpown()
 
 	objM->Add(new SniperEnemy(Vector3(50.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(10.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(10.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+	objM->Add(new SniperEnemy(Vector3(10.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+	objM->Add(new SniperEnemy(Vector3(10.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	spown3 = true;
 }
 
