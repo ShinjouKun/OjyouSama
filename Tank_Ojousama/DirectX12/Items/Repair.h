@@ -1,12 +1,14 @@
 #pragma once
 #include "Item.h"
+#include "ItemHolder.h"
 #include "../Render/TexRenderer.h"
 #include "../Render/ModelRenderer.h"
 #include "../Render/ParticleManager.h"
-#include "ItemHolder.h"
+#include <memory>
 
 
 class Player;
+class Sound;
 
 class Repair :public Item
 {
@@ -39,5 +41,7 @@ private:
 
 	shared_ptr<ModelRenderer>ItemModel;
 	shared_ptr<TexRenderer>ItemUseTex;
+	std::shared_ptr<Sound>getSE;
+	std::shared_ptr<Sound>healSE;
 
 };

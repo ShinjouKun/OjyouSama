@@ -1,5 +1,7 @@
 #include "Shield.h"
 #include "../Collision/SpherCollider.h"
+#include "../Sound/Sound.h"
+#include"../Scene/BaseScene.h"
 
 
 Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp) :ItemModel(m),itemUseTex(s)
@@ -29,8 +31,9 @@ void Shield::Init()
 	num = to_string(number);
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/shield.obj", "Resouse/shield.png");
-	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
+	ItemModel->SetAncPoint(numName, Vector3(0, 2.0f, 0));
 	itemUseTex->AddTexture(numName, "Resouse/ShieldEffect.png");
+	getSE = std::make_shared<Sound>("SE/getItem.mp3", false);
 	if (itemState == ItemState::Low)
 	{
 		guadePoint = 20;
@@ -55,6 +58,9 @@ void Shield::Update()
 	{
 		active = true;
 	}
+
+	Guade();
+	getSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 }
 
 void Shield::Rend()
@@ -81,12 +87,12 @@ void Shield::OnCollison(BaseCollider * col)
 	{
 		ItemHolder::GetInstance()->AddItem(itemName);
 		isGet = true;
+		getSE->play();
 	}
 
 	if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET)
 	{
 		damege = col->GetColObject()->GetDamage();
-		Guade();
 	}
 }
 

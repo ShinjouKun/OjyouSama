@@ -6,6 +6,7 @@
 #include "../Render/ParticleManager.h"
 
 class Player;
+class Sound;
 
 class Shield :public Item
 {
@@ -36,4 +37,5 @@ private:
 
 	shared_ptr<ModelRenderer>ItemModel;
 	shared_ptr<TexRenderer> itemUseTex;
+	std::shared_ptr<Sound>getSE;
 };

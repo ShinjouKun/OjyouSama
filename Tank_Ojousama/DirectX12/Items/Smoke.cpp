@@ -1,5 +1,7 @@
 #include "Smoke.h"
 #include "../Collision/SpherCollider.h"
+#include "../Sound/Sound.h"
+#include"../Scene/BaseScene.h"
 
 Smoke::Smoke(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp)
 {
@@ -28,7 +30,8 @@ void Smoke::Init()
 	num = to_string(number);
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/smokeModel.obj", "Resouse/smokeModel.png");
-	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
+	ItemModel->SetAncPoint(numName, Vector3( 0, 2.0f, 0));
+	getSE = std::make_shared<Sound>("SE/getItem.mp3", false);
 	if (itemState == ItemState::Low)
 	{
 		smokePoint = 20;
@@ -51,6 +54,7 @@ void Smoke::Update()
 	}
 
 	Smoker();
+	getSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 }
 
 void Smoke::Rend()
@@ -72,6 +76,7 @@ void Smoke::OnCollison(BaseCollider * col)
 	{
 		ItemHolder::GetInstance()->AddItem(itemName);
 		isGet = true;
+		getSE->play();
 	}
 }
 
