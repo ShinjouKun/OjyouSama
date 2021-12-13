@@ -4,7 +4,7 @@
 #include"Select.h"
 #include"Result.h"
 #include "GameOver.h"
-#include "GameClear.h"
+#include "EndRoll.h"
 #include "../Sound/Sound.h"
 #include "../Actor/WayPointManager.h"
 #include "../Actor/BreadCrumbCreater.h"
@@ -192,7 +192,7 @@ void BossScene::UpdateScene()
 	if (mBoss->GetDeadFlag())
 	{
 		mBossDeadFlag = true;
-		NextScene(std::make_shared<GameClear>());
+		NextScene(std::make_shared<EndRoll>());
 	}
 
 	if (mObjManager->GetPlayer().GetHp() <= 0)
