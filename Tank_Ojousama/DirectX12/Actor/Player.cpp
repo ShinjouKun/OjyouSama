@@ -16,6 +16,7 @@
 #include"../Scene/BaseScene.h"
 #include"../Utility/Sequence/Sequence.h"
 #include"../Utility/ModelChanger.h"
+#include "../Utility/Random.h"
 #include"../Items/ItemHolder.h"
 
 #include "../ParticleSystem/ParticleType/Hit.h"
@@ -25,7 +26,7 @@
 
 #define ToRad(deg)((deg)*(PI/180.0f))
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, int sceneE)
-	:playerModel(m), playerParticle(p), playerSprite(s), mSound(nullptr),
+	:playerModel(m), playerParticle(p), playerSprite(s), mNormalAttackSE(nullptr),
 	listener(std::make_shared<Listener>())
 {
 	position = pos;
@@ -248,7 +249,10 @@ void Player::AngleReset()
 void Player::Init()
 {
 
-	mSound = std::make_shared<Sound>("SE/bomb3.mp3", false);
+	mNormalAttackSE = std::make_shared<Sound>("SE/bomb3.mp3", false);
+	mDamageSE01 = std::make_shared<Sound>("SE/Player_Damage01.mp3", false);
+	mDamageSE02 = std::make_shared<Sound>("SE/Player_Damage02.mp3", false);
+	mDeathSE = std::make_shared<Sound>("SE/Player_Death.mp3", false);
 	mTimer = std::make_shared<Timer>();
 
 	//パーティクル初期化
@@ -332,7 +336,7 @@ void Player::Update()
 	}
 	mTimer->update();
 
-	mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+	mNormalAttackSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 
 	//シーン演出 
 #pragma region シーン
@@ -370,6 +374,7 @@ void Player::Update()
 		{
 			BaseScene::mMoney -= 500000;
 			GameOver = true;
+			mDeathSE->play();
 		}
 		if (HitFlag)
 		{
@@ -562,7 +567,7 @@ void Player::Update()
 				UseWeapon1();
 				bulletStock++;
 				shotcnt1 = 0;
-				mSound->play();
+				mNormalAttackSE->play();
 			}
 		}
 		if (shotFlag2)
@@ -689,6 +694,17 @@ void Player::OnCollison(BaseCollider* col)
 			HitFlag = true;
 			mHit->setPos(position);//後で調整
 			mHit->Play();
+
+			Random::initialize();
+			int count = Random::randomRange(0, 2);
+			if (count == 0)
+			{
+				mDamageSE01->play();
+			}
+			else if (count == 1)
+			{
+				mDamageSE02->play();
+			}
 		}
 	}
 

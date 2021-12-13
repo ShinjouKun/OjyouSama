@@ -55,7 +55,10 @@ private:
 	shared_ptr<TexRenderer>playerSprite;
 	shared_ptr<Listener> listener;
 	Camera* camera;
-	std::shared_ptr<Sound> mSound;
+	std::shared_ptr<Sound> mNormalAttackSE;
+	std::shared_ptr<Sound> mDamageSE01;
+	std::shared_ptr<Sound> mDamageSE02;
+	std::shared_ptr<Sound> mDeathSE;
 	std::shared_ptr<Timer> mTimer;
 	ModelChanger* modelChanger;
 
@@ -119,16 +122,4 @@ private:
 	std::shared_ptr<TankTrajectory> mTankTraL;//軌跡
 	std::shared_ptr<TankTrajectory> mTankTraR;//軌跡
 	std::shared_ptr<Hit> mHit;//小爆発
-
-
-	//「1=Pキーで落とす」「2=距離で落とす」「3=時間で落とす」
-	void DropBreadCrumb(int status);
-	//パンくず距離測定用マップ
-	std::unordered_map<int, Vector3> measureMap;
-	//パンくずの識別番号
-	int breadNumber = 0;
-	//パンくずを落とす間隔
-	int intervalCount = 0;
-	int intervalTime = 1;
-
 };
