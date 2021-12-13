@@ -210,18 +210,15 @@ void Defense::UpdateScene()
 	{
 		if (objM->GetPlayer().GetSceneFinish())
 		{
-			mSE->play();
 			Wave1();
 		}
 	}
 	else if (!wave2Clear)
 	{
-		mSE->play();
 		Wave2();
 	}
 	else if (!wave3Clear)
 	{
-		mSE->play();
 		Wave3();
 	}
 
@@ -388,7 +385,6 @@ void Defense::Wave3EnemySpown()
 
 void Defense::Wave1()
 {
-
 	//テキスト表示
 	//インターバル
 	interval++;
@@ -397,6 +393,7 @@ void Defense::Wave1()
 	
 	if (!spown1)
 	{
+		mSE->play();
 		Wave1EnemySpown();
 	}
 	else
@@ -426,6 +423,7 @@ void Defense::Wave2()
 	//敵のadd
 	if (!spown2)
 	{
+		mSE->play();
 		Wave2EnemySpown();
 	}
 	else
@@ -453,6 +451,7 @@ void Defense::Wave3()
 	//敵のadd
 	if (!spown3)
 	{
+		mSE->play();
 		Wave3EnemySpown();
 	}
 	else
