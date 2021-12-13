@@ -174,6 +174,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Film.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/heal.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/ShieldEffect.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/endhing.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/flower.png");

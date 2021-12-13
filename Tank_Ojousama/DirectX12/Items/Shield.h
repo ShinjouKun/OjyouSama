@@ -6,11 +6,12 @@
 #include "../Render/ParticleManager.h"
 
 class Player;
+class Sound;
 
 class Shield :public Item
 {
 public:
-	Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemState, int num, int addHp);
+	Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<TexRenderer>s, ItemState itemState, int num, int addHp);
 	~Shield();
 
 private:
@@ -36,4 +37,5 @@ private:
 
 	shared_ptr<ModelRenderer>ItemModel;
 	shared_ptr<TexRenderer> itemUseTex;
+	std::shared_ptr<Sound>getSE;
 };

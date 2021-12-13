@@ -6,6 +6,7 @@
 #include "../Render/ParticleManager.h"
 
 class Player;
+class Sound;
 
 class Smoke :public Item
 {
@@ -36,5 +37,6 @@ private:
 	bool IsBlind;
 
 	shared_ptr<ModelRenderer>ItemModel;
+	std::shared_ptr<Sound>getSE;
 
 };

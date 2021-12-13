@@ -1,8 +1,10 @@
 #include "Shield.h"
 #include "../Collision/SpherCollider.h"
+#include "../Sound/Sound.h"
+#include"../Scene/BaseScene.h"
 
 
-Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp) :ItemModel(m),itemUseTex(s)
+Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp) :ItemModel(m),itemUseTex(s)
 {
 	position = pos;
 	angle = ang;
@@ -25,12 +27,13 @@ void Shield::Init()
 	active = false;
 	SetCollidder(Vector3(0, 0, 0), 0.5f);
 	alive = 0;
-	name = "Repair";
+	name = "Shield";
 	num = to_string(number);
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/shield.obj", "Resouse/shield.png");
-	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
-	itemUseTex->AddTexture(numName, "");
+	ItemModel->SetAncPoint(numName, Vector3(0, 2.0f, 0));
+	itemUseTex->AddTexture(numName, "Resouse/ShieldEffect.png");
+	getSE = std::make_shared<Sound>("SE/getItem.mp3", false);
 	if (itemState == ItemState::Low)
 	{
 		guadePoint = 20;
@@ -55,6 +58,9 @@ void Shield::Update()
 	{
 		active = true;
 	}
+
+	Guade();
+	getSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 }
 
 void Shield::Rend()
@@ -63,6 +69,11 @@ void Shield::Rend()
 	{
 		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 		ItemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), Vector3(1, 1, 1));
+	}
+
+	if (active)
+	{
+		itemUseTex->Draw(numName, Vector3(0, 0, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 }
 
@@ -76,12 +87,12 @@ void Shield::OnCollison(BaseCollider * col)
 	{
 		ItemHolder::GetInstance()->AddItem(itemName);
 		isGet = true;
+		getSE->play();
 	}
 
 	if (col->GetColObject()->GetType() == ObjectType::ENEMYBULLET)
 	{
 		damege = col->GetColObject()->GetDamage();
-		Guade();
 	}
 }
 

@@ -1,7 +1,10 @@
 #include "Repair.h"
 #include "../Collision/SpherCollider.h"
+#include "../Sound/Sound.h"
+#include"../Scene/BaseScene.h"
 
-Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int aliveNum, int addHp):ItemModel(m),ItemUseTex(s)
+Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int aliveNum, int addHp)
+	:ItemModel(m),ItemUseTex(s),getSE(nullptr),healSE(nullptr)
 {
 	position = pos;
 	angle = ang;
@@ -33,7 +36,9 @@ void Repair::Init()
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/item.obj", "Resouse/item1.png");
 	ItemUseTex->AddTexture(numName, "Resouse/heal.png");
-	ItemModel->SetAncPoint(numName, Vector3(1.0f, 2.0f, 3.0f));
+	ItemModel->SetAncPoint(numName, Vector3(0, 2.0f, 0));
+	getSE = std::make_shared<Sound>("SE/getItem.mp3", false);
+	healSE = std::make_shared<Sound>("SE/heal.mp3", false);
 	if (itemState == ItemState::Low)
 	{
 		healPoint = 20;
@@ -56,6 +61,8 @@ void Repair::Update()
 	}
 
 	Heal();
+	getSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+	healSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 }
 
 void Repair::Rend()
@@ -82,6 +89,7 @@ void Repair::OnCollison(BaseCollider * col)
 	{
 		ItemHolder::GetInstance()->AddItem(itemName);
 		isGet = true;
+		getSE->play();
 	}
 }
 
@@ -93,7 +101,7 @@ void Repair::Heal()
 	}
 	itemFade -= 0.1f;
 	fadeCount++;
-	
+	healSE->play();
 	if (fadeCount >= 30)
 	{
 		saveHP = objM->GetPlayer().GetHP() + healPoint;
