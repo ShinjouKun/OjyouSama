@@ -76,6 +76,7 @@ void Shield::Rend()
 
 	if (active)
 	{
+		DirectXManager::GetInstance()->SetData2D();
 		itemUseTex->Draw(numName, Vector3(0, 0, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 }
