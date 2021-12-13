@@ -1,4 +1,4 @@
-Other01
+Normal
 Light
 Light_b
 MachinGun
