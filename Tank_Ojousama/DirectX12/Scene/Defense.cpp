@@ -114,6 +114,8 @@ void Defense::StartScene()
 	wave2Clear = false;
 	wave3Clear = false;
 
+	mCastleCollapses = false;
+
 	//障害物配置
 	int objectCount = 0;
 #pragma region Z最後列の石たち（敵側）
@@ -178,6 +180,7 @@ void Defense::StartScene()
 
 void Defense::UpdateScene()
 {
+	
 	mTimer->update();
 	if (resultFlag)
 	{
@@ -199,9 +202,15 @@ void Defense::UpdateScene()
 			NextScene(std::make_shared<GameOver>());
 		}
 	}
-	if (objM->GetPlayer().GetHp() <= 0||objM->GetCastle().GetHP() <= 0)
+	//プレイヤーの体力が0かつ城の体力が0で無いとき
+	if (objM->GetPlayer().GetHp() <= 0 && !mCastleCollapses)
 	{
 		resultFlag = true;
+	}
+	//城の体力がゼロになったら
+	if (objM->GetCastle().GetHP() <= 0)
+	{
+		mCastleCollapses = true;
 	}
 	//パンくずを落とす
 	mBreadCreator->DropBreadCrumb();
@@ -222,6 +231,13 @@ void Defense::UpdateScene()
 		Wave3();
 	}
 
+	if (mCastleCollapses && !resultFlag)
+	{
+		if (objM->GetCastle().GetPosition().y <= -100.f)
+		{
+			resultFlag = true;
+		}
+	}
 }
 
 void Defense::DrawScene()
