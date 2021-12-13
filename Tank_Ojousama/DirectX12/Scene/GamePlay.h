@@ -86,6 +86,7 @@ private:
 	std::shared_ptr<ParticleEmitterBox>ParticleBox;
 
 	Camera* cam;
+	int goleamDeath;
 	bool spawnFlag;//ˆê”Ô–Ú
 	bool spawnFlag2;//“ñ”Ô
 	bool spawnFlag3;//ŽO”Ô

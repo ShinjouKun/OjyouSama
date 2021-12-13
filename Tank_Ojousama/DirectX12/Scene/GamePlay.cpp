@@ -266,6 +266,7 @@ void GamePlay::StartScene()
 	ParticleBox = make_shared<ParticleEmitterBox>(BaseScene::mParticle);
 	ParticleBox->LoadAndSet("Smoke", "Resouse/smoke.jpg");
 	mParticleTimer = std::make_shared<Timer>(0.01f);
+	goleamDeath = 0;
 }
 
 void GamePlay::UpdateScene()
@@ -355,8 +356,13 @@ void GamePlay::UpdateScene()
 	}
 	if (objM->GetGolem().GetHp() <= 0)
 	{
+		goleamDeath++;
 		BaseScene::mStageFlag1 = true;
-		NextScene(std::make_shared<Result>());
+		if (goleamDeath >= 120)
+		{
+			NextScene(std::make_shared<Result>());
+		}
+		
 	}
 	if (objM->GetPlayer().GetHp() <= 0)
 	{
@@ -364,10 +370,7 @@ void GamePlay::UpdateScene()
 		mParticleTimer->update();
 		resultFlag = true;
 	}
-	//if (objM->GetEnemy().GetHP() <= 0)
-	//{
-	//	mHidan->play();
-	//}
+	
 }
 
 void GamePlay::DrawScene()

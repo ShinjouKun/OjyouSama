@@ -5,6 +5,8 @@
 #include "../Render/ModelRenderer.h"
 #include "../Render/ParticleManager.h"
 #include"../Render/TexRenderer.h"
+
+
 //エルフの森用の中ボス
 //拠点防衛型なのでプレイヤーが範囲外にでたら原点に戻る
 struct Canp
@@ -32,6 +34,8 @@ enum GolemBatteleStatus
 	BATTELE_G,//戦闘
 	RETURN_G//帰還（プレイヤーが拠点範囲から外れた時）
 };
+
+class Timer;
 class GolemEnemy:public BaseObject
 {
 public:
@@ -45,6 +49,14 @@ public:
 	~GolemEnemy();
 
 private:
+
+	/*死亡アニメーションの遷移状況*/
+	enum DeathAnimationStep
+	{
+		RISE_SKY, //上空に舞い上がる
+		EXPLOSION,//消滅する
+	};
+	DeathAnimationStep mDeathStep;
 	//センサー関連
 	void Senser();//センサー更新
 	bool SenserIn(SenserFan_G fan, Vector3 point);//視界内に何か入ったか？
@@ -62,6 +74,17 @@ private:
 	void DicideTurnAround();//振り向き
 	void TurnAround(int time);
 	void Guard();
+	/*生存状態を監視*/
+	void CheckAlive();
+
+	/*死亡時の演出*/
+	void DeathAnimation();
+
+	/*空に上昇*/
+	void DeathAnimeStep_RiseSky();
+
+	/*爆発&数秒停止*/
+	void DeathAnimeStep_Explosion();
 	Vector3 GetEnemyVec(const Vector3& vec);//敵のベクトル
 	Vector3 GetCampVec(const Vector3& vec);//拠点のベクトル
 	// BaseObject を介して継承されました
@@ -76,6 +99,8 @@ private:
 
 	virtual void OnCollison(BaseCollider * col) override;
 private:
+	bool mDeathAnimation;//死亡アニメーションを開始するか
+	bool mDeadFlag;//死ぬ瞬間にtrueになるフラグ(保険)
 	ObjectManager* objM;
 	shared_ptr<ModelRenderer>Model;
 	shared_ptr<ParticleManager>Particle;
@@ -85,7 +110,8 @@ private:
 	GolemBatteleStatus batteleS;
 	SenserPoint_G point;
 	Canp canp;
-
+	shared_ptr<Timer> mRiseTime;  //上昇時間
+	shared_ptr<Timer> mDeathTime; //完全に死ぬまでの時間
 	//無敵時間のため
 	bool HitFlag;
 	int HitCount;

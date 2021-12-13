@@ -6,6 +6,7 @@
 #include<cmath>
 //“–‚½‚è”»’èŒn
 #include "../Collision/CollisonInfo.h"
+#include "../Utility/Timer/Timer.h"
 class BaseCollider;
 class SphereCollider;
 class AABBCollider;
