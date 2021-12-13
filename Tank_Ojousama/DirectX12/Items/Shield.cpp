@@ -25,12 +25,12 @@ void Shield::Init()
 	active = false;
 	SetCollidder(Vector3(0, 0, 0), 0.5f);
 	alive = 0;
-	name = "Repair";
+	name = "Shield";
 	num = to_string(number);
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/shield.obj", "Resouse/shield.png");
 	ItemModel->SetAncPoint(numName, Vector3(-1.0f, -2.0f, -3.0f));
-	itemUseTex->AddTexture(numName, "");
+	itemUseTex->AddTexture(numName, "Resouse/ShieldEffect.png");
 	if (itemState == ItemState::Low)
 	{
 		guadePoint = 20;
@@ -63,6 +63,11 @@ void Shield::Rend()
 	{
 		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 		ItemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), Vector3(1, 1, 1));
+	}
+
+	if (active)
+	{
+		itemUseTex->Draw(numName, Vector3(0, 0, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 }
 
