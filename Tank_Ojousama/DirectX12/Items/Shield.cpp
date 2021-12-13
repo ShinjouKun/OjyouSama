@@ -2,7 +2,7 @@
 #include "../Collision/SpherCollider.h"
 
 
-Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp) :ItemModel(m),itemUseTex(s)
+Shield::Shield(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int addHp) :ItemModel(m),itemUseTex(s)
 {
 	position = pos;
 	angle = ang;

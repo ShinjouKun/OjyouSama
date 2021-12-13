@@ -47,6 +47,15 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 				modelKey[0] = "ArmR_rifle_r";
 				modelKey[2] = "ArmL_rifle_r";
 			}
+			else if (state[3] == "ShotGun")
+			{
+				playerModel->AddModel("ArmR_shotgun_r", "Resouse/sg_ojosama_R_r.obj", "Resouse/sg_ojosama_R.png");
+				playerModel->SetAncPoint("ArmR_shotgun_r", Vector3(0.6f, -2.1f, -0.5f));
+				playerModel->AddModel("ArmL_shotgun_r", "Resouse/sg_ojosama_L_r.obj", "Resouse/sg_ojosama_R.png");
+				playerModel->SetAncPoint("ArmL_shotgun_r", Vector3(-0.6f, -2.1f, -0.5f));
+				modelKey[0] = "ArmR_shotgun_r";
+				modelKey[2] = "ArmL_shotgun_r";
+			}
 			else
 			{
 				playerModel->AddModel("ArmR_r", "Resouse/R_hands.obj", "Resouse/hands_one.png");
@@ -76,6 +85,15 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 				modelKey[0] = "ArmR_rifle_b";
 				modelKey[2] = "ArmL_rifle_b";
 			}
+			else if (state[3] == "ShotGun")
+			{
+				playerModel->AddModel("ArmR_shotgun_b", "Resouse/sg_ojosama_R_b.obj", "Resouse/sg_ojosama_B.png");
+				playerModel->SetAncPoint("ArmR_shotgun_b", Vector3(0.6f, -2.1f, -0.5f));
+				playerModel->AddModel("ArmL_shotgun_b", "Resouse/sg_ojosama_L_b.obj", "Resouse/sg_ojosama_B.png");
+				playerModel->SetAncPoint("ArmL_shotgun_b", Vector3(-0.6f, -2.1f, -0.5f));
+				modelKey[0] = "ArmR_shotgun_b";
+				modelKey[2] = "ArmL_shotgun_b";
+			}
 			else
 			{
 				playerModel->AddModel("ArmR_b", "Resouse/R_hands.obj", "Resouse/hands_one.png");
@@ -104,6 +122,15 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 			playerModel->SetAncPoint("ArmL_rifle", Vector3(-0.6f, -2.1f, -0.5f));
 			modelKey[0] = "ArmR_rifle";
 			modelKey[2] = "ArmL_rifle";
+		}
+		else if (state[3] == "ShotGun")
+		{
+			playerModel->AddModel("ArmR_shotgun", "Resouse/sg_ojosama_R.obj", "Resouse/sg_ojosama.png");
+			playerModel->SetAncPoint("ArmR_shotgun", Vector3(0.6f, -2.1f, -0.5f));
+			playerModel->AddModel("ArmL_shotgun", "Resouse/sg_ojosama_L.obj", "Resouse/sg_ojosama.png");
+			playerModel->SetAncPoint("ArmL_shotgun", Vector3(-0.6f, -2.1f, -0.5f));
+			modelKey[0] = "ArmR_shotgun";
+			modelKey[2] = "ArmL_shotgun";
 		}
 		else
 		{

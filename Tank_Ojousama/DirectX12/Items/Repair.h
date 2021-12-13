@@ -11,7 +11,7 @@ class Player;
 class Repair :public Item
 {
 public:
-	Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj,  shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int aliveNum, int addHp);
+	Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj,  shared_ptr<ModelRenderer>m, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int aliveNum, int addHp);
 	~Repair();
 
 private:

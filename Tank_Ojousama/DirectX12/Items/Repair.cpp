@@ -1,7 +1,7 @@
 #include "Repair.h"
 #include "../Collision/SpherCollider.h"
 
-Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int aliveNum, int addHp):ItemModel(m),ItemUseTex(s)
+Repair::Repair(const Vector3& pos, const Vector3& ang, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<TexRenderer>s, ItemState itemStates, int num, int aliveNum, int addHp):ItemModel(m),ItemUseTex(s)
 {
 	position = pos;
 	angle = ang;
