@@ -12,7 +12,7 @@ public:
 	BirdEnemy(
 		const Vector3& pos,
 		const Vector3& ang,
-		//shared_ptr<TexRenderer> texRender,
+		shared_ptr<TexRenderer> texRender,
 		int num
 	);
 
@@ -78,6 +78,7 @@ private:
 
 	bool mFinishAnimation = false;//アニメーションが終了しているか
 	bool mFireFlag;               //弾を発射したか
+	bool mCreateItem;             //アイテムを生成したか？
 
 	int mBulletNumber;//発射した弾数
 

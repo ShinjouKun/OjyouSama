@@ -66,7 +66,7 @@ void Robbery::StartWayEnemySpown()
 	//Šâ“Š‚°‚Ì“G
 	mObjManager->Add(new MortarEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
 	//’¹‚Ì“G
-	mObjManager->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), objectCount++));
+	mObjManager->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
 
 	//‘à—ñ‚Ì“G
 	mObjManager->Add(new CEnemy(Vector3(0.0f, 0.0f, 120.0f), Vector3(0, 180, 0), objectCount++));
@@ -89,8 +89,8 @@ void Robbery::BackWayEnemySpown()
 	if (mBackSpownFlag) return;
 
 	//’¹‚Ì“G
-	mObjManager->Add(new BirdEnemy(Vector3(+45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
-	mObjManager->Add(new BirdEnemy(Vector3(-45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
+	mObjManager->Add(new BirdEnemy(Vector3(+45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f),BaseScene::mSprite, objectCount++));
+	mObjManager->Add(new BirdEnemy(Vector3(-45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f),BaseScene::mSprite, objectCount++));
 
 	//Šâ“Š‚°‚Ì“G
 	mObjManager->Add(new MortarEnemy(Vector3(-40.0f, 0.0f, 270.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));

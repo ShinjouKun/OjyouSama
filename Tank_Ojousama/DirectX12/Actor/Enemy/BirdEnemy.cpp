@@ -2,20 +2,23 @@
 #include "../../Weapons/LaunchBullet.h"
 #include "../../Scene/BaseScene.h"
 
+#include "../../Utility/Random.h"
 #include "../../Items/Repair.h"
+#include "../../Items/Shield.h"
+#include "../../Items/Smoke.h"
 #include "../../Render/TexRenderer.h"
 
 
 BirdEnemy::BirdEnemy(
 	const Vector3 & pos, 
 	const Vector3 & ang,
-	//shared_ptr<TexRenderer> texRender,
+	shared_ptr<TexRenderer> texRender,
 	int num
 )
 {
 	position = pos;
 	angle = ang;
-	//mTexRender = texRender;
+	mTexRender = texRender;
 	number = num;
 }
 
@@ -164,6 +167,7 @@ void BirdEnemy::EnemyInit()
 	mFinishAnimation = false;
 	death = false;
 	mFireFlag = false;
+	mCreateItem = false;
 
 	objType = ObjectType::ENEMY;
 	mActionStep = ActionStep::RISING;
@@ -265,6 +269,25 @@ void BirdEnemy::CheckAlive()
 		//エフェクト発射
 		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
 
-		//mManager->Add(new Repair(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), mManager, mRend, mTexRender, ItemState::Low, 0, 500000, 20));
+		if (mCreateItem) return;
+
+		Random::initialize();
+
+		int count = Random::randomRange(0, 2);
+
+		if (count == 0)
+		{
+			mManager->Add(new Repair(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), mManager, mRend, mTexRender, ItemState::Low, 0, 500000, 20));
+			mCreateItem = true;
+		}
+		else /* if (count == 1)*/
+		{
+			mManager->Add(new Shield(position, angle, mManager, mRend, mTexRender, ItemState::Low, 0, 20));
+			mCreateItem = true;
+		}
+		//else
+		//{
+		//	mManager->Add(new Smoke(position, angle, mManager, mRend, mPart, mTexRender, ItemState::Low, 0, 5 * 60));
+		//}
 	}
 }

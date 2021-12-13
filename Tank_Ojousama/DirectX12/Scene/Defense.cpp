@@ -352,8 +352,8 @@ void Defense::Wave2EnemySpown()
 	objM->Add(new BlowEnemy(Vector3(25.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new BlowEnemy(Vector3(-25.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 
-	objM->Add(new BirdEnemy(Vector3(50.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), enemyCount++));
-	objM->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), enemyCount++));
+	objM->Add(new BirdEnemy(Vector3(50.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
+	objM->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
 
 	objM->Add(new SniperEnemy(Vector3(-80.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new SniperEnemy(Vector3(80.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
@@ -381,8 +381,8 @@ void Defense::Wave3EnemySpown()
 	objM->Add(new SniperEnemy(Vector3(40.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 
-	objM->Add(new BirdEnemy(Vector3(40.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), enemyCount++));
-	objM->Add(new BirdEnemy(Vector3(-70.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), enemyCount++));
+	objM->Add(new BirdEnemy(Vector3(40.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
+	objM->Add(new BirdEnemy(Vector3(-70.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
 
 	objM->Add(new CEnemy(Vector3(40.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new CEnemy(Vector3(-40.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
