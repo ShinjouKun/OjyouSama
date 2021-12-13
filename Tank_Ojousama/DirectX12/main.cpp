@@ -89,7 +89,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipeLine->SetPipelineParticle("untiP");
 	pipeLine->SetPipelineSequence("ahokusa");
 	//モデル
-	
+
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hit.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/sougen.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/AIM64.png");
@@ -151,6 +151,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/messege1.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/messege2.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/messege3.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/back_sky.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
@@ -188,7 +189,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/robberysetumei.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/difencesetumei.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/bossscenesetumei.png");
-	
+
 	//お宝
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs_huta.obj");
@@ -264,7 +265,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//岩
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_s.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_m.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_big.obj"); 
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/stone_big.obj");
 
 	//矢
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/Arrow/arrow.obj");
@@ -346,15 +347,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
-	
+
 	//パーティクル
 	shared_ptr<ParticleManager>paricle = make_shared<ParticleManager>(pipeLine);
 	auto& particleSystem = ParticleSystem::instance();
-	
+
 	//モデル
 	shared_ptr<ModelRenderer>model = make_shared<ModelRenderer>(pipeLine);
 
-	
+
 	Input* input = new Input();//インプットインスタンス生成
 	input->Init(window->GetHWND());//インプット初期化
 
@@ -370,7 +371,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	while (true)
 	{
 		if (window->ProcesssMessage()) { break; }//メッセージ処理
-		
+
 		DirectXManager::GetInstance()->PostEffctBegin();
 		//キー入力
 		input->Update();//input	
@@ -390,10 +391,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		DirectXManager::GetInstance()->SetDrawComnd();
 		mScene->Draw();
 		particleSystem.draw();
-		nums.drawNumber(DirectXManager::GetInstance()->CmdList(),pipeLine);
+		nums.drawNumber(DirectXManager::GetInstance()->CmdList(), pipeLine);
 		DirectXManager::GetInstance()->PostEffctEnd();
 		DirectXManager::GetInstance()->Begin();
-		
+
 		DirectXManager::GetInstance()->PostEffctDraw();
 		DirectXManager::GetInstance()->End();
 #pragma region FPS処理
@@ -401,7 +402,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//重い処理があった時
 		std::this_thread::sleep_for(std::chrono::microseconds(1));
 		//できるだけ60fpsに保つ
-		end  = currentTimeMicro();
+		end = currentTimeMicro();
 		if (end < next)
 		{
 			//更新時間まで待機
@@ -414,7 +415,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			next = end + (1000 * 1000 / fps);
 		}
 #pragma endregion
-		
+
 	}
 	particleSystem.finalize();
 	nums.finalize();
@@ -429,7 +430,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 void Debug()
 {
-	
+
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 	{
 		debugController->EnableDebugLayer();
