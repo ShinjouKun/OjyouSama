@@ -16,7 +16,7 @@ Garage::~Garage()
 
 void Garage::StartScene()
 {
-	bm = 0;
+	
 	fade = 0;
 	fadeF = false;
 	fadeFB = false;
@@ -141,63 +141,6 @@ void Garage::UpdateScene()
 	{
 		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 		{
-			if (!M_Head_buy&&bodyNum == 1)
-			{
-				
-				bm = BaseScene::mMoney -= 2000000;
-				if (bm <= 0)
-				{
-					return;
-				}
-				M_Head_buy = true;
-			}
-			else if (!H_Head_buy&&bodyNum == 2)
-			{
-				bm = BaseScene::mMoney - 3500000;
-				if (bm <= 0)
-				{
-					return;
-				}
-				H_Head_buy = true;
-			}
-			else if(!M_Bottom_buy&&bottomNum == 1)
-			{
-				bm = BaseScene::mMoney - 2000000;
-				if (bm <= 0)
-				{
-					return;
-				}
-				M_Bottom_buy = true;
-			}
-			else if(!H_Bottom_buy&&bottomNum == 2)
-			{
-				bm = BaseScene::mMoney - 3000000;
-				if (bm <= 0)
-				{
-					return;
-				}
-				H_Bottom_buy = true;
-			}
-			else if(!M_Ojyou_buy&&headNum == 1)
-			{
-				bm = BaseScene::mMoney - 2000000;
-				if (bm <= 0)
-				{
-					return;
-				}
-				M_Ojyou_buy = true;
-			}
-			else if (!H_Ojyou_buy&&headNum == 2)
-			{
-				bm = BaseScene::mMoney - 4000000;
-				if (bm <= 0)
-				{
-					return;
-				}
-				H_Ojyou_buy = true;
-			}
-
-
 			fadeFB = true;
 			mSound->play();
 			mChanger->Save();
@@ -374,12 +317,12 @@ void Garage::DrawScene()
 			mChanger->ChangeHead(Normal);
 			break;
 		case 1:
-			BaseScene::mModel->Draw("OjyouSama2", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
-			mChanger->ChangeHead(Other01);
-			break;
-		case 2:
 			BaseScene::mModel->Draw("OjyouSama_r", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeHead(Other02);
+			break;
+		case 2:
+			BaseScene::mModel->Draw("OjyouSama2", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			mChanger->ChangeHead(Other01);
 			break;
 		default:
 			BaseScene::mModel->Draw("OjyouSama1", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
@@ -393,11 +336,11 @@ void Garage::DrawScene()
 			mChanger->ChangeBody(Light);
 			break;
 		case 1:
-			BaseScene::mModel->Draw("TankPlayerC", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			BaseScene::mModel->Draw("TankPlayerE", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBody(Midium);
 			break;
 		case 2:
-			BaseScene::mModel->Draw("TankPlayerE", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			BaseScene::mModel->Draw("TankPlayerC", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBody(Heavy);
 			break;
 		default:
@@ -412,11 +355,11 @@ void Garage::DrawScene()
 			mChanger->ChangeBottom(Light_b);
 			break;
 		case 1:
-			BaseScene::mModel->Draw("TankPlayerD", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			BaseScene::mModel->Draw("TankPlayerF", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBottom(Midium_b);
 			break;
 		case 2:
-			BaseScene::mModel->Draw("TankPlayerF", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			BaseScene::mModel->Draw("TankPlayerD", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBottom(Heavy_b);
 			break;
 		default:
