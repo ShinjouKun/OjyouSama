@@ -1,11 +1,13 @@
 #include "ModelChanger.h"
-
+#include"../Scene/BaseScene.h"
 ModelChanger::ModelChanger()
 {
 	state.clear();
 	modelKey.clear();
 	state.resize(4);
 	modelKey.resize(5);
+	b.resize(9);
+	buys.resize(9);
 }
 
 ModelChanger::~ModelChanger()
@@ -14,9 +16,18 @@ ModelChanger::~ModelChanger()
 
 void ModelChanger::Init()
 {
+	
 	head = HeadState::Normal;
 	body = BodyState::Light;
 	bottom = BottomState::Light_b;
+	weapons1 = WeaponsState::Cannon;
+	b.clear();
+	editor->Read("Resouse/BuysState.txt", b);
+
+	for (int i = 0; i == b.size()-1; i++)
+	{
+		buys.emplace_back(std::stoi(b[i]));
+	}
 	editor = new TextEditor();
 	editor->Init();
 	Save();
@@ -26,13 +37,15 @@ void ModelChanger::Init()
 void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 {
 	state.clear();
+	
 	editor->Read("Resouse/ModelState.txt", state);
 	
+
 	if (state[0] != "Normal")
 	{
 		if (state[0] != "Other01")
 		{
-			SetHP(70);
+			SetHP(120);
 			head = HeadState::Other02;
 			
 			playerModel->AddModel("OjyouSama_r", "Resouse/ojousama_body_red.obj", "Resouse/ojosama_red.png");
@@ -175,14 +188,14 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	{
 		if (state[2] != "Midium_b")
 		{
-			SetSpeed(0.3f);
+			SetSpeed(1.0f);
 			bottom = BottomState::Heavy_b;
 			playerModel->AddModel("TankF", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2_B.png");
 			modelKey[4] = "TankF";
 		}
 		else
 		{
-			SetSpeed(0.5f);
+			SetSpeed(0.8f);
 			bottom = BottomState::Midium_b;
 			playerModel->AddModel("TankPlayerD", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
 			modelKey[4] = "TankPlayerD";
@@ -190,7 +203,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 	}
 	else
 	{
-		SetSpeed(0.8f);
+		SetSpeed(0.5f);
 		bottom = BottomState::Light_b;
 		playerModel->AddModel("TankB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
 		modelKey[4] = "TankB";
@@ -226,6 +239,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 
 void ModelChanger::Save()
 {
+	int buy_n = 0;
 	switch (head)
 	{
 	case Normal:
@@ -233,8 +247,19 @@ void ModelChanger::Save()
 		break;
 	case Other01:
 		state[0] = "Other01";
+		buy_n = buys[1];
+		if (buy_n != 1 &&BaseScene::mMoney >= 0)
+		{
+			buys[1] = 1;
+			BaseScene::mMoney -= 5000000;
+		}
 		break;
 	case Other02:
+		if (buys[0] != 1 && BaseScene::mMoney >= 0)
+		{
+			buys[0] = 1;
+			BaseScene::mMoney -= 2000000;
+		}
 		state[0] = "Other02";
 		break;
 	default:
@@ -248,9 +273,19 @@ void ModelChanger::Save()
 		state[1] = "Light";
 		break;
 	case Midium:
+		if (buys[2] != 1 && BaseScene::mMoney >= 0)
+		{
+			buys[2] = 1;
+			BaseScene::mMoney -= 2000000;
+		}
 		state[1] = "Midium";
 		break;
 	case Heavy:
+		if (buys[3] != 1 && BaseScene::mMoney >= 0)
+		{
+			buys[3] = 1;
+			BaseScene::mMoney -= 5000000;
+		}
 		state[1] = "Heavy";
 		break;
 	default:
@@ -265,10 +300,20 @@ void ModelChanger::Save()
 		
 		break;
 	case Midium_b:
+		if (buys[4] != 1 && BaseScene::mMoney >= 0)
+		{
+			buys[4] = 1;
+			BaseScene::mMoney -= 2000000;
+		}
 		state[2] = "Midium_b";
 	
 		break;
 	case Heavy_b:
+		if (buys[5] != 1 && BaseScene::mMoney >= 0)
+		{
+			buys[5] = 1;
+			BaseScene::mMoney -= 5000000;
+		}
 		state[2] = "Heavy_b";
 		
 		break;
@@ -283,21 +328,44 @@ void ModelChanger::Save()
 		state[3] = "Cannon";
 		break;
 	case MachinGun:
+		if (buys[6] != 1 && BaseScene::mMoney >= 0)
+		{
+			buys[6] = 1;
+			BaseScene::mMoney -= 1000000;
+		}
 		state[3] = "MachinGun";
 		break;
 	case ShotGun:
+		if (buys[7] != 1 && BaseScene::mMoney >= 0)
+		{
+			buys[7] = 1;
+			BaseScene::mMoney -= 500000;
+		}
 		state[3] = "ShotGun";
 		break;
 	case Mine:
+		if (buys[8] != 1 && BaseScene::mMoney >= 0)
+		{
+			buys[8] = 1;
+			BaseScene::mMoney -= 2000000;
+		}
 		state[3] = "Mine";
 		break;
 	default:
 		state[3] = "Cannon";
 		break;
 	}
+	std::vector<string> bu;
+	bu.clear();
+	for (int i = 0; i == buys.size()-1; i++)
+	{
+		bu.emplace_back(std::to_string(buys[i]));
+	}
 	
-	
+	editor->Write("Resouse/BuysState.txt", bu);
 	editor->Write("Resouse/ModelState.txt", state);
+	bu.clear();
+	bu.resize(9);
 	state.clear();
 	state.resize(4);
 }
@@ -346,4 +414,18 @@ void ModelChanger::SetWeaponNum(int num)
 string ModelChanger::GetModelName(int num)
 {
 	return modelKey[num];
+}
+
+void ModelChanger::SetBuysNum(int buy)
+{
+	for (int i = 0;i = buys.size();i++)
+	{
+		buys[i] = buy;
+	}
+	
+}
+
+int ModelChanger::GetBuysNum(int buy) const
+{
+	return buys[buy];
 }

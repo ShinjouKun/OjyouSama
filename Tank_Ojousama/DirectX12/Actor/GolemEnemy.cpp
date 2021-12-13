@@ -19,6 +19,73 @@ GolemEnemy::~GolemEnemy()
 {
 }
 
+
+void GolemEnemy::Init()
+{
+	SetActive(false);
+	startFlag = false;
+	mDeathAnimation = false;
+	mDeadFlag = false;
+
+	mRiseTime = std::make_shared<Timer>();
+	mRiseTime->setTime(1.0f);
+	mDeathTime = std::make_shared<Timer>();
+	mDeathTime->setTime(1.0f);
+	mDeathStep = DeathAnimationStep::RISE_SKY;
+	maxSpeed = 2.0f;
+	speedTime = 0.0f;
+	speedLimitTime = 360.0f;
+	bulletStock = number * 10;
+	//モデル
+	Body = "Body";
+	num = to_string(number);
+	numNameBody = Body + num;
+
+	Model->AddModel(numNameBody, "Resouse/gorem_body.obj", "Resouse/gorem.png");
+	Model->SetAncPoint(numNameBody, Vector3(0.0f, -2.0f, 0.0f));
+	ArmR = "ArmR";
+	num = to_string(number);
+	numNameArmR = ArmR + num;
+
+	Model->AddModel(numNameArmR, "Resouse/gorem_hands_R.obj", "Resouse/gorem.png");
+	Model->SetAncPoint(numNameArmR, Vector3(0.0f, -3.0f, 0.0f));
+
+	ArmL = "ArmL";
+	num = to_string(number);
+	numNameArmL = ArmL + num;
+	Model->AddModel(numNameArmL, "Resouse/gorem_hands_L.obj", "Resouse/gorem.png");
+	Model->SetAncPoint(numNameArmL, Vector3(0.0f, -3.0f, 0.0f));
+	//ステータス対応
+	ArmPosL = Vector3(position.x - 0.1f, position.y + 5.0f, position.z);
+	ArmPosR = Vector3(position.x + 0.1f, position.y + 5.0f, position.z);
+	canp.CanpPoint = Vector3(0.0f, 4.0f, -70.0f);
+	canp.CanpRadius = 120.0f;
+	HP = 100;
+	speed = 0.2f;
+	death = false;
+	AttackFlag = false;
+	AttackCount = 0;
+	HitFlag = false;
+	HitCount = 0;
+	objType = ObjectType::BOSS;
+	bodyAngle = Vector3(0, 180.0f, 0);
+	ArmAngleR = 0.0f;
+	zR = 0.0f;
+	ArmAngleL = 0.0f;
+	zL = 0.0f;
+	rndCount = 0;
+	avmoveCount = 0;
+	attackMoveCount = 0;
+	moveCount = 0;
+	damage = 0;//近距離系
+	targetAngleX = 0.0f;
+	stoneShotFlag = false;//石投げ用
+	guardFlag = false;
+	batteleS = GolemBatteleStatus::SAFE_G;
+	SetCollidder(Vector3(0, 0, 0), 2.0f);
+
+}
+
 void GolemEnemy::Senser()
 {
 	SenserFan_G fan =
@@ -145,8 +212,6 @@ void GolemEnemy::Safe()
 	{
 		position.y = -6.0f;
 		ArmPosL.y = -6.0f;
-		zL = 45.0f;
-		zR = -35.0f;
 		ArmPosR.y = -6.0f;
 	}
 }
@@ -159,12 +224,16 @@ void GolemEnemy::Battele()
 		position.y = 4.0f;
 		ArmPosL.y = 8.0f;
 		ArmPosR.y = 8.0f;
+		/*zL = 0.0f;
+		zR = 0.0f;*/
 	}
 	else
 	{
 		position.y += 1.0f;
 		ArmPosL.y += 1.5f;
-		ArmPosR.y += 2.0f;
+		ArmPosR.y += 1.5f;
+		zL = 20.0f;
+		zR = -20.0f;
 	}
 	
 	moveCount++;
@@ -507,73 +576,88 @@ void GolemEnemy::Guard()
 	guardFlag = true;
 }
 
+void GolemEnemy::CheckAlive()
+{
+	if (HP <= 0)
+	{
+		mDeathAnimation = true;
+	}
+
+	if (mDeadFlag)
+	{
+		death = true;
+	}
+
+	/*死亡アニメーションを開始*/
+	DeathAnimation();
+}
+
+void GolemEnemy::DeathAnimation()
+{
+	//仮死状態でない　なら処理しない
+	if (!mDeathAnimation) return;
+
+	switch (mDeathStep)
+	{
+	case GolemEnemy::RISE_SKY:
+		DeathAnimeStep_RiseSky();
+		break;
+	case GolemEnemy::EXPLOSION:
+		DeathAnimeStep_Explosion();
+		break;
+	default:
+		break;
+	}
+}
+
+void GolemEnemy::DeathAnimeStep_RiseSky()
+{
+	mRiseTime->update();
+
+	//時間になっていなければ
+	if (!mRiseTime->isTime())
+	{
+		//回転
+		angle.y += 50.0f;
+		//上昇
+		position.y += 0.2f;
+	}
+	else
+	{
+		//時間になったら(1フレームだけ呼ばれる)
+		//ここでSEを鳴らしたり、爆発させたりする
+		//エフェクト発射
+
+
+		mDeathStep = DeathAnimationStep::EXPLOSION;
+	}
+}
+
+void GolemEnemy::DeathAnimeStep_Explosion()
+{
+	mDeathTime->update();
+
+	if (mDeathTime->isTime())
+	{
+		mDeadFlag = true;
+	}
+}
+
 Vector3 GolemEnemy::GetEnemyVec(const Vector3 & vec)
 {
 	Vector3 EnemyPos = point.Point - position;
 	return EnemyPos.normal();
 }
 
-void GolemEnemy::Init()
-{
-	SetActive(false);
-	startFlag = false;
-
-	maxSpeed = 2.0f;
-	speedTime = 0.0f;
-	speedLimitTime = 360.0f;
-	bulletStock = number * 10;
-	//モデル
-	Body = "Body";
-	num = to_string(number);
-	numNameBody = Body + num;
-
-	Model->AddModel(numNameBody, "Resouse/gorem_body.obj", "Resouse/gorem.png");
-	Model->SetAncPoint(numNameBody, Vector3(0.0f, -2.0f, 0.0f));
-	ArmR = "ArmR";
-	num = to_string(number);
-	numNameArmR = ArmR + num;
-
-	Model->AddModel(numNameArmR, "Resouse/gorem_hands_R.obj", "Resouse/gorem.png");
-	Model->SetAncPoint(numNameArmR, Vector3(0.0f, -3.0f,0.0f ));
-
-	ArmL = "ArmL";
-	num = to_string(number);
-	numNameArmL = ArmL + num;
-	Model->AddModel(numNameArmL, "Resouse/gorem_hands_L.obj", "Resouse/gorem.png");
-	Model->SetAncPoint(numNameArmL, Vector3(0.0f, -3.0f, 0.0f));
-	//ステータス対応
-	ArmPosL = Vector3(position.x - 0.1f, position.y + 5.0f, position.z);
-	ArmPosR = Vector3(position.x + 0.1f, position.y + 5.0f, position.z);
-	canp.CanpPoint = Vector3(0.0f, 4.0f, -70.0f);
-	canp.CanpRadius = 120.0f;
-	HP = 100;
-	speed = 0.2f;
-	death = false;
-	AttackFlag = false;
-	AttackCount = 0;
-	HitFlag = false;
-	HitCount = 0;
-	objType = ObjectType::BOSS;
-	bodyAngle = Vector3(0,180.0f,0);
-	ArmAngleR = 0.0f;
-	zR = 0.0f;
-	ArmAngleL = 0.0f;
-	zL = 0.0f;
-	rndCount = 0;
-	avmoveCount = 0;
-	attackMoveCount = 0;
-	moveCount = 0;
-	damage = 0;//近距離系
-	targetAngleX = 0.0f;
-	stoneShotFlag = false;//石投げ用
-	guardFlag = false;
-	batteleS = GolemBatteleStatus::SAFE_G;
-	SetCollidder(Vector3(0,0,0), 2.0f);
-	
-}
 
 void GolemEnemy::Update()
 {
+
+	/*生存状態を監視*/
+	CheckAlive();
+
+	//仮死状態なら処理しない
+	if (mDeathAnimation) return;
 	speedTime ++;
 	if (speedTime >= speedLimitTime)
 	{
@@ -591,17 +675,6 @@ void GolemEnemy::Update()
 			HitCount = 0;
 			HitFlag = false;
 		}
-	}
-	if (HP <= 0)
-	{
-		zR = -35.0f;
-		zL = 35.0f;
-		ArmAngleL = 180.0f;
-		ArmAngleR = 180.0f;
-		bodyAngle.y += 40.0f;
-		position.y -= 2.0f;
-		ArmPosL.y -= 2.0f;
-		ArmPosR.y -= 2.0f;
 	}
 
 	switch (batteleS)

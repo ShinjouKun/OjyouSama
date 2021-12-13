@@ -61,19 +61,7 @@ private:
 	Vector3 Syata;
 	
 
-	bool M_Head_buy;
-	bool H_Head_buy;
-
-	bool M_Bottom_buy;
-	bool H_Bottom_buy;
-
-	bool M_Ojyou_buy;
-	bool H_Ojyou_buy;
-
-	bool Mine_buy;
-	bool MasinGun_buy;
-	bool ShotGun_buy;
-	int bm = 0;
+	
 	std::shared_ptr<Timer> mTimer;
 
 	ModelChanger* mChanger;
