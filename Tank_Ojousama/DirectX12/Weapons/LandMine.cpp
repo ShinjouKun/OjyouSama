@@ -2,6 +2,8 @@
 #include"Weapon.h"
 #include "../Collision/SpherCollider.h"
 #include"../Collision/BaseCollider.h"
+#include "../ParticleSystem/ParticleType/Explosion.h"
+
 LandMine::LandMine(const Vector3 & pos, const Vector3 & ang, ObjectManager * obj, shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager> p, ObjectType t, int num,int upD)
 	:Model(m),Particle(p)
 {
@@ -54,6 +56,11 @@ void LandMine::Update()
 	if (bomSpace >= 6.0f)
 	{
 		death = true;
+	}
+
+	if (!mParticle && death)
+	{
+		mParticle = std::make_shared<Explosion>(position);
 	}
 }
 

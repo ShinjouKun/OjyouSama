@@ -65,6 +65,7 @@ private:
 	std::shared_ptr<Sound> mDamageSE01;
 	std::shared_ptr<Sound> mDamageSE02;
 	std::shared_ptr<Sound> mDeathSE;
+	std::shared_ptr<Sound> mMoveSE;
 	std::shared_ptr<Timer> mTimer;
 	ModelChanger* modelChanger;
 
