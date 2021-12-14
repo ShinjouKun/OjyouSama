@@ -49,7 +49,7 @@ void ElfTreeBoss::ChangeAttackState()
 		{
 			Random::initialize();
 			/*0`10‚Ås“®‚ðŒˆ‚ß‚é*/
-			mActionCount = Random::randomRange(0, 13);
+			mActionCount = Random::randomRange(0, 20);
 			mActionFlag = true;
 		}
 
@@ -63,7 +63,7 @@ void ElfTreeBoss::ChangeAttackState()
 		{
 			RootAttack();//ª‚Á‚±UŒ‚
 		}
-		else if (mActionCount >= 10 && mActionCount <= 13)
+		else if (mActionCount >= 10 && mActionCount <= 20)
 		{
 			Summon();//¢Š«UŒ‚
 		}

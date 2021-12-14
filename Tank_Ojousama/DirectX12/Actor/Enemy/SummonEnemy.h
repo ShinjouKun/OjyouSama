@@ -6,6 +6,8 @@
 
 class Timer;
 class Sound;
+class Explosion;
+class Hit;
 
 //ボスに召喚される雑魚敵
 class SummonEnemy : public BaseObject
@@ -94,7 +96,8 @@ private:
 	shared_ptr<Sound> mAttackSE;  //攻撃時のSE
 	shared_ptr<Sound> mDamageSE;  //ダメージを受けた時のSE
 	shared_ptr<Sound> mDeathSE;   //死亡したときのSE
-	shared_ptr<ParticleEmitterBox> mParticleEmitter;//爆発のエフェクト
+	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
+	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 
 	Vector3 mScale;           //大きさ
 	Vector3 mPlayerPosition;  //プレイヤーの位置

@@ -2,6 +2,8 @@
 #include "../../ConstInfomation/Enemy/EnemyConstInfo.h"
 #include "../../ConstInfomation/Enemy/BlowEnemyConstInfo.h"
 #include"../../Scene/BaseScene.h"
+#include "../../ParticleSystem/ParticleType/Explosion.h"
+#include "../../ParticleSystem/ParticleType/Hit.h"
 
 namespace ECI = EnemyConstInfo;
 namespace BECI = BlowEnemyConstInfo;
@@ -98,10 +100,13 @@ void BlowEnemy::EnemyInit()
 	mDeathTime = std::make_shared<Timer>();
 	mDeathTime->setTime(1.0f);
 
-	//パーティクル初期化
-	EXPLOSION_EFFECT = "Explosion";
-	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
-	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
+	//ダメージ用パーティクル
+	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
+	mDamageParticle->Stop();
+
+	//死亡用エフェクト
+	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	mDeathParticle->Stop();
 
 #pragma endregion
 
@@ -184,7 +189,12 @@ void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 		HP -= col->GetColObject()->GetDamage();
 
 		//SE発射
+		mDamageSE->setPos(position);
 		mDamageSE->play();
+
+		//パーティクル発射
+		mDamageParticle->setPos(Vector3(position.x, position.y + 5.0f, position.z));
+		mDamageParticle->Play();
 
 		/*報告*/
 		InitSearch();
@@ -297,6 +307,7 @@ void BlowEnemy::Attack()
 	{
 		Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * mAttackLength;
 		attackArea->SetActive(true, position + areaPos, -angle);
+		mAttackSE->setPos(position);
 		mAttackSE->play();
 
 		attackCount++;
@@ -346,11 +357,13 @@ void BlowEnemy::DeathAnimeStep_RiseSky()
 	else
 	{
 		//時間になったら(1フレームだけ呼ばれる)
-		//ここでSEを鳴らしたり、爆発させたりする
-		//エフェクト発射
-		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
 		//SE発射
+		mDeathSE->setPos(position);
 		mDeathSE->play();
+
+		//パーティクル発射
+		mDeathParticle->setPos(position);
+		mDeathParticle->Play();
 
 		mDeathStep = DeathAnimationStep::EXPLOSION;
 	}

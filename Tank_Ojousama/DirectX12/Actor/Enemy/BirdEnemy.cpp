@@ -7,6 +7,8 @@
 #include "../../Items/Shield.h"
 #include "../../Items/Smoke.h"
 #include "../../Render/TexRenderer.h"
+#include "../../ParticleSystem/ParticleType/Explosion.h"
+#include "../../ParticleSystem/ParticleType/Hit.h"
 
 
 BirdEnemy::BirdEnemy(
@@ -190,10 +192,13 @@ void BirdEnemy::EnemyInit()
 	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
 	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
-	//パーティクル初期化
-	EXPLOSION_EFFECT = "Explosion";
-	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
-	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
+	//ダメージパーティクル
+	mDamageParticle = make_shared<Hit>(Vector3::zero, true);
+	mDamageParticle->Stop();
+
+	//死亡パーティクル
+	mDeathParticle = make_shared<Explosion>(Vector3::zero, true);
+	mDeathParticle->Stop();
 
 #pragma region モデルの読み込み
 
@@ -248,8 +253,13 @@ void BirdEnemy::EnemyOnCollision(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
+		//SE発射
 		mDamageSE->setPos(position);
 		mDamageSE->play();
+		//パーティクル発射
+		mDamageParticle->setPos(position);
+		mDamageParticle->Play();
+
 		HP -= col->GetColObject()->GetDamage();
 	}
 
@@ -269,8 +279,8 @@ void BirdEnemy::CheckAlive()
 {
 	if (HP <= 0)
 	{
-		//エフェクト発射
-		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
+		mDeathParticle->setPos(Vector3(position.x, position.y + 5.0f, position.z));
+		mDeathParticle->Play();
 
 		if (mCreateItem) return;
 

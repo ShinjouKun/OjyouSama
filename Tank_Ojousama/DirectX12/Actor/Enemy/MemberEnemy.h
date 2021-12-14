@@ -6,6 +6,8 @@
 
 class Timer;
 class Sound;
+class Explosion;
+class Hit;
 
 //編隊の小隊の敵
 class MemberEnemy : public BaseObject
@@ -133,7 +135,8 @@ private:
 	shared_ptr<Sound> mAttackSE;       //攻撃時のSE
 	shared_ptr<Sound> mDamageSE;       //攻撃時のSE
 	shared_ptr<Sound> mDeathSE;        //死亡したときのSE
-	shared_ptr<ParticleEmitterBox> mParticleEmitter;
+	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
+	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 
 	Vector3 scale;
 	Vector3 mFixedPosition;   //固定位置

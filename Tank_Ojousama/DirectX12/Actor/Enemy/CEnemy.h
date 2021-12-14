@@ -2,6 +2,8 @@
 #include "BaseEnemy.h"
 
 class MemberEnemy;
+class Explosion;
+class Hit;
 
 //編隊の隊長
 class CEnemy : public BaseEnemy
@@ -98,7 +100,9 @@ private:
 	shared_ptr<Sound> mAttackSE;   //攻撃時のSE
 	shared_ptr<Sound> mDamageSE;   //ダメージを受けた時のSE
 	shared_ptr<Sound> mDeathSE;    //死亡したときのSE
-	shared_ptr<ParticleEmitterBox> mParticleEmitter;//爆発のエフェクト
+	//shared_ptr<ParticleEmitterBox> mParticleEmitter;//爆発のエフェクト
+	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
+	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 
 	Vector3 mSearchPosition;//索敵結果位置
 

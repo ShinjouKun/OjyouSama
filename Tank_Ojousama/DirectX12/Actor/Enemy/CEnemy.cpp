@@ -1,6 +1,8 @@
 #include "CEnemy.h"
 #include "../../Weapons/ElfBullet.h"
 #include"../../Scene/BaseScene.h"
+#include "../../ParticleSystem/ParticleType/Explosion.h"
+#include "../../ParticleSystem/ParticleType/Hit.h"
 #include "MemberEnemy.h"
 
 CEnemy::CEnemy(
@@ -82,10 +84,13 @@ void CEnemy::EnemyInit()
 	mDeathTime = std::make_shared<Timer>();
 	mDeathTime->setTime(1.0f);
 
-	//パーティクル初期化
-	EXPLOSION_EFFECT = "Explosion";
-	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
-	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
+	//ダメージ用パーティクル
+	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
+	mDamageParticle->Stop();
+
+	//死亡用エフェクト
+	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	mDeathParticle->Stop();
 
 #pragma region モデルの読み込み
 
@@ -134,7 +139,6 @@ void CEnemy::EnemyUpdate()
 	ChangeState(); //状態変更
 	SearchObject();//パンくずやプレイヤーを探す
 
-
 	/*移動*/
 	Move();
 
@@ -164,7 +168,14 @@ void CEnemy::EnemyOnCollision(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
+		//SE発射
+		mDamageSE->setPos(position);
 		mDamageSE->play();
+
+		//パーティクル発射
+		mDamageParticle->setPos(Vector3(position.x, position.y + 5.0f, position.z));
+		mDamageParticle->Play();
+
 		//ダメージを受ける
 		HP -= col->GetColObject()->GetDamage();
 	}
@@ -382,6 +393,7 @@ void CEnemy::Attack()
 		//弾を発射！！
 		mManager->Add(new ElfBullet(position + firePos, Vector3(0, -angle.y, 0), mManager, mRend, mPart, objType, bulletNumber));
 		bulletNumber++;
+		mAttackSE->setPos(position);
 		mAttackSE->play();
 		mAttackFlag = false;
 		mMoveState = MoveState::NOT_FIND;
@@ -416,16 +428,19 @@ void CEnemy::DeathAnimeStep_RiseSky()
 		//回転
 		mFireAngle += 50.0f;
 		//上昇
-		position.y += 0.2f;
+		position.y += 0.5f;
 	}
 	else
 	{
 		//時間になったら(1フレームだけ呼ばれる)
-		//ここでSEを鳴らしたり、爆発させたりする
-		//エフェクト発射
-		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
+
 		//SE発射
+		mDeathSE->setPos(position);
 		mDeathSE->play();
+
+		//パーティクル発射
+		mDeathParticle->setPos(position);
+		mDeathParticle->Play();
 
 		mDeathStep = DeathAnimationStep::EXPLOSION;
 	}

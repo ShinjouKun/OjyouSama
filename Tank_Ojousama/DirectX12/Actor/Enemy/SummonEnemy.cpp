@@ -3,6 +3,8 @@
 #include "../../Utility/Timer/Timer.h"
 #include "../../Sound/Sound.h"
 #include"../../Scene/BaseScene.h"
+#include "../../ParticleSystem/ParticleType/Explosion.h"
+#include "../../ParticleSystem/ParticleType/Hit.h"
 
 SummonEnemy::SummonEnemy(
 	const Vector3 & pos,
@@ -56,11 +58,11 @@ void SummonEnemy::Init()
 	mDeathStep = DeathAnimationStep::RISE_SKY;
 
 	//サウンド初期化
-	mAttackSE = std::make_shared<Sound>("SE/punti.mp3", false);
+	mAttackSE = std::make_shared<Sound>("SE/punti.mp3", true);
 	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mDamageSE = std::make_shared<Sound>("SE/Summon_Damage.wav", false);
+	mDamageSE = std::make_shared<Sound>("SE/Summon_Damage.wav", true);
 	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mDeathSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mDeathSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
 	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
 	//タイマー初期化
@@ -71,10 +73,13 @@ void SummonEnemy::Init()
 	mDeathTime = std::make_shared<Timer>();
 	mDeathTime->setTime(1.0f);
 
-	//パーティクル初期化
-	EXPLOSION_EFFECT = "Explosion";
-	mParticleEmitter = make_shared<ParticleEmitterBox>(mEffectManager);
-	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
+	//ダメージ用パーティクル
+	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
+	mDamageParticle->Stop();
+
+	//死亡用エフェクト
+	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	mDeathParticle->Stop();
 
 	//モデル読み込み
 	mMyNumber = to_string(number);
@@ -118,7 +123,13 @@ void SummonEnemy::OnCollison(BaseCollider * col)
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		//SE発射
+		mDamageSE->setPos(position);
 		mDamageSE->play();
+
+		//パーティクル発射
+		mDamageParticle->setPos(Vector3(position.x, position.y + 5.0f, position.z));
+		mDamageParticle->Play();
+
 		HP -= col->GetColObject()->GetDamage();
 	}
 
@@ -268,6 +279,7 @@ void SummonEnemy::AttackStep_FallDown()
 	if (angle.x > 90.0f)
 	{
 		mAttackStep = AttackStep::WAIT;
+		mAttackSE->setPos(position);
 		mAttackSE->play();
 	}
 }
@@ -321,16 +333,19 @@ void SummonEnemy::DeathAnimeStep_RiseSky()
 		//回転
 		mFireAngle += 50.0f;
 		//上昇
-		position.y += 0.2f;
+		position.y += 0.5f;
 	}
 	else
 	{
 		//時間になったら(1フレームだけ呼ばれる)
 		//ここでSEを鳴らしたり、爆発させたりする
-		//エフェクト発射
-		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
 		//SE発射
+		mDeathSE->setPos(position);
 		mDeathSE->play();
+
+		//パーティクル発射
+		mDeathParticle->setPos(position);
+		mDeathParticle->Play();
 
 		mDeathStep = DeathAnimationStep::EXPLOSION;
 	}

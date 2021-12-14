@@ -2,8 +2,8 @@
 #include "BaseEnemy.h"
 
 class Timer;
-
 class Explosion;
+class Hit;
 
 //固定砲台の敵
 class MortarEnemy :public BaseEnemy
@@ -72,8 +72,8 @@ private:
 	shared_ptr<Sound> mAttackSE;  //攻撃時のSE
 	shared_ptr<Sound> mDamageSE;  //攻撃時のSE
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
-
-	std::shared_ptr<Explosion> mExplosion;//小爆発
+	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
+	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 
 	Vector3 mScale;         //大きさ
 	Vector3 mTargetPosition;//弾を弾の落下地点

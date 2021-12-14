@@ -3,6 +3,7 @@
 #include "../../Utility/Random.h"
 #include"../../Scene/BaseScene.h"
 #include "../../ParticleSystem/ParticleType/Explosion.h"
+#include "../../ParticleSystem/ParticleType/Hit.h"
 
 MortarEnemy::MortarEnemy(
 	const Vector3 & pos,
@@ -142,12 +143,18 @@ void MortarEnemy::DeathAnimeStep_RiseSky()
 	}
 	else
 	{
-		//時間になったら(1フレームだけ呼ばれる)
-		//ここでSEを鳴らしたり、爆発させたりする
-		//エフェクト発射
-		mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
+		////時間になったら(1フレームだけ呼ばれる)
+		////ここでSEを鳴らしたり、爆発させたりする
+		////エフェクト発射
+		//mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
+
 		//SE発射
+		mDamageSE->setPos(position);
 		mDamageSE->play();
+
+		//パーティクル発射
+		mDeathParticle->setPos(position);
+		mDeathParticle->Play();
 
 		mDeathStep = DeathAnimationStep::EXPLOSION;
 	}
@@ -206,8 +213,13 @@ void MortarEnemy::EnemyInit()
 	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
 	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
 
-	mExplosion = std::make_shared<Explosion>(Vector3::zero, true);
-	mExplosion->Stop();
+	//ダメージ用パーティクル
+	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
+	mDamageParticle->Stop();
+
+	//死亡用エフェクト
+	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	mDeathParticle->Stop();
 
 #pragma region モデルの読み込み
 
@@ -281,9 +293,14 @@ void MortarEnemy::EnemyOnCollision(BaseCollider * col)
 		int test = col->GetColObject()->GetDamage();
 
 		HP -= test;
-		mExplosion->setPos(position);
-		mExplosion->Play();
+
+		//SE発射
+		mDamageSE->setPos(position);
 		mDamageSE->play();
+
+		//パーティクル発射
+		mDamageParticle->setPos(Vector3(position.x, position.y + 5.0f, position.z));
+		mDamageParticle->Play();
 	}
 
 	if (col->GetColObject()->GetType() == ObjectType::CAMEAR)
