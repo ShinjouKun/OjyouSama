@@ -15,7 +15,7 @@ Explosion::Explosion(const Vector3 & pos, bool looping)
 	ps.StartColor = Vector4(0.85f, 0.2f, 0.f, 1.f);
 	ps.GravityModifier = 0.f;
 	ps.StartVector = Vector3(0.0f, 0.0f, 0.f);
-	ps.StartSize3D = Vector3(1.f, 1.f, 1.f);
+	ps.StartSize3D = Vector3(1.5f, 1.5f, 1.5f);
 	Burst burst;
 	burst.Count = 50;
 	mEmitter = new Emitter(pos, ps, burst, "Resouse/bullet.png");

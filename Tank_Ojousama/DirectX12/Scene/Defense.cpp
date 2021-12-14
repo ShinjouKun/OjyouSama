@@ -234,7 +234,7 @@ void Defense::UpdateScene()
 
 	if (mCastleCollapses && !resultFlag)
 	{
-		if (objM->GetCastle().GetPosition().y <= -100.f)
+		if (objM->GetCastle().GetPosition().y <= -60.f)
 		{
 			resultFlag = true;
 		}

@@ -23,7 +23,7 @@ Bom::Bom(const Vector3 & pos, bool looping)
 	aocip.rotate = Vector3::zero;
 	mEmitter->setAmountOfChangeInParticles(aocip);
 	ParticleRandomState prs;
-	prs.randomVec = Vector3(1.f, 1.f, 0.f);
+	prs.randomVec = Vector3(1.f, 1.f, 1.f);
 	prs.randomLife = 10.0f;
 	mEmitter->setParticleRandomState(prs);
 
