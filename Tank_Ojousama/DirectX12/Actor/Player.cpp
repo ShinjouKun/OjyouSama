@@ -162,7 +162,7 @@ void Player::SceneCamMove3()
 void Player::SceneCamMove4()
 {
 	BSS = true;
-	if (position.z >= 520)
+	if (position.z >= 500)
 	{
 		sceneCamPlayerOk = true;
 		if (sceneCamPos.x <= 0)
@@ -903,7 +903,11 @@ void Player::OnCollison(BaseCollider* col)
 			|| col->GetColObject()->GetType() == ObjectType::ENEMY
 			|| col->GetColObject()->GetType() == ObjectType::BOSS)
 		{
-			if (!ItemHolder::GetInstance()->GetUseShield())
+			if (ItemHolder::GetInstance()->GetUseShield())
+			{
+				ItemHolder::GetInstance()->SetDamege(col->GetColObject()->GetDamage());
+			}
+			else
 			{
 				HP -= col->GetColObject()->GetDamage();
 				HitFlag = true;

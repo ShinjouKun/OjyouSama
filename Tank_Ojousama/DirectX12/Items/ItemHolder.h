@@ -23,6 +23,8 @@ public:
 	bool GetUseSmoke() { return useSmoke; };
 	bool GetUseShield() { return useShield; };
 	int GetItemNum(ItemNames item);
+	void SetDamege(int value);
+	int GetDamege() { return damege; }
 
 private:
 
@@ -36,6 +38,7 @@ private:
 	unordered_map<ItemNames, int> items;
 	unordered_map<ItemNames, int> ults;
 	int count;
+	int damege;
 	bool useRepair;
 	bool useSmoke;
 	bool useShield;

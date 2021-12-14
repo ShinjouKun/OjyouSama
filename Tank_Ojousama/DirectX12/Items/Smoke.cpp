@@ -34,6 +34,7 @@ void Smoke::Init()
 	ItemModel->AddModel(numName, "Resouse/smokeModel.obj", "Resouse/smokeModel.png");
 	ItemModel->SetAncPoint(numName, Vector3( 0, 2.0f, 0));
 	getSE = std::make_shared<Sound>("SE/getItem.mp3", false);
+	useSE = std::make_shared<Sound>("SE/smoke.mp3", false);
 	mSmokeParticle = std::make_shared<SmokeParticle>(Vector3::zero, true);
 	mSmokeParticle->Stop();
 }
@@ -57,6 +58,7 @@ void Smoke::Update()
 
 	Smoker();
 	getSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+	useSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 
 	FallDown();
 }
@@ -93,12 +95,13 @@ void Smoke::Smoker()
 
 	mSmokeParticle->setPos(pPos);
 	objType = ObjectType::SMOKE;
-	
+	useSE->playLoop();
 	smokePoint--;
 
 	if (smokePoint <= 0)
 	{
 		mSmokeParticle->Stop();
+		useSE->stop();
 		death = true;
 	}
 	else
