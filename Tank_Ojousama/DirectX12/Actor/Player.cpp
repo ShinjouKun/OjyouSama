@@ -903,7 +903,11 @@ void Player::OnCollison(BaseCollider* col)
 			|| col->GetColObject()->GetType() == ObjectType::ENEMY
 			|| col->GetColObject()->GetType() == ObjectType::BOSS)
 		{
-			if (!ItemHolder::GetInstance()->GetUseShield())
+			if (ItemHolder::GetInstance()->GetUseShield())
+			{
+				ItemHolder::GetInstance()->SetDamege(col->GetColObject()->GetDamage());
+			}
+			else
 			{
 				HP -= col->GetColObject()->GetDamage();
 				HitFlag = true;

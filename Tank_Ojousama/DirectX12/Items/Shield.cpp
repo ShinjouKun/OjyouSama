@@ -105,9 +105,9 @@ void Shield::Guade()
 		return;
 	}
 
-	if (objM->GetPlayer().GetDamage() > 0)
+	if (ItemHolder::GetInstance()->GetDamege() > 0)
 	{
-		damege = objM->GetPlayer().GetDamage();
+		damege = ItemHolder::GetInstance()->GetDamege();
 		guadePoint -= damege;
 		damege = 0;
 		gardeSE->play();
