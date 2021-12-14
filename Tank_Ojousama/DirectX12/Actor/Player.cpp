@@ -186,6 +186,102 @@ void Player::SceneCamMove4()
 	}
 }
 
+void Player::SceneMoveBlock1()
+{
+	//右
+	if (position.x <= -80.0f)
+	{
+		position.x = -80.0f;
+	}
+	//左
+	if (position.x >= 80.0f)
+	{
+		position.x = 80.0f;
+	}
+	//後ろ
+	if (position.z >= 510)
+	{
+		position.z = 510;
+	}
+	//前
+	if (position.z <= -250)
+	{
+		position.z = -250;
+	}
+}
+
+void Player::SceneMoveBlock2()
+{
+	//右
+	if (position.x <= -150.0f)
+	{
+		position.x = -150.0f;
+	}
+	//左
+	if (position.x >= 150.0f)
+	{
+		position.x = 150.0f;
+	}
+	//後ろ
+	if (position.z >= 510)
+	{
+		position.z = 510;
+	}
+	//前
+	if (position.z <= -250)
+	{
+		position.z = -250;
+	}
+}
+
+void Player::SceneMoveBlock3()
+{
+	//右
+	if (position.x <= -150.0f)
+	{
+		position.x = -150.0f;
+	}
+	//左
+	if (position.x >= 150.0f)
+	{
+		position.x = 150.0f;
+	}
+	//後ろ
+	if (position.z >= 510)
+	{
+		position.z = 510;
+	}
+	//前
+	if (position.z <= -250)
+	{
+		position.z = -250;
+	}
+}
+
+void Player::SceneMoveBlock4()
+{
+	//右
+	if (position.x <= -150.0f)
+	{
+		position.x = -150.0f;
+	}
+	//左
+	if (position.x >= 150.0f)
+	{
+		position.x = 150.0f;
+	}
+	//後ろ
+	if (position.z >= 510)
+	{
+		position.z = 510;
+	}
+	//前
+	if (position.z <= -250)
+	{
+		position.z = -250;
+	}
+}
+
 
 void Player::UseWeapon1()
 {
@@ -557,26 +653,24 @@ void Player::Update()
 			atkAngle -= cameraSpeed;
 		}
 		//行動制限
-		//右
-		if (position.x <= -150.0f)
+		switch (sceneEffectNum)
 		{
-			position.x = -150.0f;
+		case 1:
+			SceneMoveBlock1();
+			break;
+		case 2:
+			SceneMoveBlock2();
+			break;
+		case 3:
+			SceneMoveBlock3();
+			break;
+			SceneMoveBlock4();
+		case 4:
+			break;
+		default:
+			break;
 		}
-		//左
-		if (position.x >= 150.0f)
-		{
-			position.x = 150.0f;
-		}
-		//後ろ
-		if (position.z >= 510)
-		{
-			position.z = 510;
-		}
-		//前
-		if (position.z <= -250)
-		{
-			position.z = -250;
-		}
+		
 
 		if (Input::getKeyDown(KeyCode::E) || Input::getJoyDown(JoyCode::X))
 		{
@@ -673,7 +767,11 @@ void Player::Update()
 
 void Player::Rend()
 {
-	Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
+	if (sceneCamOk)
+	{
+		Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
+	}
+	
 	
 	if (!masingunShot)
 	{
@@ -745,32 +843,37 @@ void Player::Rend()
 		playerSprite->Draw("Blood2", Vector3(0, 500 - damageFadeYpos, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, damageFade));
 		playerSprite->Draw("Blood3", Vector3(900, 200 - damageFadeYpos, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, damageFade));
 	}
-	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	if (ItemNum == 0)
+
+	if (sceneCamOk)
 	{
-		playerSprite->Draw("repairIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		if (ItemNum == 0)
+		{
+			playerSprite->Draw("repairIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
+		if (ItemNum == 1)
+		{
+			playerSprite->Draw("shieldIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
+		if (ItemNum == 2)
+		{
+			playerSprite->Draw("smokeIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
+		playerSprite->Draw("X", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+
+		if (!sniperShotFlag)
+		{
+			playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
+		else
+		{
+			playerSprite->Draw("AIM_S", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
 	}
-	if (ItemNum == 1)
-	{
-		playerSprite->Draw("shieldIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
-	if (ItemNum == 2)
-	{
-		playerSprite->Draw("smokeIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
-	playerSprite->Draw("X", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	
 	
-	if (!sniperShotFlag)
-	{
-		playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
-	else
-	{
-		playerSprite->Draw("AIM_S", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
 
 	
 

@@ -31,6 +31,12 @@ public:
 	void SceneCamMove2();//‹­’D
 	void SceneCamMove3();//–h‰q
 	void SceneCamMove4();//ƒ{ƒX
+	//s“®§ŒÀ
+	void SceneMoveBlock1();
+	void SceneMoveBlock2();
+	void SceneMoveBlock3();
+	void SceneMoveBlock4();
+
 
 	void UseWeapon1();//•º‘•‚P
 	void UseWeapon2();//•º‘•‚Q
