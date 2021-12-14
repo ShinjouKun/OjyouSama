@@ -121,3 +121,8 @@ int ItemHolder::GetItemNum(ItemNames item)
 {
 	return items[item];
 }
+
+void ItemHolder::SetDamege(int value)
+{
+	damege = value;
+}
