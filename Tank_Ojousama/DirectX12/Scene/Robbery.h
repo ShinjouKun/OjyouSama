@@ -80,4 +80,5 @@ private:
 	bool OpFlag1;                //ボリューム用フラグ01
 	bool OpFlag2;                //ボリューム用フラグ02
 	bool OpFlag3;                //ボリューム用フラグ03
+	float messeTime;			//メッセージタイム
 };

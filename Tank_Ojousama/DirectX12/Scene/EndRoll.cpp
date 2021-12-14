@@ -1,5 +1,6 @@
 #include "EndRoll.h"
 #include "GameClear.h"
+#include "../Sound/Sound.h"
 
 EndRoll::EndRoll()
 	:mSound(nullptr)
@@ -14,10 +15,13 @@ void EndRoll::StartScene()
 {
 	speed = 0;
 	BaseScene::mSprite->AddTexture("Roll", "Resouse/theend.png");
+	mSound = std::make_shared<Sound>("BGM/endhing.mp3", false);
+	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 }
 
 void EndRoll::UpdateScene()
 {
+	mSound->playLoop();
 	speed -= 1;
 	if (speed <= -6700)
 	{
