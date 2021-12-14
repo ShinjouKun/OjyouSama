@@ -140,6 +140,7 @@ void Robbery::StartScene()
 	mTreasureGet = false;
 	mStartSpownFlag = false;
 	mBackSpownFlag = false;
+	messeTime = 0;
 
 	objectCount = 0;
 	mGoalLine = 500.0f;
@@ -177,6 +178,7 @@ void Robbery::StartScene()
 	BaseScene::mSprite->AddTexture("AimA1", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA2", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA3", "Resouse/volAimA.png");
+	BaseScene::mSprite->AddTexture("Messe", "Resouse/messege4.png");
 
 #pragma endregion
 
@@ -345,7 +347,15 @@ void Robbery::DrawScene()
 
 	mObjManager->Draw();
 	DirectXManager::GetInstance()->SetData2D();
-
+	BaseScene::mSprite->SetSize("Messe", Vector2(1280, 180));
+	if (mTreasureGet)
+	{
+		messeTime += 1;
+		if (messeTime <= 60)
+		{
+			BaseScene::mSprite->Draw("Messe", Vector3(0, 0, 0), 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		}
+	}
 	if (mPose)
 	{
 		BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
