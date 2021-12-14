@@ -191,7 +191,8 @@ void GamePlay::StartScene()
 	BaseScene::mSprite->AddTexture("AimA3", "Resouse/volAimA.png");
 
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
-	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/sougen.png");
+	//BaseScene::mModel->AddModel("newGround", "Resouse/Plane.obj", "Resouse/Ground_Black.png");
+	BaseScene::mModel->AddModel("Groun", "Resouse/Plane.obj", "Resouse/Ground_Black.png");
 	BaseScene::mModel->AddModel("KabeR", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeL", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeR2", "Resouse/Plane.obj", "Resouse/kabe.png");
@@ -334,20 +335,21 @@ void GamePlay::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 200.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
+	//BaseScene::mModel->Draw("newGround", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
+	BaseScene::mModel->Draw("Groun", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(800, 800, 800));
 	BaseScene::mModel->Draw("KabeR5", Vector3(-85.0f, 60.0f, 600.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL5", Vector3(85.0f, 60.0f, -600.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL5", Vector3(+85.0f, 60.0f, 600.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeR4", Vector3(-85.0f, 60.0f, -200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL4", Vector3(85.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL4", Vector3(+85.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeR3", Vector3(-85.0f, 60.0f, 0.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL3", Vector3(85.0f, 60.0f, 0.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL3", Vector3(+85.0f, 60.0f, 0.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeR2", Vector3(-85.0f, 60.0f, 200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL2", Vector3(85.0f, 60.0f, 200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeR", Vector3(-85.0f, 60.0f, 400.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL", Vector3(85.0f, 60.0f, 400.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeF", Vector3(100.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL2", Vector3(+85.0f, 60.0f, 200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR",  Vector3(-85.0f, 60.0f, 400.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL",  Vector3(+85.0f, 60.0f, 400.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeF",  Vector3(100.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeF2", Vector3(-100.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeB", Vector3(100.0f, 60.0f, 600.0f), Vector3(90.0f, 0.0f, 0.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeB",  Vector3(100.0f, 60.0f, 600.0f), Vector3(90.0f, 0.0f, 0.0f), Vector3(100, 80, 50));
 	BaseScene::mModel->Draw("KabeB2", Vector3(-100.0f, 60.0f, 600.0f), Vector3(90.0f, 0.0f, 0.0f), Vector3(100, 80, 50));
 	
 	objM->Draw();

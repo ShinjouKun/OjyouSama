@@ -186,7 +186,7 @@ void Robbery::StartScene()
 
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Shiro", "Resouse/castle.obj", "Resouse/castle.png");
-	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/sougen.png");
+	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/Ground_Black.png");
 	BaseScene::mModel->AddModel("KabeR", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeL", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeR2", "Resouse/Plane.obj", "Resouse/kabe.png");
@@ -277,7 +277,7 @@ void Robbery::StartScene()
 	StartWayEnemySpown();
 
 	//•ó” ¶¬
-	mObjManager->Add(new Treasure(Vector3(0.0f, 0, 70.0f), Vector3(0, 180.0f, 0), mObjManager, BaseScene::mModel));
+	mObjManager->Add(new Treasure(Vector3(0.0f, 0, 70.0f), Vector3(0, 180.0f, 0), mObjManager, BaseScene::mModel, 1));
 
 	//éƒ‚ƒfƒ‹
 	//mObjManager->Add(new Castle(Vector3(0.0f, -10.0f, 500.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle));

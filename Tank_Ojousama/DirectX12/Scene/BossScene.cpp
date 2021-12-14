@@ -75,7 +75,7 @@ void BossScene::StartScene()
 	BaseScene::mSprite->AddTexture("AimA2", "Resouse/volAimA.png");
 	BaseScene::mSprite->AddTexture("AimA3", "Resouse/volAimA.png");
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
-	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/sougen.png");
+	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/Ground_Black.png");
 
 #pragma endregion
 
