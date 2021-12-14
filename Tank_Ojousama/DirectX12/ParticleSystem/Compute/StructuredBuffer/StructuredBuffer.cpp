@@ -1,4 +1,5 @@
 #include "StructuredBuffer.h"
+#include "../../../Device/DirectXManager.h"
 
 #include <cassert>
 
@@ -7,6 +8,7 @@ StructuredBuffer::StructuredBuffer() :
 	mSizeOfElement(0),
 	mIsInited(false)
 {
+	mDev = DirectXManager::GetInstance()->Dev();
 }
 
 StructuredBuffer::~StructuredBuffer()

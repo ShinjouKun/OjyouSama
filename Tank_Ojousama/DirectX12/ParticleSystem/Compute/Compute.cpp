@@ -496,33 +496,33 @@ HRESULT Compute::createBuffer()
 
 	//エミッターインプット
 	mInputEmitterSB = new StructuredBuffer();
-	mInputEmitterSB->setDevice(mDev);
+	//mInputEmitterSB->setDevice(mDev);
 	mInputEmitterSB->init(sizeof(EmitterData), 1, nullptr);
 
 	cpuHandle.ptr += handle;
 	//エミッターアウトプット
 	mOutputEmitterSB = new RWStructuredBuffer();
-	mOutputEmitterSB->setDevice(mDev);
+	//mOutputEmitterSB->setDevice(mDev);
 	mOutputEmitterSB->init(sizeof(ParticleData), MAX_PARTICLE_SIZE, nullptr);
 
 	cpuHandle.ptr += handle;
 	//パーティクルインプット
 	mInputParticleDataSB = new StructuredBuffer();
-	mInputParticleDataSB->setDevice(mDev);
+	//mInputParticleDataSB->setDevice(mDev);
 	mInputParticleDataSB->init(sizeof(ParticleData), MAX_PARTICLE_SIZE, nullptr);
 	mInputParticleDataSB->RegistShaderResourceView(cpuHandle, 0);
 
 	cpuHandle.ptr += handle;
 	//パーティクル描画用
 	mOutputParticleSB = new RWStructuredBuffer();
-	mOutputParticleSB->setDevice(mDev);
+	//mOutputParticleSB->setDevice(mDev);
 	mOutputParticleSB->init(sizeof(ParticleDrawData), MAX_PARTICLE_SIZE, nullptr);
 	mOutputParticleSB->RegistUnorderAccessView(cpuHandle, 0);
 
 	cpuHandle.ptr += handle;
 	//パーティクル保管用
 	mParticleStorageSB = new RWStructuredBuffer();
-	mParticleStorageSB->setDevice(mDev);
+	//mParticleStorageSB->setDevice(mDev);
 	mParticleStorageSB->init(sizeof(ParticleData), MAX_PARTICLE_SIZE, nullptr);
 	mParticleStorageSB->RegistUnorderAccessView(cpuHandle, 0);
 
