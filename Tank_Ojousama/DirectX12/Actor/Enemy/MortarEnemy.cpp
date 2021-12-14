@@ -138,7 +138,7 @@ void MortarEnemy::DeathAnimeStep_RiseSky()
 		//âÒì]
 		barrelAngle += 50.0f;
 		//è„è∏
-		position.y += 0.2f;
+		position.y += 0.5f;
 	}
 	else
 	{
