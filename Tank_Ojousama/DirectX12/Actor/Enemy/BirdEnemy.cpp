@@ -85,6 +85,8 @@ void BirdEnemy::Action_Fire()
 		Vector3 firePosition = AngleToVectorY(mFireAngle);
 		mManager->Add(new LaunchBullet(position + firePosition, mTargetPosition, mManager, mRend, mPart, objType, mBulletNumber++,true));
 		mFireFlag = true;
+
+		mAttackSE->setPos(position);
 		mAttackSE->play();
 	}
 
@@ -183,9 +185,9 @@ void BirdEnemy::EnemyInit()
 	mReloadTime->setTime(1.0f);
 
 	//サウンド初期化
-	mAttackSE = std::make_shared<Sound>("SE/Bird_Attack.mp3", false);
+	mAttackSE = std::make_shared<Sound>("SE/Bird_Attack.mp3", true);
 	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", false);
+	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
 	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
 	//パーティクル初期化
@@ -246,6 +248,7 @@ void BirdEnemy::EnemyOnCollision(BaseCollider * col)
 {
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
+		mDamageSE->setPos(position);
 		mDamageSE->play();
 		HP -= col->GetColObject()->GetDamage();
 	}

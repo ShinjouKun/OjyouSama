@@ -341,7 +341,7 @@ void BlowEnemy::DeathAnimeStep_RiseSky()
 		//âÒì]
 		mFireAngle += 50.0f;
 		//è„è∏
-		position.y += 0.2f;
+		position.y += 0.5f;
 	}
 	else
 	{

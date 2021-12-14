@@ -138,7 +138,7 @@ void MortarEnemy::DeathAnimeStep_RiseSky()
 		//回転
 		barrelAngle += 50.0f;
 		//上昇
-		position.y += 0.2f;
+		position.y += 0.5f;
 	}
 	else
 	{
@@ -182,7 +182,8 @@ void MortarEnemy::EnemyInit()
 	mDeathStep = DeathAnimationStep::RISE_SKY;
 
 	mScale = Vector3(2.0f, 2.0f, 2.0f);
-	SetCollidder(Vector3().zero, mRadius);
+	//SetCollidder(Vector3().zero, mRadius);
+	SetCollidder(Vector3(0.0f, 5.0f, 0.0f), mRadius);
 
 	//タイマー初期化
 	mAimingTime = std::make_shared<Timer>();
