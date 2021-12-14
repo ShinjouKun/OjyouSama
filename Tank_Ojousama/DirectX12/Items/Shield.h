@@ -41,4 +41,5 @@ private:
 	shared_ptr<ModelRenderer>ItemModel;
 	shared_ptr<TexRenderer> itemUseTex;
 	std::shared_ptr<Sound>getSE;
+	std::shared_ptr<Sound>gardeSE;
 };
