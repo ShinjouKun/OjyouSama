@@ -162,7 +162,7 @@ void Player::SceneCamMove3()
 void Player::SceneCamMove4()
 {
 	BSS = true;
-	if (position.z >= 520)
+	if (position.z >= 500)
 	{
 		sceneCamPlayerOk = true;
 		if (sceneCamPos.x <= 0)
