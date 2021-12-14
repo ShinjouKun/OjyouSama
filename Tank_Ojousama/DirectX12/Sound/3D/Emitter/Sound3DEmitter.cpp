@@ -119,7 +119,7 @@ void Sound3DEmitter::initializeEmitter(const WaveFormat & format)
 	mEmitter.lpfDirectCurve = nullptr; //デフォルトカーブを使用
 	mEmitter.lpfReverbCurve = nullptr; //デフォルトカーブを使用
 	mEmitter.reverbCurve = &EMITTER_REVERB_CURVE;
-	mEmitter.curveDistanceScaler = 500.f;//14.f
+	mEmitter.curveDistanceScaler = 400.f;//14.f
 	mEmitter.dopplerScaler = 0.f;
 }
 

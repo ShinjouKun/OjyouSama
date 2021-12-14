@@ -162,7 +162,7 @@ void Player::SceneCamMove3()
 void Player::SceneCamMove4()
 {
 	BSS = true;
-	if (position.z >= 520)
+	if (position.z >= 500)
 	{
 		sceneCamPlayerOk = true;
 		if (sceneCamPos.x <= 0)
@@ -322,6 +322,11 @@ void Player::UseWeapon2()
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock + 2, UpDamage));
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle - 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 3, UpDamage));
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle - 20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 4, UpDamage));
+		
+		auto axis = CamVelocity;
+		axis.normalize();
+		mNormalAtkParticle->setPos(Vector3(position.x - (axis.x * 2.5f), position.y + 1.5f, position.z - (axis.z * 2.5f)));//後で変えるかも？
+		mNormalAtkParticle->Play();
 	}
 
 	//objM->Add(new MissileBullet(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
@@ -398,6 +403,7 @@ void Player::Init()
 	mDamageSE01 = std::make_shared<Sound>("SE/Player_Damage01.mp3", false);
 	mDamageSE02 = std::make_shared<Sound>("SE/Player_Damage02.mp3", false);
 	mDeathSE = std::make_shared<Sound>("SE/Player_Death.mp3", false);
+	mMoveSE = std::make_shared<Sound>("SE/lab.mp3", false);
 	mTimer = std::make_shared<Timer>();
 
 	//パーティクル初期化
@@ -892,6 +898,9 @@ void Player::TrajectoryPlay()
 	mTankTraR->setPos(Vector3(position.x + 1.f, position.y, position.z - axis.y));//後で調整
 	mTankTraL->Play();
 	mTankTraR->Play();
+
+	mMoveSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mMoveSE->play();
 }
 
 
@@ -903,7 +912,11 @@ void Player::OnCollison(BaseCollider* col)
 			|| col->GetColObject()->GetType() == ObjectType::ENEMY
 			|| col->GetColObject()->GetType() == ObjectType::BOSS)
 		{
-			if (!ItemHolder::GetInstance()->GetUseShield())
+			if (ItemHolder::GetInstance()->GetUseShield())
+			{
+				ItemHolder::GetInstance()->SetDamege(col->GetColObject()->GetDamage());
+			}
+			else
 			{
 				HP -= col->GetColObject()->GetDamage();
 				HitFlag = true;

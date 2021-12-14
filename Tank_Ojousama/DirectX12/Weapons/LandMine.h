@@ -1,6 +1,8 @@
 #pragma once
 #include"Weapon.h"
 
+class Explosion;
+
 class LandMine :public Weapon
 {
 public:
@@ -19,6 +21,7 @@ private:
 	shared_ptr<ModelRenderer>Model;
 	shared_ptr<ParticleManager>Particle;
 	shared_ptr<ParticleEmitterBox>ParticleBox;
+	shared_ptr<Explosion> mParticle;
 	float bomSpace;
 	bool bomFlag;
 };

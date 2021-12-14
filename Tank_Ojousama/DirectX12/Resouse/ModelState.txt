@@ -1,4 +1,4 @@
-Other02
-Light
-Light_b
+Other01
+Heavy
+Heavy_b
 MachinGun

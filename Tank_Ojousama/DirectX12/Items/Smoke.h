@@ -44,5 +44,6 @@ private:
 
 	shared_ptr<ModelRenderer>ItemModel;
 	std::shared_ptr<Sound>getSE;
+	std::shared_ptr<Sound>useSE;
 	std::shared_ptr<SmokeParticle> mSmokeParticle;
 };

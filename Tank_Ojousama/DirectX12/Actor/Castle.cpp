@@ -6,6 +6,7 @@
 #include "../Sound/Sound.h"
 #include "../ParticleSystem/ParticleType/Explosion.h"
 #include "../Scene/BaseScene.h"
+#include "../Device/Input.h"
 
 Castle::Castle(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<ModelRenderer> modelRender, shared_ptr<TexRenderer>s,shared_ptr<ParticleManager> effect)
 	:Model(modelRender),Sprite(s),Particle(effect)
@@ -63,6 +64,14 @@ void Castle::Init()
 
 void Castle::Update()
 {
+#ifdef _DEBUG
+	if (Input::getKeyDown(KeyCode::H))
+	{
+		HP = 0;
+	}
+#endif // _DEBUG
+
+
 	if (HP <= 0)
 	{
 		mExplosion1->Play();

@@ -15,7 +15,7 @@ void EndRoll::StartScene()
 {
 	speed = 0;
 	BaseScene::mSprite->AddTexture("Roll", "Resouse/theend.png");
-	mSound = std::make_shared<Sound>("BGM/endhing.mp3", false);
+	mSound = std::make_shared<Sound>("BGM/endhing.wav", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 }
 

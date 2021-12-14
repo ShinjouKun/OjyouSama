@@ -1,4 +1,5 @@
 #include "RWStructuredBuffer.h"
+#include "../../../Device/DirectXManager.h"
 
 #include <cassert>
 
@@ -7,6 +8,7 @@ RWStructuredBuffer::RWStructuredBuffer():
 	mSizeOfElement(0),
 	mIsInited(false)
 {
+	mDev = DirectXManager::GetInstance()->Dev();
 }
 
 RWStructuredBuffer::~RWStructuredBuffer()

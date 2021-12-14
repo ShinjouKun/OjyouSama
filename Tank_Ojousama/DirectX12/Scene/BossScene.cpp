@@ -25,6 +25,8 @@
 #include "../Actor/BetaTestBlock.h"
 #include "../Actor/Enemy/AdvanceBorderLine.h"
 
+#include "../Device/Input.h"
+
 
 BossScene::BossScene()
 	:mSound(nullptr)
@@ -194,6 +196,15 @@ void BossScene::UpdateScene()
 		mBossDeadFlag = true;
 		NextScene(std::make_shared<EndRoll>());
 	}
+
+#ifdef _DEBUG
+	if (Input::getKeyDown(KeyCode::H))
+	{
+		mBossDeadFlag = true;
+		NextScene(std::make_shared<EndRoll>());
+	}
+#endif // _DEBUG
+
 
 	if (mObjManager->GetPlayer().GetHp() <= 0)
 	{

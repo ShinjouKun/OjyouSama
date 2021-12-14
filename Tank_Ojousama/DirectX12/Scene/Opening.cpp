@@ -24,7 +24,7 @@ void Opening::StartScene()
 	BaseScene::mSprite->AddTexture("Fade2", "Resouse/fade.png");
 	BaseScene::mModel->AddModel("Open", "Resouse/Plane1.obj", "Resouse/opening.png");
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/back_sky.png");
-	mSound = std::make_shared<Sound>("BGM/opening.mp3", false);
+	mSound = std::make_shared<Sound>("BGM/opening.wav", false);
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 }
 
