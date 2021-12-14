@@ -57,7 +57,7 @@ void Castle::Init()
 	mExplosion5->setPos(Vector3(position.x + 25.f, position.y, position.z + 20.f));
 	mExplosion5->Stop();
 
-	mSound = std::make_shared<Sound>("SE/Castle_Damage.wav", false);
+	mSound = std::make_shared<Sound>("SE/Castle_Damage.wav", true);
 	mRange = 1.f;
 }
 
@@ -156,6 +156,7 @@ void Castle::OnCollison(BaseCollider * col)
 		HitFlag = true;	
 		HP -= col->GetColObject()->GetDamage();
 		mSound->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+		mSound->setPos(position);
 		mSound->play();
 	}
 }
