@@ -35,6 +35,7 @@ void Shield::Init()
 	ItemModel->SetAncPoint(numName, Vector3(0, 2.0f, 0));
 	itemUseTex->AddTexture(numName, "Resouse/ShieldEffect.png");
 	getSE = std::make_shared<Sound>("SE/getItem.mp3", false);
+	gardeSE = std::make_shared<Sound>("SE/Boss_NoDamage.mp3", false);
 	if (itemState == ItemState::Low)
 	{
 		guadePoint = 20;
@@ -62,7 +63,7 @@ void Shield::Update()
 
 	Guade();
 	getSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
-
+	gardeSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 	FallDown();
 }
 
@@ -104,13 +105,13 @@ void Shield::Guade()
 		return;
 	}
 
-	if (objM->GetPlayer().GetDamage() >= 0)
+	if (objM->GetPlayer().GetDamage() > 0)
 	{
 		damege = objM->GetPlayer().GetDamage();
+		guadePoint -= damege;
+		damege = 0;
+		gardeSE->play();
 	}
-
-	guadePoint -= damege;
-	damage = 0;
 
 	if (guadePoint <= 0)
 	{
