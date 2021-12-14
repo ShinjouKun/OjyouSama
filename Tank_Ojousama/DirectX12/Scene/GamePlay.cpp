@@ -22,6 +22,8 @@
 #include "../Items/Shield.h"
 #include "../Items/Smoke.h"
 
+#include"../Actor/Treasure.h"
+
 GamePlay::GamePlay()
 	:mSound(nullptr)
 {
@@ -171,61 +173,6 @@ void GamePlay::StartScene()
 
 #pragma endregion
 
-#pragma region 敵の生成
-
-	int enemyCount = 0;
-
-	/////*遠距離攻撃の敵*/
-	
-	/*for (int i = -35; i < 50; i += 25)
-	{
-		objM->Add(new SniperEnemy(Vector3(i, 4.0f, -75.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	}
-*/
-
-	///*近距離攻撃の敵*/
-    /* objM->Add(new BlowEnemy(Vector3(+90.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new BlowEnemy(Vector3(60.0f, 0.0f, 310.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new BlowEnemy(Vector3(-90.0f, 0.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new BlowEnemy(Vector3(-10.0f, 0.0f, 380.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new BlowEnemy(Vector3(0.0f, 0.0f, 360.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new BlowEnemy(Vector3(-70.0f, 0.0f, 350.0f), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new BlowEnemy(Vector3(+70.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));
-	objM->Add(new BlowEnemy(Vector3(0.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, enemyCount++));*/
-
-#pragma endregion
-
-	
-
-
-	/*30体表示(この数をベースに考える)*/
-	int test = 0;
-	//for (int i = 50; i < 150; i += 20)
-	//{
-	//	for (int j = 100; j < 220; j += 20)
-	//	{
-	//		auto t = new SniperEnemy(Vector3(i, 0.0f, -j), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, test++);
-
-	//		objM->Add(t);
-
-	//		//objM->Add(new EnemyTank(Vector3(i, 0.0f, -j), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, test++));
-	//	}
-	//}
-
-
-	/*auto t = new SniperEnemy(Vector3(0.0f, 0.0f, 50.0f), Vector3(0, 180.0f, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, test++);
-	mEnemyAI->AddEnemyList(t);
-	objM->Add(t);*/
-
-	//objM->Add(new CEnemy(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mParticle, test++));
-	//objM->Add(new MortarEnemy(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 180.0f, 0.0f), objM, BaseScene::mModel, BaseScene::mParticle, test++));
-
-	//objM->Add(new BlowEnemy(Vector3(100.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
-	//objM->Add(new BlowEnemy(Vector3(150.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 1));
-	//objM->Add(new BlowEnemy(Vector3(50.0f, 0.0f,  -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 2));
-	//objM->Add(new BlowEnemy(Vector3(200.0f, 0.0f, -100.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 3));
-	//objM->Add(new BlowEnemy(Vector3( 80.0f, 0.0f, -200.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 4));
-
 
 
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
@@ -264,6 +211,7 @@ void GamePlay::StartScene()
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	mHidan->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	//プレイヤーは最後に、又はUIクラスを作る
+	objM->Add(new Treasure(Vector3(30.0f, 0, 450.0f), Vector3(0, 180.0f, 0), objM, BaseScene::mModel,0));
 	objM->Add(new GolemEnemy(Vector3(0.0f, 4.0f, -110.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,1));
 	objM->Add(new CameraEye(Vector3(0,  0.0f, 180), Vector3(0, 0, 0), objM));

@@ -6,7 +6,7 @@
 class Treasure:public BaseObject
 {
 public:
-	Treasure(const Vector3& pos, const Vector3& ang, ObjectManager* objManager, std::shared_ptr<ModelRenderer> modelRender);
+	Treasure(const Vector3& pos, const Vector3& ang, ObjectManager* objManager, std::shared_ptr<ModelRenderer> modelRender,int sceneNum);
 	~Treasure();
 
 private:
@@ -23,8 +23,10 @@ private:
 
 	virtual void OnCollison(BaseCollider * col) override;
 private:
+	int sceneNum;
 	bool get;
 	Vector3 scale;
+	Vector2 numPos;
 	ObjectManager* mObjManager;
 	shared_ptr<ModelRenderer> mModelRender;
 };
