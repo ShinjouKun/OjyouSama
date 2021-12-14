@@ -107,6 +107,7 @@ private:
 	float aimPos_Y;
 	int sceneEffectNum;
 	int sceneCount;
+	int ItemNum;
 	bool sceneCamOk;
 	Vector3 sceneCamPos;
 	bool sceneCamPlayerOk;

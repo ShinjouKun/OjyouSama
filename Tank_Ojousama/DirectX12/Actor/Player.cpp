@@ -240,7 +240,18 @@ void Player::UseULT()
 
 void Player::Item()
 {
-	ItemHolder::GetInstance()->UseItem();
+	if (ItemHolder::GetInstance()->GetItemNum(ItemNames::heal) > 0 && ItemNum == 0)
+	{
+		ItemHolder::GetInstance()->UseItem(ItemNames::heal);
+	}
+	if (ItemHolder::GetInstance()->GetItemNum(ItemNames::dome) > 0 && ItemNum == 1)
+	{
+		ItemHolder::GetInstance()->UseItem(ItemNames::dome);
+	}
+	if (ItemHolder::GetInstance()->GetItemNum(ItemNames::smock) > 0 && ItemNum == 2)
+	{
+		ItemHolder::GetInstance()->UseItem(ItemNames::smock);
+	}
 }
 
 void Player::AngleReset()
@@ -317,6 +328,10 @@ void Player::Init()
 	playerSprite->AddTexture("RobberySetumei", "Resouse/robberysetumei.png");
 	playerSprite->AddTexture("DefenceSetumei", "Resouse/difencesetumei.png");
 	playerSprite->AddTexture("BossSceneSetumei", "Resouse/bossscenesetumei.png");
+	playerSprite->AddTexture("repairIcon", "Resouse/RepairIcon.png");
+	playerSprite->AddTexture("smokeIcon", "Resouse/SmokeIcon.png");
+	playerSprite->AddTexture("shieldIcon", "Resouse/ShieldIcon.png");
+	playerSprite->AddTexture("X", "Resouse/X.png");
 	//model
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
@@ -349,6 +364,7 @@ void Player::Init()
 	sniperShotFlag = false;
 	masingunShot = false;
 	HitCount = 0;
+	ItemNum = 0;
 	sceneCamFinish = false;
 	sceneCamOk = false;
 	sceneCamPlayerOk = false;
@@ -566,6 +582,14 @@ void Player::Update()
 		{
 			Item();
 		}
+		if (Input::getKeyDown(KeyCode::R) || Input::getJoyDown(JoyCode::RightStickButton))
+		{
+			ItemNum++;
+		}
+		if (ItemNum >= 3)
+		{
+			ItemNum = 0;
+		}
 
 		if (Input::getKeyDown(KeyCode::Q) || Input::getJoyDown(JoyCode::LeftButton))
 		{
@@ -724,6 +748,21 @@ void Player::Rend()
 	playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	if (ItemNum == 0)
+	{
+		playerSprite->Draw("repairIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
+	if (ItemNum == 1)
+	{
+		playerSprite->Draw("shieldIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
+	if (ItemNum == 2)
+	{
+		playerSprite->Draw("smokeIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
+	playerSprite->Draw("X", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	
+	
 	if (!sniperShotFlag)
 	{
 		playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
@@ -761,20 +800,23 @@ void Player::OnCollison(BaseCollider* col)
 			|| col->GetColObject()->GetType() == ObjectType::ENEMY
 			|| col->GetColObject()->GetType() == ObjectType::BOSS)
 		{
-			HP -= col->GetColObject()->GetDamage();
-			HitFlag = true;
-			mHit->setPos(position);//Œã‚Å’²®
-			mHit->Play();
+			if (!ItemHolder::GetInstance()->GetUseShield())
+			{
+				HP -= col->GetColObject()->GetDamage();
+				HitFlag = true;
+				mHit->setPos(position);//Œã‚Å’²®
+				mHit->Play();
 
-			Random::initialize();
-			int count = Random::randomRange(0, 2);
-			if (count == 0)
-			{
-				mDamageSE01->play();
-			}
-			else if (count == 1)
-			{
-				mDamageSE02->play();
+				Random::initialize();
+				int count = Random::randomRange(0, 2);
+				if (count == 0)
+				{
+					mDamageSE01->play();
+				}
+				else if (count == 1)
+				{
+					mDamageSE02->play();
+				}
 			}
 		}
 	}
