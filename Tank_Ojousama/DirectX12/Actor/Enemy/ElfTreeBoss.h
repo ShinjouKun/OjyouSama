@@ -132,7 +132,7 @@ private:
 
 	const int MAX_HP = 500;       //Å‘å‘Ì—Í
 	const int RAPIDFIRE_COUNT = 3;//˜A‘±ËŒ‚‚Ì”
-	const int SUMMON_COUNT = 5;   //¢Š«”
+	const int SUMMON_COUNT = 2;   //¢Š«”
 	int mBulletCount;//’e‚ğ”­Ë‚µ‚½”
 	int mCircleCount;//Œx‚ğ•\¦‚µ‚½”
 	int mEnemyNumber;//¢Š«‚µ‚½“G‚Ì”
@@ -142,7 +142,7 @@ private:
 	const float MOVE_SPEED = 0.0f;    //ˆÚ“®‘¬“x
 	const float AIMING_TIME = 1.0f;   //‘_‚¤ŠÔ
 	const float RELOAD_TIME = 0.5f;   //‘•“UŠÔ
-	const float SUMMON_TIME = 5.0f;   //¢Š«€”õŠÔ
+	const float SUMMON_TIME = 1.0f;   //¢Š«€”õŠÔ
 	float mFireAngle;//’e‚ğŒ‚‚Â‚Æ‚«‚ÌŒü‚«
 	float mRootSpeed;//ª‚Á‚±‚ÌˆÚ“®‘¬“x
 	float mSummonRotate;//¢Š«’†‚Ì–‚–@w‚Ì‰ñ“]

@@ -2,6 +2,11 @@
 #include"../Collision/SpherCollider.h"
 #include "../Collision/BaseCollider.h"
 #include"../ConstInfomation/Enemy/GolemEnemyConstInfo.h"
+#include "../ParticleSystem/ParticleType/Explosion.h"
+#include "../ParticleSystem/ParticleType/Hit.h"
+#include "../Sound/Sound.h"
+#include"../Scene/BaseScene.h"
+
 #include<random>
 //武器
 #include"../Weapons/StoneWeapon.h"
@@ -31,6 +36,24 @@ void GolemEnemy::Init()
 	mRiseTime->setTime(1.0f);
 	mDeathTime = std::make_shared<Timer>();
 	mDeathTime->setTime(1.0f);
+
+	//ダメージ用パーティクル
+	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
+	mDamageParticle->Stop();
+
+	//死亡用エフェクト
+	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	mDeathParticle->Stop();
+
+
+	//サウンド初期化
+	mAttackSE = std::make_shared<Sound>("SE/Golem_Attack.mp3", true);
+	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mDamageSE = std::make_shared<Sound>("SE/Golem_Damage.mp3", true);
+	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
+
+
 	mDeathStep = DeathAnimationStep::RISE_SKY;
 	maxSpeed = 2.0f;
 	speedTime = 0.0f;
@@ -393,6 +416,10 @@ void GolemEnemy::ProximityAttack()
 		angleVec = GetEnemyVec(angleVec);
 		bodyAngle.y = atan2(-angleVec.x, -angleVec.z)*180.0f / PI;
 		velocity = RotateY(bodyAngle.y + 90.0f)*speed;
+
+		//SE発射
+		mAttackSE->setPos(position);
+		mAttackSE->play();
 	}
 	
 	if (attackMoveCount >= 60)//一定時間で攻撃終了
@@ -453,6 +480,11 @@ void GolemEnemy::LangeAttack()
 			Vector3(0, -bodyAngle.y, 0),
 			objM, Model, Particle, objType, bulletStock));
 		stoneShotFlag = true;
+
+
+		//SE発射
+		mAttackSE->setPos(position);
+		mAttackSE->play();
 	}
 	attackMoveCount++;
 	//岩を投げる
@@ -625,9 +657,13 @@ void GolemEnemy::DeathAnimeStep_RiseSky()
 	else
 	{
 		//時間になったら(1フレームだけ呼ばれる)
-		//ここでSEを鳴らしたり、爆発させたりする
-		//エフェクト発射
 
+		//SE発射
+		mDamageSE->setPos(position);
+		mDamageSE->play();
+		//死亡用エフェクト
+		mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+		mDeathParticle->Stop();
 
 		mDeathStep = DeathAnimationStep::EXPLOSION;
 	}
@@ -716,6 +752,13 @@ void GolemEnemy::OnCollison(BaseCollider * col)
 	{
 		if (!guardFlag)
 		{
+			//SE発射
+			mDamageSE->setPos(position);
+			mDamageSE->play();
+
+			//ダメージ用パーティクル
+			mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
+			mDamageParticle->Stop();
 			HP -= col->GetColObject()->GetDamage();
 		}
 		HitFlag = true;

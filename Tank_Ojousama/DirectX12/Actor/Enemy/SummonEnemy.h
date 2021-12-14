@@ -89,7 +89,7 @@ private:
 	ObjectManager * mObjManager;
 
 	shared_ptr<ModelRenderer> mModelRender;
-	shared_ptr<ParticleManager> mEffectManager;
+	//shared_ptr<ParticleManager> mEffectManager;
 	shared_ptr<Timer> mGetupTimer;//倒れこんでいる時間
 	shared_ptr<Timer> mRiseTime;  //上昇時間
 	shared_ptr<Timer> mDeathTime; //完全に死ぬまでの時間
@@ -97,7 +97,7 @@ private:
 	shared_ptr<Sound> mDamageSE;  //ダメージを受けた時のSE
 	shared_ptr<Sound> mDeathSE;   //死亡したときのSE
 	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
-	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
+	//shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 
 	Vector3 mScale;           //大きさ
 	Vector3 mPlayerPosition;  //プレイヤーの位置
