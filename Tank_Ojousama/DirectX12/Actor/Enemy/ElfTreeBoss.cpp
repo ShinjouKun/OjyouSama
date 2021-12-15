@@ -7,6 +7,8 @@
 #include "../../Scene/BaseScene.h"
 #include "SummonEnemy.h"
 #include "TreeRoot.h"
+#include "../../ParticleSystem/ParticleType/Explosion.h"
+#include "../../ParticleSystem/ParticleType/Hit.h"
 
 ElfTreeBoss::ElfTreeBoss(
 	const Vector3 & pos,
@@ -23,7 +25,7 @@ ElfTreeBoss::ElfTreeBoss(
 
 ElfTreeBoss::~ElfTreeBoss()
 {
-	
+
 }
 
 void ElfTreeBoss::EndCameraAnimation(bool value)
@@ -49,7 +51,6 @@ void ElfTreeBoss::ChangeAttackState()
 	//索敵範囲内にいれば
 	if (length < SEARCH_LENGTH)
 	{
-
 		if (!mActionFlag)
 		{
 			Random::initialize();
@@ -115,7 +116,7 @@ void ElfTreeBoss::RapidFire()
 			mFireAngle = -Math::toDegrees(radian) - 180.0f;
 			angle.y = mFireAngle;
 
-			mManager->Add(new LaunchBullet(test, mPlayerPosition, mManager, mRend, mPart, objType, mBulletCount++,true));
+			mManager->Add(new LaunchBullet(test, mPlayerPosition, mManager, mRend, mPart, objType, mBulletCount++, true));
 
 			//指定数連続で射撃する
 			if (mBulletCount >= RAPIDFIRE_COUNT)
@@ -135,6 +136,15 @@ void ElfTreeBoss::Summon()
 	if (!mActionFlag) return;
 
 	//召喚が呼ばれた時1回しか処理しない
+
+	//敵がすでに存在しているとき
+	if (mSummonAlive)
+	{
+		//行動終了とする
+		mActionFlag = false;
+
+		return;
+	}
 
 	//力を溜めている状態
 	if (!mSummonEnemy)
@@ -178,7 +188,7 @@ void ElfTreeBoss::Summon()
 void ElfTreeBoss::DeathAnimation()
 {
 	//仮死状態 でないなら処理しない
-	if(!mDeathAnimationFlag) return;
+	if (!mDeathAnimationFlag) return;
 
 	if (mDeathStep == DeathAnimationStep::EXPLOSION)
 	{
@@ -216,38 +226,51 @@ void ElfTreeBoss::DeathAnimation_Explosion()
 			//パーティクルを描画
 			Random::initialize();
 			//描画位置を毎回変える
-			float x = Random::randomRange(position.x - 10.0f, position.x + 10.0f);
-			float y = Random::randomRange(0.0f, position.y + 40.0f);
-			float z = Random::randomRange(position.z - 10.0f, position.z + 10.0f);
+			float x = Random::randomRange(position.x - 20.0f, position.x + 20.0f);
+			float y = Random::randomRange(0.0f, position.y + 30.0f);
+			float z = Random::randomRange(position.z - 20.0f, position.z + 20.0f);
 			//mParticleEmitter->EmitterUpdate(PARTICLE_EFFECT, Vector3(x, y, z), angle);
-			mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
+			//mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
+
+			mDamageParticle = std::make_shared<Hit>(Vector3(x, y, z), false);
+
+			//mDamageParticle->Stop();
+			//mDamageParticle->setPos(Vector3(x, y, z));
+			//mDamageParticle->Play();
+
+			//mDeathParticle = std::make_shared<Explosion>(Vector3(x, y, z), false);
 
 			///*できればSEも欲しいねうるさくない程度に*/
 			//mSmallExplosion->play();
 
-			mEffectInterval->setTime(0.5f);
+			mEffectInterval->setTime(0.2f);
 		}
 	}
 
-	if(mExplosionTime->isTime())
+	if (mExplosionTime->isTime())
 	{
 
 		mExplosionTime->setTime(2.0f);//爆発が終わって消えて、死亡するまでの時間
 
-		/*ここででっかい爆発が起きてほしい*/
-		mBigExplosion->setPos(position);
-		mBigExplosion->play();
+		///*ここででっかい爆発が起きてほしい*/
+		//mBigExplosion->setPos(position);
+		//mBigExplosion->play();
 		mDeathSE->setPos(position);
 		mDeathSE->play();
 
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			//パーティクルを描画
 			Random::initialize();
-			float x = Random::randomRange(position.x - 10.0f, position.x + 10.0f);
-			float y = Random::randomRange(0.0f, position.y + 40.0f);
-			float z = Random::randomRange(position.z - 10.0f, position.z + 10.0f);
-			mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
+			float x = Random::randomRange(position.x - 5.0f, position.x + 5.0f);
+			float y = Random::randomRange(0.0f, position.y + 20.0f);
+			float z = Random::randomRange(position.z - 5.0f, position.z + 5.0f);
+			//mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
+
+			mDeathParticle = std::make_shared<Explosion>(Vector3(x, y, z), false);
+
+			//mDeathParticle->setPos(Vector3(x, y, z));
+			//mDeathParticle->Play();
 		}
 
 		mDeathStep = DeathAnimationStep::DEATH_COUNT;
@@ -497,6 +520,11 @@ void ElfTreeBoss::EnemyInit()
 	//死亡アニメーション状態の初期化
 	mDeathStep = DeathAnimationStep::EXPLOSION;
 
+	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	mDeathParticle->Stop();
+	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
+	mDamageParticle->Stop();
+
 	//四角の当たり判定(使い方を教わる)
 	//SetCollidder(Vector3(-10.0f, -10.0f, -10.0f), Vector3(10.0f, 3.0f, 10.0f));
 	//SetCollidder(new AABBCollider(position, Vector3(10.0f, 10.0f, 10.0f)));
@@ -661,6 +689,10 @@ void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
 			//SE発射
 			mDamageSE->setPos(position);
 			mDamageSE->play();
+
+			mDamageParticle->setPos(position);
+			mDamageParticle->Play();
+
 			HP -= col->GetColObject()->GetDamage();
 		}
 	}
