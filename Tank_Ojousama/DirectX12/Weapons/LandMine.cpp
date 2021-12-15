@@ -60,7 +60,9 @@ void LandMine::Update()
 
 	if (!mParticle && death)
 	{
-		mParticle = std::make_shared<Explosion>(position);
+		mParticle = std::make_shared<Explosion>(position, true);
+		mParticle->Stop();
+		mParticle->Play();
 	}
 }
 
