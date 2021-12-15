@@ -33,7 +33,10 @@ SmokeParticle::SmokeParticle(const Vector3 & pos, bool looping)
 
 SmokeParticle::~SmokeParticle()
 {
-	mEmitter->death();
+	if (mEmitter)
+	{
+		mEmitter->death();
+	}
 }
 
 void SmokeParticle::setPos(const Vector3 & pos)
