@@ -134,6 +134,10 @@ void MortarEnemy::DeathAnimeStep_RiseSky()
 {
 	mRiseTime->update();
 
+	//SE発射
+	mDamageSE->setPos(position);
+	mDamageSE->play();
+
 	//時間になっていなければ
 	if (!mRiseTime->isTime())
 	{
@@ -144,11 +148,6 @@ void MortarEnemy::DeathAnimeStep_RiseSky()
 	}
 	else
 	{
-		////時間になったら(1フレームだけ呼ばれる)
-		////ここでSEを鳴らしたり、爆発させたりする
-		////エフェクト発射
-		//mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, position, angle);
-
 		//SE発射
 		mDamageSE->setPos(position);
 		mDamageSE->play();

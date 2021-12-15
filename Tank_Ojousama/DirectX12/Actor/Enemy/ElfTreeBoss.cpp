@@ -26,6 +26,11 @@ ElfTreeBoss::~ElfTreeBoss()
 	
 }
 
+void ElfTreeBoss::EndCameraAnimation(bool value)
+{
+	mEndAnimation = value;
+}
+
 bool ElfTreeBoss::GetDeadFlag()
 {
 	return mDeadFlag;
@@ -33,8 +38,8 @@ bool ElfTreeBoss::GetDeadFlag()
 
 void ElfTreeBoss::ChangeAttackState()
 {
-	//死亡アニメーション中は処理しない
-	if (mDeathAnimationFlag) return;
+	//シーンアニメーション中 | 死亡アニメーション中は処理しない
+	if (!mEndAnimation || mDeathAnimationFlag) return;
 
 	mPlayerPosition = mManager->GetPlayer().GetPosition();
 
@@ -49,7 +54,7 @@ void ElfTreeBoss::ChangeAttackState()
 		{
 			Random::initialize();
 			/*0～10で行動を決める*/
-			mActionCount = Random::randomRange(0, 20);
+			mActionCount = Random::randomRange(0, 13);
 			mActionFlag = true;
 		}
 
@@ -63,7 +68,7 @@ void ElfTreeBoss::ChangeAttackState()
 		{
 			RootAttack();//根っこ攻撃
 		}
-		else if (mActionCount >= 10 && mActionCount <= 20)
+		else if (mActionCount >= 10 && mActionCount <= 13)
 		{
 			Summon();//召喚攻撃
 		}
@@ -446,6 +451,7 @@ void ElfTreeBoss::EnemyInit()
 	mDeadFlag = false;
 	mOneShotSound = false;
 	mSummonAlive = false;
+	mEndAnimation = false;
 
 	//各オブジェクトの初期位置をセット
 	mOffsetRightHand = Vector3(position.x, position.y + 15.0f, position.z);
@@ -533,10 +539,10 @@ void ElfTreeBoss::EnemyInit()
 	mRend->AddModel(mBarrierNum, "Resouse/EnemyModel/BossBarrier/boss_barrier.obj", "Resouse/EnemyModel/BossBarrier/boss_barrier.png");
 	//mRend->SetColor(mBarrierNum, Vector4(1, 1, 1, 0.5f));
 
-	//パーティクル1
-	mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
-	mParticleEmitter->LoadAndSet(PARTICLE_EFFECT, "Resouse/effect.png");
-	mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
+	////パーティクル1
+	//mParticleEmitter = make_shared<ParticleEmitterBox>(mPart);
+	//mParticleEmitter->LoadAndSet(PARTICLE_EFFECT, "Resouse/effect.png");
+	//mParticleEmitter->LoadAndSet(EXPLOSION_EFFECT, "Resouse/Bom.jpg");
 
 	//配列の初期化
 	mSummonPoint.resize(SUMMON_COUNT);
