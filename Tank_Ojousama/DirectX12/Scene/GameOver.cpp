@@ -26,8 +26,10 @@ void GameOver::StartScene()
 	posePos = Vector3(0, 0, 0);
 	BaseScene::mSprite->AddTexture("GOver", "Resouse/gameover.png");
 
+	//BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
+	//BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
-	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
+	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/Ground_Black.png");
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
 	camerapos = Vector3(4, 5, -10);
@@ -40,7 +42,7 @@ void GameOver::StartScene()
 	BaseScene::mModel->SetAncPoint("OjyouSama", Vector3(0.0f, 0.0f, -0.1f));
 	BaseScene::mModel->AddModel("ArmL", "Resouse/L_hands.obj", "Resouse/hands_one.png");
 	BaseScene::mModel->SetAncPoint("ArmL", Vector3(0.0f, -2.1f, -0.1f));
-	mSound = std::make_shared<Sound>("BGM/loop_157.mp3", false);
+	mSound = std::make_shared<Sound>("BGM/gameover.mp3", false);
 
 	ParticleBox = make_shared<ParticleEmitterBox>(BaseScene::mParticle);
 	ParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");

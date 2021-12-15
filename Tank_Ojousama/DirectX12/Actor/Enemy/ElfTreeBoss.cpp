@@ -200,6 +200,7 @@ void ElfTreeBoss::DeathAnimation_Explosion()
 		if (!mOneShotSound)
 		{
 			/*一度だけ鳴らしたいよ*/
+			mSmallExplosion->setPos(position);
 			mSmallExplosion->play();
 			mOneShotSound = true;
 		}
@@ -229,7 +230,9 @@ void ElfTreeBoss::DeathAnimation_Explosion()
 		mExplosionTime->setTime(2.0f);//爆発が終わって消えて、死亡するまでの時間
 
 		/*ここででっかい爆発が起きてほしい*/
+		mBigExplosion->setPos(position);
 		mBigExplosion->play();
+		mDeathSE->setPos(position);
 		mDeathSE->play();
 
 		for (int i = 0; i < 10; i++)
@@ -458,13 +461,13 @@ void ElfTreeBoss::EnemyInit()
 	mSummonList.clear();
 
 	//サウンドの設定
-	mSmallExplosion = std::make_shared<Sound>("SE/Long.mp3", false);
+	mSmallExplosion = std::make_shared<Sound>("SE/Long.mp3", true);
 	mSmallExplosion->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mBigExplosion = std::make_shared<Sound>("SE/Big_Explosion.mp3", false);
+	mBigExplosion = std::make_shared<Sound>("SE/Big_Explosion.mp3", true);
 	mBigExplosion->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
 	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mDeathSE = std::make_shared<Sound>("SE/Boss_Death.wav", false);
+	mDeathSE = std::make_shared<Sound>("SE/Boss_Death.wav", true);
 	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mNoDeathSE = std::make_shared<Sound>("SE/Boss_NoDamage.wav", true);
 	mNoDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
@@ -644,11 +647,13 @@ void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
 		if (mSummonAlive)
 		{
 			//SE発射
+			mNoDeathSE->setPos(position);
 			mNoDeathSE->play();
 		}
 		else
 		{
 			//SE発射
+			mDamageSE->setPos(position);
 			mDamageSE->play();
 			HP -= col->GetColObject()->GetDamage();
 		}

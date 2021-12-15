@@ -6,6 +6,9 @@
 #include "../Render/ParticleManager.h"
 #include"../Render/TexRenderer.h"
 
+class Explosion;
+class Hit;
+class Sound;
 
 //エルフの森用の中ボス
 //拠点防衛型なのでプレイヤーが範囲外にでたら原点に戻る
@@ -106,6 +109,10 @@ private:
 	shared_ptr<ParticleManager>Particle;
 	shared_ptr<ParticleEmitterBox>ParticleBox;
 	shared_ptr<TexRenderer>Sprite;
+	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
+	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
+	shared_ptr<Sound> mAttackSE;  //攻撃時のSE
+	shared_ptr<Sound> mDamageSE;  //被弾時のSE
 
 	GolemBatteleStatus batteleS;
 	SenserPoint_G point;

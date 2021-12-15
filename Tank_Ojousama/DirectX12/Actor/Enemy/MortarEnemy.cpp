@@ -48,6 +48,7 @@ void MortarEnemy::AttackStep_FIRE()
 		Vector3 firePosition = AngleToVectorY(barrelAngle);
 		mManager->Add(new LaunchBullet(position + firePosition, mTargetPosition, mManager, mRend, mPart, objType, mBulletNumber++));
 		mFireFlag = true;
+		mAttackSE->setPos(position);
 		mAttackSE->play();
 	}
 
