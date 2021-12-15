@@ -17,8 +17,8 @@ Explosion::Explosion(const Vector3 & pos, bool looping)
 	ps.StartVector = Vector3(0.0f, 0.0f, 0.f);
 	ps.StartSize3D = Vector3(1.5f, 1.5f, 1.5f);
 	Burst burst;
-	burst.Count = 50;
-	mEmitter = new Emitter(pos, ps, burst, "Resouse/bullet.png");
+	burst.Count = 40;
+	mEmitter = new Emitter(pos, ps, burst);//"Resouse/bullet.png"
 	AmountOfChangeInParticles aocip;
 	aocip.rotate = Vector3::zero;
 	mEmitter->setAmountOfChangeInParticles(aocip);
