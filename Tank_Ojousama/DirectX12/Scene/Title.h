@@ -32,6 +32,18 @@ private:
 	std::shared_ptr<Sound> mBGM;
 	std::shared_ptr<Sound> mSE;
 
+	std::shared_ptr<Sound> mMoveSE; //戦車の移動SE
+	std::shared_ptr<Sound> mBreakSE;//ぶつかる音
+	std::shared_ptr<Timer> mIntervalTime;//タイトルロゴが出るまでの時間
+
+	//アニメーション遷移状態
+	enum AnimationStep
+	{
+		MOVE_FRONT,//前に向かって走ってくる
+		INTERVAL,  //ぶつかったら数秒待つ
+		PLAY       //タイトルロゴとかが出てくる
+	}; AnimationStep mAnimStep;
+
 	float fade1;
 	float fade2;
 	float kakudai;
@@ -44,5 +56,4 @@ private:
 	float ojyouY;
 	float ojyouXR;
 	float ojyouXL;
-	
 };

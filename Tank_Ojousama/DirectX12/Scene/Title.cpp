@@ -29,7 +29,15 @@ void Title::StartScene()
 	ojyouXL = 0.0f;
 	camera->SetEye(Vector3(0.0f, 0, -122));
 	camera->SetTarget(Vector3(0.0f, 0, -100.0f));
-	ojoP = Vector3(0, -25, -113);
+
+
+
+	//ojoP = Vector3(0, -25.0f, -113.0f);
+	ojoP = Vector3(0, -25.0f, 200.0f);
+	mAnimStep = AnimationStep::MOVE_FRONT;
+
+
+
 	BaseScene::mSprite->AddTexture("Title", "Resouse/Title.png");
 	BaseScene::mSprite->AddTexture("Push", "Resouse/start.png");
 	BaseScene::mSprite->AddTexture("Heart", "Resouse/heart.png");
@@ -52,10 +60,58 @@ void Title::StartScene()
 	//mSound->play();
 	mBGM->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
+	//移動SE
+	mMoveSE = std::make_shared<Sound>("SE/lab.wav", false);
+	mMoveSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	//衝突SE
+	mBreakSE = std::make_shared<Sound>("SE/Big_Explosion.mp3", false);
+	mBreakSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	//インターバル
+	mIntervalTime = std::make_shared<Timer>();
+	mIntervalTime->setTime(1.0f);
 }
 
 void Title::UpdateScene()
 {
+	switch (mAnimStep)
+	{
+	case Title::MOVE_FRONT:
+
+		ojoP.z -= 1.5f;
+
+		mMoveSE->playLoop();
+
+		if (ojoP.z <= -113.0f)
+		{
+			ojoP.z = -113.0f;
+			mBreakSE->play();
+			mAnimStep = AnimationStep::INTERVAL;
+		}
+
+		break;
+	case Title::INTERVAL:
+
+		mIntervalTime->update();
+
+		if (mIntervalTime->isTime())
+		{
+			mAnimStep = AnimationStep::PLAY;
+		}
+
+		break;
+	case Title::PLAY:
+
+		mBGM->playLoop();
+
+		break;
+	default:
+		break;
+	}
+
+
+
+
 	kakudai += 70;
 	kakudai2 += 103;
 	kakudai3 += 130;
@@ -65,7 +121,7 @@ void Title::UpdateScene()
 	{
 		fade1 = 0;
 	}
-	mBGM->playLoop();
+	//mBGM->playLoop();
 	if (fade1 <= 0)
 	{
 		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
@@ -90,16 +146,26 @@ void Title::DrawScene()
 	ojyouXL = 180.0f;
 	DirectXManager::GetInstance()->SetData3D();
 	//BaseScene::mModel->Draw("Sora", Vector3(0, 0, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
-	BaseScene::mModel->Draw("TankPlayerA", ojoP, Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
-	//playerModel->Draw("TankPlayerHou", Vector3(position.x, position.y, position.z), Vector3(fireAngle, -atkAngle, 0), Vector3(1.5f, 1.5f, 1.5f));
-	BaseScene::mModel->Draw("TankPlayerB", ojoP, Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
+
+
+
+	BaseScene::mModel->Draw("TankPlayerA", Vector3(ojoP.x, ojoP.y, ojoP.z), Vector3(0, 0, 0), Vector3(10.f, 10.f, 1.0f));
+	BaseScene::mModel->Draw("TankPlayerB", Vector3(ojoP.x, ojoP.y, ojoP.z), Vector3(0, 0, 0), Vector3(10.f, 10.f, 1.0f));
 	BaseScene::mModel->Draw("ArmR", Vector3(ojoP.x, ojoP.y + 25.0f, ojoP.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
 	BaseScene::mModel->Draw("OjyouSama", ojoP, Vector3(0, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
 	BaseScene::mModel->Draw("ArmL", Vector3(ojoP.x, ojoP.y + 25.0f, ojoP.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
+
+
+	if (mAnimStep == AnimationStep::PLAY)
+	{
+		DirectXManager::GetInstance()->SetData2D();
+		BaseScene::mSprite->Draw("Title", Vector3(385, -10, 0), 0.0f, Vector2(1.2f, 1.2f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Push", Vector3(290, 580, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	}
+
+
 	//BaseScene::mModel->Draw("Ground", Vector3(-20.0f, 4.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
-	DirectXManager::GetInstance()->SetData2D();
-	BaseScene::mSprite->Draw("Title", Vector3(385, -10, 0), 0.0f, Vector2(1.2f, 1.2f), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("Push", Vector3(290, 580, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+
 	//	BaseScene::mSprite->Draw("Title", Vector3(385, -10, 0), 0.0f, Vector2(1.2f, 1.2f), Vector4(1, 1, 1, 1));
 		//BaseScene::mSprite->Draw("Push", Vector3(290, 580, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		//BaseScene::mSprite->SetSize("Heart", Vector2(1280+kakudai3, 720+kakudai));
