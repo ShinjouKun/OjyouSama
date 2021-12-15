@@ -37,7 +37,7 @@ public:
 	~Compute();
 
 	//終了処理
-	void finalize();
+	static void finalize();
 
 	void init();
 
@@ -72,19 +72,20 @@ private:
 	RWStructuredBuffer* mOutputParticleSB; //パーティクル読み込み専用(描画用)
 	RWStructuredBuffer* mParticleStorageSB;//パーティクル読み込み専用
 	
-	ID3D12RootSignature* mEmitterRoot;
-	ID3D12PipelineState* mEmitterPipe;
-	ID3D12RootSignature* mParticleRoot;
-	ID3D12PipelineState* mParticlePipe;
-	ID3D12RootSignature* mParticleDrawRoot;
-	ID3D12PipelineState* mParticleDrawPipe;
+
+	static ID3D12RootSignature* mEmitterRoot;
+	static ID3D12PipelineState* mEmitterPipe;
+	static ID3D12RootSignature* mParticleRoot;
+	static ID3D12PipelineState* mParticlePipe;
+	static ID3D12RootSignature* mParticleDrawRoot;
+	static ID3D12PipelineState* mParticleDrawPipe;
 
 	ID3D12DescriptorHeap* mHeap;
 
 	ID3D12Device* mDev;
-	ID3D12GraphicsCommandList* mCMDList;
-	ID3D12CommandAllocator* mCMDAllo;
-	ID3D12CommandQueue* mCQueue;
+	//ID3D12GraphicsCommandList* mCMDList;
+	//ID3D12CommandAllocator* mCMDAllo;
+	//ID3D12CommandQueue* mCQueue;
 
 	//描画用
 	ID3D12Resource* mVertBuff;

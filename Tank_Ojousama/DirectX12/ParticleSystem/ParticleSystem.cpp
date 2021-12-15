@@ -1,8 +1,12 @@
 #include "ParticleSystem.h"
 #include "Emitter/Emitter.h"
 
+#include "../Device/DirectXManager.h"
+#include "Compute/Compute.h"
+
 ParticleSystem::ParticleSystem()
 {
+	init();
 }
 
 ParticleSystem::~ParticleSystem() = default;
@@ -20,6 +24,13 @@ void ParticleSystem::finalize()
 {
 	mPendingEmitter.clear();
 	mEmitters.clear();
+
+	mCMDList->Release();
+	mCMDAllo->Release();
+	mCQueue->Release();
+
+	Compute::finalize();
+
 	if (mInstance)
 	{
 		delete(mInstance);
@@ -68,6 +79,44 @@ void ParticleSystem::reset()
 {
 	mPendingEmitter.clear();
 	mEmitters.clear();
+}
+
+void ParticleSystem::gpuWait()
+{
+	mCMDList->Close();
+
+	ID3D12CommandList* com[] = { mCMDList };
+
+	mCQueue->ExecuteCommandLists(1, com);
+
+	DirectXManager::GetInstance()->waitGPU(mCQueue);
+
+
+	mCMDAllo->Reset();
+	mCMDList->Reset(mCMDAllo, nullptr);
+}
+
+ID3D12GraphicsCommandList * ParticleSystem::getGPUCMDList()
+{
+	return mCMDList;
+}
+
+void ParticleSystem::init()
+{
+	HRESULT hr;
+
+	auto dev = DirectXManager::GetInstance()->Dev();
+
+	hr = dev->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&mCMDAllo));
+	assert(SUCCEEDED(hr));
+
+	hr = dev->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_COMPUTE, mCMDAllo, nullptr, IID_PPV_ARGS(&mCMDList));
+	assert(SUCCEEDED(hr));
+
+	D3D12_COMMAND_QUEUE_DESC cmdQueueDesc{};
+	cmdQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
+	hr = dev->CreateCommandQueue(&cmdQueueDesc, IID_PPV_ARGS(&mCQueue));
+	assert(SUCCEEDED(hr));
 }
 
 

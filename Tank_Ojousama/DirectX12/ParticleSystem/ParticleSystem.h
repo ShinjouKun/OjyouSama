@@ -1,5 +1,15 @@
 #pragma once
 
+#include <d3d12.h>
+#include <d3dx12.h>
+#include <dxgi1_6.h>
+#include <d3dcompiler.h>
+#include <wrl.h>
+using namespace Microsoft::WRL;
+#pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "d3dcompiler.lib")
+
 #include <memory>
 #include <list>
 #include <vector>
@@ -27,6 +37,13 @@ public:
 	//中身をすべて消す
 	void reset();
 
+	void gpuWait();
+
+	ID3D12GraphicsCommandList* getGPUCMDList();
+
+private:
+	void init();
+
 private:
 	//コピー禁止
 	ParticleSystem(const ParticleSystem&) = delete;
@@ -38,4 +55,8 @@ private:
 	static ParticleSystem* mInstance;
 	std::vector<std::shared_ptr<Emitter>> mEmitters;
 	std::list<std::shared_ptr<Emitter>> mPendingEmitter;
+
+	ID3D12GraphicsCommandList* mCMDList;
+	ID3D12CommandAllocator* mCMDAllo;
+	ID3D12CommandQueue* mCQueue;
 };

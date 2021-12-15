@@ -10,17 +10,14 @@
 #include "../../Device/Window.h"
 #include "../../Render/Camera.h"
 
+#include "../ParticleSystem.h"
+
 Compute::Compute(std::string texName):
 	mTexName(texName)
 {
 }
 
 Compute::~Compute()
-{
-	finalize();
-}
-
-void Compute::finalize()
 {
 	delete(mCSShader);
 	delete(mPSShader);
@@ -35,6 +32,14 @@ void Compute::finalize()
 	delete(mParticleStorageSB);
 
 	mHeap->Release();
+
+	mVertBuff->Release();
+	mConstBuff->Release();
+	mTexBuff->Release();
+}
+
+void Compute::finalize()
+{
 	mEmitterRoot->Release();
 	mEmitterPipe->Release();
 	mParticleRoot->Release();
@@ -42,13 +47,10 @@ void Compute::finalize()
 	mParticleDrawRoot->Release();
 	mParticleDrawPipe->Release();
 
-	mCMDList->Release();
-	mCMDAllo->Release();
-	mCQueue->Release();
+	//mCMDList->Release();
+	//mCMDAllo->Release();
+	//mCQueue->Release();
 
-	mVertBuff->Release();
-	mConstBuff->Release();
-	mTexBuff->Release();
 }
 
 void Compute::init()
@@ -56,7 +58,7 @@ void Compute::init()
 	mDev = DirectXManager::GetInstance()->Dev();
 
 	createHeap();
-	createCMDList();
+	//createCMDList();
 	createPiprLine();
 	createBuffer();
 
@@ -74,6 +76,7 @@ void Compute::init()
 void Compute::emitterUpdate(void* data, int dispatch)
 {
 	return;
+	/*
 	mInputEmitterSB->update(data, 1);
 	//パイプライン・ルートシグネチャをセット
 	mCMDList->SetPipelineState(mEmitterPipe);
@@ -103,36 +106,42 @@ void Compute::emitterUpdate(void* data, int dispatch)
 
 	mCMDAllo->Reset();
 	mCMDList->Reset(mCMDAllo, nullptr);
+	*/
 }
 
 void* Compute::particleUpdate(void* data, int dataSize)
 {
+	auto cmdList = ParticleSystem::instance().getGPUCMDList();
+
 	mInputParticleDataSB->update(data, dataSize);
 
 	//パイプライン・ルートシグネチャをセット
-	mCMDList->SetPipelineState(mParticlePipe);
-	mCMDList->SetComputeRootSignature(mParticleRoot);
+	cmdList->SetPipelineState(mParticlePipe);
+	cmdList->SetComputeRootSignature(mParticleRoot);
 
 	//デスクリプタヒープ
-	mCMDList->SetDescriptorHeaps(1, &mHeap);
+	cmdList->SetDescriptorHeaps(1, &mHeap);
 
 	auto gpuHandle = mHeap->GetGPUDescriptorHandleForHeapStart();
 	auto handle = mDev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
 	gpuHandle.ptr += handle * 2;
 
-	mCMDList->SetComputeRootDescriptorTable(0, gpuHandle);
+	cmdList->SetComputeRootDescriptorTable(0, gpuHandle);
 
 	gpuHandle.ptr += handle;
 
-	mCMDList->SetComputeRootDescriptorTable(1, gpuHandle);
+	cmdList->SetComputeRootDescriptorTable(1, gpuHandle);
 
 	gpuHandle.ptr += handle;
 
-	mCMDList->SetComputeRootDescriptorTable(2, gpuHandle);
+	cmdList->SetComputeRootDescriptorTable(2, gpuHandle);
 
-	mCMDList->Dispatch(MAX_PARTICLE_SIZE, 1, 1);
+	cmdList->Dispatch(MAX_PARTICLE_SIZE, 1, 1);
 
+	ParticleSystem::instance().gpuWait();
+
+	/*
 	mCMDList->Close();
 
 	ID3D12CommandList* com[] = { mCMDList };
@@ -144,7 +153,7 @@ void* Compute::particleUpdate(void* data, int dataSize)
 
 	mCMDAllo->Reset();
 	mCMDList->Reset(mCMDAllo, nullptr);
-
+	*/
 	return mParticleStorageSB->getResourceOnCPU();
 }
 
@@ -224,20 +233,24 @@ void Compute::particleDraw(int dataSize)
 
 void Compute::barrier(ID3D12Resource * p, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after)
 {
-	mCMDList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(p, before, after, 0));
+	//mCMDList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(p, before, after, 0));
 }
 
 HRESULT Compute::createCMDList()
 {
-	HRESULT hr;
-
+	HRESULT hr = S_OK;
+	/*
 	hr = mDev->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&mCMDAllo));
+	assert(SUCCEEDED(hr));
+
 	hr = mDev->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_COMPUTE, mCMDAllo, nullptr, IID_PPV_ARGS(&mCMDList));
+	assert(SUCCEEDED(hr));
 
 	D3D12_COMMAND_QUEUE_DESC cmdQueueDesc{};
 	cmdQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
 	hr = mDev->CreateCommandQueue(&cmdQueueDesc, IID_PPV_ARGS(&mCQueue));
-
+	assert(SUCCEEDED(hr));
+	*/
 	return hr;
 }
 
@@ -255,7 +268,7 @@ HRESULT Compute::createHeap()
 
 HRESULT Compute::createPiprLine()
 {
-	HRESULT hr;
+	HRESULT hr = S_OK;
 	//エミッター更新
 	mCSShader = new Shader();
 	mCSShader->loadCS("ComputeEmitterShader.hlsl");
@@ -270,216 +283,227 @@ HRESULT Compute::createPiprLine()
 	mVSShader = new Shader();
 	mVSShader->loadVS("ParticleVertexShader.hlsl", "");
 
-#pragma region エミッター更新用
-	//ルートシグネチャ
-	D3D12_STATIC_SAMPLER_DESC sampler = {};
-	sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	sampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	sampler.MipLODBias = 0;
-	sampler.MaxAnisotropy = 0;
-	sampler.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	sampler.BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
-	sampler.MinLOD = 0.0f;
-	sampler.MaxLOD = D3D12_FLOAT32_MAX;
-	sampler.ShaderRegister = 0;
-	sampler.RegisterSpace = 0;
-	sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-
-	CD3DX12_DESCRIPTOR_RANGE1 range[2];
-	CD3DX12_ROOT_PARAMETER1 rootParam[2];
-	UINT maxCbvDescriptor = 8;
-	UINT maxSrvDescriptor = 32;
-	UINT maxUavDescritor = 8;
-	UINT offsetInDescriptorsFromTableStartCB = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-	UINT offsetInDescriptorsFromTableStartSRV = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-	UINT offsetInDescriptorsFromTableStartUAV = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-	range[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE);
-	range[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE);
-
-	rootParam[0].InitAsDescriptorTable(1, &range[0]);
-	rootParam[1].InitAsDescriptorTable(1, &range[1]);
-	//rootParam[2].InitAsDescriptorTable(1, &range[2]);
-
-	// Allow input layout and deny uneccessary access to certain pipeline stages.
-	D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags =
-		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
-
-	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc;
-	rootSignatureDesc.Init_1_1(_countof(rootParam), rootParam, 0, nullptr);
-
-	ComPtr<ID3DBlob> signature;
 	ComPtr<ID3DBlob> error;
-
-	D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error);
-	hr = mDev->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&mEmitterRoot));
-
-	assert(SUCCEEDED(hr));
-
-	//パイプラインステート
 	D3D12_COMPUTE_PIPELINE_STATE_DESC psoDesc{};
-	psoDesc.pRootSignature = mEmitterRoot;
-	psoDesc.CS = CD3DX12_SHADER_BYTECODE(mCSShader->getCompiledBlob());
-	psoDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	psoDesc.NodeMask = 0;
 
-	hr = mDev->CreateComputePipelineState(&psoDesc, IID_PPV_ARGS(&mEmitterPipe));
+#pragma region エミッター更新用
 
-	assert(SUCCEEDED(hr));
+	if (!mEmitterPipe)
+	{
+		//ルートシグネチャ
+		D3D12_STATIC_SAMPLER_DESC sampler = {};
+		sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+		sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+		sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+		sampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+		sampler.MipLODBias = 0;
+		sampler.MaxAnisotropy = 0;
+		sampler.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+		sampler.BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
+		sampler.MinLOD = 0.0f;
+		sampler.MaxLOD = D3D12_FLOAT32_MAX;
+		sampler.ShaderRegister = 0;
+		sampler.RegisterSpace = 0;
+		sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+		CD3DX12_DESCRIPTOR_RANGE1 range[2];
+		CD3DX12_ROOT_PARAMETER1 rootParam[2];
+		UINT maxCbvDescriptor = 8;
+		UINT maxSrvDescriptor = 32;
+		UINT maxUavDescritor = 8;
+		UINT offsetInDescriptorsFromTableStartCB = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+		UINT offsetInDescriptorsFromTableStartSRV = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+		UINT offsetInDescriptorsFromTableStartUAV = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+		range[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE);
+		range[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE);
+
+		rootParam[0].InitAsDescriptorTable(1, &range[0]);
+		rootParam[1].InitAsDescriptorTable(1, &range[1]);
+		//rootParam[2].InitAsDescriptorTable(1, &range[2]);
+
+		// Allow input layout and deny uneccessary access to certain pipeline stages.
+		D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags =
+			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
+
+		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc;
+		rootSignatureDesc.Init_1_1(_countof(rootParam), rootParam, 0, nullptr);
+
+		ComPtr<ID3DBlob> signature;
+		//ComPtr<ID3DBlob> error;
+
+		D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error);
+		hr = mDev->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&mEmitterRoot));
+
+		assert(SUCCEEDED(hr));
+
+		//パイプラインステート
+		//D3D12_COMPUTE_PIPELINE_STATE_DESC psoDesc{};
+		psoDesc.pRootSignature = mEmitterRoot;
+		psoDesc.CS = CD3DX12_SHADER_BYTECODE(mCSShader->getCompiledBlob());
+		psoDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+		psoDesc.NodeMask = 0;
+
+		hr = mDev->CreateComputePipelineState(&psoDesc, IID_PPV_ARGS(&mEmitterPipe));
+
+		assert(SUCCEEDED(hr));
+	}
 
 #pragma endregion //エミッター更新用
 
 #pragma region パーティクル更新用
 
-	CD3DX12_DESCRIPTOR_RANGE1 range2[3];
-	CD3DX12_ROOT_PARAMETER1 rootParam2[3];
+	if (!mParticlePipe)
+	{
+		CD3DX12_DESCRIPTOR_RANGE1 range2[3];
+		CD3DX12_ROOT_PARAMETER1 rootParam2[3];
 
-	range2[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE);
-	range2[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE);
-	range2[2].Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 1, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE);
+		range2[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE);
+		range2[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE);
+		range2[2].Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 1, 0, D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE);
 
-	rootParam2[0].InitAsDescriptorTable(1, &range2[0]);
-	rootParam2[1].InitAsDescriptorTable(1, &range2[1]);
-	rootParam2[2].InitAsDescriptorTable(1, &range2[2]);
+		rootParam2[0].InitAsDescriptorTable(1, &range2[0]);
+		rootParam2[1].InitAsDescriptorTable(1, &range2[1]);
+		rootParam2[2].InitAsDescriptorTable(1, &range2[2]);
 
-	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc2;
-	rootSignatureDesc2.Init_1_1(_countof(rootParam2), rootParam2, 0, nullptr);
+		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc2;
+		rootSignatureDesc2.Init_1_1(_countof(rootParam2), rootParam2, 0, nullptr);
 
-	ComPtr<ID3DBlob> signature2;
+		ComPtr<ID3DBlob> signature2;
 
-	hr = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc2, D3D_ROOT_SIGNATURE_VERSION_1, &signature2, &error);
-	assert(SUCCEEDED(hr));
+		hr = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc2, D3D_ROOT_SIGNATURE_VERSION_1, &signature2, &error);
+		assert(SUCCEEDED(hr));
 
-	hr = mDev->CreateRootSignature(0, signature2->GetBufferPointer(), signature2->GetBufferSize(), IID_PPV_ARGS(&mParticleRoot));
+		hr = mDev->CreateRootSignature(0, signature2->GetBufferPointer(), signature2->GetBufferSize(), IID_PPV_ARGS(&mParticleRoot));
 
-	assert(SUCCEEDED(hr));
+		assert(SUCCEEDED(hr));
 
-	psoDesc.pRootSignature = mParticleRoot;
-	psoDesc.CS = CD3DX12_SHADER_BYTECODE(mParticleCSShader->getCompiledBlob());
-	psoDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	psoDesc.NodeMask = 0;
+		psoDesc.pRootSignature = mParticleRoot;
+		psoDesc.CS = CD3DX12_SHADER_BYTECODE(mParticleCSShader->getCompiledBlob());
+		psoDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+		psoDesc.NodeMask = 0;
 
-	hr = mDev->CreateComputePipelineState(&psoDesc, IID_PPV_ARGS(&mParticlePipe));
+		hr = mDev->CreateComputePipelineState(&psoDesc, IID_PPV_ARGS(&mParticlePipe));
 
-	assert(SUCCEEDED(hr));
-
+		assert(SUCCEEDED(hr));
+	}
 #pragma endregion //パーティクル更新用
 
 #pragma region パーティクル描画用
 
-	//グラフィックスパイプラインの流れの設定
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{ };
-
-	gpipeline.VS = CD3DX12_SHADER_BYTECODE(mVSShader->getCompiledBlob());
-	gpipeline.GS = CD3DX12_SHADER_BYTECODE(mGSShader->getCompiledBlob());
-	gpipeline.PS = CD3DX12_SHADER_BYTECODE(mPSShader->getCompiledBlob());
-
-	D3D12_INPUT_ELEMENT_DESC inputLayout[]
+	if (!mParticleDrawPipe)
 	{
+		//グラフィックスパイプラインの流れの設定
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{ };
+
+		gpipeline.VS = CD3DX12_SHADER_BYTECODE(mVSShader->getCompiledBlob());
+		gpipeline.GS = CD3DX12_SHADER_BYTECODE(mGSShader->getCompiledBlob());
+		gpipeline.PS = CD3DX12_SHADER_BYTECODE(mPSShader->getCompiledBlob());
+
+		D3D12_INPUT_ELEMENT_DESC inputLayout[]
 		{
-			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		},
-		{
+			{
+				"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+				D3D12_APPEND_ALIGNED_ELEMENT,
+				D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+			},
+			{
 
-			"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,
-			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		},
-		{
-			"TEXCOORD", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		},
-		{
-			"TEXCOORD", 1, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		},
-	};
+				"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,
+				D3D12_APPEND_ALIGNED_ELEMENT,
+				D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+			},
+			{
+				"TEXCOORD", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+				D3D12_APPEND_ALIGNED_ELEMENT,
+				D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+			},
+			{
+				"TEXCOORD", 1, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+				D3D12_APPEND_ALIGNED_ELEMENT,
+				D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+			},
+		};
 
-	gpipeline.InputLayout.pInputElementDescs = inputLayout;
-	gpipeline.InputLayout.NumElements = 4;
+		gpipeline.InputLayout.pInputElementDescs = inputLayout;
+		gpipeline.InputLayout.NumElements = 4;
 
-	// サンプルマスク
-	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
-	//ラスタライザステート
-	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);//いったん標準をセット
-	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//背面カリングしない
+		// サンプルマスク
+		gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
+		//ラスタライザステート
+		gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);//いったん標準をセット
+		gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//背面カリングしない
 
-	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+		gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
 
-	// デプスステンシルステート
-	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
-	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
-	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//D3D12_COMPARISON_FUNC_NOT_EQUAL
-	
-	// レンダーターゲットのブレンド設定
-	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
-	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	// RBGA全てのチャンネルを描画
-	blenddesc.BlendEnable = true;
-	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
-	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
+		// デプスステンシルステート
+		gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+		gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+		gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;//D3D12_COMPARISON_FUNC_NOT_EQUAL
 
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	blenddesc.DestBlend = D3D12_BLEND_ONE;
+		// レンダーターゲットのブレンド設定
+		D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
+		blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	// RBGA全てのチャンネルを描画
+		blenddesc.BlendEnable = true;
+		blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+		blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
 
-	// ブレンドステートの設定
-	gpipeline.BlendState.RenderTarget[0] = blenddesc;
+		blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+		blenddesc.SrcBlend = D3D12_BLEND_ONE;
+		blenddesc.DestBlend = D3D12_BLEND_ONE;
 
-	// 深度バッファのフォーマット
-	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+		// ブレンドステートの設定
+		gpipeline.BlendState.RenderTarget[0] = blenddesc;
 
-	// 図形の形状設定
-	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
+		// 深度バッファのフォーマット
+		gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 
-	// 描画対象
-	gpipeline.NumRenderTargets = 1;
+		// 図形の形状設定
+		gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
-	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
+		// 描画対象
+		gpipeline.NumRenderTargets = 1;
 
-	gpipeline.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
+		gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
 
-	// ルートパラメータ
+		gpipeline.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
-	CD3DX12_DESCRIPTOR_RANGE1 range3[2];
-	CD3DX12_ROOT_PARAMETER1 rootParam3[2];
+		// ルートパラメータ
 
-	range3[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
-	range3[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
-	
+		CD3DX12_DESCRIPTOR_RANGE1 range3[2];
+		CD3DX12_ROOT_PARAMETER1 rootParam3[2];
 
-	rootParam3[0].InitAsDescriptorTable(1, &range3[0],D3D12_SHADER_VISIBILITY_ALL);
-	rootParam3[1].InitAsDescriptorTable(1, &range3[1],D3D12_SHADER_VISIBILITY_ALL);
+		range3[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
+		range3[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
-	// スタティックサンプラー
-	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
 
-	// ルートシグネチャの設定
-	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc3;
-	rootSignatureDesc3.Init_1_1(_countof(rootParam3), rootParam3, 1, &samplerDesc, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+		rootParam3[0].InitAsDescriptorTable(1, &range3[0], D3D12_SHADER_VISIBILITY_ALL);
+		rootParam3[1].InitAsDescriptorTable(1, &range3[1], D3D12_SHADER_VISIBILITY_ALL);
 
-	ComPtr<ID3DBlob> signature3;
+		// スタティックサンプラー
+		CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
 
-	hr = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc3, D3D_ROOT_SIGNATURE_VERSION_1, &signature3, &error);
-	assert(SUCCEEDED(hr));
+		// ルートシグネチャの設定
+		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc3;
+		rootSignatureDesc3.Init_1_1(_countof(rootParam3), rootParam3, 1, &samplerDesc, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
-	hr = mDev->CreateRootSignature(0, signature3->GetBufferPointer(), signature3->GetBufferSize(), IID_PPV_ARGS(&mParticleDrawRoot));
+		ComPtr<ID3DBlob> signature3;
 
-	assert(SUCCEEDED(hr));
+		hr = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc3, D3D_ROOT_SIGNATURE_VERSION_1, &signature3, &error);
+		assert(SUCCEEDED(hr));
 
-	gpipeline.pRootSignature = mParticleDrawRoot;
+		hr = mDev->CreateRootSignature(0, signature3->GetBufferPointer(), signature3->GetBufferSize(), IID_PPV_ARGS(&mParticleDrawRoot));
 
-	hr = mDev->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&mParticleDrawPipe));
+		assert(SUCCEEDED(hr));
 
+		gpipeline.pRootSignature = mParticleDrawRoot;
+
+		hr = mDev->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&mParticleDrawPipe));
+	}
 
 #pragma endregion //パーティクル描画用
 
@@ -637,3 +661,10 @@ HRESULT Compute::createBuffer()
 
 	return hr;
 }
+
+ID3D12RootSignature* Compute::mEmitterRoot = nullptr;
+ID3D12PipelineState* Compute::mEmitterPipe = nullptr;
+ID3D12RootSignature* Compute::mParticleRoot = nullptr;
+ID3D12PipelineState* Compute::mParticlePipe = nullptr;
+ID3D12RootSignature* Compute::mParticleDrawRoot = nullptr;
+ID3D12PipelineState* Compute::mParticleDrawPipe = nullptr;
