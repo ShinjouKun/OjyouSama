@@ -30,6 +30,7 @@ private:
 	ObjectManager* objM;
 	std::shared_ptr<Sound> mSound;
 	std::shared_ptr<Sound> mSE;
+	std::shared_ptr<Sound> mbuySE;
 	std::shared_ptr<Sound> mBGM;
 
 	float fade;

@@ -113,6 +113,9 @@ void Garage::StartScene()
 
 	mSE = std::make_shared<Sound>("SE/SelectSE.mp3", false);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
+	mbuySE = std::make_shared<Sound>("SE/buysSE.wav", false);
+	mbuySE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mChanger->LoadBuys();
 }
 
@@ -125,6 +128,7 @@ void Garage::UpdateScene()
 	{
 		if (Input::getKeyDown(KeyCode::Y) || Input::getJoyDown(JoyCode::Y))
 		{
+			mbuySE->play();
 			mChanger->Save();
 			switch (keyflag)
 			{
