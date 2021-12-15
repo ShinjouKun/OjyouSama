@@ -106,9 +106,9 @@ private:
 
 	Vector3 mSearchPosition;//õ“GŒ‹‰ÊˆÊ’u
 
-	const float LEG_SPEED = 1.5f; //‹r‚Ì‰ñ“]‘¬“x
-	const float LEG_RANGE = 15.0f;//‹r‚ÌÅ‘å‰ñ“]—Ê
-	const float SEARCH_INTERVAL = 1.0f;//õ“Gw¦‚ğs‚¤ŠÔŠu
+	const float LEG_SPEED = 2.0f; //‹r‚Ì‰ñ“]‘¬“x
+	const float LEG_RANGE = 20.0f;//‹r‚ÌÅ‘å‰ñ“]—Ê
+	const float SEARCH_INTERVAL = 0.5f;//õ“Gw¦‚ğs‚¤ŠÔŠu
 	const float MEMBER_DISTANCE = 25.0f;//ƒƒ“ƒo[‚Æ‚Ì‹——£
 
 	const int MEMBER_COUNT = 5;//‘àˆõ‚Ì”

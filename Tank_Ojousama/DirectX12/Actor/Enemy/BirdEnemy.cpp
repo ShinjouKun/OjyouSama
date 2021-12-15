@@ -162,11 +162,11 @@ bool BirdEnemy::InsideDistanceY(const Vector3 & distance, const float length) co
 
 void BirdEnemy::EnemyInit()
 {
-	HP = 5;
+	HP = 15;
 	damage = 5;
 
-	speed = 0.8f;
-	mRadius = 2.0f;
+	speed = 1.0f;
+	mRadius = 1.5f;
 
 	mFinishAnimation = false;
 	death = false;
@@ -293,14 +293,15 @@ void BirdEnemy::CheckAlive()
 			mManager->Add(new Repair(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), mManager, mRend, mTexRender, ItemState::Low, 0, 500000, 20));
 			mCreateItem = true;
 		}
-		else /* if (count == 1)*/
+		else  if (count == 1)
 		{
 			mManager->Add(new Shield(position, angle, mManager, mRend, mTexRender, ItemState::Low, 0, 20));
 			mCreateItem = true;
 		}
-		//else
-		//{
-		//	mManager->Add(new Smoke(position, angle, mManager, mRend, mPart, mTexRender, ItemState::Low, 0, 5 * 60));
-		//}
+		else
+		{
+			mManager->Add(new Smoke(position, angle, mManager, mRend, mPart, mTexRender, ItemState::Low, 0, 5 * 60));
+			mCreateItem = true;
+		}
 	}
 }

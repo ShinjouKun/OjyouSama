@@ -26,7 +26,7 @@ CEnemy::~CEnemy()
 
 void CEnemy::EnemyInit()
 {
-	HP = 10;
+	HP = 30;//‚à‚Æ‚à‚Æ10
 	attackTime = 60;
 	mEnemyNumber = 0;
 
@@ -64,7 +64,7 @@ void CEnemy::EnemyInit()
 	mFanRotateOrigin = -angle.y - 90.0f;
 	fanInfo.position = Vector3(position.x, position.y, position.z);//ˆÊ’u
 	fanInfo.fanRange = 360.0f;									   //ƒÆ‚ÌŠp“x
-	fanInfo.length = 30.0f;										   //’·‚³
+	fanInfo.length = 50.0f;										   //’·‚³
 	fanInfo.rotate = mFanRotateOrigin;							   //‰ñ“]Šp
 	//--------------------------------
 

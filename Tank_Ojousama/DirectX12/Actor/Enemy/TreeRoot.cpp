@@ -24,7 +24,7 @@ void TreeRoot::Init()
 {
 	death = false;
 	objType = ObjectType::ENEMY;
-	damage = 10;
+	damage = 20;
 
 	mScale = Vector3(2.0f, 2.0f, 2.0f);
 

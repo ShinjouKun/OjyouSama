@@ -149,9 +149,9 @@ private:
 	Vector3 mMoveRangeMax;    //Å‘åˆÚ“®”ÍˆÍ
 
 
-	const float SEARCH_RANGE = 30.0f;//õ“G”ÍˆÍ(‰~)
-	const float LEG_SPEED = 1.5f; //‹r‚Ì‰ñ“]‘¬“x
-	const float LEG_RANGE = 15.0f;//‹r‚ÌÅ‘å‰ñ“]—Ê
+	const float SEARCH_RANGE = 50.0f;//õ“G”ÍˆÍ(‰~)
+	const float LEG_SPEED = 2.0f; //‹r‚Ì‰ñ“]‘¬“x
+	const float LEG_RANGE = 20.0f;//‹r‚ÌÅ‘å‰ñ“]—Ê
 
 	float mRadius;   //”¼Œa
 	float mFireAngle;//UŒ‚‚ÌŒü‚«

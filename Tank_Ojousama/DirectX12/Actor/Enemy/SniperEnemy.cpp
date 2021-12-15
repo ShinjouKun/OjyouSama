@@ -30,15 +30,15 @@ SniperEnemy::~SniperEnemy()
 
 void SniperEnemy::EnemyInit()
 {
-	HP = ECI::MAX_HP * SECI::MAX_HP;
+	HP = 15;//‚à‚Æ‚à‚Æ‚Í10
 	warningTime = ECI::WARNING_TIME * SECI::WARNING_TIME * 60;
-	attackTime = ECI::ATTACK_TIME * SECI::ATTACK_TIME * 60;
+	attackTime = 1 * 30;//‚à‚Æ‚à‚Æ 1 * 60‚¾‚Á‚½‚Ì‚ð”¼•ª‚É‚µ‚½
 
-	speed = ECI::MOVE_SPEED * SECI::MOVE_SPEED;
+	speed = 0.3f;
 	mRadius = ECI::RADIUS * SECI::RADIUS;
 	mSwingRange = ECI::SWING_RANGE * SECI::SWING_RANGE;
 	mFireAngle = SECI::FAN_RANGE;
-	mAttackLength = ECI::ATTACK_LENGTH * SECI::ATTACK_LENGTH;
+	mAttackLength = 70.0f;//‚à‚Æ‚à‚Æ‚Í30
 
 	breadcrumbMode = ECI::BRRADCRUMB_MODE;
 	DESTRUCT_MODE = ECI::DESTRUCT_MODE;
@@ -64,7 +64,7 @@ void SniperEnemy::EnemyInit()
 	mFanRotateOrigin = -angle.y - 90.0f;
 	fanInfo.position = Vector3(position.x, position.y, position.z);//ˆÊ’u
 	fanInfo.fanRange = 200.0f;									   //ƒÆ‚ÌŠp“x
-	fanInfo.length = 60.0f;										   //’·‚³
+	fanInfo.length = 80.0f;										   //’·‚³
 	fanInfo.rotate = mFanRotateOrigin;							   //‰ñ“]Šp
 	//-----------------------------------------------------------------------
 
