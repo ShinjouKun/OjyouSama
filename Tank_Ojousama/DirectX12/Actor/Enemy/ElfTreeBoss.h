@@ -5,6 +5,8 @@ class Timer;
 class TreeRoot;
 class Sound;
 class SummonEnemy;
+class Explosion;
+class Hit;
 
 class ElfTreeBoss : public BaseEnemy
 {
@@ -108,6 +110,8 @@ private:
 	shared_ptr<Sound> mDamageSE; //ダメージを受けた時のSE
 	shared_ptr<Sound> mNoDeathSE;//無敵のときのSE
 	shared_ptr<Sound> mDeathSE;  //死亡したときのSE
+	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
+	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 
 
 	shared_ptr<Timer> mAimingTime;  //狙う時間
@@ -133,7 +137,7 @@ private:
 	Vector3 mLeftHandPos;    //左手の位置
 	Vector3 mRootPosition;   //根っこの位置
 
-	const int MAX_HP = 500;       //最大体力
+	const int MAX_HP = 5;       //最大体力
 	const int RAPIDFIRE_COUNT = 3;//連続射撃の数
 	const int SUMMON_COUNT = 5;   //召喚数
 	int mBulletCount;//弾を発射した数
