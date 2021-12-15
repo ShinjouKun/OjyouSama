@@ -19,6 +19,9 @@ public:
 
 	~ElfTreeBoss();
 
+	/*カメラのアニメーションが終了したかを受け取る*/
+	void EndCameraAnimation(bool value);
+
 	/*ボスが死んだかどうかを確認*/
 	bool GetDeadFlag();
 
@@ -159,6 +162,7 @@ private:
 	bool mDeadFlag;          //死ぬ前にtrueになるフラグ
 	bool mOneShotSound;      //死亡SEを鳴らしたかどうか
 	bool mSummonAlive;       //召喚した敵が生きているか
+	bool mEndAnimation;      //シーンの導入アニメーションが終わっているか
 
 	//胴体
 	string mStringNum;

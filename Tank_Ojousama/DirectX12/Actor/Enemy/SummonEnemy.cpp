@@ -69,9 +69,9 @@ void SummonEnemy::Init()
 	mGetupTimer = std::make_shared<Timer>();
 	mGetupTimer->setTime(1.0f);
 	mRiseTime = std::make_shared<Timer>();
-	mRiseTime->setTime(1.0f);
+	mRiseTime->setTime(0.5f);
 	mDeathTime = std::make_shared<Timer>();
-	mDeathTime->setTime(1.0f);
+	mDeathTime->setTime(0.5f);
 
 	//ダメージ用パーティクル
 	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
@@ -327,21 +327,25 @@ void SummonEnemy::DeathAnimeStep_RiseSky()
 {
 	mRiseTime->update();
 
+	//SE発射
+	mDeathSE->setPos(position);
+	mDeathSE->play();
+
 	//時間になっていなければ
 	if (!mRiseTime->isTime())
 	{
 		//回転
 		mFireAngle += 50.0f;
 		//上昇
-		position.y += 0.5f;
+		position.y += 0.8f;
 	}
 	else
 	{
 		//時間になったら(1フレームだけ呼ばれる)
 		//ここでSEを鳴らしたり、爆発させたりする
-		//SE発射
-		mDeathSE->setPos(position);
-		mDeathSE->play();
+
+		mDamageSE->setPos(position);
+		mDamageSE->play();
 
 		//パーティクル発射
 		mDeathParticle->setPos(position);

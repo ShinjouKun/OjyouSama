@@ -81,9 +81,9 @@ void SniperEnemy::EnemyInit()
 
 	//タイマーの初期化
 	mRiseTime = std::make_shared<Timer>();
-	mRiseTime->setTime(1.0f);
+	mRiseTime->setTime(0.5f);
 	mDeathTime = std::make_shared<Timer>();
-	mDeathTime->setTime(1.0f);
+	mDeathTime->setTime(0.5f);
 
 	//ダメージ用パーティクル
 	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
@@ -297,13 +297,17 @@ void SniperEnemy::DeathAnimeStep_RiseSky()
 {
 	mRiseTime->update();
 
+	//SE発射
+	mDeathSE->setPos(position);
+	mDeathSE->play();
+
 	//時間になっていなければ
 	if (!mRiseTime->isTime())
 	{
 		//回転
 		mFireAngle += 50.0f;
 		//上昇
-		position.y += 0.5f;
+		position.y += 0.8f;
 	}
 	else
 	{
@@ -313,8 +317,8 @@ void SniperEnemy::DeathAnimeStep_RiseSky()
 		mDeathParticle->setPos(position);
 		mDeathParticle->Play();
 		//SE発射
-		mDeathSE->setPos(position);
-		mDeathSE->play();
+		mDamageSE->setPos(position);
+		mDamageSE->play();
 
 		mDeathStep = DeathAnimationStep::EXPLOSION;
 	}

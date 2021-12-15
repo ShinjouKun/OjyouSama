@@ -32,6 +32,13 @@ private:
 	virtual void UpdateScene() override;
 
 	virtual void DrawScene() override;
+
+	/*敵を生成する*/
+	void EnemySpawn();
+
+	/*アニメーションが終了しているかを監視*/
+	void CheckAnimation();
+
 	//ポーズ
 	void Pose();
 	//音量設定
@@ -39,40 +46,39 @@ private:
 	//リザルト画面
 	void ResultF();
 
-	ObjectManager* mObjManager;
-	Player* player;//プレイヤーの実体生成
-	Camera* camera;
-	std::shared_ptr<Sound> mSound;
-	float x, y, z;
-	ItemHolder* itemHolder;
+private:
 
-	//ポーズフラグ
-	bool pose = false;
-	//設定フラグ
-	bool settingFlag = false;
-	//リザルトフラグ
-	bool resultFlag = false;
-	int time = 0;
-	//ボリューム用フラグ
-	bool OpFlag1;
-	bool OpFlag2;
-	bool OpFlag3;
-	bool mBossDeadFlag;
-	float timer = 0;
+	ObjectManager* mObjManager;//オブジェクトマネージャー
+	Player* mPlayer;           //プレイヤーの実体生成
+	Camera* mCamera;           //カメラ生成
+	ElfTreeBoss * mBoss;       //ボス生成
+	ItemHolder* itemHolder;    //アイテムホルダー
+	shared_ptr<Sound> mBGM;    //BGM生成
+	shared_ptr<BreadCrumbCreater>mBreadCreator;//パンくず生成
+	shared_ptr<WayPointManager> mpointManager; //使ってなーい
+	shared_ptr<EnemyAI> mEnemyAI;              //使ってなーい
+	shared_ptr<ParticleEmitterBox>ParticleBox; //使ってなーい
+	shared_ptr<Timer> mTimer;                  //入力用タイマー
 
+	Vector3 camerapos = Vector3(0, 0, 0);
+	Vector3 setcamerapos = Vector3(10, 0, 10);
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;
-	Vector3 camerapos = Vector3(0, 0, 0);
-	Vector3 setcamerapos = Vector3(10, 0, 10);
 	Vector3 optionPos;
+	
+	bool pose = false;       //ポーズフラグ	
+	bool settingFlag = false;//設定フラグ	
+	bool resultFlag = false; //リザルトフラグ
+	bool OpFlag1 = false;    //ボリューム用フラグ01
+	bool OpFlag2 = false;    //ボリューム用フラグ02
+	bool OpFlag3 = false;    //ボリューム用フラグ03
+	bool mBossDeadFlag;      //ボスが死んだかどうか
+	bool mCameraAnimation;   //カメラアニメーション中か？
+	bool mSpawn;             //敵を生成したかどうか
 
-	shared_ptr<BreadCrumbCreater>mBreadCreator;
-	shared_ptr<WayPointManager> mpointManager;
+	float timer = 0;
+	float x, y, z;
 
-	shared_ptr<EnemyAI> mEnemyAI;
-	std::shared_ptr<Timer> mTimer;
-	std::shared_ptr<ParticleEmitterBox>ParticleBox;
-
-	ElfTreeBoss * mBoss;
+	int time = 0;
 };
