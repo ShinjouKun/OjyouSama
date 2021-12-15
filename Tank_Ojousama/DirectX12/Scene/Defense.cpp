@@ -98,7 +98,7 @@ void Defense::StartScene()
 	ParticleBox->LoadAndSet("Smoke", "Resouse/smoke.jpg");
 
 	mTimer = std::make_shared<Timer>(0.01f);
-	interval = 0;
+	interval = 300;
 	enemyDeath = 0;
 	//実際の敵数よりデカくするな
 	spownCount = 0;
@@ -107,15 +107,23 @@ void Defense::StartScene()
 	wave3EnemysCount = 1;
 
 	spown1 = false;
-	
+
 	spown2 = false;
-	
+
 	spown3 = false;
 	wave1Clear = false;
 	wave2Clear = false;
 	wave3Clear = false;
 
 	mCastleCollapses = false;
+
+	//タイミング系
+	mEnemySpownTimer = std::make_shared<Timer>();
+	first = false;
+	second = false;
+	third = false;
+	enemyCount = 0;
+	check = false;
 
 	//障害物配置
 	int objectCount = 0;
@@ -181,7 +189,7 @@ void Defense::StartScene()
 
 void Defense::UpdateScene()
 {
-	
+
 	mTimer->update();
 	if (resultFlag)
 	{
@@ -216,6 +224,7 @@ void Defense::UpdateScene()
 	//パンくずを落とす
 	mBreadCreator->DropBreadCrumb();
 	mEnemyAI->Update();
+	mEnemySpownTimer->update();
 	if (!wave1Clear)
 	{
 		if (objM->GetPlayer().GetSceneFinish())
@@ -261,15 +270,15 @@ void Defense::DrawScene()
 
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
-	if (spown1&&interval <= 160)
+	if ((!spown1&&interval <= 160) && (!spown2 && !spown3))
 	{
 		BaseScene::mSprite->Draw("Wave1", Vector3(waveMove.x, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
-	if (spown2&&interval <= 290)
+	if ((!spown2&&interval <= 290) && (spown1 && !spown3))
 	{
 		BaseScene::mSprite->Draw("Wave2", Vector3(waveMove.x, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
-	if (spown3&&interval <= 420)
+	if ((!spown3&&interval <= 420) && (spown1 && spown2))
 	{
 		BaseScene::mSprite->Draw("Wave3", Vector3(waveMove.x, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
@@ -311,34 +320,106 @@ void Defense::DrawScene()
 
 void Defense::Wave1EnemySpown()
 {
-	enemyDeath = 0;
-	int enemyCount = 0;
-	//ここの下からadd
-	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+	if (!first && mEnemySpownTimer->isTime() && !second && !third)
+	{
+		interval = 0;
+		enemyDeath = 0;
+		mSE->play();
+		//ここの下からadd
+		objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		first = true;
+		check = false;
 
-	objM->Add(new SniperEnemy(Vector3(60.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(20.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(-20.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(-60.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		//ここで次のサイクルの時間変更
+		mEnemySpownTimer->setTime(25.5f);
+	}
+	auto a = mEnemySpownTimer->isTime();
+	if (!second && first && mEnemySpownTimer->isTime() && !third)
+	{
+		objM->Add(new SniperEnemy(Vector3(60.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(20.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(-20.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(-60.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		second = true;
+		check = false;
 
-	objM->Add(new SniperEnemy(Vector3(40.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(20.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(-20.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		//ここで次のサイクルの時間変更
+		mEnemySpownTimer->setTime(25.5f);
+	}
+	if (!third && first && second && mEnemySpownTimer->isTime())
+	{
+		objM->Add(new SniperEnemy(Vector3(40.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(20.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(-20.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		third = true;
+		spown1 = true;
+		check = false;
+		enemyCount = 0;
+	}
 
-	spown1 = true;
 }
 
 
 void Defense::Wave2EnemySpown()
 {
-	enemyDeath = 0;
-	int enemyCount = 0;
-	interval = 160;
-	waveMove = Vector3(-360.0f, 0, 0);
+	if (!first && mEnemySpownTimer->isTime() && !second && !third)
+	{
+		enemyDeath = 0;
+		interval = 160;
+		waveMove = Vector3(-360.0f, 0, 0);
+		mSE->play();
+		//ここの下からadd
+		objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new BlowEnemy(Vector3(-20.0f, 0.0f, 350.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new BlowEnemy(Vector3(20.0f, 0.0f, 350.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+
+		objM->Add(new BlowEnemy(Vector3(-30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new BlowEnemy(Vector3(30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+
+		first = true;
+		check = false;
+
+		//ここで次のサイクルの時間変更
+		mEnemySpownTimer->setTime(25.5f);
+	}
+	if (!second && first && mEnemySpownTimer->isTime() && !third)
+	{
+		objM->Add(new SniperEnemy(Vector3(-60.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(60.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(40.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		
+		objM->Add(new BlowEnemy(Vector3(25.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new BlowEnemy(Vector3(-25.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+
+		second = true;
+		check = false;
+
+		//ここで次のサイクルの時間変更
+		mEnemySpownTimer->setTime(25.5f);
+	}
+	if (!third && first && second && mEnemySpownTimer->isTime())
+	{
+		objM->Add(new BirdEnemy(Vector3(50.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
+		objM->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
+		
+		objM->Add(new SniperEnemy(Vector3(-80.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(80.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		
+		objM->Add(new CEnemy(Vector3(0.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+
+		third = true;
+		spown2 = true;
+		check = false;
+		enemyCount = 0;
+	}
+
+	/*
 	//ここの下からadd
 	objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new BlowEnemy(Vector3(-20.0f, 0.0f, 350.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
@@ -363,14 +444,65 @@ void Defense::Wave2EnemySpown()
 	objM->Add(new SniperEnemy(Vector3(80.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 
 	objM->Add(new CEnemy(Vector3(0.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	spown2 = true;
+
+	*/
 }
 
 
 void Defense::Wave3EnemySpown()
 {
+	if (!first && mEnemySpownTimer->isTime() && !second && !third)
+	{
+		enemyDeath = 0;
+		interval = 290;
+		waveMove = Vector3(-360.0f, 0, 0);
+		mSE->play();
+		//ここの下からadd
+		objM->Add(new MortarEnemy(Vector3(-70.0f, 0.0f, 350.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new MortarEnemy(Vector3(70.0f, 0.0f, 350.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		
+		objM->Add(new BlowEnemy(Vector3(25.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new BlowEnemy(Vector3(-25.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+
+		first = true;
+		check = false;
+
+		//ここで次のサイクルの時間変更
+		mEnemySpownTimer->setTime(25.5f);
+	}
+	if (!second && first && mEnemySpownTimer->isTime() && !third)
+	{
+		objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(40.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		
+		objM->Add(new BirdEnemy(Vector3(40.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
+		objM->Add(new BirdEnemy(Vector3(-70.0f, 0.0f, 250), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, enemyCount++));
+
+		second = true;
+		check = false;
+
+		//ここで次のサイクルの時間変更
+		mEnemySpownTimer->setTime(25.5f);
+	}
+	if (!third && first && second && mEnemySpownTimer->isTime())
+	{
+		objM->Add(new CEnemy(Vector3(40.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new CEnemy(Vector3(-40.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		
+		objM->Add(new SniperEnemy(Vector3(50.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(10.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+		objM->Add(new SniperEnemy(Vector3(10.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
+
+		third = true;
+		spown3 = true;
+		check = false;
+		enemyCount = 0;
+	}
+	/*
 	enemyDeath = 0;
-	int enemyCount = 0;
 	interval = 290;
 	waveMove = Vector3(-360.0f, 0, 0);
 	//ここの下からadd
@@ -395,7 +527,8 @@ void Defense::Wave3EnemySpown()
 	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new SniperEnemy(Vector3(10.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
 	objM->Add(new SniperEnemy(Vector3(10.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++, true));
-	spown3 = true;
+
+	*/
 }
 
 
@@ -406,28 +539,35 @@ void Defense::Wave1()
 	interval++;
 	waveMove.x += 8.0f;
 	//敵のadd
-	
+
 	if (!spown1)
 	{
-		mSE->play();
 		Wave1EnemySpown();
 	}
-	else
+
+	int i = objM->GetEnemyList().size();
+
+	//場にエネミーが残っているか？
+	////場にエネミーが残っているか？
+
+	if (i <= 0)
 	{
-		int i = objM->GetEnemyList().size();
-		
-		//場にエネミーが残っているか？
-		////場にエネミーが残っているか？
-	
-		if(i <= 0)
+		if (third && check)
 		{
 			wave1Clear = true;
+			first = false;
+			second = false;
+			third = false;
+		}
+		if (check)
+		{
+			mEnemySpownTimer->setTime(0.f);
+		}
+		else
+		{
+			check = true;
 		}
 	}
-	
-	
-	
-
 }
 
 void Defense::Wave2()
@@ -439,23 +579,33 @@ void Defense::Wave2()
 	//敵のadd
 	if (!spown2)
 	{
-		mSE->play();
 		Wave2EnemySpown();
 	}
-	else
+
+	int i = objM->GetEnemyList().size();
+
+	//場にエネミーが残っているか？
+	////場にエネミーが残っているか？
+
+	
+	if (i <= 0)
 	{
-		int i = objM->GetEnemyList().size();
-
-		//場にエネミーが残っているか？
-		////場にエネミーが残っているか？
-
-		if (i <= 0)
+		if (third && check)
 		{
 			wave2Clear = true;
+			first = false;
+			second = false;
+			third = false;
+		}
+		if (check)
+		{
+			mEnemySpownTimer->setTime(0.f);
+		}
+		else
+		{
+			check = true;
 		}
 	}
-
-
 }
 
 void Defense::Wave3()
@@ -467,20 +617,27 @@ void Defense::Wave3()
 	//敵のadd
 	if (!spown3)
 	{
-		mSE->play();
 		Wave3EnemySpown();
 	}
-	else
+
+	int i = objM->GetEnemyList().size();
+
+	if (i <= 0)
 	{
-		int i = objM->GetEnemyList().size();
-		
-		if (i <= 0)
+		if (third && check)
 		{
 			BaseScene::mStageFlag3 = true;
 			NextScene(std::make_shared<Result>());
 		}
+		if (check)
+		{
+			mEnemySpownTimer->setTime(0.f);
+		}
+		else
+		{
+			check = true;
+		}
 	}
-
 }
 
 void Defense::Pose()
