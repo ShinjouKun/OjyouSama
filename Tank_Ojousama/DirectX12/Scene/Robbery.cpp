@@ -35,52 +35,63 @@ void Robbery::StartWayEnemySpown()
 	//最初の敵がすでに召喚されていたら処理しない
 	if (mStartSpownFlag) return;
 
-#pragma region 入口付近
+	//宝箱をゲットしていないとき
+	if (mTreasureGet) return;
 
-	//岩投げの敵
-	mObjManager->Add(new MortarEnemy(Vector3(-30.0f, 0.0f, 270.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-	mObjManager->Add(new MortarEnemy(Vector3(50.0f,  0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+	if (!mObjManager->GetPlayer().GetSceneFinish()) return;
 
-	//遠距離の敵
-	mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
+	//Wave1
+	if (!mSpawnFlag[0])
+	{
+		//510以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z <= 510)
+		{
+			//岩投げの敵
+			mObjManager->Add(new MortarEnemy(Vector3(-30.0f, 0.0f, 270.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+			mObjManager->Add(new MortarEnemy(Vector3(50.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
 
-#pragma endregion
+			//岩投げの敵
+			mObjManager->Add(new MortarEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+			//鳥の敵
+			mObjManager->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
 
-#pragma region 中央付近
+			mSpawnFlag[0] = true;
+		}
+	}
 
-	//遠距離の敵
-	mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0, 200.0f), Vector3(0, 180, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0, 200.0f), Vector3(0, 180, 0), objectCount++));
+	//Wave2
+	if (!mSpawnFlag[1])
+	{
+		//450以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z <= 450)
+		{
+			//隊列の敵
+			mObjManager->Add(new CEnemy(Vector3(0.0f, 0.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
 
-	////近距離の敵
-	//mObjManager->Add(new BlowEnemy(Vector3(45.0f, 0, 205.0f), Vector3(0, 180, 0), objectCount++));
-	//mObjManager->Add(new BlowEnemy(Vector3(35.0f, 0, 205.0f), Vector3(0, 180, 0), objectCount++));
-	//mObjManager->Add(new BlowEnemy(Vector3(-45.0f, 0, 205.0f), Vector3(0, 180, 0), objectCount++));
-	//mObjManager->Add(new BlowEnemy(Vector3(-35.0f, 0, 205.0f), Vector3(0, 180, 0), objectCount++));
+			mSpawnFlag[1] = true;
+		}
+	}
 
-#pragma endregion
+	//Wave2
+	if (!mSpawnFlag[2])
+	{
+		//450以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z <= 300)
+		{
+			//遠距離の敵
+			mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 200.0f), Vector3(0, 180, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 200.0f), Vector3(0, 180, 0), objectCount++));
 
-#pragma region 宝箱付近
+			mObjManager->Add(new SniperEnemy(Vector3(+5.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(+0.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-5.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
 
-	//岩投げの敵
-	mObjManager->Add(new MortarEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-	//鳥の敵
-	mObjManager->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(+50.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-50.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
 
-	//隊列の敵
-	mObjManager->Add(new CEnemy(Vector3(0.0f, 0.0f, 120.0f), Vector3(0, 180, 0), objectCount++));
-
-
-	//遠距離の敵
-	mObjManager->Add(new SniperEnemy(Vector3(+55.0f, 0, 120.0f), Vector3(0, 180, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(+60.0f, 0, 120.0f), Vector3(0, 180, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(-55.0f, 0, 120.0f), Vector3(0, 180, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(-60.0f, 0, 120.0f), Vector3(0, 180, 0), objectCount++));
-
-#pragma endregion
-
-	mStartSpownFlag = true;
+			mSpawnFlag[2] = true;
+		}
+	}
 }
 
 void Robbery::BackWayEnemySpown()
@@ -88,30 +99,95 @@ void Robbery::BackWayEnemySpown()
 	//敵がすでに召喚されていたら処理しない
 	if (mBackSpownFlag) return;
 
-	//鳥の敵
-	mObjManager->Add(new BirdEnemy(Vector3(+45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f),BaseScene::mSprite, objectCount++));
-	mObjManager->Add(new BirdEnemy(Vector3(-45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f),BaseScene::mSprite, objectCount++));
+	//宝箱をゲットしているとき
+	if (!mTreasureGet) return;
 
-	//岩投げの敵
-	mObjManager->Add(new MortarEnemy(Vector3(-40.0f, 0.0f, 270.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
-	mObjManager->Add(new MortarEnemy(Vector3(40.0f, 0.0f, 300.0f), Vector3(0.0f,  0.0f, 0.0f), objectCount++));
+	//Wave5
+	if (!mSpawnFlag[5])
+	{
+		//100以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z >= 50)
+		{
+			//遠距離の敵
+			mObjManager->Add(new SniperEnemy(Vector3(+20.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-20.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
 
-	//遠距離の敵
-	mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0, 190.0f), Vector3(0, 0, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0, 210.0f), Vector3(0, 0, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0, 190.0f), Vector3(0, 0, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0, 210.0f), Vector3(0, 0, 0), objectCount++));
+			mSpawnFlag[5] = true;
+		}
+	}
+
+	//Wave6
+	if (!mSpawnFlag[6])
+	{
+		//450以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z >= 200)
+		{
+			//鳥の敵
+			mObjManager->Add(new BirdEnemy(Vector3(+45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f), BaseScene::mSprite, objectCount++));
+			mObjManager->Add(new BirdEnemy(Vector3(-45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f), BaseScene::mSprite, objectCount++));
+
+			//岩投げの敵
+			mObjManager->Add(new MortarEnemy(Vector3(-40.0f, 0.0f, 270.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
+			mObjManager->Add(new MortarEnemy(Vector3(40.0f, 0.0f, 300.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
+
+			mSpawnFlag[6] = true;
+		}
+	}
+
+	//Wave7
+	if (!mSpawnFlag[7])
+	{
+		//450以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z >= 300)
+		{
+			//遠距離の敵
+			mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(+20.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(+ 0.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-20.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+
+			mSpawnFlag[7] = true;
+		}
+	}
+
+	////Wave8
+	//if (!mSpawnFlag[8])
+	//{
+	//	//450以下になったら
+	//	if (mObjManager->GetPlayer().GetPosition().z >= 350)
+	//	{
+	//		//遠距離の敵
+	//		mObjManager->Add(new SniperEnemy(Vector3(+30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
+	//		mObjManager->Add(new SniperEnemy(Vector3(+0.0f,  0,  450.0f), Vector3(0, 0, 0), objectCount++));
+	//		mObjManager->Add(new SniperEnemy(Vector3(-30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
+
+	//		mSpawnFlag[8] = true;
+	//	}
+	//}
+
+	////岩投げの敵
+	//mObjManager->Add(new MortarEnemy(Vector3(-40.0f, 0.0f, 270.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
+	//mObjManager->Add(new MortarEnemy(Vector3(40.0f, 0.0f, 300.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
+
+	////遠距離の敵
+	//mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0, 190.0f), Vector3(0, 0, 0), objectCount++));
+	//mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0, 210.0f), Vector3(0, 0, 0), objectCount++));
+	//mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0, 190.0f), Vector3(0, 0, 0), objectCount++));
+	//mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0, 210.0f), Vector3(0, 0, 0), objectCount++));
 
 
-	//遠距離の敵
-	mObjManager->Add(new SniperEnemy(Vector3(+50.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(+65.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(-50.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(-65.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
-	mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
+	////遠距離の敵
+	//mObjManager->Add(new SniperEnemy(Vector3(+50.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
+	//mObjManager->Add(new SniperEnemy(Vector3(+65.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
+	//mObjManager->Add(new SniperEnemy(Vector3(-50.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
+	//mObjManager->Add(new SniperEnemy(Vector3(-65.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
+	//mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
+	//mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 120.0f), Vector3(0, 0, 0), objectCount++));
 
-	mBackSpownFlag = true;
+	//mBackSpownFlag = true;
 }
 
 void Robbery::StartScene()
@@ -135,6 +211,8 @@ void Robbery::StartScene()
 	optionPos = Vector3(180, 180, 0);
 	mTimer = std::make_shared<Timer>(0.01f);
 	mTimer->setTime(0.2f);
+	mSpawnTime = std::make_shared<Timer>();
+	mSpawnTime->setTime(2.0f);
 
 	mGoalFlag = false;
 	mTreasureGet = false;
@@ -145,20 +223,14 @@ void Robbery::StartScene()
 	objectCount = 0;
 	mGoalLine = 500.0f;
 
-	////敵にマネージャーセット
-	//BaseEnemy::SetObjectManager(mObjManager);
-	////敵にパンくずセット
-	//BaseEnemy::SetBreadCreator(mBreadCreator.get());
+	mSpawnFlag.clear();
+	mSpawnFlag.resize(10);
+	for (int i = 0, end = static_cast<int>(mSpawnFlag.size()); i < end; i++)
+	{
+		mSpawnFlag[i] = false;
+	}
 
 	BaseEnemy::SetImportantObject(mObjManager, BaseScene::mModel, BaseScene::mParticle, mBreadCreator);
-
-	////敵にAIセット
-	//BaseEnemy::SetEnemyAi(mEnemyAI.get());
-
-	////WayPoint生成機作成(生成位置,見た目をつけるかどうか)
-	//mpointManager = std::make_shared<WayPointManager>(Vector3(100.0f, 0.0f, -100.0f), mObjManager, BaseScene::mModel, false);
-	////敵AIシステム生成
-	//mEnemyAI = std::make_shared<EnemyAI>(mpointManager);
 
 #pragma endregion
 
@@ -188,15 +260,19 @@ void Robbery::StartScene()
 	BaseScene::mModel->AddModel("Shiro", "Resouse/castle.obj", "Resouse/castle.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/Ground_Black.png");
 	BaseScene::mModel->AddModel("KabeR", "Resouse/Plane.obj", "Resouse/kabe.png");
-	BaseScene::mModel->AddModel("KabeL", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeR2", "Resouse/Plane.obj", "Resouse/kabe.png");
-	BaseScene::mModel->AddModel("KabeL2", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeR3", "Resouse/Plane.obj", "Resouse/kabe.png");
-	BaseScene::mModel->AddModel("KabeL3", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeR4", "Resouse/Plane.obj", "Resouse/kabe.png");
+	BaseScene::mModel->AddModel("KabeR5", "Resouse/Plane.obj", "Resouse/kabe.png");
+	BaseScene::mModel->AddModel("KabeL", "Resouse/Plane.obj", "Resouse/kabe.png");
+	BaseScene::mModel->AddModel("KabeL2", "Resouse/Plane.obj", "Resouse/kabe.png");
+	BaseScene::mModel->AddModel("KabeL3", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeL4", "Resouse/Plane.obj", "Resouse/kabe.png");
+	BaseScene::mModel->AddModel("KabeL5", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeF", "Resouse/Plane.obj", "Resouse/kabe.png");
 	BaseScene::mModel->AddModel("KabeF2", "Resouse/Plane.obj", "Resouse/kabe.png");
+	BaseScene::mModel->AddModel("KabeB", "Resouse/Plane.obj", "Resouse/kabe.png");
+	BaseScene::mModel->AddModel("KabeB2", "Resouse/Plane.obj", "Resouse/kabe.png");
 
 #pragma endregion
 
@@ -224,7 +300,7 @@ void Robbery::StartScene()
 	for (int i = -20; i <= 20; i += 10)
 	{
 		float x = static_cast<float>(i);
-		mObjManager->Add(new ElfRock(Vector3(x, 4.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++, 3));
+		mObjManager->Add(new ElfRock(Vector3(x, 4.0f, 400.0f), Vector3(0.0f, 0.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++, 3));
 	}
 
 	//入口エリア右側の岩
@@ -256,25 +332,25 @@ void Robbery::StartScene()
 	}
 
 	//奥エリアの中央のV字の木
-	mObjManager->Add(new ElfTree(Vector3(  0, 4.0f,   100), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	mObjManager->Add(new ElfTree(Vector3( +3, 4.0f,  95), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	mObjManager->Add(new ElfTree(Vector3( -3, 4.0f,  95), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	mObjManager->Add(new ElfTree(Vector3( +6, 4.0f,  90), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	mObjManager->Add(new ElfTree(Vector3( -6, 4.0f,  90), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	mObjManager->Add(new ElfTree(Vector3( +9, 4.0f,  85), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	mObjManager->Add(new ElfTree(Vector3( -9, 4.0f,  85), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	mObjManager->Add(new ElfTree(Vector3(+12, 4.0f,  80), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	mObjManager->Add(new ElfTree(Vector3(-12, 4.0f,  80), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	mObjManager->Add(new ElfTree(Vector3(+15, 4.0f,  75), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
-	mObjManager->Add(new ElfTree(Vector3(-15, 4.0f,  75), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(0, 4.0f, 100), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(+3, 4.0f, 95), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-3, 4.0f, 95), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(+6, 4.0f, 90), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-6, 4.0f, 90), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(+9, 4.0f, 85), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-9, 4.0f, 85), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(+12, 4.0f, 80), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-12, 4.0f, 80), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(+15, 4.0f, 75), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-15, 4.0f, 75), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 
 
 #pragma endregion
 
 
 
-	//とりあえず行きのスポーン
-	StartWayEnemySpown();
+	////とりあえず行きのスポーン
+	//StartWayEnemySpown();
 
 	//宝箱生成
 	mObjManager->Add(new Treasure(Vector3(0.0f, 0, 70.0f), Vector3(0, 180.0f, 0), mObjManager, BaseScene::mModel, 1));
@@ -298,6 +374,11 @@ void Robbery::UpdateScene()
 
 	if (!mTimer->isTime()) return;
 
+
+
+
+
+
 	Pose();
 	Setting();
 
@@ -307,17 +388,24 @@ void Robbery::UpdateScene()
 		mTreasureGet = true;//宝をゲット
 	}
 
-	//プレイヤーが宝を持っている & 二回目のスポーンが行われていない
-	if (mTreasureGet && !mBackSpownFlag)
-	{
-		BackWayEnemySpown();//一度だけ生成する
-	}
+	////プレイヤーが宝を持っている & 二回目のスポーンが行われていない
+	//if (mTreasureGet && !mBackSpownFlag)
+	//{
+	//	BackWayEnemySpown();//一度だけ生成する
+	//}
 
 	//宝を持っている & ゴールに到着していたら
 	if (mTreasureGet&&mObjManager->GetPlayer().GetPosition().z >= mGoalLine)
 	{
 		mGoalFlag = true;
 	}
+
+
+
+	//StartWayEnemySpown();
+	BackWayEnemySpown();
+
+
 
 	//シーン処理
 	if (mGoalFlag)
@@ -334,16 +422,20 @@ void Robbery::DrawScene()
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 200.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(1000, 1000, 1000));
 	BaseScene::mModel->Draw("Shiro", Vector3(0, -10.0f, 550.0f), Vector3(0, 0, 0), Vector3(10, 10, 10));
-	BaseScene::mModel->Draw("KabeR4", Vector3(-170.0f, 60.0f, -200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL4", Vector3(170.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeR3", Vector3(-170.0f, 60.0f, 0.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL3", Vector3(170.0f, 60.0f, 0.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeR2", Vector3(-170.0f, 60.0f, 200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL2", Vector3(170.0f, 60.0f, 200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeR", Vector3(-170.0f, 60.0f, 400.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeL", Vector3(170.0f, 60.0f, 400.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeF", Vector3(100.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
-	BaseScene::mModel->Draw("KabeF2", Vector3(-100.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR5", Vector3(-60.0f, 60.0f, 600.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR4", Vector3(-60.0f, 60.0f, -200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR3", Vector3(-60.0f, 60.0f, 0.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR2", Vector3(-60.0f, 60.0f, 200.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeR", Vector3(-60.0f, 60.0f, 400.0f), Vector3(90.0f, 180.0f, 90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL5", Vector3(60.0f, 60.0f, 600.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL4", Vector3(60.0f, 60.0f, -200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL3", Vector3(60.0f, 60.0f, 0.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL2", Vector3(60.0f, 60.0f, 200.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeL", Vector3(60.0f, 60.0f, 400.0f), Vector3(90.0f, -180.0f, -90.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeF", Vector3(100.0f, 60.0f, 30.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeF2", Vector3(-100.0f, 60.0f, 30.0f), Vector3(90.0f, -180.0f, 0.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeB", Vector3(100.0f, 60.0f, 600.0f), Vector3(90.0f, 0.0f, 0.0f), Vector3(100, 80, 50));
+	BaseScene::mModel->Draw("KabeB2", Vector3(-100.0f, 60.0f, 600.0f), Vector3(90.0f, 0.0f, 0.0f), Vector3(100, 80, 50));
 
 	mObjManager->Draw();
 	DirectXManager::GetInstance()->SetData2D();

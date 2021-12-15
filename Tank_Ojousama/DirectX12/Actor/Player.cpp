@@ -212,24 +212,24 @@ void Player::SceneMoveBlock1()
 void Player::SceneMoveBlock2()
 {
 	//‰E
-	if (position.x <= -150.0f)
+	if (position.x <= -60.0f)
 	{
-		position.x = -150.0f;
+		position.x = -60.0f;
 	}
 	//¶
-	if (position.x >= 150.0f)
+	if (position.x >= 60.0f)
 	{
-		position.x = 150.0f;
+		position.x = 60.0f;
 	}
 	//Œã‚ë
 	if (position.z >= 510)
 	{
-		position.z = 510;
+		position.z = 510.0f;
 	}
 	//‘O
-	if (position.z <= -250)
+	if (position.z <= 30)
 	{
-		position.z = -250;
+		position.z = 30.0f;
 	}
 }
 

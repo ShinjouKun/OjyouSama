@@ -58,6 +58,12 @@ private:
 	//std::shared_ptr<WayPointManager> mpointManager; //WayPointê∂ê¨
 	//std::shared_ptr<EnemyAI> mEnemyAI;              //ìGAIê∂ê¨
 
+	std::shared_ptr<Timer> mSpawnTime;//
+	std::vector<bool> mSpawnFlag;
+
+	std::vector<string> test;
+
+
 	Vector3 posePos;
 	Vector3 selectbackPos;
 	Vector3 selectposition;

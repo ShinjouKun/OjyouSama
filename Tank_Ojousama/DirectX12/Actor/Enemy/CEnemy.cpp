@@ -145,11 +145,99 @@ void CEnemy::EnemyUpdate()
 	/*攻撃*/
 	Attack();
 
-	/*移動指令*/
-	MoveOrder();
+	///*移動指令*/
+	//MoveOrder();
 
-	/*索敵指令*/
-	SearchOrder();
+	for (int i = 0, end = static_cast<int>(mMemberList.size()); i < end; i++)
+	{
+		mAnyDeathFlag = false;
+
+		//生存状態を監視
+		bool deadFlag = mMemberList[i]->GetDeadFlag();
+
+		if (deadFlag)
+		{
+			mMemberList.erase(mMemberList.begin() + i);
+
+			mAnyDeathFlag = true;
+		}
+
+		if (mAnyDeathFlag) break;
+
+		/*移動管理*/
+		MemberMove(i);
+	}
+
+	///*索敵指令*/
+	//SearchOrder();
+
+	//索敵範囲内にプレイヤーがいるか
+	if (InsideDistance(mPlayerPosition, MEMBER_DISTANCE))
+	{
+		for (int i = 0, end = static_cast<int>(mMemberList.size()); i < end; i++)
+		{
+			mMemberList[i]->ReceiveAttackCommand(mPlayerPosition, true);
+		}
+
+		mSearchCommand = false;
+		mSearchResult = false;
+	}
+	else//隊長の索敵範囲内にプレイヤーがいないとき
+	{
+		//索敵指令が出ていない時
+		if (!mSearchCommand)
+		{
+			//2秒に1回索敵指令を出す
+			mSearchTimer->update();
+
+			if (mSearchTimer->isTime())
+			{
+				//索敵指令を出す
+				for (const auto& list : mMemberList)
+				{
+					list->ReceiveSearchCommand(mPlayerPosition, true);
+				}
+
+				mSearchTimer->setTime(SEARCH_INTERVAL);
+				mSearchCommand = true;
+			}
+		}
+
+		//索敵指令が出ている
+		if (mSearchCommand)
+		{
+			for (const auto& list : mMemberList)
+			{
+				//索敵結果を受け取る
+				mSearchResult = list->SendSearchResult();
+				//対象を発見していたら
+				if (mSearchResult)
+				{
+					//対象の位置を一度だけ取得
+					mSearchPosition = list->SendSearchPosition();
+					break;
+				}
+			}
+
+			//全員の報告を受け取る or 誰か1人が対象を発見していたら報告終了
+			mSearchCommand = false;
+		}
+
+		//対象を発見していたら
+		if (mSearchResult)
+		{
+			//近くなったら元に戻す
+			if (InsideDistance(mSearchPosition, 1.0f))
+			{
+				mSearchResult = false;
+			}
+			else
+			{
+				//対象の位置まで移動
+				MovePoint(mSearchPosition);
+			}
+		}
+	}
 }
 
 void CEnemy::EnemyRend()
