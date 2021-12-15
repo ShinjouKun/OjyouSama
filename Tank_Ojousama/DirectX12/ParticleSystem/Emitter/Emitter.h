@@ -19,7 +19,7 @@ class Compute;
 131072
 262144
 */
-constexpr int MAX_PARTICLE_SIZE = 8192;//パーティクルの最大個数//65536
+constexpr int MAX_PARTICLE_SIZE = 4096;//パーティクルの最大個数//65536
 
 //各エミッターでgpuパーティクルをやる
 class Emitter

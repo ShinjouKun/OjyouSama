@@ -197,6 +197,7 @@
     <ClCompile Include="ParticleSystem\Compute\StructuredBuffer\StructuredBuffer.cpp" />
     <ClCompile Include="ParticleSystem\Emitter\Emitter.cpp" />
     <ClCompile Include="ParticleSystem\ParticleSystem.cpp" />
+    <ClCompile Include="ParticleSystem\ParticleType\BlackSmoke.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\Bom.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\Explosion.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\Hit.cpp" />
@@ -543,6 +544,7 @@
     <ClInclude Include="ParticleSystem\Emitter\EmitterData.h" />
     <ClInclude Include="ParticleSystem\ParticleData\ParticleData.h" />
     <ClInclude Include="ParticleSystem\ParticleSystem.h" />
+    <ClInclude Include="ParticleSystem\ParticleType\BlackSmoke.h" />
     <ClInclude Include="ParticleSystem\ParticleType\Bom.h" />
     <ClInclude Include="ParticleSystem\ParticleType\Explosion.h" />
     <ClInclude Include="ParticleSystem\ParticleType\Hit.h" />
