@@ -19,11 +19,31 @@ Compute::Compute(std::string texName):
 
 Compute::~Compute()
 {
-	delete(mCSShader);
-	delete(mPSShader);
-	delete(mGSShader);
-	delete(mVSShader);
-	delete(mParticleCSShader);
+	if (mCSShader)
+	{
+		delete(mCSShader);
+	}
+
+	if (mPSShader)
+	{
+		delete(mPSShader);
+	}
+	
+	if (mGSShader)
+	{
+		delete(mGSShader);
+	}
+	
+	if (mVSShader)
+	{
+		delete(mVSShader);
+	}
+	
+	if (mParticleCSShader)
+	{
+		delete(mParticleCSShader);
+	}
+	
 
 	delete(mInputEmitterSB);
 	delete(mOutputEmitterSB);
@@ -73,6 +93,12 @@ void Compute::finalize()
 
 void Compute::init()
 {
+	mCSShader = nullptr;
+	mPSShader = nullptr;
+	mGSShader = nullptr;
+	mVSShader = nullptr;
+	mParticleCSShader = nullptr;
+
 	mDev = DirectXManager::GetInstance()->Dev();
 
 	createHeap();
@@ -284,7 +310,7 @@ HRESULT Compute::createHeap()
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
 	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	heapDesc.NodeMask = 0;
-	heapDesc.NumDescriptors = 512;//シェーダリソースビューの数
+	heapDesc.NumDescriptors = 64;//シェーダリソースビューの数512
 	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 
 	return mDev->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&mHeap));
@@ -293,19 +319,6 @@ HRESULT Compute::createHeap()
 HRESULT Compute::createPiprLine()
 {
 	HRESULT hr = S_OK;
-	//エミッター更新
-	mCSShader = new Shader();
-	mCSShader->loadCS("ComputeEmitterShader.hlsl");
-	//パーティクル更新
-	mParticleCSShader = new Shader();
-	mParticleCSShader->loadCS("ComputeParticleUpdateShader.hlsl");
-	//パーティクル描画
-	mPSShader = new Shader();
-	mPSShader->loadPS("ParticlePixelShader.hlsl", "");
-	mGSShader = new Shader();
-	mGSShader->loadGS("ParticleGeometryShader.hlsl", "");
-	mVSShader = new Shader();
-	mVSShader->loadVS("ParticleVertexShader.hlsl", "");
 
 	ComPtr<ID3DBlob> error;
 	D3D12_COMPUTE_PIPELINE_STATE_DESC psoDesc{};
@@ -314,6 +327,9 @@ HRESULT Compute::createPiprLine()
 
 	if (!mEmitterPipe)
 	{
+		//エミッター更新
+		mCSShader = new Shader();
+		mCSShader->loadCS("ComputeEmitterShader.hlsl");
 		//ルートシグネチャ
 		D3D12_STATIC_SAMPLER_DESC sampler = {};
 		sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
@@ -382,6 +398,9 @@ HRESULT Compute::createPiprLine()
 
 	if (!mParticlePipe)
 	{
+		//パーティクル更新
+		mParticleCSShader = new Shader();
+		mParticleCSShader->loadCS("ComputeParticleUpdateShader.hlsl");
 		CD3DX12_DESCRIPTOR_RANGE1 range2[3];
 		CD3DX12_ROOT_PARAMETER1 rootParam2[3];
 
@@ -420,6 +439,13 @@ HRESULT Compute::createPiprLine()
 
 	if (!mParticleDrawPipe)
 	{
+		//パーティクル描画
+		mPSShader = new Shader();
+		mPSShader->loadPS("ParticlePixelShader.hlsl", "");
+		mGSShader = new Shader();
+		mGSShader->loadGS("ParticleGeometryShader.hlsl", "");
+		mVSShader = new Shader();
+		mVSShader->loadVS("ParticleVertexShader.hlsl", "");
 		//グラフィックスパイプラインの流れの設定
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{ };
 

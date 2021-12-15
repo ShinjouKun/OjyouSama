@@ -82,6 +82,14 @@ private:
 	bool OpFlag3;
 	//城崩れるフラグ
 	bool mCastleCollapses;
+
+	//出るタイミング
+	bool first;
+	bool second;
+	bool third;
+	std::shared_ptr<Timer> mEnemySpownTimer;
+	int enemyCount;
+	bool check;
 	
 	Vector3 posePos;
 	Vector3 selectbackPos;
