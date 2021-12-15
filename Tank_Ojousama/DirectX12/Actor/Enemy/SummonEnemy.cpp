@@ -236,7 +236,7 @@ void SummonEnemy::MoveAnimation()
 	//右ステップ
 	if (mStep)
 	{
-		angle.z++;
+		angle.z += 1.5f;
 		if (angle.z > 25.0f)
 		{
 			mStep = false;
@@ -244,7 +244,7 @@ void SummonEnemy::MoveAnimation()
 	}
 	else
 	{
-		angle.z--;
+		angle.z -= 1.5f;
 		if (angle.z < -25.0f)
 		{
 			mStep = true;

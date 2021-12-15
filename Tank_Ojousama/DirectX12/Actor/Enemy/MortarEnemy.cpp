@@ -53,7 +53,7 @@ void MortarEnemy::AttackStep_FIRE()
 	}
 
 	//˜r‚ğU‚èã‚°‚é
-	mHandAngle -= 10.0f;
+	mHandAngle -= 15.0f;
 
 	//U‚èã‚°I‚í‚Á‚½‚ç
 	if (mFireFlag && mHandAngle <= -90.0f)
@@ -68,7 +68,7 @@ void MortarEnemy::AttackStep_RELOAD()
 	mReloadTime->update();
 
 	//˜r‚ğŒ³‚É–ß‚·
-	mHandAngle += 3.0f;
+	mHandAngle += 5.0f;
 
 	if (mHandAngle >= 0.0f)
 	{
@@ -172,7 +172,7 @@ void MortarEnemy::DeathAnimeStep_Explosion()
 
 void MortarEnemy::EnemyInit()
 {
-	HP = 10;
+	HP = 25;//‚à‚Æ‚à‚Æ‚Í10
 	damage = 5;
 
 	mRadius = 1.5f;
@@ -198,9 +198,9 @@ void MortarEnemy::EnemyInit()
 	mReloadTime = std::make_shared<Timer>();
 	mReloadTime->setTime(1.0f);
 	mRiseTime = std::make_shared<Timer>();
-	mRiseTime->setTime(1.0f);
+	mRiseTime->setTime(0.5f);
 	mDeathTime = std::make_shared<Timer>();
-	mDeathTime->setTime(1.0f);
+	mDeathTime->setTime(0.5f);
 
 	//ƒTƒEƒ“ƒh‰Šú‰»
 	mAttackSE = std::make_shared<Sound>("SE/Golem_Attack.mp3", true);

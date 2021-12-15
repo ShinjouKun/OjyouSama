@@ -78,8 +78,8 @@ private:
 	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
 	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 
-	const float LEG_SPEED = 1.5f; //脚の回転速度
-	const float LEG_RANGE = 15.0f;//脚の最大回転量
+	const float LEG_SPEED = 2.0f; //脚の回転速度
+	const float LEG_RANGE = 20.0f;//脚の最大回転量
 
 	float mLegRotate = 0.0f;//脚の現在の回転量
 

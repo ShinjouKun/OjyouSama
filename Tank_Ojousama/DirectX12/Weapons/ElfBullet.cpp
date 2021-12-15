@@ -30,7 +30,7 @@ void ElfBullet::Init()
 
 	death = false;
 
-	damage = 5;
+	damage = 10;
 	alive = 0;
 	speed = 1.5f;
 	//コライダーの情報をセット

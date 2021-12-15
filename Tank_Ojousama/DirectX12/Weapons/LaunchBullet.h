@@ -56,11 +56,11 @@ private:
 	Vector3 mScale;         //サイズ
 	Vector3 mCircleScale;
 
-	int BULLET_DAMAGE = 10;//ダメージ
+	int BULLET_DAMAGE = 15;//ダメージ
 	float test = 0;
 
-	float MOVE_SPEED = 1.0f;//移動速度
-	float mVelocityY = 1.0f;//縦の移動量
+	float MOVE_SPEED = 1.5f;//移動速度
+	float mVelocityY = 1.5f;//縦の移動量
 	float mHalfLength;//生成位置と目標位置の距離の半分を求める
 
 	bool mAppleFlag;

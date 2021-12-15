@@ -32,11 +32,11 @@ void BlowEnemy::EnemyInit()
 {
 #pragma region ïœêîÇÃèâä˙âª
 
-	HP = ECI::MAX_HP * BECI::MAX_HP;
+	HP = 15;//Ç‡Ç∆Ç‡Ç∆20
 	warningTime = ECI::WARNING_TIME * BECI::WARNING_TIME * 60;
-	attackTime = ECI::ATTACK_TIME * BECI::ATTACK_TIME * 60;
+	attackTime = 30;//Ç‡Ç∆Ç‡Ç∆60
 
-	speed = ECI::MOVE_SPEED * BECI::MOVE_SPEED;
+	speed = 0.3f;
 	mRadius = ECI::RADIUS * BECI::RADIUS;
 	mSwingRange = ECI::SWING_RANGE * BECI::SWING_RANGE;
 	mFireAngle = BECI::FAN_RANGE;
@@ -67,7 +67,7 @@ void BlowEnemy::EnemyInit()
 	mFanRotateOrigin = -angle.y - 90.0f;
 	fanInfo.position = Vector3(position.x, position.y, position.z);//à íu
 	fanInfo.fanRange = 200.0f;									   //É∆ÇÃäpìx
-	fanInfo.length = 30.0f;										   //í∑Ç≥
+	fanInfo.length = 50.0f;										   //í∑Ç≥
 	fanInfo.rotate = mFanRotateOrigin;							   //âÒì]äp
 	//--------------------------------
 

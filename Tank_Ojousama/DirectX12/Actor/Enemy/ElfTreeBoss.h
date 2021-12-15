@@ -137,8 +137,8 @@ private:
 	Vector3 mLeftHandPos;    //左手の位置
 	Vector3 mRootPosition;   //根っこの位置
 
-	const int MAX_HP = 5;       //最大体力
-	const int RAPIDFIRE_COUNT = 3;//連続射撃の数
+	const int MAX_HP = 500;       //最大体力
+	const int RAPIDFIRE_COUNT = 5;//連続射撃の数
 	const int SUMMON_COUNT = 5;   //召喚数
 	int mBulletCount;//弾を発射した数
 	int mCircleCount;//警告を表示した数
@@ -147,9 +147,9 @@ private:
 
 	const float SEARCH_LENGTH = 150.0f;//索敵距離
 	const float MOVE_SPEED = 0.0f;    //移動速度
-	const float AIMING_TIME = 1.0f;   //狙う時間
+	const float AIMING_TIME = 0.5f;   //狙う時間
 	const float RELOAD_TIME = 0.5f;   //装填時間
-	const float SUMMON_TIME = 2.0f;   //召喚準備時間
+	const float SUMMON_TIME = 3.0f;   //召喚準備時間
 	float mFireAngle;//弾を撃つときの向き
 	float mRootSpeed;//根っこの移動速度
 	float mSummonRotate;//召喚中の魔法陣の回転
