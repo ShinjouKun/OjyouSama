@@ -46,7 +46,11 @@ private:
 	int bottomNum;
 	int weaponNum;
 	float gSelect;
+	int Money = 0;
 	bool buy = false;
+	bool buy2 = false;
+	bool buy3 = false;
+	bool buy4 = false;
 	Camera* camera;
 	Vector3 camerapos = Vector3(0, 0, 0);
 	Vector3 setcamerapos = Vector3(10, 0, 10);
@@ -59,9 +63,6 @@ private:
 	Vector3 SentakuPos7;
 	Vector3 SentakuPos8;
 	Vector3 Syata;
-	
-
-	
 	std::shared_ptr<Timer> mTimer;
 
 	ModelChanger* mChanger;

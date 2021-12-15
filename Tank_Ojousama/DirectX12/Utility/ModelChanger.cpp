@@ -329,7 +329,7 @@ void ModelChanger::Save()
 		if (buys[9] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[9] = 1;
-			BaseScene::mMoney -= 1000000;
+			BaseScene::mMoney -= 0;
 		}
 		state[3] = "MachinGun";
 		break;

@@ -6,6 +6,7 @@
 #include "../Sound/Sound.h"
 #include "../Utility/Timer/Timer.h"
 #include"../Utility/Sequence/Sequence.h"
+#include"../Math/Math.h"
 
 Result::Result()
 	:mSound(nullptr)
@@ -177,7 +178,7 @@ void Result::DrawScene()
 		{
 			BaseScene::mSprite->Draw("Plus2", Vector3(500, 500, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		}
-		Sequence::instance().set(mMoney_PM, Vector2(600, 515), Vector2(64, 64));
+		Sequence::instance().set(Math::abs(mMoney_PM), Vector2(600, 515), Vector2(64, 64));
 		BaseScene::mSprite->Draw("Goukei", Vector3(200, 500, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		angle += 1.5f;
 	}

@@ -70,6 +70,7 @@ void GameOver::UpdateScene()
 	{
 		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 		{
+			BaseScene::mMoney = 20000000;
 			NextScene(std::make_shared<Title>());
 		}
 	}
@@ -94,7 +95,7 @@ void GameOver::DrawScene()
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
-	if (BaseScene::mMoney <= 0)
+	if (BaseScene::mMoney < 0)
 	{
 		BaseScene::mSprite->Draw("GEOver", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}

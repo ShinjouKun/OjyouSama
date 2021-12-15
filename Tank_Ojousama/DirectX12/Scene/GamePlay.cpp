@@ -172,9 +172,6 @@ void GamePlay::StartScene()
 	//objM->Add(new ElfRock(Vector3(-100.0f, 0.0f, 100.0f), Vector3(0.0f, -45.0f, 0.0f), objM, BaseScene::mModel, objectCount++, 2));
 
 #pragma endregion
-
-
-
 	BaseScene::mSprite->AddTexture("Pose", "Resouse/pose.png");
 	BaseScene::mSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	BaseScene::mSprite->AddTexture("AIM2", "Resouse/AIM64.png");

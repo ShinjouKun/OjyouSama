@@ -29,7 +29,6 @@ Select::~Select()
 
 void Select::StartScene()
 {
-	//g = new GamePlay();
 	fade = 0;
 	fadeF1 = false;
 	fadeF2 = false;
@@ -111,7 +110,7 @@ void Select::UpdateScene()
 	
 	if (BaseScene::mMoney <= 0)
 	{
-
+		NextScene(std::make_shared<GameOver>());
 	}
 	if (fadeF1)
 	{
