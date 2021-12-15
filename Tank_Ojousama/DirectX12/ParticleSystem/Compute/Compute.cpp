@@ -40,12 +40,35 @@ Compute::~Compute()
 
 void Compute::finalize()
 {
-	mEmitterRoot->Release();
-	mEmitterPipe->Release();
-	mParticleRoot->Release();
-	mParticlePipe->Release();
-	mParticleDrawRoot->Release();
-	mParticleDrawPipe->Release();
+	if (mEmitterPipe)
+	{
+		mEmitterPipe->Release();
+	}
+	if (mEmitterRoot)
+	{
+		mEmitterRoot->Release();
+	}
+	if (mParticleRoot)
+	{
+		mParticleRoot->Release();
+	}
+	if (mParticlePipe)
+	{
+		mParticlePipe->Release();
+	}
+	if (mParticleDrawRoot)
+	{
+		mParticleDrawRoot->Release();
+	}
+	if (mParticleDrawPipe)
+	{
+		mParticleDrawPipe->Release();
+	}
+
+	//mCMDList->Release();
+	//mCMDAllo->Release();
+	//mCQueue->Release();
+
 }
 
 void Compute::init()
@@ -104,7 +127,7 @@ void Compute::emitterUpdate(void* data, int dispatch)
 	*/
 }
 
-void* Compute::particleUpdate(void* data, int dataSize)
+void Compute::particleUpdate(void* data, int dataSize)
 {
 	auto cmdList = ParticleSystem::instance().getGPUCMDList();
 
@@ -148,8 +171,9 @@ void* Compute::particleUpdate(void* data, int dataSize)
 
 	mCMDAllo->Reset();
 	mCMDList->Reset(mCMDAllo, nullptr);
-	*/
+	
 	return mParticleStorageSB->getResourceOnCPU();
+	*/
 }
 
 void Compute::particleDraw(int dataSize)
@@ -224,6 +248,11 @@ void Compute::particleDraw(int dataSize)
 	//•`‰æƒRƒ}ƒ“ƒh
 	//cmdList->DrawInstanced(static_cast<UINT>(std::distance(v.begin(), v.end())), 1, 0, 0);
 	cmdList->DrawInstanced(dataSize, 1, 0, 0);
+}
+
+void* Compute::getData()
+{
+	return mParticleStorageSB->getResourceOnCPU();
 }
 
 void Compute::barrier(ID3D12Resource * p, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after)

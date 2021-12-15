@@ -32,7 +32,10 @@ Bom::Bom(const Vector3 & pos, bool looping)
 
 Bom::~Bom()
 {
-	mEmitter->death();
+	if (mEmitter)
+	{
+		mEmitter->death();
+	}
 }
 
 void Bom::setPos(const Vector3 & pos)

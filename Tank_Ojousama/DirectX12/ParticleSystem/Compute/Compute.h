@@ -44,9 +44,11 @@ public:
 	//エミッターの更新
 	void emitterUpdate(void* data, int dispatch = 1);
 	//パーティクルの更新
-	void* particleUpdate(void* data, int dataSize);
+	void particleUpdate(void* data, int dataSize);
 	//パーティクルの描画
 	void particleDraw(int dataSize);
+
+	void* getData();
 
 private:
 	void barrier(ID3D12Resource* p, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after);

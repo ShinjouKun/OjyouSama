@@ -128,13 +128,15 @@ void Emitter::update()
 	mPendingDataList.clear();
 
 	//コンピュートクラスを更新する
-	mData = mCompute->particleUpdate(mDataList.data(), mDataList.size());
-
-	mDataList.assign((ParticleData*)mData, (ParticleData*)mData + mDataList.size());
+	mCompute->particleUpdate(mDataList.data(), mDataList.size());
 }
 
 void Emitter::draw()
 {
+	mData = mCompute->getData();
+
+	mDataList.assign((ParticleData*)mData, (ParticleData*)mData + mDataList.size());
+
 	//コンピュートクラスから描画を呼び出す
 	mCompute->particleDraw(static_cast<int>(mDataList.size()));
 }

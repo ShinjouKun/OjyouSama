@@ -10,7 +10,16 @@
 class Timer;
 class Compute;
 
-constexpr int MAX_PARTICLE_SIZE = 16384;//パーティクルの最大個数//65536
+/*
+4096
+8192
+16384
+32768
+65536
+131072
+262144
+*/
+constexpr int MAX_PARTICLE_SIZE = 8192;//パーティクルの最大個数//65536
 
 //各エミッターでgpuパーティクルをやる
 class Emitter

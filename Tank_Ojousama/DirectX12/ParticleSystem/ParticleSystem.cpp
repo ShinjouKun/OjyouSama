@@ -87,7 +87,7 @@ void ParticleSystem::gpuWait()
 
 	ID3D12CommandList* com[] = { mCMDList };
 
-	mCQueue->ExecuteCommandLists(1, com);
+	mCQueue->ExecuteCommandLists(_countof(com), com);
 
 	DirectXManager::GetInstance()->waitGPU(mCQueue);
 
