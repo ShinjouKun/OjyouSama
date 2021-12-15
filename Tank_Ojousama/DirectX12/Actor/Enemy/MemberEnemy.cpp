@@ -246,7 +246,8 @@ void MemberEnemy::Init()
 	mRandomDirection = Vector3(0.0f, 0.0f, 0.1f);
 
 	/*むりやりんご*/
-	mMoveRangeMax = Vector3(0.0f, 0.0f, 520.0f);
+	mMoveRangeMax = Vector3(-200.0f, 0.0f, -520.0f);
+	mMoveRangeMax = Vector3( 200.0f, 0.0f, +520.0f);
 
 	death = false;
 	mDeadFlag = false;
@@ -265,9 +266,9 @@ void MemberEnemy::Init()
 
 	//タイマー初期化
 	mAimingTime = std::make_shared<Timer>();
-	mAimingTime->setTime(1.0f);
+	mAimingTime->setTime(0.2f);
 	mReloadTime = std::make_shared<Timer>();
-	mReloadTime->setTime(1.0f);
+	mReloadTime->setTime(0.2f);
 	mRandomMoveTimer = std::make_shared<Timer>();
 	mRandomMoveTimer->setTime(0.5f);
 	mRiseTime = std::make_shared<Timer>();
@@ -330,14 +331,41 @@ void MemberEnemy::Update()
 	//仮死状態なら処理しない
 	if (mDeathAnimation) return;
 
-	/*移動*/
-	Move();
+	///*移動*/
+	//Move();
+
+	/*行動制限*/
+	MoveRange();
+
+	//移動
+	MoveTarget(mFixedPosition, 1.0f);
+
+	/*歩行アニメーション*/
+	MoveAnimation();
 
 	/*攻撃*/
 	Attack();
 
 	/*混乱行動*/
 	Confusion();
+
+	switch (mAttackStep)
+	{
+	case MemberEnemy::NONE:
+		AttackStep_NONE();
+		break;
+	case MemberEnemy::AIMING:
+		AttackStep_AIMING();
+		break;
+	case MemberEnemy::FIRE:
+		AttackStep_FIRE();
+		break;
+	case MemberEnemy::RELOAD:
+		AttackStep_RELOAD();
+		break;
+	default:
+		break;
+	}
 }
 
 void MemberEnemy::Rend()
@@ -429,20 +457,20 @@ void MemberEnemy::Move()
 
 void MemberEnemy::MoveRange()
 {
-	if (position.x < mMoveRangeMin.x)
-	{
-		position.x = mMoveRangeMin.x;
-	}
-	else if (position.x > mMoveRangeMax.x)
-	{
-		position.x = mMoveRangeMax.x;
-	}
+	//if (position.x < mMoveRangeMin.x)
+	//{
+	//	position.x = mMoveRangeMin.x;
+	//}
+	//else if (position.x > mMoveRangeMax.x)
+	//{
+	//	position.x = mMoveRangeMax.x;
+	//}
 
-	if (position.z < mMoveRangeMin.z)
+/*	if (position.z < mMoveRangeMin.z)
 	{
 		position.z = mMoveRangeMin.z;
 	}
-	else if (position.z > mMoveRangeMax.z)
+	else */if (position.z > mMoveRangeMax.z)
 	{
 		position.z = mMoveRangeMax.z;
 	}
