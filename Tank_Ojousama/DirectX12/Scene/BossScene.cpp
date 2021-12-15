@@ -29,7 +29,7 @@
 
 
 BossScene::BossScene()
-	:mSound(nullptr)
+	:mBGM(nullptr)
 {
 }
 
@@ -47,6 +47,8 @@ void BossScene::StartScene()
 	selectposition = Vector3(180, 180, 0);
 	optionPos = Vector3(180, 180, 0);
 	mBossDeadFlag = false;
+	mCameraAnimation = false;
+	mSpawn = false;
 
 	//パンくず生成機作成
 	mBreadCreator = std::make_shared<BreadCrumbCreater>(mObjManager);
@@ -82,8 +84,8 @@ void BossScene::StartScene()
 #pragma endregion
 
 	//BGM設定
-	mSound = std::make_shared<Sound>("BGM/boss02.mp3", false);
-	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+	mBGM = std::make_shared<Sound>("BGM/boss02.mp3", false);
+	mBGM->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 
 	ParticleBox = make_shared<ParticleEmitterBox>(BaseScene::mParticle);
 	ParticleBox->LoadAndSet("Smoke", "Resouse/smoke.jpg");
@@ -131,8 +133,8 @@ void BossScene::StartScene()
 	//mObjManager->Add(new ElfRock(Vector3(+70, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
 
 	//岩投げの敵を守る岩Left
-	mObjManager->Add(new ElfRock(Vector3(55.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, 0, 3));
-	mObjManager->Add(new ElfRock(Vector3(80.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, 1, 3));
+	//mObjManager->Add(new ElfRock(Vector3(55.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, 0, 3));
+	//mObjManager->Add(new ElfRock(Vector3(80.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, 1, 3));
 	//mObjManager->Add(new ElfRock(Vector3(90.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
 	//mObjManager->Add(new ElfRock(Vector3(-90, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
 	//mObjManager->Add(new ElfRock(Vector3(-130, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
@@ -152,14 +154,6 @@ void BossScene::StartScene()
 	//左
 	mObjManager->Add(new BetaTestBlock(Vector3(-100, 0.0f, 400.0f), Vector3(90, 90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
 
-	//岩投げの敵
-	mObjManager->Add(new MortarEnemy(Vector3(+80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-	mObjManager->Add(new MortarEnemy(Vector3(-80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-
-	//鳥の敵
-	mObjManager->Add(new BirdEnemy(Vector3(+80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
-	mObjManager->Add(new BirdEnemy(Vector3(-80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
-
 	//ボス
 	mBoss = new ElfTreeBoss(Vector3(0.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), BaseScene::mParticle, objectCount++);
 	mObjManager->Add(mBoss);
@@ -173,8 +167,7 @@ void BossScene::StartScene()
 
 void BossScene::UpdateScene()
 {
-	mSound->playLoop();
-	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	mBGM->playLoop();
 	mTimer->update();
 	if (resultFlag)
 	{
@@ -185,12 +178,17 @@ void BossScene::UpdateScene()
 		}
 	}
 	if (!mTimer->isTime()) return;
+
 	Pose();
 	Setting();
 
 	//パンくずを落とす
 	mBreadCreator->DropBreadCrumb();
 
+	//アニメーションが終了しているかを監視
+	CheckAnimation();
+
+	//ボスが死んでいるか？
 	if (mBoss->GetDeadFlag())
 	{
 		mBossDeadFlag = true;
@@ -256,6 +254,40 @@ void BossScene::DrawScene()
 	if (resultFlag)
 	{
 		ParticleBox->EmitterUpdate("Smoke", Vector3(mObjManager->GetPlayer().GetPosition().x, 0, mObjManager->GetPlayer().GetPosition().z), Vector3(0, 0, 0));
+	}
+}
+
+void BossScene::EnemySpawn()
+{
+	if (mSpawn) return;
+
+	int objectCount = 0;
+
+	//岩投げの敵
+	mObjManager->Add(new MortarEnemy(Vector3(+80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+	mObjManager->Add(new MortarEnemy(Vector3(-80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+
+	//鳥の敵
+	mObjManager->Add(new BirdEnemy(Vector3(+80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
+	mObjManager->Add(new BirdEnemy(Vector3(-80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
+
+	mSpawn = true;
+}
+
+void BossScene::CheckAnimation()
+{
+	//導入アニメーションが終了してない
+	if (!mCameraAnimation)
+	{
+		//アニメーション状態を監視
+		mCameraAnimation = mObjManager->GetPlayer().GetSceneFinish();
+	}
+	else//終了しているとき
+	{
+		//敵を生成
+		EnemySpawn();
+		//ボスの攻撃を開始
+		mBoss->EndCameraAnimation(true);
 	}
 }
 
@@ -486,7 +518,7 @@ void BossScene::Setting()
 			settingFlag = false;
 		}
 
-		mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+		mBGM->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	}
 }
 
@@ -504,10 +536,10 @@ void BossScene::ResultF()
 	else if (resultFlag)
 	{
 
-		camera->GetEye();
-		camera->GetTarget();
-		camera->SetEye(camerapos);
-		camera->SetTarget(setcamerapos);
+		mCamera->GetEye();
+		mCamera->GetTarget();
+		mCamera->SetEye(camerapos);
+		mCamera->SetTarget(setcamerapos);
 		camerapos.x += 1;
 		time += 1;
 		if (time >= 300)

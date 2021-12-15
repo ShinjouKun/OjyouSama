@@ -63,7 +63,7 @@ private:
 	shared_ptr<Sound> mAttackSE;//攻撃時のSE
 	shared_ptr<Sound> mDamageSE;     //ダメージを受けた時のSE
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
-	shared_ptr<Hit> mDamageParticle;//ダメージを受けた時のパーティクル
+	shared_ptr<Hit> mDamageParticle;      //ダメージを受けた時のパーティクル
 	shared_ptr<Explosion> mDeathParticle; //死亡した時のパーティクル
 
 	Vector3 mScale;             //大きさ
