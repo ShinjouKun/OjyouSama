@@ -142,7 +142,7 @@ private:
 	const float MOVE_SPEED = 0.0f;    //ˆÚ“®‘¬“x
 	const float AIMING_TIME = 1.0f;   //‘_‚¤ŠÔ
 	const float RELOAD_TIME = 0.5f;   //‘•“UŠÔ
-	const float SUMMON_TIME = 1.0f;   //¢Š«€”õŠÔ
+	const float SUMMON_TIME = 21.0f;   //¢Š«€”õŠÔ
 	float mFireAngle;//’e‚ğŒ‚‚Â‚Æ‚«‚ÌŒü‚«
 	float mRootSpeed;//ª‚Á‚±‚ÌˆÚ“®‘¬“x
 	float mSummonRotate;//¢Š«’†‚Ì–‚–@w‚Ì‰ñ“]

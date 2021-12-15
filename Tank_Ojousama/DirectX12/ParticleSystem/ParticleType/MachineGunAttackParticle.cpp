@@ -36,6 +36,7 @@ MachineGunAttackParticle::MachineGunAttackParticle(const Vector3 & pos, bool loo
 
 MachineGunAttackParticle::~MachineGunAttackParticle()
 {
+	mEmitter->death();
 }
 
 void MachineGunAttackParticle::setPos(const Vector3 & pos)

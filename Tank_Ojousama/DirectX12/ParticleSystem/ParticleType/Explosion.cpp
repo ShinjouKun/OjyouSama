@@ -32,6 +32,7 @@ Explosion::Explosion(const Vector3 & pos, bool looping)
 
 Explosion::~Explosion()
 {
+	mEmitter->death();
 }
 
 void Explosion::setPos(const Vector3 & pos)

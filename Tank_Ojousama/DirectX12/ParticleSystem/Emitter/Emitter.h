@@ -35,6 +35,8 @@ public:
 	void setIsGo();
 	void setStop();
 
+	void death();
+
 private:
 	void add();
 
@@ -62,6 +64,8 @@ private:
 	AmountOfChangeInParticles mAOCIP;//変化量
 	ParticleRandomState mPRS;//ランダム性
 	ParticleRotateState mPS;//パーティクルの回転用
+
+	bool isDeath;
 
 	Timer* mTimer;
 	Compute* mCompute;

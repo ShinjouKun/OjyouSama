@@ -18,6 +18,7 @@ Emitter::Emitter(const Vector3& pos, const ParticleSystems& ps, const Burst& bur
 	mAOCIP(),
 	mPRS(),
 	mPS(),
+	isDeath(false),
 	mTimer(new Timer()),
 	mCompute(new Compute(texName))
 {
@@ -53,6 +54,10 @@ void Emitter::update()
 
 	mTimer->update();
 	if (mTimer->isTime() && !mParticleSystems.Looping)
+	{
+		mEnd = true;
+	}
+	if (mTimer->isTime() && isDeath)
 	{
 		mEnd = true;
 	}
@@ -183,6 +188,11 @@ void Emitter::setStop()
 {
 	mStop = true;
 	mIsGo = false;
+}
+
+void Emitter::death()
+{
+	isDeath = true;
 }
 
 void Emitter::add()

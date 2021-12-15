@@ -33,6 +33,7 @@ TankTrajectory::TankTrajectory(const Vector3 & pos, bool looping)
 
 TankTrajectory::~TankTrajectory()
 {
+	mEmitter->death();
 }
 
 void TankTrajectory::setPos(const Vector3 & pos)
