@@ -46,11 +46,6 @@ void Compute::finalize()
 	mParticlePipe->Release();
 	mParticleDrawRoot->Release();
 	mParticleDrawPipe->Release();
-
-	//mCMDList->Release();
-	//mCMDAllo->Release();
-	//mCQueue->Release();
-
 }
 
 void Compute::init()

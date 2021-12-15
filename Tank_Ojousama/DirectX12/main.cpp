@@ -197,6 +197,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/X.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Ground_Black.png");
 
+	//ï∂éö
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/syuurihi.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/kakutokuhi.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/kakutoku.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/dannyakuhi.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/gunnsikinn.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/en.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/goukei.png");
 	//Ç®ïÛ
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs_huta.obj");
@@ -371,8 +379,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//ÉVÅ[Éì
 	mScene = std::make_unique<SceneManager>(sprite, model, paricle);
-	std::vector<string> buys(9,"nonBuy");
 	TextEditor* text = new TextEditor();
+	std::vector<string> state(4, "0");
+	state[0] = "Normal";
+	state[1] = "Light";
+	state[2] = "Light_b";
+	state[3] = "Cannon";
+	text->Write("Resouse/ModelState.txt", state);
+
+	std::vector<string> buys(9,"nonBuy");
+	
 	text->Write("Resouse/BuysState.txt", buys);
 
 	//êîéöä÷òA

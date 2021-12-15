@@ -24,10 +24,8 @@ void GameOver::StartScene()
 	objM = new ObjectManager();
 	objM->Claer();
 	posePos = Vector3(0, 0, 0);
+	BaseScene::mSprite->AddTexture("Shuri", "Resouse/syuurihi.png");
 	BaseScene::mSprite->AddTexture("GOver", "Resouse/gameover.png");
-
-	//BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
-	//BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/Ground_Black.png");
 	selectbackPos = Vector3(180, 180, 0);
@@ -62,20 +60,24 @@ void GameOver::UpdateScene()
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
 	time += 1;
-	//if (selectposition.x <= 0)
-	//{
-	//	selectposition.x = 820;
-	//}
-	//if (selectposition.x > 820)
-	//{
-	//	selectposition.x = 180;
-	//}
 
 	if (!mTimer->isTime()) return;
-	if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+	if (BaseScene::mMoney <= 0)
 	{
-		NextScene(std::make_shared<Select>());
+		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+		{
+			NextScene(std::make_shared<Title>());
+		}
 	}
+	else
+	{
+		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+		{
+			NextScene(std::make_shared<Select>());
+		}
+	}
+	
+	
 }
 
 void GameOver::DrawScene()
@@ -88,7 +90,16 @@ void GameOver::DrawScene()
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
-	BaseScene::mSprite->Draw("GOver", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	if (BaseScene::mMoney <= 0)
+	{
+		BaseScene::mSprite->Draw("GOver", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	}
+	else
+	{
+		BaseScene::mSprite->Draw("GOver", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		Sequence::instance().set(500000, Vector2(600, 50), Vector2(64, 64));
+		BaseScene::mSprite->Draw("Shuri", Vector3(200, 30, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+	}
 	if (!mParticleTimer->isTime()) return;
 	ParticleBox->EmitterUpdate("Bom", Vector3(-pos - 6, 0, 1), Vector3(0, 0, 0));
 	mParticleTimer->setTime(0.1f);

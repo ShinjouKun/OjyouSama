@@ -80,7 +80,7 @@ void Treasure::OnCollison(BaseCollider * col)
 {
 	if (!get&&col->GetColObject()->GetType() == ObjectType::PLAYER)
 	{
-		BaseScene::mMoney += 500000;
+		BaseScene::mPlusMoney += 500000;
 		get = true;
 	}
 }

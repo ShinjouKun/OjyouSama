@@ -19,6 +19,7 @@ Result::~Result()
 
 void Result::StartScene()
 {
+
 	objM = new ObjectManager();
 	objM->Claer();
 	posePos = Vector3(0, 0, 0);
@@ -27,7 +28,10 @@ void Result::StartScene()
 	BaseScene::mSprite->AddTexture("SBack", "Resouse/selectback.png");
 	BaseScene::mSprite->AddTexture("OptionP", "Resouse/option.png");
 	BaseScene::mSprite->AddTexture("Ritorai", "Resouse/ritorai.png");
-	//BaseScene::mSprite->AddTexture("Kakutoku", "Resouse/kakutoku.png");
+	//‹à
+	BaseScene::mSprite->AddTexture("Kakutoku", "Resouse/kakutokuhi.png");
+	BaseScene::mSprite->AddTexture("Danyaku", "Resouse/dannyakuhi.png");
+	BaseScene::mSprite->AddTexture("Goukei", "Resouse/goukei.png");
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
 	selectbackPos = Vector3(180, 180, 0);
@@ -57,9 +61,9 @@ void Result::StartScene()
 	ojyouXL = 7;
 	angle = 0;
 	zensin = 0;
-
+	mMoney_PM = BaseScene::mPlusMoney - BaseScene::mMinusMoney;
 	mTimer = std::make_shared<Timer>(0.01f);
-	//BaseScene::mMoney += 20000000;
+	BaseScene::mMoney = (BaseScene::mMoney + BaseScene::mPlusMoney) - BaseScene::mMinusMoney;
 }
 
 void Result::UpdateScene()
@@ -143,17 +147,21 @@ void Result::DrawScene()
 	DirectXManager::GetInstance()->SetData2D();
 	if (time >= 120)
 	{
+	
 		zensin += 1.0f;
-		//Sequence::instance().set(20000000, Vector2(70, 480), Vector2(64, 64));
 		ojyouZ += 0.1f;
-		//BaseScene::mSprite->Draw("Pose", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("SBack", selectbackPos, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("Ritorai", Vector3(820, 180, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("SelectAim", selectposition, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		//BaseScene::mSprite->Draw("Kakutoku", Vector3(0,0,0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}
 	else
 	{
+		Sequence::instance().set(BaseScene::mPlusMoney, Vector2(600, 110), Vector2(64, 64));
+		BaseScene::mSprite->Draw("Kakutoku", Vector3(200,100,0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		Sequence::instance().set(BaseScene::mMinusMoney, Vector2(600, 310), Vector2(64, 64));
+		BaseScene::mSprite->Draw("Danyaku", Vector3(200, 300, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		Sequence::instance().set(mMoney_PM, Vector2(600, 510), Vector2(64, 64));
+		BaseScene::mSprite->Draw("Goukei", Vector3(200, 500, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		angle += 1.5f;
 	}
 }

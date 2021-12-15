@@ -9,6 +9,8 @@
 #include"Opening.h"
 #include "Defense.h"
 #include "GameClear.h"
+#include"GameOver.h"
+#include"Result.h"
 #include "../Collision/Collision.h"
 #include "../Device/Input.h"
 #include "../Sound/Sound.h"
@@ -79,8 +81,20 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("SentakuClear2", "Resouse/map_2_clear.png");
 	BaseScene::mSprite->AddTexture("SentakuClear3", "Resouse/map_3_clear.png");
 	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
-
+	BaseScene::mSprite->AddTexture("En", "Resouse/en.png");
+	BaseScene::mSprite->AddTexture("Gunsikin", "Resouse/gunnsikinn.png");
 	BaseScene::mSprite->AddTexture("test", "Resouse/testend.png");
+
+	BaseScene::mSprite->SetSize("Sentaku", Vector2(1280, 720));
+	BaseScene::mSprite->SetSize("SentakuClear1", Vector2(1280, 720));
+	BaseScene::mSprite->SetSize("SentakuClear2", Vector2(1280, 720));
+	BaseScene::mSprite->SetSize("SentakuClear3", Vector2(1280, 720));
+	BaseScene::mSprite->SetSize("flower1", Vector2(64, 64));
+	BaseScene::mSprite->SetSize("flower2", Vector2(64, 64));
+	BaseScene::mSprite->SetSize("flower3", Vector2(64, 64));
+	BaseScene::mSprite->SetSize("flower4", Vector2(64, 64));
+	BaseScene::mSprite->SetSize("En", Vector2(36, 52));
+	BaseScene::mSprite->SetSize("Gunsikin", Vector2(640, 52));
 
 	mSound = std::make_shared<Sound>("BGM/loop_157.mp3", false);
 	mSE = std::make_shared<Sound>("SE/SelectSE.mp3", false);
@@ -94,7 +108,7 @@ void Select::StartScene()
 
 void Select::UpdateScene()
 {
-	Sequence::instance().set(BaseScene::mMoney, Vector2(0, 0), Vector2(32, 32));
+	
 	if (BaseScene::mMoney <= 0)
 	{
 
@@ -139,14 +153,6 @@ void Select::UpdateScene()
 	setumeiDefFlag = false;
 	setumeiRobFlag = false;
 	setumei = Vector3(position.x + 32, position.y - 128, position.z);
-	//b = g->GetA();
-	//ImGui::Begin("conf");
-	//ImGui::SliderFloat("slider",&camerapos.x , 0.0f, 360.0f);
-	//ImGui::SliderFloat("slider",&camerapos.y , 0.0f, 360.0f);
-	//ImGui::SliderFloat("slider",&camerapos.z , 0.0f, 360.0f);
-	//ImGui::SliderInt("Money",&BaseScene::mMoney ,0,1000000000);
-	//ImGui::Checkbox("selectflag",&selectFlag);
-	//ImGui::End();
 #pragma region セレクト画面の選択
 
 
@@ -216,7 +222,7 @@ void Select::UpdateScene()
 			SelectAlfa5 = 0.5f;
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
-				//NextScene(std::make_shared<GameClear>());
+				//NextScene(std::make_shared<GameOver>());
 				NextScene(std::make_shared<Garage>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
@@ -261,7 +267,6 @@ void Select::UpdateScene()
 			{
 				fadeF1 = true;
 				mDecisionSE->play();
-				//cameramoveFlag = true;
 			}
 		}
 		if (position.x >= targetPos2.x && position.x <= targetPos2.x + 64 && position.y >= targetPos2.y  && position.y <= targetPos2.y + 64)
@@ -309,8 +314,6 @@ void Select::UpdateScene()
 
 #pragma region カーソルキー処理
 
-
-
 		//AIM用キー処理
 		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
@@ -341,7 +344,6 @@ void Select::UpdateScene()
 		setcamerapos.y -= 2;
 		if (setcamerapos.z < camerapos.z)
 		{
-			//camerapos = Vector3(150, 150, 150);
 			NextScene(std::make_shared<GamePlay>());
 		}
 	}
@@ -349,20 +351,12 @@ void Select::UpdateScene()
 
 void Select::DrawScene()
 {
-	//DirectXManager::GetInstance()->SetData3D();
-	//BaseScene::mModel->Draw("Sora", Vector3(0, 2.0f, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
+	
 	DirectXManager::GetInstance()->SetData2D();
-
-	BaseScene::mSprite->SetSize("Sentaku", Vector2(1280, 720));
-	BaseScene::mSprite->SetSize("SentakuClear1", Vector2(1280, 720));
-	BaseScene::mSprite->SetSize("SentakuClear2", Vector2(1280, 720));
-	BaseScene::mSprite->SetSize("SentakuClear3", Vector2(1280, 720));
-	BaseScene::mSprite->SetSize("flower1", Vector2(64, 64));
-	BaseScene::mSprite->SetSize("flower2", Vector2(64, 64));
-	BaseScene::mSprite->SetSize("flower3", Vector2(64, 64));
-	BaseScene::mSprite->SetSize("flower4", Vector2(64, 64));
+	
 	BaseScene::mSprite->Draw("Sentaku", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("target", targetPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+	
 	if (!BaseScene::mStageFlag1)
 	{
 		BaseScene::mSprite->Draw("target2", targetPos2, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 0.5f));
@@ -425,5 +419,8 @@ void Select::DrawScene()
 	{
 		BaseScene::mSprite->Draw("SetumeiRob", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}
+	Sequence::instance().set(BaseScene::mMoney, Vector2(534, 20), Vector2(32, 32));
+	BaseScene::mSprite->Draw("En", Vector3(800, 8, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Gunsikin", Vector3(320, 12, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 }

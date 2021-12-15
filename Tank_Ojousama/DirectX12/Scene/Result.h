@@ -46,6 +46,6 @@ private:
 	float ojyouXL;
 	float angle;
 	float zensin;
-
+	int mMoney_PM;
 	std::shared_ptr<Timer> mTimer;
 };

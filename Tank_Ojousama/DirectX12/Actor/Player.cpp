@@ -68,10 +68,10 @@ void Player::StartCamScene()
 	case 4:
 		//ボス
 		//殲滅戦
-		position = Vector3(0, 0, -130);
-		sceneCamPos = Vector3(120, 80, -130);
-		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
-		camera->SetTarget(Vector3(0, 0, position.z));
+		position = Vector3(0, 0, 500);
+		sceneCamPos = Vector3(0, 15, 410);
+		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, sceneCamPos.z));
+		camera->SetTarget(Vector3(0, sceneCamPos.y, 400));
 		break;
 	default:
 		break;
@@ -162,27 +162,26 @@ void Player::SceneCamMove3()
 void Player::SceneCamMove4()
 {
 	BSS = true;
-	if (position.z >= 500)
+	if (sceneCamPos.z >= 500)
 	{
 		sceneCamPlayerOk = true;
-		if (sceneCamPos.x <= 0)
+		if (sceneCamPos.y <= 0)
 		{
 			BSS = false;
 			sceneCamOk = true;
 		}
 		else
 		{
-			sceneCamPos.x -= 3.0f;
-			sceneCamPos.y -= 2.0f;
-			camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
-			camera->SetTarget(Vector3(0, 0, position.z));
+			sceneCamPos.y -= 1.0f;
+			camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, sceneCamPos.z));
+			camera->SetTarget(Vector3(0, sceneCamPos.y, 400.0f));
 		}
 	}
 	else
 	{
-		position.z += 4.0f;
-		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, position.z));
-		camera->SetTarget(Vector3(0, 0, position.z));
+		sceneCamPos.z += 0.7f;
+		camera->SetEye(Vector3(sceneCamPos.x, sceneCamPos.y, sceneCamPos.z));
+		camera->SetTarget(Vector3(0, sceneCamPos.y, 400.0f));
 	}
 }
 
@@ -285,7 +284,7 @@ void Player::SceneMoveBlock4()
 
 void Player::UseWeapon1()
 {
-	BaseScene::mMoney -= 10000;
+	BaseScene::mMinusMoney += 10000;
 	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 	shotFlag1 = true;
 
@@ -300,7 +299,8 @@ void Player::UseWeapon2()
 
 	if (modelChanger->GetWeaponState1() == WeaponsState::MachinGun)
 	{
-		BaseScene::mMoney -= 1000;
+		mMashingunSE->play();
+		BaseScene::mMinusMoney += 1000;
 		masingunShot = true;
 		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 		
@@ -311,12 +311,12 @@ void Player::UseWeapon2()
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::Mine)
 	{
-		BaseScene::mMoney -= 20000;
+		BaseScene::mMinusMoney += 20000;
 		objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::ShotGun)
 	{
-		BaseScene::mMoney -= 15000;
+		BaseScene::mMinusMoney += 15000;
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 1, UpDamage));
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock + 2, UpDamage));
@@ -403,7 +403,8 @@ void Player::Init()
 	mDamageSE01 = std::make_shared<Sound>("SE/Player_Damage01.mp3", false);
 	mDamageSE02 = std::make_shared<Sound>("SE/Player_Damage02.mp3", false);
 	mDeathSE = std::make_shared<Sound>("SE/Player_Death.mp3", false);
-	mMoveSE = std::make_shared<Sound>("SE/lab.mp3", false);
+	mMoveSE = std::make_shared<Sound>("SE/lab.wav", false);
+	mMashingunSE = std::make_shared<Sound>("SE/MachinGun02.wav", false);
 	mTimer = std::make_shared<Timer>();
 
 	//パーティクル初期化
@@ -485,7 +486,6 @@ void Player::Init()
 
 	item = new ItemHolder();
 	StartCamScene();//演出決定
-	//SetCollidder(Vector3(position.x, position.y, position.z), Vector3(2.0f,2.0f,2.0f));
 }
 
 void Player::Update()

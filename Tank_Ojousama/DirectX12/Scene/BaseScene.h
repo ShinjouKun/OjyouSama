@@ -29,6 +29,8 @@ public:
 	static float mMasterSoundVol;
 	static float mBGMSoundVol;
 	static float mSESoundVol;
+	static int mPlusMoney;//プレイ中に増した金
+	static int mMinusMoney;//プレイ中に減した金
 	static int mMoney;
 	static bool mStageFlag1;
 	static bool mStageFlag2;
