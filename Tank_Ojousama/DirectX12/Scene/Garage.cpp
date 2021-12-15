@@ -48,14 +48,19 @@ void Garage::StartScene()
 	BaseScene::mSprite->AddTexture("Garege", "Resouse/garege.jpg");
 	BaseScene::mSprite->AddTexture("Syata", "Resouse/syata.jpg");
 	BaseScene::mSprite->AddTexture("BackS", "Resouse/backselect.png");
-	BaseScene::mSprite->AddTexture("En", "Resouse/en.png");
+	
 	BaseScene::mSprite->AddTexture("sOjo", "Resouse/GaregeOjoSelect.png");
 	BaseScene::mSprite->AddTexture("sHead", "Resouse/GaregeHeadSelect.png");
 	BaseScene::mSprite->AddTexture("sBody", "Resouse/GaregeBodySelect.png");
 	BaseScene::mSprite->AddTexture("sWepon", "Resouse/GarageWeponSelect.png");
 	BaseScene::mSprite->AddTexture("GSelect", "Resouse/GarageSelect.png");
+	BaseScene::mSprite->AddTexture("En", "Resouse/en.png");
 	BaseScene::mSprite->SetSize("En", Vector2(36, 52));
+	BaseScene::mSprite->AddTexture("En2", "Resouse/en.png");
+	BaseScene::mSprite->SetSize("En2", Vector2(36, 52));
 	BaseScene::mSprite->AddTexture("NotBuy", "Resouse/mikounyu.png");
+	BaseScene::mSprite->AddTexture("Buy", "Resouse/kounyu.png");
+	BaseScene::mSprite->AddTexture("Husoku", "Resouse/husoku.png");
 	SentakuPos1 = Vector3((Window::Window_Width / 2) + 230, 250, 0);
 	SentakuPos2 = Vector3((Window::Window_Width / 2) - 230, 250 + 64,0);
 	SentakuPos3 = Vector3((Window::Window_Width / 2) + 230, 350,0);
@@ -74,8 +79,6 @@ void Garage::StartScene()
 	BaseScene::mModel->AddModel("TankPlayerE", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2_B.png");
 	BaseScene::mModel->AddModel("TankPlayerF", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2_B.png");
 
-	//BaseScene::mModel->AddModel("TankPlayerC","Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
-	//BaseScene::mModel->AddModel("TankPlayerD", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
 
 	BaseScene::mModel->AddModel("OjyouSama1", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
 	BaseScene::mModel->SetAncPoint("OjyouSama1", Vector3(0.0f, 0.0f, -0.1f));
@@ -114,6 +117,53 @@ void Garage::UpdateScene()
 		if (Input::getKeyDown(KeyCode::Y) || Input::getJoyDown(JoyCode::Y))
 		{
 			mChanger->Save();
+			switch (keyflag)
+			{
+			case 0:
+				if (mChanger->GetBuysNum(headNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+				break;
+			case 1:
+				if (mChanger->GetBuysNum(bodyNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+				break;
+			case 2:
+				if (mChanger->GetBuysNum(bottomNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+				break;
+			case 3:
+				if (mChanger->GetBuysNum(weaponNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+				break;
+			default:
+				break;
+			}
+		
+			mChanger->LoadBuys();
 		}
 		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 		{
@@ -138,6 +188,7 @@ void Garage::UpdateScene()
 			{
 				keyflag = 0;
 			}
+
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}
@@ -220,7 +271,7 @@ void Garage::UpdateScene()
 				weaponNum = 0;
 				break;
 			}
-			mChanger->LoadBuys();
+			
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}		
@@ -366,6 +417,7 @@ void Garage::DrawScene()
 	BaseScene::mSprite->Draw("Sentaku6", SentakuPos6, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa3));
 	BaseScene::mSprite->Draw("Sentaku7", SentakuPos7, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa4));
 	BaseScene::mSprite->Draw("Sentaku8", SentakuPos8, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa4));
+	BaseScene::mSprite->Draw("Buy", Vector3(30, 30, 0), 0.0f, Vector2(1,1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("BackS", Vector3(0,0,0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	if (keyflag == 0)
 	{
@@ -411,10 +463,12 @@ void Garage::DrawScene()
 			mChanger->ChangeHead(Normal);
 			break;
 		case 1:
+			Sequence::instance().set(2000000, Vector2(600,500), Vector2(32, 32));
 			BaseScene::mModel->Draw("OjyouSama_r", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeHead(Other02);
 			break;
 		case 2:
+			Sequence::instance().set(5000000, Vector2(600, 500), Vector2(32, 32));
 			BaseScene::mModel->Draw("OjyouSama2", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeHead(Other01);
 			break;
@@ -428,13 +482,14 @@ void Garage::DrawScene()
 		case 0:
 			BaseScene::mModel->Draw("TankPlayerA", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBody(Light);
-			//buy = false;
 			break;
 		case 1:
+			Sequence::instance().set(2000000, Vector2(600, 500), Vector2(32, 32));
 			BaseScene::mModel->Draw("TankPlayerE", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBody(Midium);
 			break;
 		case 2:
+			Sequence::instance().set(5000000, Vector2(600, 500), Vector2(32, 32));
 			BaseScene::mModel->Draw("TankPlayerC", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBody(Heavy);
 			break;
@@ -448,13 +503,14 @@ void Garage::DrawScene()
 		case 0:
 			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBottom(Light_b);
-			//buy = false;
 			break;
 		case 1:
+			Sequence::instance().set(2000000, Vector2(600, 500), Vector2(32, 32));
 			BaseScene::mModel->Draw("TankPlayerF", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBottom(Midium_b);
 			break;
 		case 2:
+			Sequence::instance().set(5000000, Vector2(600, 500), Vector2(32, 32));
 			BaseScene::mModel->Draw("TankPlayerD", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBottom(Heavy_b);
 			break;
@@ -469,9 +525,11 @@ void Garage::DrawScene()
 			mChanger->ChangeWeapons1(MachinGun);
 			break;
 		case 1:
+			Sequence::instance().set(2000000, Vector2(600, 500), Vector2(32, 32));
 			mChanger->ChangeWeapons1(Mine);
 			break;
 		case 2:
+			Sequence::instance().set(500000, Vector2(600, 500), Vector2(32, 32));
 			mChanger->ChangeWeapons1(ShotGun);
 			break;
 		default:
@@ -481,12 +539,13 @@ void Garage::DrawScene()
 	}
 	DirectXManager::GetInstance()->SetData2D();
 
-	Sequence::instance().set(BaseScene::mMoney, Vector2(564, 50), Vector2(32, 32));
-	BaseScene::mSprite->Draw("En", Vector3(525, 38, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("Gunsikin", Vector3(320, 42, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	Sequence::instance().set(BaseScene::mMoney, Vector2(564, 70), Vector2(32, 32));
+	BaseScene::mSprite->Draw("En", Vector3(525, 58, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Gunsikin", Vector3(320, 62, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	if (buy)
 	{
 		BaseScene::mSprite->Draw("NotBuy", Vector3(450, 250, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("En2", Vector3(550, 490, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 	objM->Draw();
 }

@@ -209,6 +209,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/plus.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/sinend.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/mikounyu.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/husoku.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/kounyu.png");
 	//‚¨•ó
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs_huta.obj");
