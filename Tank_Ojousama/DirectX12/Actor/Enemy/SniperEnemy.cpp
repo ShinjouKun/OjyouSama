@@ -85,13 +85,13 @@ void SniperEnemy::EnemyInit()
 	mDeathTime = std::make_shared<Timer>();
 	mDeathTime->setTime(1.0f);
 
-	////ダメージ用パーティクル
-	//mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
-	//mDamageParticle->Stop();
+	//ダメージ用パーティクル
+	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
+	mDamageParticle->Stop();
 
-	////死亡用エフェクト
-	//mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
-	//mDeathParticle->Stop();
+	//死亡用エフェクト
+	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	mDeathParticle->Stop();
 
 #pragma region モデルの読み込み
 
@@ -174,9 +174,9 @@ void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 
-		////パーティクル発射
-		//mDamageParticle->setPos(Vector3(position.x, position.y + 5.0f, position.z));
-		//mDamageParticle->Play();
+		//パーティクル発射
+		mDamageParticle->setPos(Vector3(position.x, position.y + 5.0f, position.z));
+		mDamageParticle->Play();
 
 		/*報告*/
 		InitSearch();
@@ -309,9 +309,9 @@ void SniperEnemy::DeathAnimeStep_RiseSky()
 	{
 		//時間になったら(1フレームだけ呼ばれる)
 
-		////パーティクル発射
-		//mDeathParticle->setPos(position);
-		//mDeathParticle->Play();
+		//パーティクル発射
+		mDeathParticle->setPos(position);
+		mDeathParticle->Play();
 		//SE発射
 		mDeathSE->setPos(position);
 		mDeathSE->play();

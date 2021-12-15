@@ -77,9 +77,9 @@ void SummonEnemy::Init()
 	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
 	mDamageParticle->Stop();
 
-	////死亡用エフェクト
-	//mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
-	//mDeathParticle->Stop();
+	//死亡用エフェクト
+	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	mDeathParticle->Stop();
 
 	//モデル読み込み
 	mMyNumber = to_string(number);
@@ -343,9 +343,9 @@ void SummonEnemy::DeathAnimeStep_RiseSky()
 		mDeathSE->setPos(position);
 		mDeathSE->play();
 
-		////パーティクル発射
-		//mDeathParticle->setPos(position);
-		//mDeathParticle->Play();
+		//パーティクル発射
+		mDeathParticle->setPos(position);
+		mDeathParticle->Play();
 
 		mDeathStep = DeathAnimationStep::EXPLOSION;
 	}

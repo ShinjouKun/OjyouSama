@@ -1,7 +1,7 @@
 #include "MortarEnemy.h"
 #include "../../Weapons/LaunchBullet.h"
 #include "../../Utility/Random.h"
-#include"../../Scene/BaseScene.h"
+#include "../../Scene/BaseScene.h"
 #include "../../ParticleSystem/ParticleType/Explosion.h"
 #include "../../ParticleSystem/ParticleType/Hit.h"
 
