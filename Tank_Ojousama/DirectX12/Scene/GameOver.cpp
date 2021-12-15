@@ -8,6 +8,7 @@
 #include "../Sound/Sound.h"
 #include "../Utility/Timer/Timer.h"
 #include"../Utility/Sequence/Sequence.h"
+#include "../ParticleSystem/ParticleType/BlackSmoke.h"
 
 GameOver::GameOver()
 	:mSound(nullptr)
@@ -50,6 +51,8 @@ void GameOver::StartScene()
 	mParticleTimer = std::make_shared<Timer>(0.01f);
 
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
+
+	mHit = std::make_shared<BlackSmoke>(Vector3(-pos - 6, 0, 1), true);
 }
 
 void GameOver::UpdateScene()

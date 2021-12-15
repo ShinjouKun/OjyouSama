@@ -12,6 +12,8 @@
 
 class Sound;
 class Timer;
+class BlackSmoke;
+
 class GameOver :public BaseScene
 {
 public:
@@ -48,4 +50,5 @@ private:
 	std::shared_ptr<Timer> mTimer;
 	std::shared_ptr<Timer> mParticleTimer;
 	std::shared_ptr<ParticleEmitterBox>ParticleBox;
+	std::shared_ptr<BlackSmoke> mHit;
 };
