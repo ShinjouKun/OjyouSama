@@ -6,8 +6,8 @@ ModelChanger::ModelChanger()
 	modelKey.clear();
 	state.resize(4);
 	modelKey.resize(5);
-	buys.clear();
-	buys.resize(9);
+	//buys.clear();
+	buys.resize(12);
 }
 
 ModelChanger::~ModelChanger()
@@ -239,20 +239,21 @@ void ModelChanger::Save()
 	{
 	case Normal:
 		state[0] = "Normal";
+		buys[0] = 1;
 		break;
 	case Other01:
 		state[0] = "Other01";
 		
-		if (buys[1] == "nonBuy"&&BaseScene::mMoney >= 0)
+		if (buys[2] == "nonBuy"&&BaseScene::mMoney >= 0)
 		{
-			buys[1] = 1;
+			buys[2] = 1;
 			BaseScene::mMoney -= 5000000;
 		}
 		break;
 	case Other02:
-		if (buys[0] == "nonBuy" && BaseScene::mMoney >= 0)
+		if (buys[1] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
-			buys[0] = 1;
+			buys[1] = 1;
 			BaseScene::mMoney -= 2000000;
 		}
 		state[0] = "Other02";
@@ -266,19 +267,20 @@ void ModelChanger::Save()
 	{
 	case Light:
 		state[1] = "Light";
+		buys[3] = 1;
 		break;
 	case Midium:
-		if (buys[2] == "nonBuy" && BaseScene::mMoney >= 0)
+		if (buys[4] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
-			buys[2] = 1;
+			buys[4] = 1;
 			BaseScene::mMoney -= 2000000;
 		}
 		state[1] = "Midium";
 		break;
 	case Heavy:
-		if (buys[3] == "nonBuy"&& BaseScene::mMoney >= 0)
+		if (buys[5] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
-			buys[3] = 1;
+			buys[5] = 1;
 			BaseScene::mMoney -= 5000000;
 		}
 		state[1] = "Heavy";
@@ -291,22 +293,23 @@ void ModelChanger::Save()
 	switch (bottom)
 	{
 	case Light_b:
+		buys[6] = 1;
 		state[2] = "Light_b";
 		
 		break;
 	case Midium_b:
-		if (buys[4] == "nonBuy"&& BaseScene::mMoney >= 0)
+		if (buys[7] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
-			buys[4] = 1;
+			buys[7] = 1;
 			BaseScene::mMoney -= 2000000;
 		}
 		state[2] = "Midium_b";
 	
 		break;
 	case Heavy_b:
-		if (buys[5] == "nonBuy"&& BaseScene::mMoney >= 0)
+		if (buys[8] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
-			buys[5] = 1;
+			buys[8] = 1;
 			BaseScene::mMoney -= 5000000;
 		}
 		state[2] = "Heavy_b";
@@ -323,25 +326,25 @@ void ModelChanger::Save()
 		state[3] = "Cannon";
 		break;
 	case MachinGun:
-		if (buys[6] == "nonBuy" && BaseScene::mMoney >= 0)
+		if (buys[9] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
-			buys[6] = 1;
+			buys[9] = 1;
 			BaseScene::mMoney -= 1000000;
 		}
 		state[3] = "MachinGun";
 		break;
 	case ShotGun:
-		if (buys[7] == "nonBuy" && BaseScene::mMoney >= 0)
+		if (buys[10] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
-			buys[7] = 1;
+			buys[10] = 1;
 			BaseScene::mMoney -= 500000;
 		}
 		state[3] = "ShotGun";
 		break;
 	case Mine:
-		if (buys[8] == "nonBuy" && BaseScene::mMoney >= 0)
+		if (buys[11] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
-			buys[8] = 1;
+			buys[11] = 1;
 			BaseScene::mMoney -= 2000000;
 		}
 		state[3] = "Mine";
@@ -359,7 +362,7 @@ void ModelChanger::Save()
 	state.clear();
 	state.resize(4);
 	buys.clear();
-	buys.resize(9);
+	buys.resize(12);
 
 }
 
@@ -420,4 +423,11 @@ void ModelChanger::SetBuysNum(string buy)
 string ModelChanger::GetBuysNum(int buy)
 {
 	return buys[buy];
+}
+
+void ModelChanger::LoadBuys()
+{
+	buys.clear();
+	editor->Read("Resouse/BuysState.txt", buys);
+
 }

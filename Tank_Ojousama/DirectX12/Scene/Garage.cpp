@@ -3,6 +3,7 @@
 #include"Title.h"
 #include "../Sound/Sound.h"
 #include "../Utility/Timer/Timer.h"
+#include"../Utility/Sequence/Sequence.h"
 
 Garage::Garage()
 	:mSound(nullptr) , mBGM(nullptr)
@@ -18,6 +19,7 @@ void Garage::StartScene()
 {
 	
 	fade = 0;
+	buy = false;
 	fadeF = false;
 	fadeFB = false;
 	SAlfa1 = 0.5f;
@@ -46,13 +48,14 @@ void Garage::StartScene()
 	BaseScene::mSprite->AddTexture("Garege", "Resouse/garege.jpg");
 	BaseScene::mSprite->AddTexture("Syata", "Resouse/syata.jpg");
 	BaseScene::mSprite->AddTexture("BackS", "Resouse/backselect.png");
-
+	BaseScene::mSprite->AddTexture("En", "Resouse/en.png");
 	BaseScene::mSprite->AddTexture("sOjo", "Resouse/GaregeOjoSelect.png");
 	BaseScene::mSprite->AddTexture("sHead", "Resouse/GaregeHeadSelect.png");
 	BaseScene::mSprite->AddTexture("sBody", "Resouse/GaregeBodySelect.png");
 	BaseScene::mSprite->AddTexture("sWepon", "Resouse/GarageWeponSelect.png");
 	BaseScene::mSprite->AddTexture("GSelect", "Resouse/GarageSelect.png");
-
+	BaseScene::mSprite->SetSize("En", Vector2(36, 52));
+	BaseScene::mSprite->AddTexture("NotBuy", "Resouse/mikounyu.png");
 	SentakuPos1 = Vector3((Window::Window_Width / 2) + 230, 250, 0);
 	SentakuPos2 = Vector3((Window::Window_Width / 2) - 230, 250 + 64,0);
 	SentakuPos3 = Vector3((Window::Window_Width / 2) + 230, 350,0);
@@ -97,6 +100,7 @@ void Garage::StartScene()
 
 	mSE = std::make_shared<Sound>("SE/SelectSE.mp3", false);
 	mSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	mChanger->LoadBuys();
 }
 
 void Garage::UpdateScene()
@@ -105,40 +109,12 @@ void Garage::UpdateScene()
 	mTimer->update();
 
 	if (!mTimer->isTime()) return;
-	if (keyflag < 0)
-	{
-		keyflag = 3;
-	}
-	if (keyflag > 3)
-	{
-		keyflag = 0;
-	}
-	if (headNum < 0)
-	{
-		headNum = 2;
-	}
-	if (headNum > 2)
-	{
-		headNum = 0;
-	}
-	if (bodyNum < 0)
-	{	
-		bodyNum = 2;
-	}	
-	if (bodyNum > 2)
-	{	
-		bodyNum = 0;
-	}
-	if (bottomNum < 0)
-	{
-		bottomNum = 2;
-	}
-	if (bottomNum > 2)
-	{
-		bottomNum = 0;
-	}
 	if (fadeF)
 	{
+		if (Input::getKeyDown(KeyCode::Y) || Input::getJoyDown(JoyCode::Y))
+		{
+			mChanger->Save();
+		}
 		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 		{
 			fadeFB = true;
@@ -148,12 +124,20 @@ void Garage::UpdateScene()
 		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
 			keyflag -= 1;
+			if (keyflag < 0)
+			{
+				keyflag = 3;
+			}
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}		
 		if (Input::getKey(KeyCode::S) || Input::joyVertical() < 0)
 		{
 			keyflag += 1;
+			if (keyflag > 3)
+			{
+				keyflag = 0;
+			}
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}
@@ -163,24 +147,80 @@ void Garage::UpdateScene()
 			{
 			case 0:
 				headNum += 1;
+				if (headNum > 2)
+				{
+					headNum = 0;
+				}
+				if (mChanger->GetBuysNum(headNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+				
 				break;
 			case 1:
 				bodyNum += 1;
+				
+				if (bodyNum > 2)
+				{
+					bodyNum = 0;
+				}
+				if (mChanger->GetBuysNum(bodyNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+				
 				break;
 			case 2:
 				bottomNum += 1;
+				if (bottomNum > 2)
+				{
+					bottomNum = 0;
+				}
+	
+				if (mChanger->GetBuysNum(bottomNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+			
 				break;
 			case 3:
 				weaponNum += 1;
+				if (weaponNum > 2)
+				{
+					weaponNum = 0;
+				}
+				if (mChanger->GetBuysNum(weaponNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+			
 				gSelect += 95;
 				break;
 			default:
+				buy = false;
 				headNum = 0;
 				bodyNum = 0;
 				bottomNum = 0;
 				weaponNum = 0;
 				break;
 			}
+			mChanger->LoadBuys();
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}		
@@ -190,18 +230,71 @@ void Garage::UpdateScene()
 			{
 			case 0:
 				headNum -= 1;
+				if (headNum < 0)
+				{
+					headNum = 2;
+				}
+				if (mChanger->GetBuysNum(headNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+			
 				break;
 			case 1:
 				bodyNum -= 1;
+				if (bodyNum < 0)
+				{
+					bodyNum = 2;
+				}
+				if (mChanger->GetBuysNum(bodyNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+			
 				break;
 			case 2:
 				bottomNum -= 1;
+				if (bottomNum < 0)
+				{
+					bottomNum = 2;
+				}
+				if (mChanger->GetBuysNum(bottomNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+			
 				break;
 			case 3:
 				weaponNum -= 1;
+				if (weaponNum < 0)
+				{
+					weaponNum = 2;
+				}
+				if (mChanger->GetBuysNum(weaponNum) == "nonBuy")
+				{
+					buy = true;
+				}
+				else
+				{
+					buy = false;
+				}
+			
 				gSelect -= 95;
 				break;
 			default:
+				buy = false;
 				headNum = 0;
 				bodyNum = 0;
 				bottomNum = 0;
@@ -305,11 +398,12 @@ void Garage::DrawScene()
 	}
 		BaseScene::mSprite->SetSize("Syata", Vector2(1280, 720));
 		BaseScene::mSprite->Draw("Syata", Vector3(0, fade, 0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-	
+		
 	DirectXManager::GetInstance()->SetData3D();
 	if (fadeF)
 	{
 		if (fadeFB) return;
+		
 		switch (headNum)
 		{
 		case 0:
@@ -334,6 +428,7 @@ void Garage::DrawScene()
 		case 0:
 			BaseScene::mModel->Draw("TankPlayerA", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBody(Light);
+			//buy = false;
 			break;
 		case 1:
 			BaseScene::mModel->Draw("TankPlayerE", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
@@ -353,6 +448,7 @@ void Garage::DrawScene()
 		case 0:
 			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			mChanger->ChangeBottom(Light_b);
+			//buy = false;
 			break;
 		case 1:
 			BaseScene::mModel->Draw("TankPlayerF", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
@@ -382,6 +478,15 @@ void Garage::DrawScene()
 			mChanger->ChangeWeapons1(MachinGun);
 			break;
 		}
+	}
+	DirectXManager::GetInstance()->SetData2D();
+
+	Sequence::instance().set(BaseScene::mMoney, Vector2(564, 50), Vector2(32, 32));
+	BaseScene::mSprite->Draw("En", Vector3(525, 38, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Gunsikin", Vector3(320, 42, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	if (buy)
+	{
+		BaseScene::mSprite->Draw("NotBuy", Vector3(450, 250, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 	objM->Draw();
 }

@@ -222,7 +222,7 @@ void Select::UpdateScene()
 			SelectAlfa5 = 0.5f;
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
-				//NextScene(std::make_shared<GameOver>());
+				//NextScene(std::make_shared<Result>());
 				NextScene(std::make_shared<Garage>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
@@ -419,8 +419,8 @@ void Select::DrawScene()
 	{
 		BaseScene::mSprite->Draw("SetumeiRob", setumei, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}
-	Sequence::instance().set(BaseScene::mMoney, Vector2(534, 20), Vector2(32, 32));
-	BaseScene::mSprite->Draw("En", Vector3(800, 8, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	Sequence::instance().set(BaseScene::mMoney, Vector2(564, 20), Vector2(32, 32));
+	BaseScene::mSprite->Draw("En", Vector3(525, 8, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Gunsikin", Vector3(320, 12, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 }

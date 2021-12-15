@@ -29,6 +29,13 @@ void Result::StartScene()
 	BaseScene::mSprite->AddTexture("OptionP", "Resouse/option.png");
 	BaseScene::mSprite->AddTexture("Ritorai", "Resouse/ritorai.png");
 	//‹à
+	BaseScene::mSprite->AddTexture("Plus", "Resouse/plus.png");
+	BaseScene::mSprite->AddTexture("Minus", "Resouse/minus.png");
+	BaseScene::mSprite->AddTexture("Plus2", "Resouse/plus.png");
+	BaseScene::mSprite->AddTexture("Minus2", "Resouse/minus.png");
+	BaseScene::mSprite->AddTexture("Gunsikin", "Resouse/gunnsikinn.png");
+	BaseScene::mSprite->SetSize("Gunsikin", Vector2(640, 52));
+
 	BaseScene::mSprite->AddTexture("Kakutoku", "Resouse/kakutokuhi.png");
 	BaseScene::mSprite->AddTexture("Danyaku", "Resouse/dannyakuhi.png");
 	BaseScene::mSprite->AddTexture("Goukei", "Resouse/goukei.png");
@@ -156,11 +163,21 @@ void Result::DrawScene()
 	}
 	else
 	{
-		Sequence::instance().set(BaseScene::mPlusMoney, Vector2(600, 110), Vector2(64, 64));
+		Sequence::instance().set(BaseScene::mPlusMoney, Vector2(680, 115), Vector2(64, 64));
+		BaseScene::mSprite->Draw("Plus", Vector3(600, 100, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("Kakutoku", Vector3(200,100,0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		Sequence::instance().set(BaseScene::mMinusMoney, Vector2(600, 310), Vector2(64, 64));
+		Sequence::instance().set(BaseScene::mMinusMoney, Vector2(680, 315), Vector2(64, 64));
+		BaseScene::mSprite->Draw("Minus", Vector3(600, 300, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("Danyaku", Vector3(200, 300, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		Sequence::instance().set(mMoney_PM, Vector2(600, 510), Vector2(64, 64));
+		if (mMoney_PM < 0)
+		{
+			BaseScene::mSprite->Draw("Minus2", Vector3(500, 500, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		}
+		else
+		{
+			BaseScene::mSprite->Draw("Plus2", Vector3(500, 500, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		}
+		Sequence::instance().set(mMoney_PM, Vector2(600, 515), Vector2(64, 64));
 		BaseScene::mSprite->Draw("Goukei", Vector3(200, 500, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		angle += 1.5f;
 	}

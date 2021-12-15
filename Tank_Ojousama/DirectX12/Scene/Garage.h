@@ -46,7 +46,7 @@ private:
 	int bottomNum;
 	int weaponNum;
 	float gSelect;
-
+	bool buy = false;
 	Camera* camera;
 	Vector3 camerapos = Vector3(0, 0, 0);
 	Vector3 setcamerapos = Vector3(10, 0, 10);

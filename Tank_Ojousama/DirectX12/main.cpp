@@ -205,6 +205,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/gunnsikinn.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/en.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/goukei.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/minus.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/plus.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/sinend.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/mikounyu.png");
 	//‚¨•ó
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boxs_huta.obj");
@@ -387,8 +391,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	state[3] = "Cannon";
 	text->Write("Resouse/ModelState.txt", state);
 
-	std::vector<string> buys(9,"nonBuy");
-	
+	std::vector<string> buys(12,"nonBuy");
+	buys[0] = "Buy";
+	buys[3] = "Buy";
+	buys[6] = "Buy";
 	text->Write("Resouse/BuysState.txt", buys);
 
 	//”šŠÖ˜A

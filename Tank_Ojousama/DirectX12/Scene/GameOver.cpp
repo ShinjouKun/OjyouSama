@@ -26,6 +26,7 @@ void GameOver::StartScene()
 	posePos = Vector3(0, 0, 0);
 	BaseScene::mSprite->AddTexture("Shuri", "Resouse/syuurihi.png");
 	BaseScene::mSprite->AddTexture("GOver", "Resouse/gameover.png");
+	BaseScene::mSprite->AddTexture("GEOver", "Resouse/sinend.png");
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/Ground_Black.png");
 	selectbackPos = Vector3(180, 180, 0);
@@ -92,7 +93,7 @@ void GameOver::DrawScene()
 	DirectXManager::GetInstance()->SetData2D();
 	if (BaseScene::mMoney <= 0)
 	{
-		BaseScene::mSprite->Draw("GOver", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("GEOver", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 	}
 	else
 	{
