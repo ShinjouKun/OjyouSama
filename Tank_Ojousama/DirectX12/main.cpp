@@ -242,7 +242,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle.obj");
 	//Enemy
 	//Bullet
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/bullet.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Bullet.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/mine.obj");
 	//“Š‚°‚é—p‚ÌÎ
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/throw.obj");

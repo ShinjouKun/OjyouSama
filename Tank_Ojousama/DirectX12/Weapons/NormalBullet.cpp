@@ -25,7 +25,7 @@ void NormalBullet::Init()
 	name = "NormalBullet";
 	num = to_string(number);
 	numName = name + num;
-	BulletModel->AddModel(numName, "Resouse/bullet.obj", "Resouse/bullet.png");
+	BulletModel->AddModel(numName, "Resouse/Bullet.obj", "Resouse/Bullet.png");
 	//BulletParticleBox = make_shared<ParticleEmitterBox>(BulletParticle);
 	//BulletParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
 	alive = 0;

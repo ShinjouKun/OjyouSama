@@ -27,7 +27,7 @@ void MashinGun::Init()
 	name = "MashinGun";
 	num = to_string(number);
 	numName = name + num;
-	Model->AddModel(numName, "Resouse/bullet.obj", "Resouse/bullet.png");
+	Model->AddModel(numName, "Resouse/Bullet.obj", "Resouse/Bullet.png");
 	ParticleBox = make_shared<ParticleEmitterBox>(Particle);
 	ParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
 	alive = 0;
