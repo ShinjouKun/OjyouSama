@@ -114,7 +114,7 @@ void Emitter::update()
 			data.gravity = mParticleSystems.GravityModifier;
 			data.active = true;
 
-			mDataList.emplace_back(data);
+			mPendingDataList.emplace_back(data);
 			++size;
 		}
 	}
