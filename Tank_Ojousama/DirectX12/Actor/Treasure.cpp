@@ -3,6 +3,8 @@
 #include "../Collision/BaseCollider.h"
 #include"../Scene/BaseScene.h"
 #include"../Utility/Sequence/Sequence.h"
+#include"../Sound/Sound.h"
+
 Treasure::Treasure(const Vector3 & pos, const Vector3 & ang, ObjectManager * objManager, std::shared_ptr<ModelRenderer> modelRender,int s)
 	:mModelRender(modelRender)
 {
@@ -31,10 +33,9 @@ void Treasure::Init()
 	{
 		scale = Vector3(3.0f, 3.0f, 3.0f);//‹­’D—p
 	}
-
+	mgetSE = std::make_shared<Sound>("SE/getmoney.mp3", false);
 	mModelRender->AddModel("Treasure","Resouse/boxs.obj","Resouse/boxs.png");
 	mModelRender->AddModel("TreasureHuta","Resouse/boxs_huta.obj","Resouse/boxs.png");
-	//mModelRender->SetAncPoint("TreasureHuta", Vector3(0.0f, 1.0f, 0.7f));
 	numPos = Vector2(350, 250);
 	SetCollidder(Vector3(0, 0, 0), 2.0f);
 }
@@ -67,7 +68,11 @@ void Treasure::Rend()
 	else
 	{
 		mModelRender->Draw("Treasure", position, angle, scale);
-		mModelRender->Draw("TreasureHuta", position, Vector3(angle.x, angle.y,angle.z), scale);
+		if (!get)
+		{
+			mModelRender->Draw("TreasureHuta", position, Vector3(angle.x, angle.y, angle.z), scale);
+		}
+		
 	}
 
 }
@@ -80,6 +85,7 @@ void Treasure::OnCollison(BaseCollider * col)
 {
 	if (!get&&col->GetColObject()->GetType() == ObjectType::PLAYER)
 	{
+		mgetSE->play();
 		BaseScene::mPlusMoney += 500000;
 		get = true;
 	}

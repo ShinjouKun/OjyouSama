@@ -2,6 +2,7 @@
 #include"ObjectManager.h"
 #include"BaseObject.h"
 #include"../Render/ModelRenderer.h"
+#include"../Sound/Sound.h"
 
 class Treasure:public BaseObject
 {
@@ -23,6 +24,7 @@ private:
 
 	virtual void OnCollison(BaseCollider * col) override;
 private:
+	std::shared_ptr<Sound> mgetSE;
 	int sceneNum;
 	bool get;
 	Vector3 scale;

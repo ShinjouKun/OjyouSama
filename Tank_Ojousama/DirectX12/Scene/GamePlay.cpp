@@ -228,13 +228,14 @@ void GamePlay::StartScene()
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	mHidan->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	//プレイヤーは最後に、又はUIクラスを作る
-	objM->Add(new Treasure(Vector3(30.0f, 0, 450.0f), Vector3(0, 180.0f, 0), objM, BaseScene::mModel,0));
+	objM->Add(new Treasure(Vector3(65.0f, 0, 250.0f), Vector3(0, 90.0f, 0), objM, BaseScene::mModel,0));
 	objM->Add(new GolemEnemy(Vector3(0.0f, 4.0f, -110.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,1));
 	objM->Add(new CameraEye(Vector3(0,  0.0f, 180), Vector3(0, 0, 0), objM));
-	objM->Add(new Repair(Vector3(20.0f, 0.0f, 480.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite,  ItemState::Low, 0, 50000, 20));
-	objM->Add(new Smoke(Vector3(25.0f, 0.0f, 480.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,  ItemState::Low, 0, 50000));
-	objM->Add(new Shield(Vector3(15.0f, 0.0f, 480.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite,  ItemState::Low, 0, 20));
+	objM->Add(new Repair(Vector3(20.0f, 0.0f, 480.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, ItemState::Low, 0, 50000, 40));
+	objM->Add(new Repair(Vector3(40.0f, 0.0f, 120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite,  ItemState::Low, 1, 50000, 40));
+	objM->Add(new Smoke(Vector3(50.0f, 0.0f, 350.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite,  ItemState::Low, 0, 5000));
+	objM->Add(new Shield(Vector3(-30.0f, 0.0f, 200.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite,  ItemState::Low, 0, 40));
 
 	mTimer = std::make_shared<Timer>(0.01f);
 	
