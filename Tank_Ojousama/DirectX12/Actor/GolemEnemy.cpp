@@ -662,8 +662,8 @@ void GolemEnemy::DeathAnimeStep_RiseSky()
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 		//死亡用エフェクト
-		mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
-		mDeathParticle->Stop();
+		mDeathParticle->setPos(position);
+		mDeathParticle->Play();
 
 		mDeathStep = DeathAnimationStep::EXPLOSION;
 	}
@@ -757,8 +757,8 @@ void GolemEnemy::OnCollison(BaseCollider * col)
 			mDamageSE->play();
 
 			//ダメージ用パーティクル
-			mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
-			mDamageParticle->Stop();
+			mDamageParticle->setPos(position);
+			mDamageParticle->Play();
 			HP -= col->GetColObject()->GetDamage();
 		}
 		HitFlag = true;
