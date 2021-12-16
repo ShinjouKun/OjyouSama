@@ -27,7 +27,7 @@ void Castle::Init()
 	Sprite->AddTexture("Messege2", "Resouse/messege2.png");
 	Sprite->AddTexture("Messege3", "Resouse/messege3.png");
 	Sprite->AddTexture("HpAicon", "Resouse/castle_aicon.png");
-	MaxHp = 150;
+	MaxHp = 300;
 	HP = MaxHp;//‚Æ‚è‚ ‚¦‚¸
 	
 	death = false;
@@ -89,7 +89,7 @@ void Castle::Update()
 	if (HitFlag)
 	{
 		HitCount++;
-		if (HitCount >= 90)
+		if (HitCount >= 15)
 		{
 			HitCount = 0;
 			HitFlag = false;
