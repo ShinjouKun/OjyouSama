@@ -40,11 +40,10 @@ void Title::StartScene()
 
 	BaseScene::mSprite->AddTexture("Title", "Resouse/Title.png");
 	BaseScene::mSprite->AddTexture("Push", "Resouse/start.png");
-	BaseScene::mSprite->AddTexture("Heart", "Resouse/heart.png");
 	BaseScene::mSprite->AddTexture("Fade1", "Resouse/fade.png");
 	BaseScene::mSprite->AddTexture("Fade2", "Resouse/fade.png");
-	BaseScene::mModel->AddModel("Sora", "Resouse/skybox.obj", "Resouse/skybox_A.png");
-	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/ground.png");
+	/*BaseScene::mModel->AddModel("Sora", "Resouse/skybox.obj", "Resouse/skybox_A.png");
+	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/ground.png");*/
 
 	BaseScene::mModel->AddModel("TankPlayerA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
 	BaseScene::mModel->AddModel("TankPlayerB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
@@ -145,10 +144,7 @@ void Title::DrawScene()
 	ojyouXR = 180.0f;
 	ojyouXL = 180.0f;
 	DirectXManager::GetInstance()->SetData3D();
-	//BaseScene::mModel->Draw("Sora", Vector3(0, 0, -90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
-
-
-
+	
 	BaseScene::mModel->Draw("TankPlayerA", Vector3(ojoP.x, ojoP.y, ojoP.z), Vector3(0, 0, 0), Vector3(10.f, 10.f, 1.0f));
 	BaseScene::mModel->Draw("TankPlayerB", Vector3(ojoP.x, ojoP.y, ojoP.z), Vector3(0, 0, 0), Vector3(10.f, 10.f, 1.0f));
 	BaseScene::mModel->Draw("ArmR", Vector3(ojoP.x, ojoP.y + 25.0f, ojoP.z), Vector3(ojyouXR, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));

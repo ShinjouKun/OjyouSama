@@ -89,13 +89,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipeLine->SetPipelineParticle("untiP");
 	pipeLine->SetPipelineSequence("ahokusa");
 	//ƒ‚ƒfƒ‹
-
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/hit.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/sougen.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/AIM64.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/TankAicn.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/TankUI.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/Deth.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/kisikun.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/syutugeki.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/garezi.png");
@@ -108,12 +103,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/selectcursol.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/option.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/ritorai.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/hime.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/heart.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/sentaku.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/fade.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/kakutoku.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/titlerogo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/start.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/cars.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/voloption.png");
@@ -137,7 +128,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/operationback.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/wepon.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpUI.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/title_rogo.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeibos.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeiDe.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/setumeiRo.png");
@@ -154,8 +144,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/messege4.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/back_sky.png");
 
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/titleAho.png");
-	TexLoader::GetInstance(pipeLine)->Load("Resouse/Space.png");
+	
+	
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/kabe.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/item_box.png");
@@ -217,9 +207,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//–h‰q‹’“_
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/castle.obj");
 	//Player
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTM.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKA.obj");//–C“ƒ
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKB.obj");//–Cg
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/body.obj");//ŽÔ‘Ì
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/head.obj");//–C“ƒ
@@ -253,29 +240,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/R_hands_rifle.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L_hands_rifle.obj");
-
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankBTMR.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKAR.obj");//–C“ƒ
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/BoxTankATKBR.obj");//–Cg
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/kisikunTank.obj");
 	//Enemy
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyHou.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyDaiza.obj");
-
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/GolemBody.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/GolemArm_L.obj");//–C“ƒ
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/GolemArm_R.obj");//–Cg
-	//Block
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/bill.obj");
 	//Bullet
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Bullet.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/bullet.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/mine.obj");
 	//“Š‚°‚é—p‚ÌÎ
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/throw.obj");
 	//ƒXƒe[ƒW
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/skybox.obj");
-	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ground.obj");
 	//‚¢‚ë‚¢‚ëŽg‚¦‚éƒvƒŒ[ƒ“
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Plane.obj");
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Plane1.obj");

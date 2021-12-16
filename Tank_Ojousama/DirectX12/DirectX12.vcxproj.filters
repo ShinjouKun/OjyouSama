@@ -72,9 +72,6 @@
     <ClCompile Include="Scene\BaseScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Block.cpp">
-      <Filter>Acter</Filter>
-    </ClCompile>
     <ClCompile Include="Render\Camera.cpp">
       <Filter>Render</Filter>
     </ClCompile>
@@ -98,9 +95,6 @@
     </ClCompile>
     <ClCompile Include="Math\Matrix4.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\EnemyTank.cpp">
-      <Filter>Acter</Filter>
     </ClCompile>
     <ClCompile Include="Scene\GamePlay.cpp">
       <Filter>Scene</Filter>
@@ -264,12 +258,6 @@
     <ClCompile Include="Sound\Listener.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\TestEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\BreadCrumb.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Weapons\LandMine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -282,16 +270,10 @@
     <ClCompile Include="Weapons\ShotGunBullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Weapons\MissileBullet.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Weapons\MashinGun.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Collision\RayCollison.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\WayPoint.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Garage.cpp">
@@ -400,9 +382,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Actor\Enemy\TreeRoot.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\Enemy\ReportArea.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Actor\Enemy\SniperEnemy.cpp">
@@ -585,9 +564,6 @@
     <ClInclude Include="Scene\BaseScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Block.h">
-      <Filter>Acter</Filter>
-    </ClInclude>
     <ClInclude Include="Render\Camera.h">
       <Filter>Render</Filter>
     </ClInclude>
@@ -620,9 +596,6 @@
     </ClInclude>
     <ClInclude Include="Math\Matrix4.h">
       <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\EnemyTank.h">
-      <Filter>Acter</Filter>
     </ClInclude>
     <ClInclude Include="Scene\GamePlay.h">
       <Filter>Scene</Filter>
@@ -849,12 +822,6 @@
     <ClInclude Include="Sound\Listener.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\TestEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\BreadCrumb.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Weapons\LandMine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -867,16 +834,10 @@
     <ClInclude Include="Weapons\ShotGunBullet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Weapons\MissileBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Weapons\MashinGun.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Collision\RayCollison.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\WayPoint.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ConstInfomation\Enemy\EnemyConstInfo.h">
@@ -1003,9 +964,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Actor\Enemy\TreeRoot.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\Enemy\ReportArea.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Actor\Enemy\SniperEnemy.h">

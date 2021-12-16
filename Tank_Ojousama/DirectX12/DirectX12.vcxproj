@@ -159,7 +159,6 @@
     <ClCompile Include="Actor\BetaTestBlock.cpp" />
     <ClCompile Include="Actor\Enemy\BirdEnemy.cpp" />
     <ClCompile Include="Actor\Enemy\BlowEnemy.cpp" />
-    <ClCompile Include="Actor\BreadCrumb.cpp" />
     <ClCompile Include="Actor\BreadCrumbCreater.cpp" />
     <ClCompile Include="Actor\CameraEye.cpp" />
     <ClCompile Include="Actor\Enemy\CEnemy.cpp" />
@@ -169,16 +168,13 @@
     <ClCompile Include="Actor\GolemEnemy.cpp" />
     <ClCompile Include="Actor\Enemy\MemberEnemy.cpp" />
     <ClCompile Include="Actor\Enemy\MortarEnemy.cpp" />
-    <ClCompile Include="Actor\Enemy\ReportArea.cpp" />
     <ClCompile Include="Actor\Enemy\SniperEnemy.cpp" />
     <ClCompile Include="Actor\Enemy\SummonEnemy.cpp" />
     <ClCompile Include="Actor\Enemy\ElfTreeBoss.cpp" />
     <ClCompile Include="Actor\TestBreadCrumb.cpp" />
-    <ClCompile Include="Actor\TestEnemy.cpp" />
     <ClCompile Include="Actor\TestWayPoint.cpp" />
     <ClCompile Include="Actor\Enemy\TreeRoot.cpp" />
     <ClCompile Include="Actor\Treasure.cpp" />
-    <ClCompile Include="Actor\WayPoint.cpp" />
     <ClCompile Include="Actor\WayPointManager.cpp" />
     <ClCompile Include="Collision\AABBCollider.cpp" />
     <ClCompile Include="Collision\CollisonTree.cpp" />
@@ -206,14 +202,12 @@
     <ClCompile Include="ParticleSystem\ParticleType\SmokeParticle.cpp" />
     <ClCompile Include="ParticleSystem\ParticleType\TankTrajectory.cpp" />
     <ClCompile Include="Scene\BaseScene.cpp" />
-    <ClCompile Include="Actor\Block.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Collision\Collision.cpp" />
     <ClCompile Include="Collision\CollisionPrimitive.cpp" />
     <ClCompile Include="Collision\CollisonManager.cpp" />
     <ClCompile Include="Device\DirectXManager.cpp" />
     <ClCompile Include="Math\Easing.cpp" />
-    <ClCompile Include="Actor\EnemyTank.cpp" />
     <ClCompile Include="Scene\BossScene.cpp" />
     <ClCompile Include="Scene\Defense.cpp" />
     <ClCompile Include="Scene\EndRoll.cpp" />
@@ -294,7 +288,6 @@
     <ClCompile Include="Weapons\LandMine.cpp" />
     <ClCompile Include="Weapons\LaunchBullet.cpp" />
     <ClCompile Include="Weapons\MashinGun.cpp" />
-    <ClCompile Include="Weapons\MissileBullet.cpp" />
     <ClCompile Include="Weapons\NormalBullet.cpp" />
     <ClCompile Include="Weapons\ShotGunBullet.cpp" />
     <ClCompile Include="Weapons\StoneWeapon.cpp" />
@@ -494,7 +487,6 @@
     <ClInclude Include="Actor\Enemy\AttackArea.h" />
     <ClInclude Include="Actor\Enemy\BaseEnemy.h" />
     <ClInclude Include="Actor\BetaTestBlock.h" />
-    <ClInclude Include="Actor\BreadCrumb.h" />
     <ClInclude Include="Actor\BreadCrumbCreater.h" />
     <ClInclude Include="Actor\CameraEye.h" />
     <ClInclude Include="Actor\Enemy\BirdEnemy.h" />
@@ -505,17 +497,14 @@
     <ClInclude Include="Actor\GolemEnemy.h" />
     <ClInclude Include="Actor\Enemy\MemberEnemy.h" />
     <ClInclude Include="Actor\Enemy\MortarEnemy.h" />
-    <ClInclude Include="Actor\Enemy\ReportArea.h" />
     <ClInclude Include="Actor\Enemy\SniperEnemy.h" />
     <ClInclude Include="Actor\Enemy\SummonEnemy.h" />
     <ClInclude Include="Actor\Enemy\ElfTreeBoss.h" />
     <ClInclude Include="Actor\TestBreadCrumb.h" />
-    <ClInclude Include="Actor\TestEnemy.h" />
     <ClInclude Include="Actor\TestItem.h" />
     <ClInclude Include="Actor\TestWayPoint.h" />
     <ClInclude Include="Actor\Enemy\TreeRoot.h" />
     <ClInclude Include="Actor\Treasure.h" />
-    <ClInclude Include="Actor\WayPoint.h" />
     <ClInclude Include="Actor\WayPointManager.h" />
     <ClInclude Include="Collision\AABBCollider.h" />
     <ClInclude Include="Collision\BaseCollider.h" />
@@ -553,7 +542,6 @@
     <ClInclude Include="ParticleSystem\ParticleType\SmokeParticle.h" />
     <ClInclude Include="ParticleSystem\ParticleType\TankTrajectory.h" />
     <ClInclude Include="Scene\BaseScene.h" />
-    <ClInclude Include="Actor\Block.h" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Collision\Collision.h" />
     <ClInclude Include="Collision\CollisionPrimitive.h" />
@@ -562,7 +550,6 @@
     <ClInclude Include="Collision\CollisonType.h" />
     <ClInclude Include="Device\DirectXManager.h" />
     <ClInclude Include="Math\Easing.h" />
-    <ClInclude Include="Actor\EnemyTank.h" />
     <ClInclude Include="Scene\BossScene.h" />
     <ClInclude Include="Scene\Defense.h" />
     <ClInclude Include="Scene\EndRoll.h" />
@@ -667,7 +654,6 @@
     <ClInclude Include="Weapons\LandMine.h" />
     <ClInclude Include="Weapons\LaunchBullet.h" />
     <ClInclude Include="Weapons\MashinGun.h" />
-    <ClInclude Include="Weapons\MissileBullet.h" />
     <ClInclude Include="Weapons\NormalBullet.h" />
     <ClInclude Include="Weapons\ShotGunBullet.h" />
     <ClInclude Include="Weapons\StoneWeapon.h" />

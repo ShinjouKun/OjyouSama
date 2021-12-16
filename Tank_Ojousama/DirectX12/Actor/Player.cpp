@@ -11,7 +11,6 @@
 #include"../Weapons/NormalBullet.h"
 #include"../Weapons/LandMine.h"
 #include"../Weapons/ShotGunBullet.h"
-#include"../Weapons/MissileBullet.h"
 #include"../Weapons/MashinGun.h"
 #include"../Scene/BaseScene.h"
 #include"../Utility/Sequence/Sequence.h"
@@ -443,11 +442,8 @@ void Player::Init()
 	HP = maxHP;
 	maxSpeed = modelChanger->GetSpeed();
 	UpDamage = modelChanger->GetUpDamage();
-	playerSprite->AddTexture("DETH", "Resouse/Deth.png");
-	playerSprite->AddTexture("UI", "Resouse/TankUI.png");
 	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");
 	playerSprite->AddTexture("AIM_S", "Resouse/croshear.png");
-
 	death = false;
 	SetTresureGet(false);//•ó–¢“üŽè
 	objType = ObjectType::PLAYER;

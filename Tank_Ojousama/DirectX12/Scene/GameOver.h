@@ -3,8 +3,6 @@
 #include"BaseScene.h"
 #include "../Device/Input.h"
 #include "../Actor/Player.h"
-#include "../Actor/EnemyTank.h"
-#include "../Actor/Block.h"
 #include "../Actor/ObjectManager.h"
 #include "../Render/Camera.h"
 #include "../Render/ModelRenderer.h"

@@ -1,7 +1,5 @@
 #include "BaseEnemy.h"
 #include "../../Collision/SpherCollider.h"
-
-#include "ReportArea.h"
 #include "../TestWayPoint.h"
 #include "../WayPointManager.h"
 #include "../BreadCrumbCreater.h"

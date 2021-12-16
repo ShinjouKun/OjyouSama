@@ -1,7 +1,6 @@
 #include "WayPointManager.h"
 
 #include "TestWayPoint.h"
-#include "WayPoint.h"
 
 WayPointManager::WayPointManager(
 	const Vector3 & pos,

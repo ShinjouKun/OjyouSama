@@ -1,5 +1,5 @@
 #include "Window.h"
-const wchar_t Window::WindowClassName[] = L"ShinjouKunEngine";
+const wchar_t Window::WindowClassName[] = L"‚¨ì—líÔ‚Å‚·‚í‚æ";
 //Imgui
 #include"../imgui/imgui.h"
 #include"../imgui/imgui_impl_win32.h"

@@ -44,10 +44,6 @@ void AttackArea::Init()
 	name = "AttackArea";
 	key = to_string(number);
 	keyname = name + key;
-
-	mModelRender->AddModel(keyname, "Resouse/bill.obj", "Resouse/bill.png");
-	mModelRender->SetAncPoint(keyname, Vector3(-2.0f, -2.0f, -2.0f));
-
 #pragma endregion
 
 	death = false;
