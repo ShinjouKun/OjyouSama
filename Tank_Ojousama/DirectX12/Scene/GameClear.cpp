@@ -113,9 +113,9 @@ void GameClear::UpdateScene()
 void GameClear::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
-	//BaseScene::mModel->Draw("TankPlayerA", Vector3(2, 0, 10), Vector3(0, -90, 0), Vector3(2.5f, 2.5f, 2.5f));
-	//BaseScene::mModel->Draw("TankPlayerB", Vector3(2, 0, 10), Vector3(0, -90, 0), Vector3(2.5f, 2.5f, 2.5f));
-	//BaseScene::mModel->Draw("OjyouSama", Vector3(-3, -2.5f , 4), Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
+	BaseScene::mModel->Draw("TankPlayerA", Vector3(2, 0, 10), Vector3(0, -90, 0), Vector3(2.5f, 2.5f, 2.5f));
+	BaseScene::mModel->Draw("TankPlayerB", Vector3(2, 0, 10), Vector3(0, -90, 0), Vector3(2.5f, 2.5f, 2.5f));
+	BaseScene::mModel->Draw("OjyouSama", Vector3(-3, -2.5f , 4), Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(2, 7, 2));
 #pragma region ‰Ô—p

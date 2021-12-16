@@ -151,10 +151,10 @@ void Title::DrawScene()
 	BaseScene::mModel->Draw("OjyouSama", ojoP, Vector3(0, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
 	BaseScene::mModel->Draw("ArmL", Vector3(ojoP.x, ojoP.y + 25.0f, ojoP.z), Vector3(ojyouXL, -ojyouY, 0), Vector3(10.0f, 10.0f, 10.0f));
 
-
+	DirectXManager::GetInstance()->SetData2D();
 	if (mAnimStep == AnimationStep::PLAY)
 	{
-		DirectXManager::GetInstance()->SetData2D();
+		
 		BaseScene::mSprite->Draw("Title", Vector3(385, -10, 0), 0.0f, Vector2(1.2f, 1.2f), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("Push", Vector3(290, 580, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
