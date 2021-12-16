@@ -83,7 +83,7 @@ private:
 	shared_ptr<Sound> mDeathSE;  //死亡したときのSE
 	//shared_ptr<ParticleEmitterBox> mParticleEmitter;//爆発のエフェクト
 	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
-	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
+	//shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 
 	const float LEG_SPEED = 2.0f; //脚の回転速度
 	const float LEG_RANGE = 15.0f;//脚の最大回転量

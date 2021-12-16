@@ -120,9 +120,13 @@ void MemberEnemy::DeathAnimeStep_RiseSky()
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 
+		////パーティクル発射
+		//mDeathParticle->setPos(position);
+		//mDeathParticle->Play();
+
 		//パーティクル発射
-		mDeathParticle->setPos(position);
-		mDeathParticle->Play();
+		mDamageParticle->setPos(position);
+		mDamageParticle->Play();
 
 		mDeathStep = DeathAnimationStep::EXPLOSION;
 	}
@@ -288,9 +292,9 @@ void MemberEnemy::Init()
 	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
 	mDamageParticle->Stop();
 
-	//死亡用エフェクト
-	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
-	mDeathParticle->Stop();
+	////死亡用エフェクト
+	//mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	//mDeathParticle->Stop();
 
 #pragma region モデルの読み込み
 

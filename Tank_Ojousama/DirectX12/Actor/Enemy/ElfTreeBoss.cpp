@@ -267,6 +267,8 @@ void ElfTreeBoss::DeathAnimation_Explosion()
 			float z = Random::randomRange(position.z - 5.0f, position.z + 5.0f);
 			//mParticleEmitter->EmitterUpdateBIG(EXPLOSION_EFFECT, Vector3(x, y, z), angle);
 
+			//mDeathParticle = std::make_shared<Hit>(Vector3(x, y, z), false);
+
 			mDeathParticle = std::make_shared<Explosion>(Vector3(x, y, z), false);
 
 			//mDeathParticle->setPos(Vector3(x, y, z));
@@ -520,8 +522,8 @@ void ElfTreeBoss::EnemyInit()
 	//死亡アニメーション状態の初期化
 	mDeathStep = DeathAnimationStep::EXPLOSION;
 
-	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
-	mDeathParticle->Stop();
+	//mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	//mDeathParticle->Stop();
 	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
 	mDamageParticle->Stop();
 

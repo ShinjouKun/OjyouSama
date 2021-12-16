@@ -196,9 +196,9 @@ void BirdEnemy::EnemyInit()
 	mDamageParticle = make_shared<Hit>(Vector3::zero, true);
 	mDamageParticle->Stop();
 
-	//死亡パーティクル
-	mDeathParticle = make_shared<Explosion>(Vector3::zero, true);
-	mDeathParticle->Stop();
+	////死亡パーティクル
+	//mDeathParticle = make_shared<Explosion>(Vector3::zero, true);
+	//mDeathParticle->Stop();
 
 #pragma region モデルの読み込み
 
@@ -279,8 +279,12 @@ void BirdEnemy::CheckAlive()
 {
 	if (HP <= 0)
 	{
-		mDeathParticle->setPos(Vector3(position.x, position.y + 5.0f, position.z));
-		mDeathParticle->Play();
+		//mDeathParticle->setPos(Vector3(position.x, position.y + 5.0f, position.z));
+		//mDeathParticle->Play();
+
+		//パーティクル発射
+		mDamageParticle->setPos(position);
+		mDamageParticle->Play();
 
 		if (mCreateItem) return;
 

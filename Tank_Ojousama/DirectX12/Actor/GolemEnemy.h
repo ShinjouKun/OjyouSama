@@ -110,7 +110,7 @@ private:
 	shared_ptr<ParticleEmitterBox>ParticleBox;
 	shared_ptr<TexRenderer>Sprite;
 	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
-	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
+	//shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 	shared_ptr<Sound> mAttackSE;  //攻撃時のSE
 	shared_ptr<Sound> mDamageSE;  //被弾時のSE
 

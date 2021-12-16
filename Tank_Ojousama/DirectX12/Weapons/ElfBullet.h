@@ -33,7 +33,7 @@ private:
 	shared_ptr<ParticleManager> mParticleManager;
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
 
-	const int ALIVE_COUNT = 50;
+	const int ALIVE_COUNT = 100;
 
 	const float mRotValue = 20.0f;
 	float rot = 0.0f;
