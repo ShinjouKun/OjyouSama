@@ -102,7 +102,7 @@ private:
 	shared_ptr<Sound> mDeathSE;    //死亡したときのSE
 	//shared_ptr<ParticleEmitterBox> mParticleEmitter;//爆発のエフェクト
 	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
-	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
+	//shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 
 	Vector3 mSearchPosition;//索敵結果位置
 

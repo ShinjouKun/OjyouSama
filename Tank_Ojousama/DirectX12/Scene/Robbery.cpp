@@ -55,6 +55,11 @@ void Robbery::StartWayEnemySpown()
 			//’¹‚Ì“G
 			mObjManager->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
 
+			//‰“‹——£‚Ì“G
+			mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 450.0f), Vector3(0, 180, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(  0.0f, 0, 450.0f), Vector3(0, 180, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 450.0f), Vector3(0, 180, 0), objectCount++));
+
 			mSpawnFlag[0] = true;
 		}
 	}
@@ -67,6 +72,10 @@ void Robbery::StartWayEnemySpown()
 		{
 			//‘à—ñ‚Ì“G
 			mObjManager->Add(new CEnemy(Vector3(0.0f, 0.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
+
+			//‰“‹——£‚Ì“G
+			mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 270.0f), Vector3(0, 180, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(0.0f, 0,   300.0f), Vector3(0, 180, 0), objectCount++));
 
 			mSpawnFlag[1] = true;
 		}
@@ -114,7 +123,29 @@ void Robbery::BackWayEnemySpown()
 			mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
 			mObjManager->Add(new SniperEnemy(Vector3(-20.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
 
+			//Šâ“Š‚°‚Ì“G
+			mObjManager->Add(new MortarEnemy(Vector3(-55.0f, 0.0f, 130.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+			mObjManager->Add(new MortarEnemy(Vector3( 55.0f, 0.0f, 130.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+
 			mSpawnFlag[5] = true;
+		}
+	}
+
+	//Wave5.5
+	if (!mSpawnFlag[4])
+	{
+		//450ˆÈ‰º‚É‚È‚Á‚½‚ç
+		if (mObjManager->GetPlayer().GetPosition().z <= 300)
+		{
+
+			mObjManager->Add(new SniperEnemy(Vector3(+5.0f, 0, 150.0f), Vector3(0, 180, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(+0.0f, 0, 150.0f), Vector3(0, 180, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-5.0f, 0, 150.0f), Vector3(0, 180, 0), objectCount++));
+
+			mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 150.0f), Vector3(0, 180, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 150.0f), Vector3(0, 180, 0), objectCount++));
+
+			mSpawnFlag[4] = true;
 		}
 	}
 
@@ -153,20 +184,20 @@ void Robbery::BackWayEnemySpown()
 		}
 	}
 
-	////Wave8
-	//if (!mSpawnFlag[8])
-	//{
-	//	//450ˆÈ‰º‚É‚È‚Á‚½‚ç
-	//	if (mObjManager->GetPlayer().GetPosition().z >= 350)
-	//	{
-	//		//‰“‹——£‚Ì“G
-	//		mObjManager->Add(new SniperEnemy(Vector3(+30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
-	//		mObjManager->Add(new SniperEnemy(Vector3(+0.0f,  0,  450.0f), Vector3(0, 0, 0), objectCount++));
-	//		mObjManager->Add(new SniperEnemy(Vector3(-30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
+	//Wave8
+	if (!mSpawnFlag[8])
+	{
+		//450ˆÈ‰º‚É‚È‚Á‚½‚ç
+		if (mObjManager->GetPlayer().GetPosition().z >= 350)
+		{
+			//‰“‹——£‚Ì“G
+			mObjManager->Add(new SniperEnemy(Vector3(+30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(+0.0f,  0,  450.0f), Vector3(0, 0, 0), objectCount++));
+			mObjManager->Add(new SniperEnemy(Vector3(-30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
 
-	//		mSpawnFlag[8] = true;
-	//	}
-	//}
+			mSpawnFlag[8] = true;
+		}
+	}
 
 	////Šâ“Š‚°‚Ì“G
 	//mObjManager->Add(new MortarEnemy(Vector3(-40.0f, 0.0f, 270.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
@@ -402,7 +433,7 @@ void Robbery::UpdateScene()
 
 
 
-	//StartWayEnemySpown();
+	StartWayEnemySpown();
 	BackWayEnemySpown();
 
 

@@ -41,9 +41,9 @@ void GolemEnemy::Init()
 	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
 	mDamageParticle->Stop();
 
-	//死亡用エフェクト
-	mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
-	mDeathParticle->Stop();
+	////死亡用エフェクト
+	//mDeathParticle = std::make_shared<Explosion>(Vector3::zero, true);
+	//mDeathParticle->Stop();
 
 
 	//サウンド初期化
@@ -661,9 +661,13 @@ void GolemEnemy::DeathAnimeStep_RiseSky()
 		//SE発射
 		mDamageSE->setPos(position);
 		mDamageSE->play();
-		//死亡用エフェクト
-		mDeathParticle->setPos(position);
-		mDeathParticle->Play();
+		//パーティクル発射
+		mDamageParticle->setPos(position);
+		mDamageParticle->Play();
+
+		////死亡用エフェクト
+		//mDeathParticle->setPos(position);
+		//mDeathParticle->Play();
 
 		mDeathStep = DeathAnimationStep::EXPLOSION;
 	}

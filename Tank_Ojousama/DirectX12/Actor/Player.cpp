@@ -598,11 +598,11 @@ void Player::Update()
 		}
 		if (Input::getKey(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
-			angle.y += 1.0f;
+			angle.y += 2.0f;
 		}
 		if (Input::getKey(KeyCode::A) || Input::joyHorizontal() < 0)
 		{
-			angle.y -= 1.0f;
+			angle.y -= 2.0f;
 		}
 
 		//–C“ƒ
