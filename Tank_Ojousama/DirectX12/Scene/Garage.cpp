@@ -128,14 +128,13 @@ void Garage::UpdateScene()
 	{
 		if (Input::getKeyDown(KeyCode::Y) || Input::getJoyDown(JoyCode::Y))
 		{
-			mbuySE->play();
-			mChanger->Save();
 			switch (keyflag)
 			{
 			case 0:
 			
 				if (mChanger->GetBuysNum(headNum) == "nonBuy")
 				{
+					mbuySE->play();
 					buy = true;
 				}
 				else
@@ -145,8 +144,9 @@ void Garage::UpdateScene()
 				break;
 			case 1:
 			
-				if (mChanger->GetBuysNum(bodyNum) == "nonBuy")
+				if (mChanger->GetBuysNum(bodyNum + 3) == "nonBuy")
 				{
+					mbuySE->play();
 					buy2 = true;
 				}
 				else
@@ -156,8 +156,9 @@ void Garage::UpdateScene()
 				break;
 			case 2:
 			
-				if (mChanger->GetBuysNum(bottomNum) == "nonBuy")
+				if (mChanger->GetBuysNum(bottomNum + 6) == "nonBuy")
 				{
+					mbuySE->play();
 					buy3 = true;
 				}
 				else
@@ -166,8 +167,9 @@ void Garage::UpdateScene()
 				}
 				break;
 			case 3:
-				if (mChanger->GetBuysNum(weaponNum) == "nonBuy")
+				if (mChanger->GetBuysNum(weaponNum + 9) == "nonBuy")
 				{
+					mbuySE->play();
 					buy4 = true;
 				}
 				else
@@ -178,6 +180,7 @@ void Garage::UpdateScene()
 			default:
 				break;
 			}
+			mChanger->Save();
 			mChanger->LoadBuys();
 		}
 		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
