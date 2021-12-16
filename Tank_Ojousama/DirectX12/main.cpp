@@ -186,7 +186,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/ShieldIcon.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/X.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Ground_Black.png");
-
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/end1.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/end2.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/end3.png");
 	//•¶š
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/syuurihi.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/kakutokuhi.png");
@@ -370,6 +372,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	buys[0] = "Buy";
 	buys[3] = "Buy";
 	buys[6] = "Buy";
+	buys[9] = "Buy";
 	text->Write("Resouse/BuysState.txt", buys);
 
 	//”šŠÖ˜A

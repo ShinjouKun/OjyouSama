@@ -1,4 +1,4 @@
 Normal
-Heavy
-Heavy_b
-ShotGun
+Light
+Light_b
+Cannon

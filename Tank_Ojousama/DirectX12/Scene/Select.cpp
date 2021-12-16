@@ -11,6 +11,7 @@
 #include "GameClear.h"
 #include"GameOver.h"
 #include"Result.h"
+#include"EndRoll.h"
 #include "../Collision/Collision.h"
 #include "../Device/Input.h"
 #include "../Sound/Sound.h"
@@ -221,7 +222,7 @@ void Select::UpdateScene()
 			SelectAlfa5 = 0.5f;
 			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
-				//NextScene(std::make_shared<Result>());
+				//NextScene(std::make_shared<EndRoll>());
 				NextScene(std::make_shared<Garage>());
 				mDecisionSE->play();
 				mTimer->setTime(0.2f);
