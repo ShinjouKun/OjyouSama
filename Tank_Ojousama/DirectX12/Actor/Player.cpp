@@ -457,7 +457,7 @@ void Player::Init()
 
 	speedTime = 0.0f;
 	speedLimitTime = 10.0f;
-	cameraSpeed = 1.0f;
+	cameraSpeed = 2.0f;
 	bulletStock = 0;
 	HitFlag = false;
 	sniperShotFlag = false;
@@ -564,7 +564,7 @@ void Player::Update()
 			position -= velocity;
 		}
 		//キー押し処理
-		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
+		if (Input::getKey(KeyCode::W) || Input::joyVertical(500) > 0)
 		{
 			TrajectoryPlay();
 			speedTime++;
@@ -576,7 +576,7 @@ void Player::Update()
 			BackMove = false;
 			moveFlag = true;
 		}
-		else if (Input::getKey(KeyCode::S) || Input::joyVertical() < 0)
+		else if (Input::getKey(KeyCode::S) || Input::joyVertical(500) < 0)
 		{
 			TrajectoryPlay();
 			speedTime++;
@@ -937,11 +937,11 @@ void Player::OnCollison(BaseCollider* col)
 	{
 		if (FrontMove)//いずれ修正
 		{
-			position -= velocity;//前方移動のみ
+			position -= Vector3(velocity.x,velocity.y,velocity.z - 0.02f);//前方移動のみ
 		}
 		else if (BackMove)
 		{
-			position += velocity;//後方移動のみ
+			position += Vector3(velocity.x, velocity.y, velocity.z + 0.02f);//後方移動のみ
 		}
 	}
 
