@@ -53,14 +53,16 @@ void Emitter::update()
 	if (!mActive)return;
 
 	mTimer->update();
-	if (mTimer->isTime() && !mParticleSystems.Looping)
+	if (mTimer->isTime() && (!mParticleSystems.Looping || isDeath))
 	{
 		mEnd = true;
 	}
+	/*
 	if (mTimer->isTime() && isDeath)
 	{
 		mEnd = true;
 	}
+	*/
 
 	//íœˆ—
 	int deathCount = 0;

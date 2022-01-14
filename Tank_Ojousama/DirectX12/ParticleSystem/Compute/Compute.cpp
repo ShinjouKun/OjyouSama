@@ -181,9 +181,9 @@ void Compute::particleUpdate(void* data, int dataSize)
 
 	cmdList->SetComputeRootDescriptorTable(2, gpuHandle);
 
-	cmdList->Dispatch(MAX_PARTICLE_SIZE, 1, 1);
+	cmdList->Dispatch(MAX_PARTICLE_SIZE / 8, 1, 1);
 
-	ParticleSystem::instance().gpuWait();
+	//ParticleSystem::instance().gpuWait();
 
 	/*
 	mCMDList->Close();

@@ -151,14 +151,14 @@ public:
 
 	///<summary>
 	///ジョイスティック左、横方向
-	///<param name="num">範囲内は無視する値0.f～1.fの間</param>
+	///<param name="num">範囲内は無視する値0.f～1000.fの間</param>
 	///<returns>どのくらい傾いているか</returns>
 	///</summary>
 	static float joyVertical(float num = 0.f);
 
 	///<summary>
 	///ジョイスティック右、縦方向
-	///<param name="num">範囲内は無視する値0.f～1.fの間</param>
+	///<param name="num">範囲内は無視する値0.f～1000.fの間</param>
 	///<returns>どのくらい傾いているか</returns>
 	///</summary>
 	static float joyRightHorizontal(float num = 0.f);

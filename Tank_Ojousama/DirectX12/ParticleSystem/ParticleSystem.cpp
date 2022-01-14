@@ -64,6 +64,8 @@ void ParticleSystem::update()
 		}
 		mEmitters[i]->update();
 	}
+
+	gpuWait();
 }
 
 void ParticleSystem::draw()
