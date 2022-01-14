@@ -526,6 +526,8 @@ void Player::Update()
 
 	if (!GameOver&&sceneCamOk)
 	{
+		FrontMove = false;
+		BackMove = false;
 		if (HP <= 0)
 		{
 			BaseScene::mMoney -= 500000;
@@ -555,14 +557,6 @@ void Player::Update()
 
 		ImGuiDebug();//デバッグ用
 		AngleReset();
-		if (FrontMove)
-		{
-			position += velocity;
-		}
-		else if (BackMove)
-		{
-			position -= velocity;
-		}
 		//キー押し処理
 		if (Input::getKey(KeyCode::W) || Input::joyVertical(500) > 0)
 		{
@@ -572,6 +566,7 @@ void Player::Update()
 			{
 				speedTime = speedLimitTime;
 			}
+			position += velocity;
 			FrontMove = true;
 			BackMove = false;
 			moveFlag = true;
@@ -584,6 +579,7 @@ void Player::Update()
 			{
 				speedTime = speedLimitTime;
 			}
+			position -= velocity;
 			BackMove = true;
 			FrontMove = false;
 		}
@@ -594,7 +590,6 @@ void Player::Update()
 			{
 				speedTime = 0;
 			}
-
 		}
 		if (Input::getKey(KeyCode::D) || Input::joyHorizontal() > 0)
 		{
@@ -935,13 +930,17 @@ void Player::OnCollison(BaseCollider* col)
 
 	if (col->GetColObject()->GetType() == ObjectType::BLOCK)
 	{
+		//velocity = velocity * -1;
+	
 		if (FrontMove)//いずれ修正
 		{
-			position -= Vector3(velocity.x,velocity.y,velocity.z - 0.02f);//前方移動のみ
+			position -= velocity;
+			//position -= Vector3(velocity.x,velocity.y,velocity.z - 0.02f);//前方移動のみ
 		}
 		else if (BackMove)
 		{
-			position += Vector3(velocity.x, velocity.y, velocity.z + 0.02f);//後方移動のみ
+			position += velocity;
+			//position += Vector3(velocity.x, velocity.y, velocity.z + 0.02f);//後方移動のみ
 		}
 	}
 
@@ -968,8 +967,8 @@ void Player::ImGuiDebug()
 	ImGui::SliderFloat("AtkAngle", &atkAngle, 0, 360);
 	ImGui::SliderFloat("FireAngle", &fireAngle, 0, 360);
 	ImGui::SliderFloat("CamPosY", &CamPos_Y, -10, 10);
-	ImGui::Checkbox("ShotFlag", &shotFlag1);
-	ImGui::Checkbox("ShotFlag", &shotFlag2);
+	ImGui::Checkbox("Flont", &FrontMove);
+	ImGui::Checkbox("Back", &BackMove);
 	ImGui::SliderInt("HP", &HP, 0, HP);
 	ImGui::SliderInt("mainWeapon", &shotcnt1, 0, objM->GetReloadTime());
 	ImGui::SliderInt("subWeapon", &shotcnt2, 0, objM->GetReloadTime());
