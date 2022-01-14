@@ -20,7 +20,7 @@ NormalBullet::~NormalBullet()
 void NormalBullet::Init()
 {
 	SetBulletType();
-	damage = 5 + UpDamage;
+	damage = 10 + UpDamage;
 	objM->SetReloadTime(20);
 	name = "NormalBullet";
 	num = to_string(number);
