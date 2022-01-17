@@ -61,7 +61,7 @@ void Opening::UpdateScene()
 			SkipF = false;
 		}
 	}
-	if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+	if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 	{
 		SkipA = 1;
 		SkipF = true;

@@ -283,7 +283,7 @@ void Player::SceneMoveBlock4()
 
 void Player::UseWeapon1()
 {
-	BaseScene::mMinusMoney += 10000;
+	moneyMax += 10000;
 	objM->Add(new NormalBullet(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 	shotFlag1 = true;
 
@@ -299,7 +299,7 @@ void Player::UseWeapon2()
 	if (modelChanger->GetWeaponState1() == WeaponsState::MachinGun)
 	{
 		mMashingunSE->play();
-		BaseScene::mMinusMoney += 1000;
+		moneyMax += 1000;
 		masingunShot = true;
 		objM->Add(new MashinGun(Vector3(position.x, position.y + 1.5f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 		
@@ -310,12 +310,12 @@ void Player::UseWeapon2()
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::Mine)
 	{
-		BaseScene::mMinusMoney += 20000;
+		moneyMax += 20000;
 		objM->Add(new LandMine(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 	}
 	if (modelChanger->GetWeaponState1() == WeaponsState::ShotGun)
 	{
-		BaseScene::mMinusMoney += 15000;
+		moneyMax += 15000;
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 20.0f, 0), objM, playerModel, playerParticle, objType, bulletStock, UpDamage));
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle + 10.0f, 0), objM, playerModel, playerParticle, objType, bulletStock + 1, UpDamage));
 		objM->Add(new ShotGunBullet(Vector3(position.x, position.y - 0.15f, position.z), Vector3(fireAngle, -atkAngle, 0), objM, playerModel, playerParticle, objType, bulletStock + 2, UpDamage));
@@ -434,6 +434,7 @@ void Player::Init()
 	playerSprite->AddTexture("smokeIcon", "Resouse/SmokeIcon.png");
 	playerSprite->AddTexture("shieldIcon", "Resouse/ShieldIcon.png");
 	playerSprite->AddTexture("X", "Resouse/X.png");
+	playerSprite->AddTexture("Danyaku2", "Resouse/dannyakuhi.png");
 	//model
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
@@ -471,6 +472,10 @@ void Player::Init()
 	damageFadeYpos = 0;
 	CameraPos = Vector3(position.x, position.y, position.z + 15.0f);
 
+	countMoney = 0;
+	money = 0;
+	moneyMax = 0;
+
 	//コライダーの情報をセット
 	SetCollidder(Vector3(0, 0, 0), 1.0f);
 	ojyouY = 0.0f;
@@ -494,6 +499,13 @@ void Player::Update()
 
 	mNormalAttackSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 
+	if (moneyMax > money)
+	{
+		money += 100;
+		BaseScene::mMinusMoney = money;
+	}
+
+	
 	//シーン演出 
 #pragma region シーン
 	if (!sceneCamOk)
@@ -772,9 +784,8 @@ void Player::Rend()
 	if (sceneCamOk)
 	{
 		Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
-	}
-	
-	
+		Sequence::instance().set(BaseScene::mMinusMoney, Vector2(1280 - 320, 0), Vector2(32, 32));
+	}	
 	if (!masingunShot)
 	{
 		ojyouXR = -90.0f;
@@ -851,6 +862,8 @@ void Player::Rend()
 		playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->SetSize("Danyaku2", Vector2(320, 32));
+		playerSprite->Draw("Danyaku2", Vector3(1280 - 512+94, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		if (ItemNum == 0)
 		{
 			playerSprite->Draw("repairIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));

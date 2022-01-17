@@ -123,7 +123,7 @@ void Title::UpdateScene()
 	//mBGM->playLoop();
 	if (fade1 <= 0)
 	{
-		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 		{
 			mSE->play();
 			fadeF = true;

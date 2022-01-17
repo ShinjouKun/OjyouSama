@@ -121,6 +121,10 @@ private:
 	bool sceneCamPlayerOk;
 	float damageFade;
 	float damageFadeYpos;
+	int moneyMax;
+	int money;
+	int countMoney;
+	bool wepon1Flag = false;
 	//ƒTƒEƒ“ƒh
 
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
