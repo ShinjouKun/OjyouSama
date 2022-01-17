@@ -37,6 +37,9 @@ private:
 	float fade1;
 	float fade2;
 	bool fadeF;
+	float SkipT;
+	float SkipA;
+	bool SkipF;
 
 	std::shared_ptr<Timer> mTimer;
 	std::shared_ptr<Timer> mParticleTimer;

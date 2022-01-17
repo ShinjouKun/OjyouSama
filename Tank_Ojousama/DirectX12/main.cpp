@@ -189,6 +189,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end1.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end2.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end3.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/openingskip.png");
 	//文字
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/syuurihi.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/kakutokuhi.png");
@@ -386,6 +387,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//キー入力
 		input->Update();//input	
 		input->UpdateGamepad();//ゲームパッド
+		//終了用
+		//if (Input::getKeyDown(KeyCode::ESCAPE))
+		//{
+		//	break;
+		//}
 		//描画
 		mScene->Update();
 		particleSystem.update();
@@ -432,7 +438,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	window->DeleateGameWindow();//ゲームwindow破棄
 	pipeLine->Clear();
 	delete input;
-	//delete camera;
+	delete camera;
 	delete pipeLine;
 	return 0;
 }
