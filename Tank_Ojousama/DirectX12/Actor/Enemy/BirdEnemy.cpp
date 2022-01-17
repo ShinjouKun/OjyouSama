@@ -10,7 +10,6 @@
 #include "../../ParticleSystem/ParticleType/Explosion.h"
 #include "../../ParticleSystem/ParticleType/Hit.h"
 
-
 BirdEnemy::BirdEnemy(
 	const Vector3 & pos, 
 	const Vector3 & ang,
@@ -100,6 +99,9 @@ void BirdEnemy::Action_Fire()
 		mLegRotate = -LEG_RANGE;
 	}
 
+	//撃ったら移動速度を早くする
+	speed = RUN_SPEED;
+
 	MovePointY(mPlayerPosition);
 
 	if (InsideDistanceY(mPlayerPosition, 1.0f) && mFireFlag && mFinishAnimation)
@@ -111,6 +113,9 @@ void BirdEnemy::Action_Fire()
 
 void BirdEnemy::Action_Back(const Vector3 & targetPosition)
 {
+	//移動速度を元に戻す
+	speed = WALK_SPEED;
+
 	//拠点に帰る
 	MovePointY(mOffsetRisePosition);
 
@@ -162,10 +167,10 @@ bool BirdEnemy::InsideDistanceY(const Vector3 & distance, const float length) co
 
 void BirdEnemy::EnemyInit()
 {
-	HP = 15;
+	HP = 30;
 	damage = 5;
 
-	speed = 1.0f;
+	speed = WALK_SPEED;
 	mRadius = 1.5f;
 
 	mFinishAnimation = false;

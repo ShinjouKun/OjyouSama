@@ -234,7 +234,7 @@ Vector3 MemberEnemy::SendSearchPosition() const
 
 void MemberEnemy::Init()
 {
-	HP = 10;
+	HP = 20;
 	speed = 0.5f;
 	damage = 5;
 	mRadius = 1.0f;

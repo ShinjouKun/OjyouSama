@@ -177,7 +177,7 @@ void LaunchBullet::Move()
 		position += velocity;
 
 		//目標位置に近づいたら死ぬ。
-		if (length <= 0.5f)
+		if (length <= 0.8f)
 		{
 			mParticleEmitter->EmitterUpdate(PARTICLE_NAME, position, angle);
 			death = true;
@@ -193,7 +193,7 @@ void LaunchBullet::Move()
 		position += velocity;
 
 		//目標位置に近づいたら死ぬ。
-		if (length <= 0.5f)
+		if (length <= 0.8f)
 		{
 			mParticleEmitter->EmitterUpdate(PARTICLE_NAME, position, angle);
 			death = true;

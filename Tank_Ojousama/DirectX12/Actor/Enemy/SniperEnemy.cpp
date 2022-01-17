@@ -30,15 +30,15 @@ SniperEnemy::~SniperEnemy()
 
 void SniperEnemy::EnemyInit()
 {
-	HP = 15;//‚à‚Æ‚à‚Æ‚Í10
+	HP = 30;//‚à‚Æ‚à‚Æ‚Í10
 	warningTime = ECI::WARNING_TIME * SECI::WARNING_TIME * 60;
-	attackTime = 1 * 30;//‚à‚Æ‚à‚Æ 1 * 60‚¾‚Á‚½‚Ì‚ð”¼•ª‚É‚µ‚½
+	attackTime = 1 * 40;//‚à‚Æ‚à‚Æ 1 * 60‚¾‚Á‚½‚Ì‚ð”¼•ª‚É‚µ‚½
 
 	speed = 0.3f;
 	mRadius = ECI::RADIUS * SECI::RADIUS;
 	mSwingRange = ECI::SWING_RANGE * SECI::SWING_RANGE;
 	mFireAngle = SECI::FAN_RANGE;
-	mAttackLength = 70.0f;//‚à‚Æ‚à‚Æ‚Í30
+	mAttackLength = 60.0f;//‚à‚Æ‚à‚Æ‚Í30
 
 	breadcrumbMode = ECI::BRRADCRUMB_MODE;
 	DESTRUCT_MODE = ECI::DESTRUCT_MODE;
@@ -165,7 +165,6 @@ void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		int test = col->GetColObject()->GetDamage();
-
 
 		//ƒ_ƒ[ƒW‚ðŽó‚¯‚é
 		HP -= col->GetColObject()->GetDamage();

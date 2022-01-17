@@ -172,7 +172,7 @@ void MortarEnemy::DeathAnimeStep_Explosion()
 
 void MortarEnemy::EnemyInit()
 {
-	HP = 25;//‚à‚Æ‚à‚Æ‚Í10
+	HP = 50;//‚à‚Æ‚à‚Æ‚Í10
 	damage = 5;
 
 	mRadius = 1.5f;

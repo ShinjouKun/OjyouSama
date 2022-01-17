@@ -32,7 +32,7 @@ void ElfBullet::Init()
 
 	damage = 10;
 	alive = 0;
-	speed = 1.5f;
+	speed = 1.2f;
 	//コライダーの情報をセット
 	SetCollidder(Vector3().zero, 0.5f);
 
