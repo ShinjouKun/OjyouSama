@@ -21,7 +21,7 @@ ShotGunBullet::~ShotGunBullet()
 void ShotGunBullet::Init()
 {
 	SetBulletType();
-	damage = 3 + UpDamage;
+	damage = 10 + UpDamage;
 	objM->SetReloadTime(60);
 	name = "ShotGun";
 	num = to_string(number);

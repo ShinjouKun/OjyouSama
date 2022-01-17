@@ -20,7 +20,7 @@ NormalBullet::~NormalBullet()
 void NormalBullet::Init()
 {
 	SetBulletType();
-	damage = 5 + UpDamage;
+	damage = 10 + UpDamage;
 	objM->SetReloadTime(20);
 	name = "NormalBullet";
 	num = to_string(number);
@@ -37,12 +37,21 @@ void NormalBullet::Init()
 
 void NormalBullet::Update()
 {
-	velocity = Vector3(0, 0, -1);
+	alive++;
+	if (alive >= 20)
+	{
+		velocity = Vector3(0, -0.04f, -1);
+	}
+	else
+	{
+		velocity = Vector3(0, 0, -1);
+	}
+	
 	velocity *= Matrix4::RotateX(angle.x);
 	velocity *= Matrix4::RotateY(angle.y);
 	position += velocity * speed;
 
-	alive++;
+
 	if (alive >= 150)
 	{
 		death = true;
