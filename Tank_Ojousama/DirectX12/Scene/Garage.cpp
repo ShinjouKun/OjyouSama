@@ -618,26 +618,48 @@ void Garage::DrawScene()
 	{
 		if (fadeFB) return;
 		
+		
 	
 		switch (headNum)
 		{
 		case 0:
 			Money = 0;
 			BaseScene::mModel->Draw("OjyouSama1", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 0)
+			{
+				Sequence::instance().set(100, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetHP(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeHead(Normal);
 			break;
 		case 1:
 			Money = 2000000;
 			BaseScene::mModel->Draw("OjyouSama_r", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 0)
+			{
+				Sequence::instance().set(120, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetHP(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeHead(Other02);
 			break;
 		case 2:
 			Money = 5000000;
 			BaseScene::mModel->Draw("OjyouSama2", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 0)
+			{
+				Sequence::instance().set(150, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetHP(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeHead(Other01);
 			break;
 		default:
+			
 			BaseScene::mModel->Draw("OjyouSama1", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 0)
+			{
+				Sequence::instance().set(100, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetHP(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeHead(Normal);
 			break;
 		}
@@ -646,20 +668,40 @@ void Garage::DrawScene()
 		case 0:
 			Money = 0;
 			BaseScene::mModel->Draw("TankPlayerA", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 1)
+			{
+				Sequence::instance().set(0, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetUpDamage(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeBody(Light);
 			break;
 		case 1:
 			Money = 2000000;
 			BaseScene::mModel->Draw("TankPlayerE", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 1)
+			{
+				Sequence::instance().set(5, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetUpDamage(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeBody(Midium);
 			break;
 		case 2:
 			Money = 5000000;
 			BaseScene::mModel->Draw("TankPlayerC", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 1)
+			{
+				Sequence::instance().set(10, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetUpDamage(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeBody(Heavy);
 			break;
 		default:
 			BaseScene::mModel->Draw("TankPlayerA", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 1)
+			{
+				Sequence::instance().set(0, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetUpDamage(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeBody(Light);
 			break;
 		}
@@ -668,20 +710,40 @@ void Garage::DrawScene()
 		case 0:
 			Money = 0;
 			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 2)
+			{
+				Sequence::instance().set(0.5f, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetSpeed(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeBottom(Light_b);
 			break;
 		case 1:
 			Money = 2000000;
 			BaseScene::mModel->Draw("TankPlayerF", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 2)
+			{
+				Sequence::instance().set(0.8f, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetSpeed(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeBottom(Midium_b);
 			break;
 		case 2:
 			Money = 5000000;
 			BaseScene::mModel->Draw("TankPlayerD", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 2)
+			{
+				Sequence::instance().set(1.0f, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetSpeed(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeBottom(Heavy_b);
 			break;
 		default:
 			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
+			if (keyflag == 2)
+			{
+				Sequence::instance().set(0.5f, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetSpeed(), Vector2(990, 430), Vector2(32, 32));
+			}
 			mChanger->ChangeBottom(Light_b);
 			break;
 		}
