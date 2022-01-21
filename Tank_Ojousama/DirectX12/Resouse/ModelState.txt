@@ -1,4 +1,4 @@
-Normal
-Light
-Light_b
-Cannon
+Other02
+Heavy
+Midium_b
+MachinGun

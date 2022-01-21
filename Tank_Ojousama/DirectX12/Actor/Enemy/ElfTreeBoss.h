@@ -145,7 +145,7 @@ private:
 	const int MAX_HP = 500;       //最大体力
 	const int RAPIDFIRE_COUNT = 5;//連続射撃の数
 	const int SUMMON_COUNT = 5;   //召喚数
-	const int DEFENSE = 3;        //防御力
+	const int DEFENSE = 10;        //防御力
 	int damagePool;  //受けるダメージの一時保存
 	int mBulletCount;//弾を発射した数
 	int mCircleCount;//警告を表示した数

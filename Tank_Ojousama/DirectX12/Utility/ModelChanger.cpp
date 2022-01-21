@@ -160,14 +160,14 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		{
 			SetUpDamage(10);
 			body = BodyState::Heavy;
-			playerModel->AddModel("TankE", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2_B.png");
+			playerModel->AddModel("TankE", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
 			modelKey[3] = "TankE";
 		}
 		else
 		{
 			SetUpDamage(5);
 			body = BodyState::Midium;
-			playerModel->AddModel("TankPlayerC", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
+			playerModel->AddModel("TankPlayerC", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2_B.png");
 			modelKey[3] = "TankPlayerC";
 		}
 	}
@@ -186,14 +186,14 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		{
 			SetSpeed(1.0f);
 			bottom = BottomState::Heavy_b;
-			playerModel->AddModel("TankF", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2_B.png");
+			playerModel->AddModel("TankF", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
 			modelKey[4] = "TankF";
 		}
 		else
 		{
 			SetSpeed(0.8f);
 			bottom = BottomState::Midium_b;
-			playerModel->AddModel("TankPlayerD", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
+			playerModel->AddModel("TankPlayerD", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2_B.png");
 			modelKey[4] = "TankPlayerD";
 		}
 	}
