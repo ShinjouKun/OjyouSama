@@ -189,7 +189,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end1.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end2.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end3.png");
+
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/openingskip.png");
+
+	//ƒRƒ“ƒpƒX
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/compas.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/hari.png");
+
 	//•¶Žš
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/syuurihi.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/kakutokuhi.png");

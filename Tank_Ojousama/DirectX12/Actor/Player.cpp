@@ -328,8 +328,6 @@ void Player::UseWeapon2()
 		mNormalAtkParticle->Play();
 	}
 
-	//objM->Add(new MissileBullet(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
-	//
 
 	shotFlag2 = true;
 }
@@ -434,7 +432,17 @@ void Player::Init()
 	playerSprite->AddTexture("smokeIcon", "Resouse/SmokeIcon.png");
 	playerSprite->AddTexture("shieldIcon", "Resouse/ShieldIcon.png");
 	playerSprite->AddTexture("X", "Resouse/X.png");
+
 	playerSprite->AddTexture("Danyaku2", "Resouse/dannyakuhi.png");
+
+	//ƒRƒ“ƒpƒX
+	playerSprite->AddTexture("Compas", "Resouse/compas.png");
+	playerSprite->SetSize("Compas", Vector2(168, 128));
+	playerSprite->SetAncPoint("Compas", Vector2(-84, -84));
+	playerSprite->AddTexture("Hari", "Resouse/hari.png");
+	playerSprite->SetSize("Hari", Vector2(168, 128));
+	playerSprite->SetAncPoint("Hari", Vector2(-84,-74));
+
 	//model
 	modelChanger = new ModelChanger();
 	modelChanger->Load(playerModel);
@@ -854,6 +862,8 @@ void Player::Rend()
 
 	if (sceneCamOk)
 	{
+		playerSprite->Draw("Compas", Vector3(1000, 50, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("Hari", Vector3(1000, 45, 0), angle.y, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
