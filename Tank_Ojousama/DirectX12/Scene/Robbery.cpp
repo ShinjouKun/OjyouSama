@@ -4,6 +4,7 @@
 #include "Title.h"
 #include "Select.h"
 #include "Result.h"
+#include "GameOver.h"
 #include "../Sound/Sound.h"
 #include "../Utility/Timer/Timer.h"
 #include "../Actor/Enemy/BlowEnemy.h"
@@ -251,6 +252,7 @@ void Robbery::StartScene()
 	mBackSpownFlag = false;
 	messeTime = 0;
 
+	mTime = 0;
 	objectCount = 0;
 	mGoalLine = 500.0f;
 
@@ -403,12 +405,16 @@ void Robbery::UpdateScene()
 	//mEnemyAI->Update();
 	mTimer->update();
 
+	if (mResultFlag)
+	{
+		mTime += 1;
+		if (mTime >= 60)
+		{
+			BaseScene::NextScene(std::make_shared<GameOver>());
+		}
+	}
+
 	if (!mTimer->isTime()) return;
-
-
-
-
-
 
 	Pose();
 	Setting();
@@ -431,12 +437,8 @@ void Robbery::UpdateScene()
 		mGoalFlag = true;
 	}
 
-
-
 	StartWayEnemySpown();
 	BackWayEnemySpown();
-
-
 
 	//シーン処理
 	if (mGoalFlag)
@@ -444,6 +446,11 @@ void Robbery::UpdateScene()
 		//クリア
 		BaseScene::mStageFlag2 = true;
 		NextScene(std::make_shared<Result>());
+	}
+
+	if (mObjManager->GetPlayer().GetHp() <= 0)
+	{
+		mResultFlag = true;
 	}
 }
 
