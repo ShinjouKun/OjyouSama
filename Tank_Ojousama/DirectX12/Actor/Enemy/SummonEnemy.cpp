@@ -49,8 +49,8 @@ void SummonEnemy::Init()
 	mDeathAnimation = false;
 	mDeadFlag = false;
 
-	mScale = Vector3(0.5f, 0.5f, 0.5f);
-	SetCollidder(Vector3(0.0f, 1.0f, 0.0f), 1.5f);
+	mScale = Vector3(2.0f, 2.0f, 2.0f);
+	SetCollidder(Vector3(0.0f, 1.5f, 0.0f), 1.5f);
 
 	//—ñ‹“Œ^‰Šú‰»
 	objType = ObjectType::ENEMY;
@@ -85,7 +85,7 @@ void SummonEnemy::Init()
 	mMyNumber = to_string(number);
 	mSummon = "SummonEnemy";
 	mSummonNum = mSummon + mMyNumber;
-	mModelRender->AddModel(mSummonNum, "Resouse/wood.obj", "Resouse/Big-treeA.png");
+	mModelRender->AddModel(mSummonNum, "Resouse/EnemyModel/TreePawn/Small_Woods.obj", "Resouse/EnemyModel/TreePawn/Small_Woods.png");
 }
 
 void SummonEnemy::Update()
@@ -214,8 +214,11 @@ void SummonEnemy::Move()
 		//“ñ“_ŠÔ‚ÌŠp“x‚ð‹‚ß‚é
 		float radian = atan2(distance.x, distance.z);
 		//‰ñ“]‚ð”½‰f
-		angle.y = Math::toDegrees(radian) + 180.0f;
-		mFireAngle = -Math::toDegrees(radian) - 180.0f;
+		//angle.y = Math::toDegrees(radian) + 90.0f;
+		mFireAngle = -Math::toDegrees(radian) + 90.0f;
+
+		//angle.y = Math::toDegrees(radian);
+		//mFireAngle = Math::toDegrees(radian);
 
 		//ˆÚ“®‚·‚é
 		velocity = distance * speed;
@@ -227,7 +230,7 @@ void SummonEnemy::Move()
 	else
 	{
 		//‹r‚ÌŠp“x‚ðŒ³‚É–ß‚·
-		angle.z = 0.0f;
+		angle.x = 0.0f;
 	}
 }
 
@@ -236,16 +239,16 @@ void SummonEnemy::MoveAnimation()
 	//‰EƒXƒeƒbƒv
 	if (mStep)
 	{
-		angle.z += 1.5f;
-		if (angle.z > 25.0f)
+		angle.x += 1.5f;
+		if (angle.x > 25.0f)
 		{
 			mStep = false;
 		}
 	}
 	else
 	{
-		angle.z -= 1.5f;
-		if (angle.z < -25.0f)
+		angle.x -= 1.5f;
+		if (angle.x < -25.0f)
 		{
 			mStep = true;
 		}
@@ -275,8 +278,8 @@ void SummonEnemy::DownAttack()
 
 void SummonEnemy::AttackStep_FallDown()
 {
-	angle.x += mDownSpeed;
-	if (angle.x > 90.0f)
+	angle.z -= mDownSpeed;
+	if (angle.z < -90.0f)
 	{
 		mAttackStep = AttackStep::WAIT;
 		mAttackSE->setPos(position);
@@ -297,8 +300,8 @@ void SummonEnemy::AttackStep_Wait()
 
 void SummonEnemy::AttackStep_GetUp()
 {
-	angle.x -= mDownSpeed;
-	if (angle.x <= 0.0f)
+	angle.z += mDownSpeed;
+	if (angle.z >= 0.0f)
 	{
 		mAttackFlag = false;
 		mAttackStep = AttackStep::FALL_DOWN;
