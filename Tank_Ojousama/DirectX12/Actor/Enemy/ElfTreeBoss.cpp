@@ -270,7 +270,7 @@ void ElfTreeBoss::ManyAppleDrop()
 	if (mAppleDropTime->isTime())
 	{
 		//タイマーをリセットする
-		mAppleDropTime->setTime(1.0f);
+		mAppleDropTime->setTime(5.0f);
 
 		//行動終了とする
 		mActionFlag = false;
@@ -657,7 +657,7 @@ void ElfTreeBoss::EnemyInit()
 	mExplosionTime = std::make_shared<Timer>();
 	mExplosionTime->setTime(3.0f);
 	mAppleDropTime = std::make_shared<Timer>();
-	mAppleDropTime->setTime(1.0f);
+	mAppleDropTime->setTime(5.0f);
 	mAppleInterval = std::make_shared<Timer>();
 	mAppleInterval->setTime(0.1f);
 

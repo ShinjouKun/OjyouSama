@@ -141,23 +141,23 @@ void BossScene::StartScene()
 
 
 	//スタート地点の天井
-	mObjManager->Add(new BetaTestBlock(Vector3(0, 15.0f, -510.0f), Vector3(180, 0, 0), mObjManager, BaseScene::mModel, objectCount, Vector3(-10.0f, 0.0f, -15.0f), Vector3(10.0f, 1.0f, 15.0f)));
+	mObjManager->Add(new BetaTestBlock(Vector3(0, 15.0f, 510.0f), Vector3(180, 0, 0), mObjManager, BaseScene::mModel, objectCount, Vector3(-10.0f, 0.0f, -15.0f), Vector3(10.0f, 1.0f, 15.0f)));
 	//後ろの壁
-	mObjManager->Add(new BetaTestBlock(Vector3(0, 0.0f, -520.0f), Vector3(90, 180, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-150.0f, 0.0f, -2.0f), Vector3(150.0f, 1.0f, 1.0f)));
+	mObjManager->Add(new BetaTestBlock(Vector3(0, 0.0f, 520.0f), Vector3(90, 0, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-150.0f, 0.0f, -2.0f), Vector3(150.0f, 1.0f, 1.0f)));
 	//奥
-	mObjManager->Add(new BetaTestBlock(Vector3(0, 0.0f, -270.0f), Vector3(90, 0, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-150.0f, 0.0f, -2.0f), Vector3(150.0f, 1.0f, 1.0f)));
+	mObjManager->Add(new BetaTestBlock(Vector3(0, 0.0f, 270.0f), Vector3(90, 180, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-150.0f, 0.0f, -2.0f), Vector3(150.0f, 1.0f, 1.0f)));
 	//右
-	mObjManager->Add(new BetaTestBlock(Vector3(100, 0.0f, -400.0f), Vector3(90, -90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
+	mObjManager->Add(new BetaTestBlock(Vector3(100, 0.0f, 400.0f), Vector3(90, -90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
 	//左
-	mObjManager->Add(new BetaTestBlock(Vector3(-100, 0.0f, -400.0f), Vector3(90, 90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
+	mObjManager->Add(new BetaTestBlock(Vector3(-100, 0.0f, 400.0f), Vector3(90, 90, 0), mObjManager, BaseScene::mModel, objectCount++, Vector3(-2.0f, 0.0f, -150.0f), Vector3(1.0f, 1.0f, 150.0f)));
 
 	//ボス
-	mBoss = new ElfTreeBoss(Vector3(0.0f, 0.0f, -400.0f), Vector3(0.0f, 0.0f, 0.0f), BaseScene::mParticle, objectCount++);
+	mBoss = new ElfTreeBoss(Vector3(0.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), BaseScene::mParticle, objectCount++);
 	mObjManager->Add(mBoss);
 
 #pragma endregion
 
-	mObjManager->Add(new Player(Vector3(0.0f, 0.0f, -500.0f), Vector3(0, 180, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, 4));
+	mObjManager->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 180, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, 4));
 	mObjManager->Add(new CameraEye(Vector3(0, 0, -180), Vector3(0, 180, 0), mObjManager));
 	mTimer = std::make_shared<Timer>(0.01f);
 }
@@ -216,7 +216,7 @@ void BossScene::DrawScene()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0.0f), Vector3(0, 0, 0), Vector3(50, 50, 50));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -100.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
+	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, 100.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
 	mObjManager->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 
