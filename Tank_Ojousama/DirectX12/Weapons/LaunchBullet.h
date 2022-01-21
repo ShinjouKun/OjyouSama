@@ -56,7 +56,7 @@ private:
 	Vector3 mScale;         //サイズ
 	Vector3 mCircleScale;
 
-	int BULLET_DAMAGE = 30;//ダメージ
+	int BULLET_DAMAGE = 20;//ダメージ
 	float test = 0;
 
 	float MOVE_SPEED = 1.5f;//移動速度
