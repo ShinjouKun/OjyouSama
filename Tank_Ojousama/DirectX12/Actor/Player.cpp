@@ -327,8 +327,6 @@ void Player::UseWeapon2()
 		mNormalAtkParticle->setPos(Vector3(position.x - (axis.x * 2.5f), position.y + 1.5f, position.z - (axis.z * 2.5f)));//後で変えるかも？
 		mNormalAtkParticle->Play();
 	}
-
-
 	shotFlag2 = true;
 }
 
@@ -437,11 +435,11 @@ void Player::Init()
 
 	//コンパス
 	playerSprite->AddTexture("Compas", "Resouse/compas.png");
-	playerSprite->SetSize("Compas", Vector2(168, 128));
-	playerSprite->SetAncPoint("Compas", Vector2(-84, -84));
+	playerSprite->SetSize("Compas", Vector2(228, 190));
+	playerSprite->SetAncPoint("Compas", Vector2(-104, -104));
 	playerSprite->AddTexture("Hari", "Resouse/hari.png");
-	playerSprite->SetSize("Hari", Vector2(168, 128));
-	playerSprite->SetAncPoint("Hari", Vector2(-84,-74));
+	playerSprite->SetSize("Hari", Vector2(188, 188));
+	playerSprite->SetAncPoint("Hari", Vector2(-95,-120));
 
 	//model
 	modelChanger = new ModelChanger();
@@ -483,6 +481,7 @@ void Player::Init()
 	countMoney = 0;
 	money = 0;
 	moneyMax = 0;
+	BaseScene::mMinusMoney = 0;
 
 	//コライダーの情報をセット
 	SetCollidder(Vector3(0, 0, 0), 1.0f);
@@ -509,7 +508,7 @@ void Player::Update()
 
 	if (moneyMax > money)
 	{
-		money += 100;
+		money += 1000;
 		BaseScene::mMinusMoney = money;
 	}
 
@@ -862,8 +861,8 @@ void Player::Rend()
 
 	if (sceneCamOk)
 	{
-		playerSprite->Draw("Compas", Vector3(1000, 50, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		playerSprite->Draw("Hari", Vector3(1000, 45, 0), angle.y, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("Compas", Vector3(1000, 600, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("Hari", Vector3(1012, 610, 0), angle.y, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
