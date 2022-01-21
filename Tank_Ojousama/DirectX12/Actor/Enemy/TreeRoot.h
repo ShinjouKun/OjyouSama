@@ -19,6 +19,7 @@ public:
 	~TreeRoot();
 
 	void SetPosition(const Vector3& value) { position = value; }
+	void SetAngle(const Vector3& value) { angle = value; }
 
 private:
 

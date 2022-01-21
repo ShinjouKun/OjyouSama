@@ -45,6 +45,9 @@ private:
 	/*敵を召喚*/
 	void Summon();
 
+	/*大量リンゴ落とし*/
+	void ManyAppleDrop();
+
 	/*死亡時の演出*/
 	void DeathAnimation();
 
@@ -100,28 +103,29 @@ private:
 	};
 	DeathAnimationStep mDeathStep;
 
-	//ObjectManager* mObjManager;
-	//shared_ptr<ModelRenderer> mModelRender;
-	//shared_ptr<ParticleManager> mEffectManager;
+
 	shared_ptr<ParticleEmitterBox> mParticleEmitter;
-	shared_ptr<Sound> mSmallExplosion;//小爆発
-	shared_ptr<Sound> mBigExplosion;  //大爆発
-	shared_ptr<Sound> mAttackSE; //攻撃時のSE
-	shared_ptr<Sound> mDamageSE; //ダメージを受けた時のSE
-	shared_ptr<Sound> mNoDeathSE;//無敵のときのSE
-	shared_ptr<Sound> mDeathSE;  //死亡したときのSE
+	shared_ptr<Sound> mSmallExplosion;   //小爆発
+	shared_ptr<Sound> mBigExplosion;     //大爆発
+	shared_ptr<Sound> mAttackSE;         //攻撃時のSE
+	shared_ptr<Sound> mDamageSE;         //ダメージを受けた時のSE
+	shared_ptr<Sound> mNoDeathSE;        //無敵のときのSE
+	shared_ptr<Sound> mDeathSE;          //死亡したときのSE
 	shared_ptr<Hit> mDamageParticle;     //ダメージ用パーティクル
 	shared_ptr<Explosion> mDeathParticle;//死亡用パーティクル
 
-
-	shared_ptr<Timer> mAimingTime;  //狙う時間
-	shared_ptr<Timer> mReloadTime;  //リロード時間
-	shared_ptr<Timer> mSummonTime;  //召喚時間
-	shared_ptr<Timer> mRootWaitTime;//根っこ待機時間
+	shared_ptr<Timer> mAimingTime;    //狙う時間
+	shared_ptr<Timer> mReloadTime;    //リロード時間
+	shared_ptr<Timer> mSummonTime;    //召喚時間
+	shared_ptr<Timer> mRootWaitTime;  //根っこ待機時間
 	shared_ptr<Timer> mEffectInterval;//エフェクトの描画間隔
-	shared_ptr<Timer> mExplosionTime;//エフェクトの描画時間
+	shared_ptr<Timer> mExplosionTime; //エフェクトの描画時間
+	shared_ptr<Timer> mAppleDropTime; //リンゴを落とし続ける時間
+	shared_ptr<Timer> mAppleInterval; //リンゴを落とす感覚
 
 	TreeRoot * mTreeRoot;//木の根
+	TreeRoot * mTreeRoot2;//木の根
+	TreeRoot * mTreeRoot3;//木の根
 
 	std::vector<SummonEnemy*> mSummonList;//召喚した敵のリスト
 	std::vector<Vector3> mSummonPoint;    //召喚位置
@@ -129,6 +133,7 @@ private:
 	std::vector<string> mSummonNum;       //召喚するモデルの番号
 
 	const Vector3 FIRE_POSITION = Vector3(0, 15, 0);//弾の発射位置
+	Vector3 mScale;
 	Vector3 mPlayerPosition; //プレイヤーの位置
 	Vector3 mOffsetRightHand;//右手の固定位置
 	Vector3 mOffsetLeftHand; //左手の固定位置
@@ -140,6 +145,8 @@ private:
 	const int MAX_HP = 500;       //最大体力
 	const int RAPIDFIRE_COUNT = 5;//連続射撃の数
 	const int SUMMON_COUNT = 5;   //召喚数
+	const int DEFENSE = 5;        //防御力
+	int damagePool;  //受けるダメージの一時保存
 	int mBulletCount;//弾を発射した数
 	int mCircleCount;//警告を表示した数
 	int mEnemyNumber;//召喚した敵の数
@@ -150,8 +157,9 @@ private:
 	const float AIMING_TIME = 0.5f;   //狙う時間
 	const float RELOAD_TIME = 0.5f;   //装填時間
 	const float SUMMON_TIME = 3.0f;   //召喚準備時間
-	float mFireAngle;//弾を撃つときの向き
-	float mRootSpeed;//根っこの移動速度
+
+	float mFireAngle;   //弾を撃つときの向き
+	float mRootSpeed;   //根っこの移動速度
 	float mSummonRotate;//召喚中の魔法陣の回転
 	float mHandAngle;
 
@@ -167,6 +175,8 @@ private:
 	bool mOneShotSound;      //死亡SEを鳴らしたかどうか
 	bool mSummonAlive;       //召喚した敵が生きているか
 	bool mEndAnimation;      //シーンの導入アニメーションが終わっているか
+	bool mAngryFlag;         //怒り状態かどうか
+	bool mAngryAnimFlag[3];     //アニメーションが終了しているか
 
 	//胴体
 	string mStringNum;

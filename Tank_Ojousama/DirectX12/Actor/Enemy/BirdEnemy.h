@@ -75,6 +75,8 @@ private:
 	const float ATTACK_LENGTH = 50.0f;//UŒ‚”ÍˆÍ
 	const float LEG_SPEED = 10.0f;    //‹r‚Ì‰ñ“]‘¬“x
 	const float LEG_RANGE = 100.0f;   //‹r‚ÌÅ‘å‰ñ“]—Ê
+	const float WALK_SPEED = 1.0f;//’Êí‚ÌˆÚ“®‘¬“x
+	const float RUN_SPEED = 1.5f; //’e‚ğŒ‚‚Á‚½Œã‚ÌˆÚ“®‘¬“x
 
 	float mRadius;          //”¼Œa
 	float mRiseSpeed = 0.5f;//ã¸‚Ì‘¬‚³

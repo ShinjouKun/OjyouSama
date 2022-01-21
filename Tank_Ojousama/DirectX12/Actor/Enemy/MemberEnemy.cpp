@@ -234,7 +234,7 @@ Vector3 MemberEnemy::SendSearchPosition() const
 
 void MemberEnemy::Init()
 {
-	HP = 10;
+	HP = 20;
 	speed = 0.5f;
 	damage = 5;
 	mRadius = 1.0f;
@@ -538,44 +538,31 @@ void MemberEnemy::Confusion()
 {
 	//‘à’·‚ª¶‚«‚Ä‚¢‚½‚çˆ—‚µ‚È‚¢
 	if (!mCaptainLost) return;
+
 	//‘à’·‚ðŽ¸‚Á‚½Žž
-	if (mMoveDirection == 0)
+
+	//‘à’·‚ðŽ¸‚Á‚½Žž‚©‚ÂAõ“G‹——£“à‚ÉƒvƒŒƒCƒ„[‚ª‚¢‚é‚Æ‚«SEARCH_RANGE
+
+	mPlayerPosition = mObjManager->GetPlayer().GetPosition();
+	Vector3 dist = mPlayerPosition - position;
+	float length = dist.Length();
+
+	if (length <= SEARCH_RANGE)
 	{
-		int direction = 0;
-		Random::initialize();
+		mAimingTime->update();
+		dist = dist.normal();
+		float radian = atan2(dist.x, dist.z);
+		mFireAngle = -Math::toDegrees(radian) - 180.0f;
 
-		direction = Random::randomRange(0, 3);
+		if (mAimingTime->isTime())
+		{
+			mAimingTime->setTime(1.0f);
 
-		if (direction == 0)
-		{
-			mRandomDirection = Vector3(0.1f, 0.0f, 0.0f);
-			mMoveDirection = 1;
-		}
-		else if (direction == 1)
-		{
-			mRandomDirection = Vector3(-0.1f, 0.0f, 0.0f);
-			mMoveDirection = 1;
-		}
-		else if (direction == 2)
-		{
-			mRandomDirection = Vector3(0.0f, 0.0f, 0.1f);
-			mMoveDirection = 1;
-		}
-		else if (direction == 3)
-		{
-			mRandomDirection = Vector3(0.0f, 0.0f, -0.1f);
-			mMoveDirection = 1;
-		}
-	}
-	else if (mMoveDirection == 1)
-	{
-		MoveTarget(position + mRandomDirection, -1.0f);
-		mRandomMoveTimer->update();
-
-		if (mRandomMoveTimer->isTime())
-		{
-			mRandomMoveTimer->setTime(0.5f);
-			mMoveDirection = 0;
+			//’e”­ŽË
+			Vector3 firePosition = AngleToVectorY(mFireAngle);
+			mObjManager->Add(new ElfBullet(position + firePosition, Vector3(0.0f, mFireAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+			mAttackSE->setPos(position);
+			mAttackSE->play();
 		}
 	}
 }

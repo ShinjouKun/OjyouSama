@@ -30,6 +30,12 @@ public:
 	/// </summary>
 	~BlowEnemy();
 
+
+	//void TestActive(bool value)
+	//{
+	//	testActive = value;
+	//}
+
 private:
 
 	//BaseEnemyから継承
@@ -108,4 +114,8 @@ private:
 	string mHand;           //手の名前
 	string mHandNumber;     //手 + 識別番号
 	string EXPLOSION_EFFECT;//エフェクト名
+
+
+
+	/*bool testActive = false;*/
 };

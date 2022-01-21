@@ -21,18 +21,24 @@ BlowEnemy::BlowEnemy(
 	mOriginNumber = num;
 	mAdvanceFlag = advanceFlag;
 	mAdvanceDirection = advanceDirection;
+
+	//testActive = false;
 }
 
 BlowEnemy::~BlowEnemy()
 {
-	attackArea->SetDeath(true);
+	if (attackArea != nullptr)
+	{
+		attackArea->SetDeath(true);
+	}
+	
 }
 
 void BlowEnemy::EnemyInit()
 {
 #pragma region 変数の初期化
 
-	HP = 15;//もともと20
+	HP = 30;//もともと20
 	warningTime = ECI::WARNING_TIME * BECI::WARNING_TIME * 60;
 	attackTime = 30;//もともと60
 
@@ -147,6 +153,9 @@ void BlowEnemy::EnemyInit()
 
 void BlowEnemy::EnemyUpdate()
 {
+	//if (!testActive) return;
+
+
 	/*当たり判定オブジェクトを生成*/
 	CreateOneObject();
 
@@ -170,6 +179,9 @@ void BlowEnemy::EnemyUpdate()
 
 void BlowEnemy::EnemyRend()
 {
+
+	//if (!testActive) return;
+
 	if (mDeathStep == DeathAnimationStep::EXPLOSION) return;
 
 	//モデルの描画
@@ -183,6 +195,8 @@ void BlowEnemy::EnemyRend()
 
 void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 {
+	//if (!testActive) return;
+
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		//ダメージを受ける

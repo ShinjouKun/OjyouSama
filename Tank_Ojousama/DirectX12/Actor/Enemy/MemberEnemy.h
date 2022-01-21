@@ -147,6 +147,7 @@ private:
 	Vector3 mPreviousPosition;//1フレーム前の位置
 	Vector3 mMoveRangeMin;    //最小移動範囲
 	Vector3 mMoveRangeMax;    //最大移動範囲
+	Vector3 mPlayerPosition;  //プレイヤーの位置(隊長が死んだら取得する)
 
 
 	const float SEARCH_RANGE = 50.0f;//索敵範囲(円)

@@ -306,6 +306,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/AppleBullet/apple.obj");
 	//ª‚Á‚±‚ÌUŒ‚
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/TreeRoot/nekko.obj");
+	//–Ø‚ÌŽG‹›“G
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/EnemyModel/TreePawn/Small_Woods.obj");
 
 	//“–‚½‚è”»’è—p‚Ì‰~
 	ModelLoader::GetInstance(pipeLine)->Load("Resouse/maru.obj");
