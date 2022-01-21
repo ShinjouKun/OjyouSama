@@ -21,10 +21,12 @@ void ModelChanger::Init()
 	body = BodyState::Light;
 	bottom = BottomState::Light_b;
 	weapons1 = WeaponsState::Cannon;
-	
 	editor = new TextEditor();
 	editor->Init();
 	Save();
+	SetHP(100);
+	SetUpDamage(0);
+	SetSpeed(0.5);
 	
 }
 
