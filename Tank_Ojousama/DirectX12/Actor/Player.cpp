@@ -328,8 +328,6 @@ void Player::UseWeapon2()
 		mNormalAtkParticle->Play();
 	}
 
-	//objM->Add(new MissileBullet(Vector3(position.x, position.y, position.z), Vector3(0, 0, 0), objM, playerModel, playerParticle, objType, bulletStock));
-	//
 
 	shotFlag2 = true;
 }
