@@ -189,6 +189,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end1.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end2.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end3.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpgage2.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/openingskip.png");
 

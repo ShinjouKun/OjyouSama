@@ -417,6 +417,7 @@ void Player::Init()
 
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
 	playerSprite->AddTexture("HpGage", "Resouse/hpgage.png");
+	playerSprite->AddTexture("HpGage2", "Resouse/hpgage2.png");
 	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
 	playerSprite->AddTexture("Blood", "Resouse/blood.png");
 	playerSprite->AddTexture("Blood2", "Resouse/blood2.png");
@@ -864,10 +865,17 @@ void Player::Rend()
 		playerSprite->Draw("Compas", Vector3(1000, 600, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("Hari", Vector3(1012, 610, 0), angle.y, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->SetSize("Danyaku2", Vector2(320, 32));
 		playerSprite->Draw("Danyaku2", Vector3(1280 - 512+94, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		if (HP >= 100)
+		{
+			playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
+		else
+		{
+			playerSprite->Draw("HpGage2", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
 		if (ItemNum == 0)
 		{
 			playerSprite->Draw("repairIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
