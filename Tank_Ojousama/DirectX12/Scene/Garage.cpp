@@ -86,8 +86,8 @@ void Garage::StartScene()
 	BaseScene::mModel->AddModel("TankPlayerC", "Resouse/big_sensha_head.obj", "Resouse/big_sensha.png");
 	BaseScene::mModel->AddModel("TankPlayerD", "Resouse/big_sensha_body.obj", "Resouse/big_sensha.png");
 
-	BaseScene::mModel->AddModel("TankPlayerE", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2_B.png");
-	BaseScene::mModel->AddModel("TankPlayerF", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2_B.png");
+	BaseScene::mModel->AddModel("TankPlayerE", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2.png");
+	BaseScene::mModel->AddModel("TankPlayerF", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2.png");
 
 
 	BaseScene::mModel->AddModel("OjyouSama1", "Resouse/ojosama_body.obj", "Resouse/ojosama_one.png");
