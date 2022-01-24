@@ -71,7 +71,7 @@ private:
 	Vector3 mOffsetPosition;    //帰る位置
 	Vector3 mOffsetRisePosition;//帰る位置の真上
 
-	const float RISE_HEIGHT = 20.0f;  //上昇量の高さ
+	const float RISE_HEIGHT = 10.0f;  //上昇量の高さ
 	const float ATTACK_LENGTH = 50.0f;//攻撃範囲
 	const float LEG_SPEED = 10.0f;    //脚の回転速度
 	const float LEG_RANGE = 100.0f;   //脚の最大回転量

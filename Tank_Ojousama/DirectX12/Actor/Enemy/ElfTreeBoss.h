@@ -51,6 +51,9 @@ private:
 	/*死亡時の演出*/
 	void DeathAnimation();
 
+	/*怒り時の成長*/
+	void AngryGrowth();
+
 	/*回りながら爆発する*/
 	void DeathAnimation_Explosion();
 
@@ -122,10 +125,13 @@ private:
 	shared_ptr<Timer> mExplosionTime; //エフェクトの描画時間
 	shared_ptr<Timer> mAppleDropTime; //リンゴを落とし続ける時間
 	shared_ptr<Timer> mAppleInterval; //リンゴを落とす感覚
+	shared_ptr<Timer> mColorTimer;    //無敵時にシールドが浮き出る時間
 
 	TreeRoot * mTreeRoot;//木の根
 	TreeRoot * mTreeRoot2;//木の根
 	TreeRoot * mTreeRoot3;//木の根
+	TreeRoot * mTreeRoot4;//木の根
+	TreeRoot * mTreeRoot5;//木の根
 
 	std::vector<SummonEnemy*> mSummonList;//召喚した敵のリスト
 	std::vector<Vector3> mSummonPoint;    //召喚位置
@@ -142,7 +148,7 @@ private:
 	Vector3 mLeftHandPos;    //左手の位置
 	Vector3 mRootPosition;   //根っこの位置
 
-	const int MAX_HP = 500;       //最大体力
+	const int MAX_HP = 50;       //最大体力
 	const int RAPIDFIRE_COUNT = 5;//連続射撃の数
 	const int SUMMON_COUNT = 5;   //召喚数
 	const int DEFENSE = 10;        //防御力
@@ -176,7 +182,8 @@ private:
 	bool mSummonAlive;       //召喚した敵が生きているか
 	bool mEndAnimation;      //シーンの導入アニメーションが終わっているか
 	bool mAngryFlag;         //怒り状態かどうか
-	bool mAngryAnimFlag[3];     //アニメーションが終了しているか
+	bool mAngryAnimFlag[3];  //アニメーションが終了しているか
+	bool mColorChange;       //無敵中の色に変えているかどうか
 
 	//胴体
 	string mStringNum;

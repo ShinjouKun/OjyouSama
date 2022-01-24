@@ -292,6 +292,44 @@ void ElfTreeBoss::DeathAnimation()
 	}
 }
 
+void ElfTreeBoss::AngryGrowth()
+{
+	if (mAngryFlag == true)
+	{
+		if (mAngryAnimFlag[0] && mAngryAnimFlag[1] && mAngryAnimFlag[1]) return;
+
+		mScale += Vector3(0.1f, 0.1f, 0.1f);
+
+		if (mScale.x >= 10.0f)
+		{
+			mScale = Vector3(10.0f, 10.0f, 10.0f);
+
+			mAngryAnimFlag[0] = true;
+		}
+
+		mRadius += 1.0f;
+
+		if (mRadius >= 6.0f)
+		{
+			mRadius = 6.0f;
+			SetCollidder(Vector3(0.0f, 14.0f, 0.0f), mRadius);
+			mAngryAnimFlag[1] = true;
+		}
+
+		mOffsetRightHand = Vector3(position.x, position.y + 25.0f, position.z);
+		mOffsetLeftHand = Vector3(position.x, position.y + 25.0f, position.z);
+		mAngryAnimFlag[2] = true;
+
+		//if (mOffsetRightHand.y >= position.y + 25.0f && mOffsetLeftHand.y >= position.y + 25.0f)
+		//{
+
+		//	mOffsetRightHand = Vector3(position.x, position.y + 55.0f, position.z);
+		//	mOffsetLeftHand =  Vector3(position.x, position.y + 55.0f, position.z);
+		//	mAngryAnimFlag[2] = true;
+		//}
+	}
+}
+
 void ElfTreeBoss::DeathAnimation_Explosion()
 {
 	mExplosionTime->update();
@@ -448,12 +486,6 @@ void ElfTreeBoss::RootAtack_ChasePlayer()
 
 		mTreeRoot->SetPosition(mRootPosition);
 
-		if (mAngryFlag)
-		{
-			mTreeRoot2->SetPosition(mRootPosition);
-			mTreeRoot3->SetPosition(mRootPosition);
-		}
-
 		//根っこの当たる範囲内にいれば
 		if (length < 1.0f)
 		{
@@ -497,7 +529,8 @@ void ElfTreeBoss::RootAtack_GoupRoot()
 		//根っこを上に上げる。
 		mRootPosition.y += 2.0f;
 
-		Vector3 mRightPos = AngleToVectorY(mFireAngle) * 10.0f;
+		Vector3 mDistPos = AngleToVectorY(mFireAngle) * 8.0f;
+		Vector3 mDistPos2 = AngleToVectorY(mFireAngle) * 16.0f;
 
 
 		mTreeRoot->SetPosition(mRootPosition);
@@ -505,10 +538,14 @@ void ElfTreeBoss::RootAtack_GoupRoot()
 
 		if (mAngryFlag)
 		{
-			mTreeRoot2->SetPosition(mRootPosition + mRightPos);
-			mTreeRoot3->SetPosition(mRootPosition - mRightPos);
+			mTreeRoot2->SetPosition(mRootPosition + mDistPos);
+			mTreeRoot3->SetPosition(mRootPosition - mDistPos);
+			mTreeRoot4->SetPosition(mRootPosition + mDistPos2);
+			mTreeRoot5->SetPosition(mRootPosition - mDistPos2);
 			mTreeRoot2->SetAngle(angle);
 			mTreeRoot3->SetAngle(angle);
+			mTreeRoot4->SetAngle(angle);
+			mTreeRoot5->SetAngle(angle);
 		}
 
 
@@ -547,12 +584,23 @@ void ElfTreeBoss::RootAtack_GodownRoot()
 	{
 		//根っこを下におろす
 		mRootPosition.y -= 0.5f;
+
+		Vector3 mDistPos = AngleToVectorY(mFireAngle) * 8.0f;
+		Vector3 mDistPos2 = AngleToVectorY(mFireAngle) * 16.0f;
+
 		mTreeRoot->SetPosition(mRootPosition);
+		mTreeRoot->SetAngle(angle);
 
 		if (mAngryFlag)
 		{
-			mTreeRoot2->SetPosition(Vector3(mRootPosition.x + 10, mRootPosition.y, mRootPosition.z));
-			mTreeRoot3->SetPosition(Vector3(mRootPosition.x - 10, mRootPosition.y, mRootPosition.z));
+			mTreeRoot2->SetPosition(mRootPosition + mDistPos);
+			mTreeRoot3->SetPosition(mRootPosition - mDistPos);
+			mTreeRoot4->SetPosition(mRootPosition + mDistPos2);
+			mTreeRoot5->SetPosition(mRootPosition - mDistPos2);
+			mTreeRoot2->SetAngle(angle);
+			mTreeRoot3->SetAngle(angle);
+			mTreeRoot4->SetAngle(angle);
+			mTreeRoot5->SetAngle(angle);
 		}
 	}
 
@@ -574,6 +622,8 @@ void ElfTreeBoss::CreateObject()
 	mManager->Add(mTreeRoot);
 	mManager->Add(mTreeRoot2);
 	mManager->Add(mTreeRoot3);
+	mManager->Add(mTreeRoot4);
+	mManager->Add(mTreeRoot5);
 
 	mCreateObject = true;
 }
@@ -585,7 +635,7 @@ void ElfTreeBoss::EnemyInit()
 	objType = ObjectType::ENEMY;
 	mRadius = 3.0f;
 
-	damage = 5;
+	damage = 0;
 	mBulletCount = 0;
 	mEnemyNumber = 0;
 	mCircleCount = 0;
@@ -608,6 +658,7 @@ void ElfTreeBoss::EnemyInit()
 	mOneShotSound = false;
 	mSummonAlive = false;
 	mEndAnimation = false;
+	mColorChange = false;
 
 	mAngryFlag = false;
 	mAngryAnimFlag[0] = false;
@@ -628,6 +679,8 @@ void ElfTreeBoss::EnemyInit()
 	mTreeRoot = new TreeRoot(mRootPosition, angle, mManager, mRend, number);
 	mTreeRoot2 = new TreeRoot(mRootPosition, angle, mManager, mRend, number + 1);
 	mTreeRoot3 = new TreeRoot(mRootPosition, angle, mManager, mRend, number + 2);
+	mTreeRoot4 = new TreeRoot(mRootPosition, angle, mManager, mRend, number + 3);
+	mTreeRoot5 = new TreeRoot(mRootPosition, angle, mManager, mRend, number + 4);
 	//召喚した敵リストの初期化
 	mSummonList.clear();
 
@@ -641,7 +694,7 @@ void ElfTreeBoss::EnemyInit()
 	mDeathSE = std::make_shared<Sound>("SE/Boss_Death.wav", true);
 	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mNoDeathSE = std::make_shared<Sound>("SE/Boss_NoDamage.wav", true);
-	mNoDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	//mNoDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
 	//各種タイマー初期化
 	mAimingTime = std::make_shared<Timer>();
@@ -660,6 +713,8 @@ void ElfTreeBoss::EnemyInit()
 	mAppleDropTime->setTime(5.0f);
 	mAppleInterval = std::make_shared<Timer>();
 	mAppleInterval->setTime(0.1f);
+	mColorTimer = std::make_shared<Timer>();
+	mColorTimer->setTime(0.5f);
 
 	//根っこ攻撃状態を初期化
 	mRootStep = RootAttackStep::PIERCE_HAND;
@@ -738,49 +793,6 @@ void ElfTreeBoss::EnemyUpdate()
 		mAngryFlag = true;
 	}
 
-	if (mAngryFlag == true)
-	{
-		//if (mAngryAnimFlag[0] && mAngryAnimFlag[1] && mAngryAnimFlag[1]) return;
-
-		mScale += Vector3(0.1f, 0.1f, 0.1f);
-
-		if (mScale.x >= 10.0f)
-		{
-			mScale = Vector3(10.0f, 10.0f, 10.0f);
-			mAngryAnimFlag[0] = true;
-		}
-
-		mRadius += 1.0f;
-
-		if (mRadius >= 5.0f)
-		{
-
-			mRadius = 5.0f;
-			mAngryAnimFlag[1] = true;
-		}
-
-		mOffsetRightHand = Vector3(position.x, position.y + 25.0f, position.z);
-		mOffsetLeftHand =  Vector3(position.x, position.y + 25.0f, position.z);
-		mAngryAnimFlag[2] = true;
-
-		//if (mOffsetRightHand.y >= position.y + 25.0f && mOffsetLeftHand.y >= position.y + 25.0f)
-		//{
-
-		//	mOffsetRightHand = Vector3(position.x, position.y + 55.0f, position.z);
-		//	mOffsetLeftHand =  Vector3(position.x, position.y + 55.0f, position.z);
-		//	mAngryAnimFlag[2] = true;
-		//}
-	}
-
-	if (mAngryAnimFlag[2])
-	{
-
-		int test = 0;
-
-
-		test = 20;
-	}
-
 	if (mDeadFlag)
 	{
 		death = true;
@@ -824,6 +836,9 @@ void ElfTreeBoss::EnemyUpdate()
 
 	/*攻撃*/
 	ChangeAttackState();
+
+	/*怒りによる成長*/
+	AngryGrowth();
 }
 
 void ElfTreeBoss::EnemyRend()
@@ -841,13 +856,31 @@ void ElfTreeBoss::EnemyRend()
 	if (mRootStep == RootAttackStep::CHASE_PLAYER ||
 		mRootStep == RootAttackStep::WAIT)
 	{
-		mRend->Draw(mRootCircleNum, Vector3(mRootPosition.x, position.y - 3, mRootPosition.z), angle, mScale);
+		mRend->Draw(mRootCircleNum, Vector3(mRootPosition.x, position.y - 3, mRootPosition.z), angle, Vector3(5.0f, 5.0f, 5.0f));
 	}
 
-	//if (mSummonAlive)
-	//{
-	//	mRend->Draw(mBarrierNum, Vector3(position.x, position.y, position.z), angle, Vector3(5, 5, 5));
-	//}
+	//シールドを貼っているときすこしだけ色を変える
+	if (mColorChange)
+	{
+		mColorTimer->update();
+
+		mRend->SetColor(mModelNumName01, Vector4(0, 1, 1, 0.01f));
+		mRend->SetColor(mHandRightNum, Vector4(0, 1, 1, 0.1f));
+		mRend->SetColor(mHandLeftNum, Vector4(0, 1, 1, 0.1f));
+
+		if (mColorTimer->isTime())
+		{
+			mColorTimer->setTime(0.5f);
+			mRend->SetColor(mModelNumName01, Vector4(0, 0, 0, 0));
+			mRend->SetColor(mHandRightNum, Vector4(0, 0, 0, 0));
+			mRend->SetColor(mHandLeftNum, Vector4(0, 0, 0, 0));
+			mColorChange = false;
+		}
+	}
+	else
+	{
+		mRend->SetColor(mModelNumName01, Vector4(0, 0, 0, 0));
+	}
 
 	//表示状態の時だけ、警告を表示
 	if (mDrawSummonPoint)
@@ -857,8 +890,6 @@ void ElfTreeBoss::EnemyRend()
 			mRend->Draw(mSummonNum[i], mSummonPoint[i], Vector3(0.0f, mSummonRotate += 10.0f, 0.0f), Vector3(2, 2, 2));
 		}
 	}
-
-	mRend->SetColor(mModelNumName01, Vector4(0, 0, 0, 0));
 }
 
 void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
@@ -871,6 +902,7 @@ void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
 			//SE発射
 			mNoDeathSE->setPos(position);
 			mNoDeathSE->play();
+			mColorChange = true;
 		}
 		else
 		{
