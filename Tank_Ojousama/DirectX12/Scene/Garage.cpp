@@ -617,9 +617,9 @@ void Garage::DrawScene()
 	if (fadeF)
 	{
 		if (fadeFB) return;
-		
-		
-	
+
+
+
 		switch (headNum)
 		{
 		case 0:
@@ -653,7 +653,7 @@ void Garage::DrawScene()
 			mChanger->ChangeHead(Other01);
 			break;
 		default:
-			
+
 			BaseScene::mModel->Draw("OjyouSama1", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			if (keyflag == 0)
 			{
@@ -673,11 +673,11 @@ void Garage::DrawScene()
 				Sequence::instance().set(0, Vector2(1180, 430), Vector2(32, 32));
 				if (mChanger->GetUpDamage() <= 0)
 				{
- 					Sequence::instance().set(mChanger->GetUpDamage() * 10, Vector2(1030, 430), Vector2(32, 32));
+					Sequence::instance().set(mChanger->GetUpDamage() * 10, Vector2(1030, 430), Vector2(32, 32));
 				}
 				else
 				{
-					Sequence::instance().set(mChanger->GetUpDamage()*10, Vector2(990, 430), Vector2(32, 32));
+					Sequence::instance().set(mChanger->GetUpDamage() * 10, Vector2(990, 430), Vector2(32, 32));
 				}
 			}
 			mChanger->ChangeBody(Light);
@@ -704,7 +704,7 @@ void Garage::DrawScene()
 			BaseScene::mModel->Draw("TankPlayerC", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			if (keyflag == 1)
 			{
-				Sequence::instance().set(10*10, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(10 * 10, Vector2(1150, 430), Vector2(32, 32));
 				if (mChanger->GetUpDamage() <= 0)
 				{
 					Sequence::instance().set(mChanger->GetUpDamage() * 10, Vector2(1030, 430), Vector2(32, 32));
@@ -740,8 +740,8 @@ void Garage::DrawScene()
 			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			if (keyflag == 2)
 			{
-				Sequence::instance().set(0.5f*10, Vector2(1180, 430), Vector2(32, 32));
-				Sequence::instance().set(mChanger->GetSpeed()*10, Vector2(1030, 430), Vector2(32, 32));
+				Sequence::instance().set(0.5f * 10, Vector2(1180, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetSpeed() * 10, Vector2(1030, 430), Vector2(32, 32));
 			}
 			mChanger->ChangeBottom(Light_b);
 			break;
@@ -750,8 +750,8 @@ void Garage::DrawScene()
 			BaseScene::mModel->Draw("TankPlayerF", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			if (keyflag == 2)
 			{
-				Sequence::instance().set(0.8f*10, Vector2(1180, 430), Vector2(32, 32));
-				Sequence::instance().set(mChanger->GetSpeed()*10, Vector2(1030, 430), Vector2(32, 32));
+				Sequence::instance().set(0.8f * 10, Vector2(1180, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetSpeed() * 10, Vector2(1030, 430), Vector2(32, 32));
 			}
 			mChanger->ChangeBottom(Midium_b);
 			break;
@@ -760,8 +760,8 @@ void Garage::DrawScene()
 			BaseScene::mModel->Draw("TankPlayerD", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			if (keyflag == 2)
 			{
-				Sequence::instance().set(1.0f*10, Vector2(1150, 430), Vector2(32, 32));
-				Sequence::instance().set(mChanger->GetSpeed()*10, Vector2(1030, 430), Vector2(32, 32));
+				Sequence::instance().set(1.0f * 10, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetSpeed() * 10, Vector2(1030, 430), Vector2(32, 32));
 			}
 			mChanger->ChangeBottom(Heavy_b);
 			break;
@@ -769,8 +769,8 @@ void Garage::DrawScene()
 			BaseScene::mModel->Draw("TankPlayerB", Vector3(0, -2, -113), Vector3(0, 30, 0), Vector3(1.5f, 1.5f, 1.5f));
 			if (keyflag == 2)
 			{
-				Sequence::instance().set(0.5f*10, Vector2(1150, 430), Vector2(32, 32));
-				Sequence::instance().set(mChanger->GetSpeed()*10, Vector2(990, 430), Vector2(32, 32));
+				Sequence::instance().set(0.5f * 10, Vector2(1150, 430), Vector2(32, 32));
+				Sequence::instance().set(mChanger->GetSpeed() * 10, Vector2(990, 430), Vector2(32, 32));
 			}
 			mChanger->ChangeBottom(Light_b);
 			break;
@@ -794,95 +794,100 @@ void Garage::DrawScene()
 			mChanger->ChangeWeapons1(MachinGun);
 			break;
 		}
-	}
-	DirectXManager::GetInstance()->SetData2D();
 
-	Sequence::instance().set(BaseScene::mMoney, Vector2(564, 70), Vector2(32, 32));
-	BaseScene::mSprite->Draw("En", Vector3(525, 58, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("Gunsikin", Vector3(320, 62, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	if (buy&&keyflag == 0)
-	{
-		switch (headNum)
+		DirectXManager::GetInstance()->SetData2D();
+
+		Sequence::instance().set(BaseScene::mMoney, Vector2(564, 70), Vector2(32, 32));
+		BaseScene::mSprite->Draw("En", Vector3(525, 58, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Gunsikin", Vector3(320, 62, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		if (buy&&keyflag == 0)
 		{
-		case 0:
-			Money = 0;
-			break;
-		case 1:
-			Money = 2000000;
-			break;
-		case 2:
-			Money = 5000000;
-			break;
-		default:
-			Money = 0;
-			break;
+			switch (headNum)
+			{
+			case 0:
+				Money = 0;
+				break;
+			case 1:
+				Money = 2000000;
+				break;
+			case 2:
+				Money = 5000000;
+				break;
+			default:
+				Money = 0;
+				break;
+			}
+			Sequence::instance().set(Money, Vector2(600, 500), Vector2(32, 32));
+			BaseScene::mSprite->Draw("NotBuy", Vector3(450, 250, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("En2", Vector3(550, 490, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
-		Sequence::instance().set(Money, Vector2(600, 500), Vector2(32, 32));
-		BaseScene::mSprite->Draw("NotBuy", Vector3(450, 250, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("En2", Vector3(550, 490, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
-	if (buy2&&keyflag == 1)
-	{
-		switch (bodyNum)
+		if (buy2&&keyflag == 1)
 		{
-		case 0:
-			Money = 0;
-			break;
-		case 1:
-			Money = 2000000;
-			break;
-		case 2:
-			Money = 5000000;
-			break;
-		default:
-			Money = 0;
-			break;
+			switch (bodyNum)
+			{
+			case 0:
+				Money = 0;
+				break;
+			case 1:
+				Money = 2000000;
+				break;
+			case 2:
+				Money = 5000000;
+				break;
+			default:
+				Money = 0;
+				break;
+			}
+			Sequence::instance().set(Money, Vector2(600, 500), Vector2(32, 32));
+			BaseScene::mSprite->Draw("NotBuy2", Vector3(450, 250, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("En3", Vector3(550, 490, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
-		Sequence::instance().set(Money, Vector2(600, 500), Vector2(32, 32));
-		BaseScene::mSprite->Draw("NotBuy2", Vector3(450, 250, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("En3", Vector3(550, 490, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
-	if (buy3&&keyflag == 2)
-	{
-		switch (bottomNum)
+		if (buy3&&keyflag == 2)
 		{
-		case 0:
-			Money = 0;
-			break;
-		case 1:
-			Money = 2000000;
-			break;
-		case 2:
-			Money = 5000000;
-			break;
-		default:
-			Money = 0;
-			break;
+			switch (bottomNum)
+			{
+			case 0:
+				Money = 0;
+				break;
+			case 1:
+				Money = 2000000;
+				break;
+			case 2:
+				Money = 5000000;
+				break;
+			default:
+				Money = 0;
+				break;
+			}
+			Sequence::instance().set(Money, Vector2(600, 500), Vector2(32, 32));
+			BaseScene::mSprite->Draw("NotBuy3", Vector3(450, 250, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("En4", Vector3(550, 490, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
-		Sequence::instance().set(Money, Vector2(600, 500), Vector2(32, 32));
-		BaseScene::mSprite->Draw("NotBuy3", Vector3(450, 250, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("En4", Vector3(550, 490, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
-	if (buy4&&keyflag == 3)
-	{
-		switch (weaponNum)
+		if (buy4&&keyflag == 3)
 		{
-		case 0:
-			Money = 0;
-			break;
-		case 1:
-			Money = 2000000;
-			break;
-		case 2:
-			Money = 500000;
-			break;
-		default:
-			Money = 0;
-			break;
+			switch (weaponNum)
+			{
+			case 0:
+				Money = 0;
+				break;
+			case 1:
+				Money = 2000000;
+				break;
+			case 2:
+				Money = 500000;
+				break;
+			default:
+				Money = 0;
+				break;
+			}
+			Sequence::instance().set(Money, Vector2(600, 500), Vector2(32, 32));
+			BaseScene::mSprite->Draw("NotBuy4", Vector3(450, 250, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("En5", Vector3(550, 490, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
-		Sequence::instance().set(Money, Vector2(600, 500), Vector2(32, 32));
-		BaseScene::mSprite->Draw("NotBuy4", Vector3(450, 250, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("En5", Vector3(550, 490, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
+	Sequence::instance().drawNumber(DirectXManager::GetInstance()->CmdList());
+
+	DirectXManager::GetInstance()->SetDrawComnd();
+	DirectXManager::GetInstance()->SetData3D();
 	objM->Draw();
 }
