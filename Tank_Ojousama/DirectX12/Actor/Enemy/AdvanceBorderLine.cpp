@@ -50,8 +50,8 @@ void AdvanceBorderLine::Update()
 
 void AdvanceBorderLine::Rend()
 {
-	DirectXManager::GetInstance()->SetData3D();       //«‘å‚«‚³‚ÍŒÅ’è’l
-	mModelRender->Draw(numName, Vector3(position.x, position.y, position.z), angle, Vector3(1, 1, 1));
+	//DirectXManager::GetInstance()->SetData3D();       //«‘å‚«‚³‚ÍŒÅ’è’l
+	//mModelRender->Draw(numName, Vector3(position.x, position.y, position.z), angle, Vector3(1, 1, 1));
 }
 
 void AdvanceBorderLine::OnCollison(BaseCollider * col)

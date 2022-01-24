@@ -282,6 +282,12 @@ void ElfTreeBoss::DeathAnimation()
 	//‰¼Ž€ó‘Ô ‚Å‚È‚¢‚È‚çˆ—‚µ‚È‚¢
 	if (!mDeathAnimationFlag) return;
 
+	mTreeRoot->SetActive(false);
+	mTreeRoot2->SetActive(false);
+	mTreeRoot3->SetActive(false);
+	mTreeRoot4->SetActive(false);
+	mTreeRoot5->SetActive(false);
+
 	if (mDeathStep == DeathAnimationStep::EXPLOSION)
 	{
 		DeathAnimation_Explosion();
@@ -422,7 +428,22 @@ void ElfTreeBoss::DeathAnimation_DeathCount()
 
 void ElfTreeBoss::RootAttack()
 {
+	if (mDeathAnimationFlag)
+	{
+
+		mTreeRoot->SetActive(false);
+		mTreeRoot2->SetActive(false);
+		mTreeRoot3->SetActive(false);
+		mTreeRoot4->SetActive(false);
+		mTreeRoot5->SetActive(false);
+
+		mTreeRoot5->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
+		//return;
+	}
+
 	if (!mActionFlag) return;
+
+
 
 	//‰ñ“]
 	Vector3 mTargetPosition = mPlayerPosition - position;
@@ -485,6 +506,10 @@ void ElfTreeBoss::RootAtack_ChasePlayer()
 		mRootPosition += velocity;
 
 		mTreeRoot->SetPosition(mRootPosition);
+		mTreeRoot2->SetPosition(mRootPosition);
+		mTreeRoot3->SetPosition(mRootPosition);
+		mTreeRoot4->SetPosition(mRootPosition);
+		mTreeRoot5->SetPosition(mRootPosition);
 
 		//ª‚Á‚±‚Ì“–‚½‚é”ÍˆÍ“à‚É‚¢‚ê‚Î
 		if (length < 1.0f)
