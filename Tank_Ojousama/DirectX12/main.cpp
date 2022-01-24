@@ -386,6 +386,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//”šŠÖ˜A
 	auto & nums = Sequence::instance();
+	nums.setPipeLine(pipeLine);
 	nums.setDev(DirectXManager::GetInstance()->Dev());
 	while (true)
 	{
@@ -415,7 +416,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		DirectXManager::GetInstance()->SetDrawComnd();
 		mScene->Draw();
 		particleSystem.draw();
-		nums.drawNumber(DirectXManager::GetInstance()->CmdList(), pipeLine);
+		nums.drawNumber(DirectXManager::GetInstance()->CmdList());
 		DirectXManager::GetInstance()->PostEffctEnd();
 		DirectXManager::GetInstance()->Begin();
 

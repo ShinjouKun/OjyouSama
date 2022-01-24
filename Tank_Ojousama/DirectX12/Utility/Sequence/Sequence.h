@@ -34,7 +34,9 @@ public:
 	//描画情報をセット
 	void set(float num, const Vector2& pos, const Vector2& size);
 	//描画処理
-	void drawNumber(ID3D12GraphicsCommandList* cmdList, PipeLine* pipeLine);
+	void drawNumber(ID3D12GraphicsCommandList* cmdList);
+
+	void setPipeLine(PipeLine* pipeLine);
 
 private:
 	//描画用のバッファを作る
@@ -54,6 +56,7 @@ private:
 
 private:
 	static Sequence* mInstance;
+	static PipeLine* mPipeLine;
 	ID3D12Device* mDev;
 
 	Matrix4 mMatProjection;

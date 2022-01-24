@@ -140,7 +140,7 @@ void Sequence::set(float num, const Vector2 & pos, const Vector2 & size)
 	//必要なら追加する
 }
 
-void Sequence::drawNumber(ID3D12GraphicsCommandList* cmdList, PipeLine* pipeLine)
+void Sequence::drawNumber(ID3D12GraphicsCommandList* cmdList)
 {
 	//数字を描画しないのならリターン
 	if (mNums.empty())return;
@@ -179,9 +179,9 @@ void Sequence::drawNumber(ID3D12GraphicsCommandList* cmdList, PipeLine* pipeLine
 	cmdList->SetDescriptorHeaps(_countof(ppHeap), ppHeap);
 
 	//パイプライン設定
-	cmdList->SetPipelineState(pipeLine->GetPipeLineState("ahokusa"));
+	cmdList->SetPipelineState(mPipeLine->GetPipeLineState("ahokusa"));
 	//ルートシグネスチャ生成
-	cmdList->SetGraphicsRootSignature(pipeLine->GetRootSignature("ahokusa"));
+	cmdList->SetGraphicsRootSignature(mPipeLine->GetRootSignature("ahokusa"));
 	//プリミティブ形状
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
@@ -209,6 +209,11 @@ void Sequence::drawNumber(ID3D12GraphicsCommandList* cmdList, PipeLine* pipeLine
 	}
 
 	mNums.clear();
+}
+
+void Sequence::setPipeLine(PipeLine * pipeLine)
+{
+	mPipeLine = pipeLine;
 }
 
 void Sequence::createResouceBuff()
@@ -371,3 +376,4 @@ std::wstring Sequence::stringToWString(std::string src)
 }
 
 Sequence* Sequence::mInstance = nullptr;
+PipeLine* Sequence::mPipeLine = nullptr;
