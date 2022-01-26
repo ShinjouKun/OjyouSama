@@ -87,7 +87,7 @@ void Repair::ImGuiDebug()
 
 void Repair::OnCollison(BaseCollider * col)
 {
-	if (col->GetColObject()->GetType() == ObjectType::PLAYER)
+	if (col->GetColObject()->GetType() == ObjectType::PLAYER&&!isGet)
 	{
 		ItemHolder::GetInstance()->AddItem(itemName);
 		isGet = true;

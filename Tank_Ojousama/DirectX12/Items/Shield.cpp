@@ -88,7 +88,7 @@ void Shield::ImGuiDebug()
 
 void Shield::OnCollison(BaseCollider * col)
 {
-	if (col->GetColObject()->GetType() == ObjectType::PLAYER)
+	if (col->GetColObject()->GetType() == ObjectType::PLAYER&&!isGet)
 	{
 		ItemHolder::GetInstance()->AddItem(itemName);
 		isGet = true;
