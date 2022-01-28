@@ -29,7 +29,7 @@ void CEnemy::EnemyInit()
 	HP = 30;//‚à‚Æ‚à‚Æ10
 	attackTime = 60;
 	mEnemyNumber = 0;
-
+	damage = 0;
 	speed = 0.35f;
 	mRadius = 1.0f;
 	mSwingRange = 45.0f;

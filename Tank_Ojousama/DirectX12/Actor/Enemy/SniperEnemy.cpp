@@ -33,7 +33,7 @@ void SniperEnemy::EnemyInit()
 	HP = 30;//‚à‚Æ‚à‚Æ‚Í10
 	warningTime = ECI::WARNING_TIME * SECI::WARNING_TIME * 60;
 	attackTime = 1 * 40;//‚à‚Æ‚à‚Æ 1 * 60‚¾‚Á‚½‚Ì‚ð”¼•ª‚É‚µ‚½
-
+	damage = 0;
 	speed = 0.3f;
 	mRadius = ECI::RADIUS * SECI::RADIUS;
 	mSwingRange = ECI::SWING_RANGE * SECI::SWING_RANGE;

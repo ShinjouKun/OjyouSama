@@ -167,8 +167,8 @@ bool BirdEnemy::InsideDistanceY(const Vector3 & distance, const float length) co
 
 void BirdEnemy::EnemyInit()
 {
-	HP = 30;
-	damage = 5;
+	HP = 20;
+	damage = 0;
 
 	speed = WALK_SPEED;
 	mRadius = 1.5f;

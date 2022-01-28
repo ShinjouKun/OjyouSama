@@ -236,7 +236,7 @@ void MemberEnemy::Init()
 {
 	HP = 20;
 	speed = 0.5f;
-	damage = 5;
+	damage = 0;
 	mRadius = 1.0f;
 	mFireAngle = angle.y;
 	mBulletNumber = 0;

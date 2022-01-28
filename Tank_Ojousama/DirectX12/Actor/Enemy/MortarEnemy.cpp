@@ -173,7 +173,7 @@ void MortarEnemy::DeathAnimeStep_Explosion()
 void MortarEnemy::EnemyInit()
 {
 	HP = 50;//‚à‚Æ‚à‚Æ‚Í10
-	damage = 5;
+	damage = 0;
 
 	mRadius = 1.5f;
 	barrelAngle = angle.y;
