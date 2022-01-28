@@ -391,6 +391,7 @@ void ElfTreeBoss::DeathAnimation_Explosion()
 		///*ここででっかい爆発が起きてほしい*/
 		//mBigExplosion->setPos(position);
 		//mBigExplosion->play();
+		mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDeathSE->setPos(position);
 		mDeathSE->play();
 
@@ -421,7 +422,6 @@ void ElfTreeBoss::DeathAnimation_DeathCount()
 
 	if (mExplosionTime->isTime())
 	{
-
 		mDeadFlag = true;
 	}
 }
@@ -711,15 +711,11 @@ void ElfTreeBoss::EnemyInit()
 
 	//サウンドの設定
 	mSmallExplosion = std::make_shared<Sound>("SE/Long.mp3", true);
-	mSmallExplosion->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
-	mBigExplosion = std::make_shared<Sound>("SE/Big_Explosion.mp3", true);
-	mBigExplosion->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	//mBigExplosion = std::make_shared<Sound>("SE/Big_Explosion.mp3", true);
+	//mBigExplosion->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
-	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDeathSE = std::make_shared<Sound>("SE/Boss_Death.wav", true);
-	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mNoDeathSE = std::make_shared<Sound>("SE/Boss_NoDamage.wav", true);
-	//mNoDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 
 	//各種タイマー初期化
 	mAimingTime = std::make_shared<Timer>();
@@ -733,7 +729,7 @@ void ElfTreeBoss::EnemyInit()
 	mEffectInterval = std::make_shared<Timer>();
 	mEffectInterval->setTime(0.5f);
 	mExplosionTime = std::make_shared<Timer>();
-	mExplosionTime->setTime(3.0f);
+	mExplosionTime->setTime(2.0f);
 	mAppleDropTime = std::make_shared<Timer>();
 	mAppleDropTime->setTime(5.0f);
 	mAppleInterval = std::make_shared<Timer>();
@@ -851,7 +847,7 @@ void ElfTreeBoss::EnemyUpdate()
 
 	//音量の調整
 	mSmallExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
-	mBigExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
+	//mBigExplosion->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 
 	/*一度だけオブジェクトを生成*/
 	CreateObject();
@@ -925,6 +921,7 @@ void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
 		if (mSummonAlive && mAngryFlag)
 		{
 			//SE発射
+			mNoDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 			mNoDeathSE->setPos(position);
 			mNoDeathSE->play();
 			mColorChange = true;
@@ -932,6 +929,7 @@ void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
 		else
 		{
 			//SE発射
+			mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 			mDamageSE->setPos(position);
 			mDamageSE->play();
 			//モデルの色変え

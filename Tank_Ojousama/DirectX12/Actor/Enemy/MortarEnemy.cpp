@@ -48,6 +48,7 @@ void MortarEnemy::AttackStep_FIRE()
 		Vector3 firePosition = AngleToVectorY(barrelAngle);
 		mManager->Add(new LaunchBullet(position + firePosition, mTargetPosition, mManager, mRend, mPart, objType, mBulletNumber++));
 		mFireFlag = true;
+		mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mAttackSE->setPos(position);
 		mAttackSE->play();
 	}
@@ -135,6 +136,7 @@ void MortarEnemy::DeathAnimeStep_RiseSky()
 	mRiseTime->update();
 
 	//SE発射
+	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDamageSE->setPos(position);
 	mDamageSE->play();
 
@@ -149,6 +151,7 @@ void MortarEnemy::DeathAnimeStep_RiseSky()
 	else
 	{
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 
@@ -204,9 +207,9 @@ void MortarEnemy::EnemyInit()
 
 	//サウンド初期化
 	mAttackSE = std::make_shared<Sound>("SE/Golem_Attack.mp3", true);
-	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDamageSE = std::make_shared<Sound>("SE/Golem_Damage.mp3", true);
-	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 
 	//パーティクル初期化
 	EXPLOSION_EFFECT = "Explosion";
@@ -295,6 +298,7 @@ void MortarEnemy::EnemyOnCollision(BaseCollider * col)
 		HP -= test;
 
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 

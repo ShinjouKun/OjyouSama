@@ -94,11 +94,11 @@ void BlowEnemy::EnemyInit()
 
 	//サウンド初期化
 	mAttackSE = std::make_shared<Sound>("SE/punti.mp3", true);
-	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
-	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDeathSE = std::make_shared<Sound>("SE/Elf_Damage02.mp3", true);
-	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 
 	//タイマー初期化
 	mRiseTime = std::make_shared<Timer>();
@@ -203,6 +203,7 @@ void BlowEnemy::EnemyOnCollision(BaseCollider * col)
 		HP -= col->GetColObject()->GetDamage();
 
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 
@@ -321,6 +322,7 @@ void BlowEnemy::Attack()
 	{
 		Vector3 areaPos = AngleToVectorY(fanInfo.rotate) * mAttackLength;
 		attackArea->SetActive(true, position + areaPos, -angle);
+		mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mAttackSE->setPos(position);
 		mAttackSE->play();
 
@@ -361,6 +363,7 @@ void BlowEnemy::DeathAnimeStep_RiseSky()
 	mRiseTime->update();
 
 	//SE発射
+	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDeathSE->setPos(position);
 	mDeathSE->play();
 
@@ -377,6 +380,7 @@ void BlowEnemy::DeathAnimeStep_RiseSky()
 		//時間になったら(1フレームだけ呼ばれる)
 
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 

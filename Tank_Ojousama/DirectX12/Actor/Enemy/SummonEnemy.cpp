@@ -59,11 +59,11 @@ void SummonEnemy::Init()
 
 	//サウンド初期化
 	mAttackSE = std::make_shared<Sound>("SE/punti.mp3", true);
-	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDamageSE = std::make_shared<Sound>("SE/Summon_Damage.wav", true);
-	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDeathSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
-	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 
 	//タイマー初期化
 	mGetupTimer = std::make_shared<Timer>();
@@ -123,6 +123,7 @@ void SummonEnemy::OnCollison(BaseCollider * col)
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 
@@ -282,6 +283,7 @@ void SummonEnemy::AttackStep_FallDown()
 	if (angle.z < -90.0f)
 	{
 		mAttackStep = AttackStep::WAIT;
+		mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mAttackSE->setPos(position);
 		mAttackSE->play();
 	}
@@ -331,6 +333,7 @@ void SummonEnemy::DeathAnimeStep_RiseSky()
 	mRiseTime->update();
 
 	//SE発射
+	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDeathSE->setPos(position);
 	mDeathSE->play();
 
@@ -347,6 +350,7 @@ void SummonEnemy::DeathAnimeStep_RiseSky()
 		//時間になったら(1フレームだけ呼ばれる)
 		//ここでSEを鳴らしたり、爆発させたりする
 
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 

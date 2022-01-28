@@ -87,6 +87,7 @@ void BirdEnemy::Action_Fire()
 		mManager->Add(new LaunchBullet(position + firePosition, mTargetPosition, mManager, mRend, mPart, objType, mBulletNumber++,true));
 		mFireFlag = true;
 
+		mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mAttackSE->setPos(position);
 		mAttackSE->play();
 	}
@@ -193,9 +194,9 @@ void BirdEnemy::EnemyInit()
 
 	//サウンド初期化
 	mAttackSE = std::make_shared<Sound>("SE/Bird_Attack.mp3", true);
-	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
-	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 
 	//ダメージパーティクル
 	mDamageParticle = make_shared<Hit>(Vector3::zero, true);
@@ -259,6 +260,7 @@ void BirdEnemy::EnemyOnCollision(BaseCollider * col)
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 		//パーティクル発射

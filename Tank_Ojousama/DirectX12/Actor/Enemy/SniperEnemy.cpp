@@ -32,7 +32,7 @@ void SniperEnemy::EnemyInit()
 {
 	HP = 30;//もともとは10
 	warningTime = ECI::WARNING_TIME * SECI::WARNING_TIME * 60;
-	attackTime = 1 * 40;//もともと 1 * 60だったのを半分にした
+	attackTime = 1 * 60;//もともと 1 * 60だったのを半分にした
 	damage = 0;
 	speed = 0.3f;
 	mRadius = ECI::RADIUS * SECI::RADIUS;
@@ -58,7 +58,7 @@ void SniperEnemy::EnemyInit()
 	mMoveState = MoveState::NOT_FIND;
 	objType = ObjectType::ENEMY;
 	mDeathStep = DeathAnimationStep::RISE_SKY;
-	SetCollidder(Vector3().zero, mRadius);
+	SetCollidder(Vector3(0.0f,2.0f,0.0f), mRadius);
 
 	//センサーの初期化-------------------------------------------------------
 	mFanRotateOrigin = -angle.y - 90.0f;
@@ -73,11 +73,11 @@ void SniperEnemy::EnemyInit()
 
 	//サウンドの初期化
 	mAttackSE = std::make_shared<Sound>("SE/hirai.mp3", true);
-	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
-	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDeathSE = std::make_shared<Sound>("SE/Elf_Damage01.mp3", true);
-	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 
 	//タイマーの初期化
 	mRiseTime = std::make_shared<Timer>();
@@ -170,6 +170,7 @@ void SniperEnemy::EnemyOnCollision(BaseCollider * col)
 		HP -= col->GetColObject()->GetDamage();
 
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 
@@ -266,6 +267,7 @@ void SniperEnemy::Attack()
 		//弾を発射！！
 		mManager->Add(new ElfBullet(position + firePos, Vector3(0.0, -angle.y, 0.0f), mManager, mRend, mPart, objType, bulletNumber));
 		bulletNumber++;
+		mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mAttackSE->setPos(position);
 		mAttackSE->play();
 		mAttackFlag = false;
@@ -302,6 +304,7 @@ void SniperEnemy::DeathAnimeStep_RiseSky()
 	mRiseTime->update();
 
 	//SE発射
+	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDeathSE->setPos(position);
 	mDeathSE->play();
 
@@ -326,6 +329,7 @@ void SniperEnemy::DeathAnimeStep_RiseSky()
 		mDamageParticle->Play();
 
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 

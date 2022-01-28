@@ -102,6 +102,7 @@ void MemberEnemy::DeathAnimeStep_RiseSky()
 	mRiseTime->update();
 
 	//SE発射
+	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDeathSE->setPos(position);
 	mDeathSE->play();
 
@@ -117,6 +118,7 @@ void MemberEnemy::DeathAnimeStep_RiseSky()
 	{
 		//時間になったら(1フレームだけ呼ばれる)
 
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 
@@ -172,6 +174,7 @@ void MemberEnemy::AttackStep_FIRE()
 	//弾発射
 	Vector3 firePosition = AngleToVectorY(mFireAngle);
 	mObjManager->Add(new ElfBullet(position + firePosition, Vector3(0.0f, mFireAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mAttackSE->setPos(position);
 	mAttackSE->play();
 	mAttackStep = AttackStep::RELOAD;
@@ -282,11 +285,11 @@ void MemberEnemy::Init()
 
 	//サウンド初期化
 	mAttackSE = std::make_shared<Sound>("SE/hirai.mp3", true);
-	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
-	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDeathSE = std::make_shared<Sound>("SE/Elf_Damage01.mp3", true);
-	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 
 	//ダメージ用パーティクル
 	mDamageParticle = std::make_shared<Hit>(Vector3::zero, true);
@@ -396,6 +399,7 @@ void MemberEnemy::OnCollison(BaseCollider * col)
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 		//パーティクル発射
@@ -560,7 +564,9 @@ void MemberEnemy::Confusion()
 
 			//弾発射
 			Vector3 firePosition = AngleToVectorY(mFireAngle);
+			
 			mObjManager->Add(new ElfBullet(position + firePosition, Vector3(0.0f, mFireAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+			mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 			mAttackSE->setPos(position);
 			mAttackSE->play();
 		}
