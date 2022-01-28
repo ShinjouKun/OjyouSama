@@ -298,6 +298,7 @@ void Player::UseWeapon2()
 
 	if (modelChanger->GetWeaponState1() == WeaponsState::MachinGun)
 	{
+		mMashingunSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 		mMashingunSE->play();
 		moneyMax += 1000;
 		masingunShot = true;
@@ -435,12 +436,12 @@ void Player::Init()
 	playerSprite->AddTexture("Danyaku2", "Resouse/dannyakuhi.png");
 
 	//ƒRƒ“ƒpƒX
-	playerSprite->AddTexture("Compas", "Resouse/compas.png");
+	/*playerSprite->AddTexture("Compas", "Resouse/compas.png");
 	playerSprite->SetSize("Compas", Vector2(228, 190));
 	playerSprite->SetAncPoint("Compas", Vector2(-104, -104));
 	playerSprite->AddTexture("Hari", "Resouse/hari.png");
 	playerSprite->SetSize("Hari", Vector2(188, 188));
-	playerSprite->SetAncPoint("Hari", Vector2(-95,-120));
+	playerSprite->SetAncPoint("Hari", Vector2(-95,-120));*/
 
 	//model
 	modelChanger = new ModelChanger();
@@ -506,7 +507,6 @@ void Player::Update()
 	mTimer->update();
 
 	mNormalAttackSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
-
 	if (moneyMax > money)
 	{
 		money += 1000;
@@ -552,6 +552,7 @@ void Player::Update()
 		{
 			BaseScene::mMoney -= 500000;
 			GameOver = true;
+			mDeathSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 			mDeathSE->play();
 		}
 		if (HitFlag)
@@ -621,7 +622,7 @@ void Player::Update()
 		}
 
 		//–C“ƒ
-		if (Input::getKey(KeyCode::UPARROW) || Input::joyRightVertical() > 0)
+		if (Input::getKey(KeyCode::UPARROW) || Input::joyRightVertical(500) > 0)
 		{
 			aimPos_Y -= 4.5f;
 			CamPos_Y -= 0.04f;
@@ -641,7 +642,7 @@ void Player::Update()
 			TargetPos.y = 3.0f;
 			CamPos_Y = 1.6f;
 		}
-		if (Input::getKey(KeyCode::DOWNARROW) || Input::joyRightVertical() < 0)
+		if (Input::getKey(KeyCode::DOWNARROW) || Input::joyRightVertical(500) < 0)
 		{
 			aimPos_Y += 4.5f;
 			CamPos_Y += 0.04f;
@@ -784,11 +785,6 @@ void Player::Update()
 
 void Player::Rend()
 {
-	if (sceneCamOk)
-	{
-		Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
-		Sequence::instance().set(BaseScene::mMinusMoney, Vector2(1280 - 320, 0), Vector2(32, 32));
-	}	
 	if (!masingunShot)
 	{
 		ojyouXR = -90.0f;
@@ -862,12 +858,21 @@ void Player::Rend()
 
 	if (sceneCamOk)
 	{
-		playerSprite->Draw("Compas", Vector3(1000, 600, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		playerSprite->Draw("Hari", Vector3(1012, 610, 0), angle.y, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		//playerSprite->Draw("Compas", Vector3(1000, 600, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		//playerSprite->Draw("Hari", Vector3(1012, 610, 0), angle.y, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		
+		
+		
+
+		if (!sniperShotFlag)
+		{
+			playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
+		else
+		{
+			playerSprite->Draw("AIM_S", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
 		playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		playerSprite->SetSize("Danyaku2", Vector2(320, 32));
-		playerSprite->Draw("Danyaku2", Vector3(1280 - 512+94, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		if (HP >= 100)
 		{
 			playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
@@ -876,6 +881,7 @@ void Player::Rend()
 		{
 			playerSprite->Draw("HpGage2", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
+
 		if (ItemNum == 0)
 		{
 			playerSprite->Draw("repairIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
@@ -889,15 +895,14 @@ void Player::Rend()
 			playerSprite->Draw("smokeIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
 		playerSprite->Draw("X", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-
-		if (!sniperShotFlag)
-		{
-			playerSprite->Draw("AIM", Vector3((Window::Window_Width / 2) - 32, aimPos_Y, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		}
-		else
-		{
-			playerSprite->Draw("AIM_S", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		}
+		Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
+		Sequence::instance().set(BaseScene::mMinusMoney, Vector2(1280 - 320, 0), Vector2(32, 32));
+		Sequence::instance().drawNumber(DirectXManager::GetInstance()->CmdList());
+		DirectXManager::GetInstance()->SetDrawComnd();
+		DirectXManager::GetInstance()->SetData2D();
+		playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->SetSize("Danyaku2", Vector2(320, 32));
+		playerSprite->Draw("Danyaku2", Vector3(1280 - 512 + 94, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 	
 	
@@ -948,10 +953,12 @@ void Player::OnCollison(BaseCollider* col)
 				int count = Random::randomRange(0, 2);
 				if (count == 0)
 				{
+					mDamageSE01->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 					mDamageSE01->play();
 				}
 				else if (count == 1)
 				{
+					mDamageSE02->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 					mDamageSE02->play();
 				}
 			}
