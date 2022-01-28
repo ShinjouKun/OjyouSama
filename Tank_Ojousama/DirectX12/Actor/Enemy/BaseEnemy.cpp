@@ -279,6 +279,22 @@ void BaseEnemy::SearchObject()
 	}
 }
 
+void BaseEnemy::FacingPlayer()
+{
+	//‹——£‚ğ’²‚×‚é(Vector3‚Æfloat)
+	Vector3 distance = mPlayerPosition - position;
+	float length = distance.Length();
+	distance = distance.normal();//³‹K‰»–Y‚ê‚¸‚É
+
+	//“ñ“_ŠÔ‚ÌŠp“x‚ğ‹‚ß‚é
+	float radian = atan2(distance.x, distance.z);
+	//‰ñ“]‚ğ”½‰f
+	angle.y = Math::toDegrees(radian) + 180.0f;
+	fanInfo.rotate = -angle.y - 90.0f;
+	mFireAngle = fanInfo.rotate + 90.0f;
+	fanInfo.position = position;
+}
+
 void BaseEnemy::SearchPlayer()
 {
 	//UŒ‚‹’“_‚ğ‘_‚Á‚Ä‚¢‚é‚Æ‚«‚Íˆ—‚µ‚È‚¢

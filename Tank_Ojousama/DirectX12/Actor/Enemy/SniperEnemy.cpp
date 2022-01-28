@@ -271,6 +271,11 @@ void SniperEnemy::Attack()
 		mAttackFlag = false;
 		mMoveState = MoveState::NOT_FIND;
 	}
+	else
+	{
+		//プレイヤーを向く。
+		FacingPlayer();
+	}
 
 }
 

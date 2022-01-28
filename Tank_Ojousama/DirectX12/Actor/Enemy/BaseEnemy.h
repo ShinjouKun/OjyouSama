@@ -79,6 +79,9 @@ public:
 	/*オブジェクト検索まとめ()*/
 	virtual void SearchObject();
 
+	/*プレイヤーの方を向く*/
+	void FacingPlayer();
+
 	/*移動(移動先の位置)*/
 	void MovePoint(const Vector3& otherPosition);
 

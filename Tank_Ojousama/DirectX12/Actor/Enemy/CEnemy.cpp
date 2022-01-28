@@ -486,6 +486,11 @@ void CEnemy::Attack()
 		mAttackFlag = false;
 		mMoveState = MoveState::NOT_FIND;
 	}
+	else
+	{
+		//プレイヤーを向く。
+		FacingPlayer();
+	}
 }
 
 void CEnemy::DeathAnimation()
