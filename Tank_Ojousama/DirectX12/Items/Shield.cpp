@@ -26,7 +26,7 @@ void Shield::Init()
 	death = false;
 	isGet = false;
 	active = false;
-	SetCollidder(Vector3(0, 0, 0), 1.5f);
+	SetCollidder(Vector3(0, 0, 0), 1.0f);
 	alive = 0;
 	name = "Shield";
 	num = to_string(number);
@@ -72,7 +72,7 @@ void Shield::Rend()
 	if (!isGet)
 	{
 		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-		ItemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), Vector3(3, 3, 3));
+		ItemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), Vector3(1.5f, 1.5f, 1.5f));
 	}
 
 	if (active)
