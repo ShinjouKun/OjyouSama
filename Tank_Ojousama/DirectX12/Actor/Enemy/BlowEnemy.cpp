@@ -48,7 +48,7 @@ void BlowEnemy::EnemyInit()
 	mFireAngle = BECI::FAN_RANGE;
 	mAttackLength = ECI::ATTACK_LENGTH * BECI::ATTACK_LENGTH;
 
-	damage = 5;
+	damage = 0;
 	breadcrumbMode = ECI::BRRADCRUMB_MODE;
 	DESTRUCT_MODE = ECI::DESTRUCT_MODE;
 	death = false;
