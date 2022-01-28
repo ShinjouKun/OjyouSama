@@ -421,7 +421,6 @@ void Select::DrawScene()
 	}
 	Sequence::instance().set(BaseScene::mMoney, Vector2(564, 20), Vector2(32, 32));
 	Sequence::instance().drawNumber(DirectXManager::GetInstance()->CmdList());
-
 	DirectXManager::GetInstance()->SetDrawComnd();
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("En", Vector3(525, 8, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
