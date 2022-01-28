@@ -42,7 +42,7 @@ void EndRoll::DrawScene()
 	BaseScene::mSprite->Draw("E2", Vector3(70, 2000 + speed, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->SetSize("E3", Vector2(300, 200));
 	BaseScene::mSprite->Draw("E3", Vector3(800, 940 + speed, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->SetSize("Roll", Vector2(640, 7200));
+	BaseScene::mSprite->SetSize("Roll", Vector2(640-64, 7200));
 	BaseScene::mSprite->Draw("Roll", Vector3(320, 720+speed, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 
 }
