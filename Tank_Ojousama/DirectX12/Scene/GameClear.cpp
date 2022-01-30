@@ -25,7 +25,7 @@ void GameClear::StartScene()
 	BaseScene::mSprite->AddTexture("End", "Resouse/endhing.png");
 	BaseScene::mSprite->AddTexture("Fade1", "Resouse/fade.png");
 	BaseScene::mSprite->AddTexture("Fade2", "Resouse/fade.png");
-	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
+	BaseScene::mModel->AddModel("Sora", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
 
 #pragma region ‰Ôƒ‚ƒfƒ‹—p
@@ -117,7 +117,7 @@ void GameClear::DrawScene()
 	BaseScene::mModel->Draw("TankPlayerB", Vector3(2, 0, 10), Vector3(0, -90, 0), Vector3(2.5f, 2.5f, 2.5f));
 	BaseScene::mModel->Draw("OjyouSama", Vector3(-3, -2.5f , 4), Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
-	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(2, 7, 2));
+	BaseScene::mModel->Draw("Sora", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(2, 7, 2));
 #pragma region ‰Ô—p
 	BaseScene::mModel->Draw("Flower1", Vector3(0, -0 , 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
 	BaseScene::mModel->Draw("Flower2", Vector3(5, -0 , 0), Vector3(0, 0, 0), Vector3(1, 1, 1));

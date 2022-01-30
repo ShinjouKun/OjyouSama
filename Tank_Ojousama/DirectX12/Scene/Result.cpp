@@ -41,7 +41,7 @@ void Result::StartScene()
 	BaseScene::mSprite->AddTexture("Danyaku", "Resouse/dannyakuhi.png");
 	BaseScene::mSprite->AddTexture("Goukei", "Resouse/goukei.png");
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
-	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.png");
+	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/Ground_Black.png");
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
 	camerapos = Vector3(0,5,10);
@@ -150,7 +150,7 @@ void Result::DrawScene()
 	BaseScene::mModel->Draw("OjyouSama", Vector3(0,0 , zensin), Vector3(0, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("ArmL", Vector3(0,3.2f , zensin), Vector3(150, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(7, 7, 7));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
+	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, 400.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 	if (time >= 120)

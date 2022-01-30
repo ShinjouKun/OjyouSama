@@ -333,6 +333,22 @@ void Select::UpdateScene()
 		{
 			position.x -= 10;
 		}
+		if (position.x <= 0)
+		{
+			position.x += 10;
+		}		
+		if (position.x >= 1250)
+		{
+			position.x -= 10;
+		}	
+		if (position.y <= 0)
+		{
+			position.y += 10;
+		}		
+		if (position.y >= 620)
+		{
+			position.y -= 10;
+		}
 	}
 #pragma endregion
 

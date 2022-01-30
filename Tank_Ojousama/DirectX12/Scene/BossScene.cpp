@@ -204,7 +204,7 @@ void BossScene::UpdateScene()
 	if (mObjManager->GetPlayer().GetHp() <= 0)
 	{
 		if (mBossDeadFlag) return;
-		NextScene(std::make_shared<GameOver>());
+		//NextScene(std::make_shared<GameOver>());
 	}
 	if (mObjManager->GetPlayer().GetHp() <= 0)
 	{
