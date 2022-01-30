@@ -571,52 +571,55 @@ void Garage::DrawScene()
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->SetSize("Garege", Vector2(1280, 720));
 	BaseScene::mSprite->Draw("Garege", Vector3(0, 0, 0), 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1.0f));
-	BaseScene::mSprite->Draw("Sentaku1", SentakuPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa1));
-	BaseScene::mSprite->Draw("Sentaku2", SentakuPos2, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa1));
-	BaseScene::mSprite->Draw("Sentaku3", SentakuPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa2));
-	BaseScene::mSprite->Draw("Sentaku4", SentakuPos4, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa2));
-	BaseScene::mSprite->Draw("Sentaku5", SentakuPos5, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa3));
-	BaseScene::mSprite->Draw("Sentaku6", SentakuPos6, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa3));
-	BaseScene::mSprite->Draw("Sentaku7", SentakuPos7, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa4));
-	BaseScene::mSprite->Draw("Sentaku8", SentakuPos8, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa4));
-	BaseScene::mSprite->Draw("Buy", Vector3(30, 30, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	BaseScene::mSprite->Draw("BackS", Vector3(0, 0, 0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-	if (keyflag == 0)
-	{
-		BaseScene::mSprite->SetSize("sOjo", Vector2(300, 300));
-		BaseScene::mSprite->Draw("sOjo", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
-	if (keyflag == 1)
-	{
-		BaseScene::mSprite->SetSize("sHead", Vector2(300, 300));
-		BaseScene::mSprite->Draw("sHead", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
-	if (keyflag == 2)
-	{
-		BaseScene::mSprite->SetSize("sBody", Vector2(300, 300));
-		BaseScene::mSprite->Draw("sBody", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
-	if (keyflag == 3)
-	{
-		if (gSelect >= 191)
-		{
-			gSelect = 0;
-		}
-		if (gSelect <= -1)
-		{
-			gSelect = 190;
-		}
-		BaseScene::mSprite->SetSize("sWepon", Vector2(300, 300));
-		BaseScene::mSprite->Draw("sWepon", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("GSelect", Vector3(990 + gSelect, 420, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-	}
 	BaseScene::mSprite->SetSize("Syata", Vector2(1280, 720));
 	BaseScene::mSprite->Draw("Syata", Vector3(0, fade, 0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-
-	DirectXManager::GetInstance()->SetData3D();
 	if (fadeF)
 	{
 		if (fadeFB) return;
+	
+	
+		BaseScene::mSprite->Draw("Sentaku1", SentakuPos1, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa1));
+		BaseScene::mSprite->Draw("Sentaku2", SentakuPos2, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa1));
+		BaseScene::mSprite->Draw("Sentaku3", SentakuPos3, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa2));
+		BaseScene::mSprite->Draw("Sentaku4", SentakuPos4, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa2));
+		BaseScene::mSprite->Draw("Sentaku5", SentakuPos5, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa3));
+		BaseScene::mSprite->Draw("Sentaku6", SentakuPos6, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa3));
+		BaseScene::mSprite->Draw("Sentaku7", SentakuPos7, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa4));
+		BaseScene::mSprite->Draw("Sentaku8", SentakuPos8, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa4));
+		BaseScene::mSprite->Draw("Buy", Vector3(30, 30, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("BackS", Vector3(0, 0, 0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		if (keyflag == 0)
+		{
+			BaseScene::mSprite->SetSize("sOjo", Vector2(300, 300));
+			BaseScene::mSprite->Draw("sOjo", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
+		if (keyflag == 1)
+		{
+			BaseScene::mSprite->SetSize("sHead", Vector2(300, 300));
+			BaseScene::mSprite->Draw("sHead", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
+		if (keyflag == 2)
+		{
+			BaseScene::mSprite->SetSize("sBody", Vector2(300, 300));
+			BaseScene::mSprite->Draw("sBody", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
+		if (keyflag == 3)
+		{
+			if (gSelect >= 191)
+			{
+				gSelect = 0;
+			}
+			if (gSelect <= -1)
+			{
+				gSelect = 190;
+			}
+			BaseScene::mSprite->SetSize("sWepon", Vector2(300, 300));
+			BaseScene::mSprite->Draw("sWepon", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("GSelect", Vector3(990 + gSelect, 420, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		}
+	
+
+		DirectXManager::GetInstance()->SetData3D();
 
 
 
