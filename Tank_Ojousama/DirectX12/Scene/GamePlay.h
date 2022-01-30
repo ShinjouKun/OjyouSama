@@ -86,4 +86,5 @@ private:
 	bool spawnFlag;//ˆê”Ô–Ú
 	bool spawnFlag2;//“ñ”Ô
 	bool spawnFlag3;//ŽO”Ô
+	bool spawnFlag4;//Žl”Ô
 };
