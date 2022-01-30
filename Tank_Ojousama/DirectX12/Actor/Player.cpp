@@ -187,14 +187,14 @@ void Player::SceneCamMove4()
 void Player::SceneMoveBlock1()
 {
 	//‰E
-	if (position.x <= -80.0f)
+	if (position.x <= -40.0f)
 	{
-		position.x = -80.0f;
+		position.x = -40.0f;
 	}
 	//¶
-	if (position.x >= 80.0f)
+	if (position.x >= 40.0f)
 	{
-		position.x = 80.0f;
+		position.x = 40.0f;
 	}
 	//Œã‚ë
 	if (position.z >= 510)
