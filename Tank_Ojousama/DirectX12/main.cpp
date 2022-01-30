@@ -185,6 +185,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/SmokeIcon.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/ShieldIcon.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/X.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/RB.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/MG.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/SG.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/MN.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/Ground_Black.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end1.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end2.png");
