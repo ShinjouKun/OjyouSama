@@ -47,6 +47,8 @@ void Garage::StartScene()
 	BaseScene::mSprite->AddTexture("Garege", "Resouse/garege.jpg");
 	BaseScene::mSprite->AddTexture("Syata", "Resouse/syata.jpg");
 	BaseScene::mSprite->AddTexture("BackS", "Resouse/backselect.png");
+	BaseScene::mSprite->AddTexture("yazi", "Resouse/yazirusi.png");
+	BaseScene::mSprite->SetSize("yazi", Vector2(60, 29));
 
 	BaseScene::mSprite->AddTexture("sOjo", "Resouse/GaregeOjoSelect.png");
 	BaseScene::mSprite->AddTexture("sHead", "Resouse/GaregeHeadSelect.png");
@@ -582,16 +584,19 @@ void Garage::DrawScene()
 		{
 			BaseScene::mSprite->SetSize("sOjo", Vector2(300, 300));
 			BaseScene::mSprite->Draw("sOjo", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("yazi", Vector3(1090, 430, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
 		if (keyflag == 1)
 		{
 			BaseScene::mSprite->SetSize("sHead", Vector2(300, 300));
 			BaseScene::mSprite->Draw("sHead", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("yazi", Vector3(1090, 430, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
 		if (keyflag == 2)
 		{
 			BaseScene::mSprite->SetSize("sBody", Vector2(300, 300));
 			BaseScene::mSprite->Draw("sBody", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("yazi", Vector3(1090, 430, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
 		if (keyflag == 3)
 		{
@@ -607,6 +612,8 @@ void Garage::DrawScene()
 			BaseScene::mSprite->Draw("sWepon", Vector3(970, 210, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 			BaseScene::mSprite->Draw("GSelect", Vector3(990 + gSelect, 420, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
+
+		
 	
 
 		DirectXManager::GetInstance()->SetData3D();
