@@ -187,14 +187,14 @@ void Player::SceneCamMove4()
 void Player::SceneMoveBlock1()
 {
 	//‰E
-	if (position.x <= -80.0f)
+	if (position.x <= -40.0f)
 	{
-		position.x = -80.0f;
+		position.x = -40.0f;
 	}
 	//¶
-	if (position.x >= 80.0f)
+	if (position.x >= 40.0f)
 	{
-		position.x = 80.0f;
+		position.x = 40.0f;
 	}
 	//Œã‚ë
 	if (position.z >= 510)
@@ -420,6 +420,7 @@ void Player::Init()
 	playerSprite->AddTexture("HpGage", "Resouse/hpgage.png");
 	playerSprite->AddTexture("HpGage2", "Resouse/hpgage2.png");
 	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
+	playerSprite->AddTexture("RB", "Resouse/RB.png");
 	playerSprite->AddTexture("Blood", "Resouse/blood.png");
 	playerSprite->AddTexture("Blood2", "Resouse/blood2.png");
 	playerSprite->AddTexture("Blood3", "Resouse/blood3.png");
@@ -432,6 +433,9 @@ void Player::Init()
 	playerSprite->AddTexture("smokeIcon", "Resouse/SmokeIcon.png");
 	playerSprite->AddTexture("shieldIcon", "Resouse/ShieldIcon.png");
 	playerSprite->AddTexture("X", "Resouse/X.png");
+	playerSprite->AddTexture("MG", "Resouse/MG.png");
+	playerSprite->AddTexture("SG", "Resouse/SG.png");
+	playerSprite->AddTexture("MN", "Resouse/MN.png");
 
 	playerSprite->AddTexture("Danyaku2", "Resouse/dannyakuhi.png");
 
@@ -881,26 +885,44 @@ void Player::Rend()
 		{
 			playerSprite->Draw("HpGage2", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
+		
+		playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 
 		if (ItemNum == 0)
 		{
-			playerSprite->Draw("repairIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			playerSprite->Draw("repairIcon", Vector3(1280 - 78, 650-10, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
 		if (ItemNum == 1)
 		{
-			playerSprite->Draw("shieldIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			playerSprite->Draw("shieldIcon", Vector3(1280 - 78, 650-10, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
 		if (ItemNum == 2)
 		{
-			playerSprite->Draw("smokeIcon", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			playerSprite->Draw("smokeIcon", Vector3(1280 - 78, 650-10, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
+		
+		switch (modelChanger->GetWeaponState1())
+		{
+		case WeaponsState::MachinGun:
+			playerSprite->Draw("MG", Vector3(1280 - 80, 650 - 100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			break;
+		case WeaponsState::ShotGun:
+			playerSprite->Draw("SG", Vector3(1280 - 80, 650 - 100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			break;
+		case WeaponsState::Mine:
+			playerSprite->Draw("MN", Vector3(1280 - 80, 650 - 100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+			break;
+		default:
+			break;
+		}
+
 		playerSprite->Draw("X", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("RB", Vector3(1280 - 65, 650-90, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
 		Sequence::instance().set(BaseScene::mMinusMoney, Vector2(1280 - 320, 0), Vector2(32, 32));
 		Sequence::instance().drawNumber(DirectXManager::GetInstance()->CmdList());
 		DirectXManager::GetInstance()->SetDrawComnd();
 		DirectXManager::GetInstance()->SetData2D();
-		playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->SetSize("Danyaku2", Vector2(320, 32));
 		playerSprite->Draw("Danyaku2", Vector3(1280 - 512 + 94, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
