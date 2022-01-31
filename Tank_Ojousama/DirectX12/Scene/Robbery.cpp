@@ -180,7 +180,7 @@ void Robbery::BackWayEnemySpown()
 			//‰“‹——£‚Ì“G
 			mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
 			mObjManager->Add(new SniperEnemy(Vector3(+20.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(+ 0.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(+ 0.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
 			mObjManager->Add(new SniperEnemy(Vector3(-20.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
 			mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
 
@@ -196,7 +196,6 @@ void Robbery::BackWayEnemySpown()
 		{
 			//‰“‹——£‚Ì“G
 			mObjManager->Add(new SniperEnemy(Vector3(+30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(+0.0f,  0,  450.0f), Vector3(0, 0, 0), objectCount++));
 			mObjManager->Add(new SniperEnemy(Vector3(-30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
 
 			mSpawnFlag[8] = true;
