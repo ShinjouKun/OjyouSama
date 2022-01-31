@@ -43,3 +43,7 @@ void Operation::DrawScene()
 	BaseScene::mSprite->SetSize("OperationP", Vector2(1280.0f, 720.0f));
 	BaseScene::mSprite->Draw("OperationP", Vector3(0.0f, 0.0f, 0.0f), 0.0f, Vector2(1.0f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 }
+
+void Operation::FinalizeScene()
+{
+}

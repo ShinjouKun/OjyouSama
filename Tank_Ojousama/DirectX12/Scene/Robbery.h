@@ -35,6 +35,7 @@ private:
 	virtual void StartScene() override;
 	virtual void UpdateScene() override;
 	virtual void DrawScene() override;
+	virtual void FinalizeScene() override;
 
 	//É|Å[ÉY
 	void Pose();

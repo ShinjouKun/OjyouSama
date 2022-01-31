@@ -21,6 +21,8 @@ public:
 	virtual void UpdateScene() = 0;
 	void Draw();
 	virtual void DrawScene() = 0;
+	void Finalize();
+	virtual void FinalizeScene() = 0;
 	void NextScene(shared_ptr<BaseScene>next);
 	std::shared_ptr<BaseScene>GetNextScene()const;
 	void SetSprite(shared_ptr<TexRenderer>sprite);

@@ -31,6 +31,8 @@ private:
 
 	virtual void DrawScene() override;
 
+	virtual void FinalizeScene() override;
+
 	/*“G‚ğ¶¬‚·‚é*/
 	void EnemySpawn();
 

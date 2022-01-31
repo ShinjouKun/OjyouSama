@@ -32,7 +32,6 @@ BossScene::BossScene()
 
 BossScene::~BossScene()
 {
-	delete mObjManager;//重要
 }
 
 void BossScene::StartScene()
@@ -284,6 +283,11 @@ void BossScene::DrawScene()
 	{
 		ParticleBox->EmitterUpdate("Smoke", Vector3(mObjManager->GetPlayer().GetPosition().x, 0, mObjManager->GetPlayer().GetPosition().z), Vector3(0, 0, 0));
 	}
+}
+
+void BossScene::FinalizeScene()
+{
+	delete mObjManager;//重要
 }
 
 void BossScene::EnemySpawn()

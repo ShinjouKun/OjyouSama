@@ -17,6 +17,7 @@ public:
 	~SceneManager();
 	void Update();
 	void Draw()const;
+	void Finalize();
 private:
 	void SetSpriteToScene();
 	void SetModelToScene();

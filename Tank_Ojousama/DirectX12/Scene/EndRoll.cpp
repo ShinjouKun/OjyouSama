@@ -70,3 +70,7 @@ void EndRoll::DrawScene()
 	BaseScene::mSprite->Draw("Skip", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, SkipA));
 
 }
+
+void EndRoll::FinalizeScene()
+{
+}

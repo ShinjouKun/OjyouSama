@@ -443,3 +443,7 @@ void Select::DrawScene()
 	BaseScene::mSprite->Draw("Gunsikin", Vector3(320, 12, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 }
+
+void Select::FinalizeScene()
+{
+}

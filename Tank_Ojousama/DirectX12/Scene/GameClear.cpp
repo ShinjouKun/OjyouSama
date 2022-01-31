@@ -9,7 +9,6 @@ GameClear::GameClear()
 
 GameClear::~GameClear()
 {
-	delete objM;//重要
 }
 
 void GameClear::StartScene()
@@ -173,4 +172,9 @@ void GameClear::DrawScene()
 	BaseScene::mSprite->Draw("End", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Fade1", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade1));
 	BaseScene::mSprite->Draw("Fade2", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade2));
+}
+
+void GameClear::FinalizeScene()
+{
+	delete objM;//重要
 }

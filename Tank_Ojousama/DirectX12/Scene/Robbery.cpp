@@ -28,7 +28,6 @@ Robbery::Robbery()
 
 Robbery::~Robbery()
 {
-	delete mObjManager;//重要
 }
 
 void Robbery::StartWayEnemySpown()
@@ -504,6 +503,11 @@ void Robbery::DrawScene()
 		BaseScene::mSprite->Draw("Ritorai", Vector3(820, 180, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("SelectAim", selectposition, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}
+}
+
+void Robbery::FinalizeScene()
+{
+	delete mObjManager;//重要
 }
 
 void Robbery::Pose()
