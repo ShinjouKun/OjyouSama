@@ -33,10 +33,13 @@ private:
 	Vector3 selectposition;
 	Vector3 camerapos = Vector3(0, 0, 0);
 	Vector3 setcamerapos = Vector3(10, 0, 10);
-	int speed;
+	float speed;
 	float fade1;
 	float fade2;
 	bool fadeF;
+	float SkipT;
+	float SkipA;
+	bool SkipF;
 
 	std::shared_ptr<Timer> mTimer;
 	std::shared_ptr<Timer> mParticleTimer;

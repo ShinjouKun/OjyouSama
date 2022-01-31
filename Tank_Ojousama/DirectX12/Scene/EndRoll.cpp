@@ -14,7 +14,11 @@ EndRoll::~EndRoll()
 void EndRoll::StartScene()
 {
 	speed = 0;
+	SkipA = 0;
+	SkipT = 0;
+	SkipF = false;
 	BaseScene::mSprite->AddTexture("Roll", "Resouse/theend.png");
+	BaseScene::mSprite->AddTexture("Skip", "Resouse/openingskip.png");
 	BaseScene::mSprite->AddTexture("E1", "Resouse/end1.png");
 	BaseScene::mSprite->AddTexture("E2", "Resouse/end2.png");
 	BaseScene::mSprite->AddTexture("E3", "Resouse/end3.png");
@@ -25,10 +29,25 @@ void EndRoll::StartScene()
 void EndRoll::UpdateScene()
 {
 	mSound->playLoop();
-	speed -= 1;
+	speed -= 1.5f;
 	if (speed <= -6700)
 	{
 		NextScene(std::make_shared<GameClear>());
+	}
+	if (SkipF)
+	{
+		SkipT += 1;
+		if (SkipT >= 60)
+		{
+			SkipA = 0;
+			SkipT = 0;
+			SkipF = false;
+		}
+	}
+	if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+	{
+		SkipA = 1;
+		SkipF = true;
 	}
 	if (Input::getKeyDown(KeyCode::Enter) || Input::getJoyDown(JoyCode::MenuButton))
 	{
@@ -48,5 +67,6 @@ void EndRoll::DrawScene()
 	BaseScene::mSprite->Draw("E3", Vector3(800, 940 + speed, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->SetSize("Roll", Vector2(1280-128, 7200-128));
 	BaseScene::mSprite->Draw("Roll", Vector3(64, 720+speed, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Skip", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, SkipA));
 
 }

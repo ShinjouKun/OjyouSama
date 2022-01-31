@@ -562,14 +562,14 @@ void Robbery::Pose()
 		}
 		if (selectposition.x == 180)
 		{
-			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				NextScene(std::make_shared<Select>());
 			}
 		}
 		if (selectposition.x == 820)
 		{
-			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				mSettingFlag = true;
 				mPose = false;
@@ -577,7 +577,7 @@ void Robbery::Pose()
 		}
 		if (selectposition.y == 360 && selectposition.x == 500)
 		{
-			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+			if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 			{
 				NextScene(std::make_shared<Robbery>());
 			}
@@ -788,14 +788,14 @@ void Robbery::ResultF()
 
 			if (selectposition.x == 180)
 			{
-				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 				{
 					NextScene(std::make_shared<Select>());
 				}
 			}
 			if (selectposition.x == 820)
 			{
-				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::A))
+				if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 				{
 					NextScene(std::make_shared<GamePlay>());
 				}
