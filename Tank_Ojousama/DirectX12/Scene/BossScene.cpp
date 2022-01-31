@@ -217,6 +217,9 @@ void BossScene::UpdateScene()
 	if (mBoss->GetDeadFlag())
 	{
 		mBossDeadFlag = true;
+		BaseScene::mStageFlag1 = false;
+		BaseScene::mStageFlag2 = false;
+		BaseScene::mStageFlag3 = false;
 		NextScene(std::make_shared<EndRoll>());
 	}
 
@@ -236,9 +239,6 @@ void BossScene::UpdateScene()
 	}
 	if (mObjManager->GetPlayer().GetHp() <= 0)
 	{
-		BaseScene::mStageFlag1 = false;
-		BaseScene::mStageFlag2 = false;
-		BaseScene::mStageFlag3 = false;
 		resultFlag = true;
 	}
 }
