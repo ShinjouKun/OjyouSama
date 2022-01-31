@@ -85,6 +85,7 @@ void Treasure::OnCollison(BaseCollider * col)
 {
 	if (!get&&col->GetColObject()->GetType() == ObjectType::PLAYER)
 	{
+		mgetSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 		mgetSE->play();
 		BaseScene::mPlusMoney += 500000;
 		get = true;
