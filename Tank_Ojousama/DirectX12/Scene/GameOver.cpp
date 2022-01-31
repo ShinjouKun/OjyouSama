@@ -25,6 +25,7 @@ void GameOver::StartScene()
 	objM->Claer();
 	posePos = Vector3(0, 0, 0);
 	BaseScene::mSprite->AddTexture("Shuri", "Resouse/syuurihi.png");
+	BaseScene::mSprite->SetSize("Shuri", Vector2(320, 32));
 	BaseScene::mSprite->AddTexture("GOver", "Resouse/gameover.png");
 	BaseScene::mSprite->AddTexture("GEOver", "Resouse/sinend.png");
 	BaseScene::mModel->AddModel("Sora", "Resouse/skybox.obj", "Resouse/skybox_A.png");
@@ -101,8 +102,8 @@ void GameOver::DrawScene()
 	else
 	{
 		BaseScene::mSprite->Draw("GOver", posePos, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
-		Sequence::instance().set(500000, Vector2(600, 50), Vector2(64, 64));
-		BaseScene::mSprite->Draw("Shuri", Vector3(200, 30, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		Sequence::instance().set(500000, Vector2(1000, 350), Vector2(32, 32));
+		BaseScene::mSprite->Draw("Shuri", Vector3(850, 350, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	}
 	if (!mParticleTimer->isTime()) return;
 	ParticleBox->EmitterUpdate("Bom", Vector3(-pos - 6, 0, 1), Vector3(0, 0, 0));
