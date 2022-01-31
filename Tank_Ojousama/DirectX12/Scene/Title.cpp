@@ -39,6 +39,7 @@ void Title::StartScene()
 
 
 	BaseScene::mSprite->AddTexture("Title", "Resouse/Title.png");
+	BaseScene:mSprite->SetSize("Title", Vector2(820,420));
 	BaseScene::mSprite->AddTexture("Push", "Resouse/start.png");
 	BaseScene::mSprite->AddTexture("Fade1", "Resouse/fade.png");
 	BaseScene::mSprite->AddTexture("Fade2", "Resouse/fade.png");
@@ -155,7 +156,7 @@ void Title::DrawScene()
 	if (mAnimStep == AnimationStep::PLAY)
 	{
 		
-		BaseScene::mSprite->Draw("Title", Vector3(385, -10, 0), 0.0f, Vector2(1.2f, 1.2f), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Title", Vector3(220, -65, 0), 0.0f, Vector2(1.2f, 1.2f), Vector4(1, 1, 1, 1));
 		BaseScene::mSprite->Draw("Push", Vector3(290, 580, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 
