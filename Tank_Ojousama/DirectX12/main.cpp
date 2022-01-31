@@ -186,6 +186,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/ShieldIcon.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/X.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/RB.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/RT.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/MG.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/SG.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/MN.png");
@@ -194,6 +195,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end2.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/end3.png");
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/hpgage2.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/yazirusi.png");
 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/openingskip.png");
 

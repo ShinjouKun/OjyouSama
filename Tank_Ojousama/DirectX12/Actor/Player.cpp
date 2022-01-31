@@ -421,6 +421,7 @@ void Player::Init()
 	//playerSprite->AddTexture("HpGage2", "Resouse/hpgage2.png");
 	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
 	playerSprite->AddTexture("RB", "Resouse/RB.png");
+	playerSprite->AddTexture("RT", "Resouse/RT.png");
 	playerSprite->AddTexture("Blood", "Resouse/blood.png");
 	playerSprite->AddTexture("Blood2", "Resouse/blood2.png");
 	playerSprite->AddTexture("Blood3", "Resouse/blood3.png");
@@ -439,7 +440,6 @@ void Player::Init()
 
 	playerSprite->AddTexture("Danyaku2", "Resouse/dannyakuhi.png");
 
-	playerSprite->SetSize("RB", Vector2(64, 64));
 
 	//ƒRƒ“ƒpƒX
 	/*playerSprite->AddTexture("Compas", "Resouse/compas.png");
@@ -911,8 +911,9 @@ void Player::Rend()
 			break;
 		}
 
-		playerSprite->Draw("X", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		playerSprite->Draw("RB", Vector3(1280 - 75, 650-100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("X", Vector3(1280 - 45, 650-20, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("RB", Vector3(1280 - 45, 650-110, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("RT", Vector3(1280 - 45, 650-200, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		if (HP >= 100)
 		{
 			Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
