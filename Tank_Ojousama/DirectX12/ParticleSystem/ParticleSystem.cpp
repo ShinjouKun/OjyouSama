@@ -22,8 +22,7 @@ ParticleSystem & ParticleSystem::instance()
 
 void ParticleSystem::finalize()
 {
-	mPendingEmitter.clear();
-	mEmitters.clear();
+	reset();
 
 	mCMDList->Release();
 	mCMDAllo->Release();
@@ -58,7 +57,10 @@ void ParticleSystem::update()
 		{
 			//‘½•ª‚±‚ê‚Å‚¢‚¯‚é‚Í‚¸cc
 			std::swap(mEmitters[i], mEmitters.back());
+			auto emitter = mEmitters.back();
 			mEmitters.pop_back();
+			delete(emitter);
+			emitter = nullptr;
 			--end;
 			if (i == end)break;//ÅŒã‚É‚È‚Á‚Ä‚¢‚½‚ç”²‚¯‚é
 		}
@@ -79,6 +81,18 @@ void ParticleSystem::draw()
 
 void ParticleSystem::reset()
 {
+	for (auto& p : mPendingEmitter)
+	{
+		delete(p);
+		p = nullptr;
+	}
+
+	for (auto& e : mEmitters)
+	{
+		delete(e);
+		e = nullptr;
+	}
+
 	mPendingEmitter.clear();
 	mEmitters.clear();
 }

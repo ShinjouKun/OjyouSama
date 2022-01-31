@@ -53,8 +53,10 @@ private:
 
 private:
 	static ParticleSystem* mInstance;
-	std::vector<std::shared_ptr<Emitter>> mEmitters;
-	std::list<std::shared_ptr<Emitter>> mPendingEmitter;
+	//std::vector<std::shared_ptr<Emitter>> mEmitters;
+	//std::list<std::shared_ptr<Emitter>> mPendingEmitter;
+	std::vector<Emitter*> mEmitters;
+	std::list<Emitter*> mPendingEmitter;
 
 	ID3D12GraphicsCommandList* mCMDList;
 	ID3D12CommandAllocator* mCMDAllo;
