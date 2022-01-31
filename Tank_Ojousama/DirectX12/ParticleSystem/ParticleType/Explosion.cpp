@@ -32,7 +32,7 @@ Explosion::Explosion(const Vector3 & pos, bool looping)
 
 Explosion::~Explosion()
 {
-	if (mEmitter)
+	if (mEmitter != nullptr)
 	{
 		mEmitter->death();
 	}

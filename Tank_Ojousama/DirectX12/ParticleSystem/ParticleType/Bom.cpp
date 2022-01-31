@@ -32,7 +32,7 @@ Bom::Bom(const Vector3 & pos, bool looping)
 
 Bom::~Bom()
 {
-	if (mEmitter)
+	if (mEmitter != nullptr)
 	{
 		mEmitter->death();
 	}

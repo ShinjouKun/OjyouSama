@@ -86,6 +86,7 @@ void BossScene::StartScene()
 
 	ParticleBox = make_shared<ParticleEmitterBox>(BaseScene::mParticle);
 	ParticleBox->LoadAndSet("Smoke", "Resouse/smoke.jpg");
+
 #pragma region ƒXƒe[ƒW“àƒ‚ƒfƒ‹‚Ìì¬
 
 	int objectCount = 0;
@@ -121,23 +122,51 @@ void BossScene::StartScene()
 	//	mObjManager->Add(new ElfRock(Vector3(-20, 4.0f, z), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
 	//}
 
-	////Šâ“Š‚°‚Ì“G‚ðŽç‚éŠâRight
-	//mObjManager->Add(new ElfRock(Vector3(-55.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 2));
-	//mObjManager->Add(new ElfRock(Vector3(-80.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 2));
-	//mObjManager->Add(new ElfRock(Vector3(+100, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
-	//mObjManager->Add(new ElfRock(Vector3(+90, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
-	//mObjManager->Add(new ElfRock(Vector3(+130, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
-	//mObjManager->Add(new ElfRock(Vector3(+70, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
+	//’¹‚ðŽç‚é¶‚Ì–Ø
+	mObjManager->Add(new ElfTree(Vector3(70, 4.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(75, 4.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(80, 4.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(85, 4.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(90, 4.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 
-	//Šâ“Š‚°‚Ì“G‚ðŽç‚éŠâLeft
-	//mObjManager->Add(new ElfRock(Vector3(55.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, 0, 3));
-	//mObjManager->Add(new ElfRock(Vector3(80.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, 1, 3));
-	//mObjManager->Add(new ElfRock(Vector3(90.0f, 4.0f, 350.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
-	//mObjManager->Add(new ElfRock(Vector3(-90, 4.0f, -170.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
-	//mObjManager->Add(new ElfRock(Vector3(-130, 4.0f, -180.0f), Vector3(0, 90.0f, 0), mObjManager, BaseScene::mModel, objectCount++, 3));
-	//mObjManager->Add(new ElfRock(Vector3(0.0f, 4.0f, 550.0f), Vector3(0, 0.0f, 0), mObjManager, BaseScene::mModel, 2, 2));
+	//’¹‚ðŽç‚é‰E‚Ì–Ø
+	mObjManager->Add(new ElfTree(Vector3(-70, 4.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-75, 4.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-80, 4.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-85, 4.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-90, 4.0f, 320.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 
+	//ƒS[ƒŒƒ€‚ðŽç‚é¶‚Ì–Ø#1
+	mObjManager->Add(new ElfTree(Vector3(70, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(75, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(80, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(85, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(90, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 
+	//ƒS[ƒŒƒ€‚ðŽç‚é¶‚Ì–Ø#2
+	mObjManager->Add(new ElfTree(Vector3(60, 4.0f, 390.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(60, 4.0f, 395.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(60, 4.0f, 400.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(60, 4.0f, 405.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(60, 4.0f, 410.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(60, 4.0f, 415.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(60, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+
+	//ƒS[ƒŒƒ€‚ðŽç‚é‰E‚Ì–Ø#1
+	mObjManager->Add(new ElfTree(Vector3(-70, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-75, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-80, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-85, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-90, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+
+	//ƒS[ƒŒƒ€‚ðŽç‚é‰E‚Ì–Ø#2
+	mObjManager->Add(new ElfTree(Vector3(-60, 4.0f, 390.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-60, 4.0f, 395.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-60, 4.0f, 400.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-60, 4.0f, 405.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-60, 4.0f, 410.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-60, 4.0f, 415.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
+	mObjManager->Add(new ElfTree(Vector3(-60, 4.0f, 420.0f), Vector3(0.0f, 90.0f, 0.0f), mObjManager, BaseScene::mModel, objectCount++));
 
 
 	//ƒXƒ^[ƒg’n“_‚Ì“Vˆä
@@ -260,13 +289,13 @@ void BossScene::EnemySpawn()
 
 	int objectCount = 0;
 
-	////Šâ“Š‚°‚Ì“G
-	//mObjManager->Add(new MortarEnemy(Vector3(+80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-	//mObjManager->Add(new MortarEnemy(Vector3(-80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+	//Šâ“Š‚°‚Ì“G
+	mObjManager->Add(new MortarEnemy(Vector3(+80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+	mObjManager->Add(new MortarEnemy(Vector3(-80.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
 
-	////’¹‚Ì“G
-	//mObjManager->Add(new BirdEnemy(Vector3(+80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
-	//mObjManager->Add(new BirdEnemy(Vector3(-80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
+	//’¹‚Ì“G
+	mObjManager->Add(new BirdEnemy(Vector3(+80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
+	mObjManager->Add(new BirdEnemy(Vector3(-80.0f, 0.0f, 300.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
 
 	mSpawn = true;
 }
