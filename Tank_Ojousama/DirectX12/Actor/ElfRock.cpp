@@ -46,9 +46,9 @@ void ElfRock::Init()
 		break;
 	case 3:
 		scale = Vector3(4.0f, 4.0f, 4.3f);
-		radius = 2.4f;
+		radius = 1.63f;
 		//コライダーの情報をセット
-		SetCollidder(Vector3(3.0f,0,0), radius);
+		SetCollidder(Vector3(0.0f,0,0), radius);
 		mModelRender->AddModel(numName, "Resouse/stone_big.obj", "Resouse/stone_bigA.png");
 		mModelRender->SetAncPoint(numName, Vector3(0.0f, -1.5f, 0.0f));
 		break;
