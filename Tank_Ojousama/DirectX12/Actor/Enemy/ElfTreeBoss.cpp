@@ -714,7 +714,7 @@ void ElfTreeBoss::EnemyInit()
 	//mBigExplosion = std::make_shared<Sound>("SE/Big_Explosion.mp3", true);
 	//mBigExplosion->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
-	mDeathSE = std::make_shared<Sound>("SE/Boss_Death.wav", true);
+	mDeathSE = std::make_shared<Sound>("SE/Boss_Death.mp3", true);
 	mNoDeathSE = std::make_shared<Sound>("SE/Boss_NoDamage.wav", true);
 
 	//各種タイマー初期化
