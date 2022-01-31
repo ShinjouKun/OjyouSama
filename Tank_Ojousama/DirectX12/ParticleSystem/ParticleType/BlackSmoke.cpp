@@ -34,7 +34,7 @@ BlackSmoke::BlackSmoke(const Vector3 & pos, bool looping)
 
 BlackSmoke::~BlackSmoke()
 {
-	if (mEmitter)
+	if (mEmitter != nullptr)
 	{
 		mEmitter->death();
 	}

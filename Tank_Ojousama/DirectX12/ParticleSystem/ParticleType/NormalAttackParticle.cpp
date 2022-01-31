@@ -35,7 +35,7 @@ NormalAttackParticle::NormalAttackParticle(const Vector3 & pos, bool looping)
 
 NormalAttackParticle::~NormalAttackParticle()
 {
-	if (mEmitter)
+	if (mEmitter != nullptr)
 	{
 		mEmitter->death();
 	}

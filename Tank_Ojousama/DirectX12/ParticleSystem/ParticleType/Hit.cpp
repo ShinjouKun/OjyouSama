@@ -32,7 +32,7 @@ Hit::Hit(const Vector3 & pos, bool looping)
 
 Hit::~Hit()
 {
-	if (mEmitter)
+	if (mEmitter != nullptr)
 	{
 		mEmitter->death();
 	}

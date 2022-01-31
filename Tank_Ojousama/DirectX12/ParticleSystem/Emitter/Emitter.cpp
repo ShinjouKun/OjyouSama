@@ -43,6 +43,8 @@ Emitter::~Emitter()
 	delete(mCompute);
 	mCompute = nullptr;
 
+	mData = nullptr;
+
 	mDataList.clear();
 	mPendingDataList.clear();
 }

@@ -33,7 +33,7 @@ TankTrajectory::TankTrajectory(const Vector3 & pos, bool looping)
 
 TankTrajectory::~TankTrajectory()
 {
-	if (mEmitter)
+	if (mEmitter != nullptr)
 	{
 		mEmitter->death();
 	}
