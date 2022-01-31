@@ -9,7 +9,6 @@ Opening::Opening()
 
 Opening::~Opening()
 {
-	delete objM;//重要
 }
 
 void Opening::StartScene()
@@ -80,4 +79,9 @@ void Opening::DrawScene()
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("Fade2", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade2));
 	BaseScene::mSprite->Draw("Skip", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, SkipA));
+}
+
+void Opening::FinalizeScene()
+{
+	delete objM;//重要
 }

@@ -26,6 +26,8 @@ private:
 
 	virtual void DrawScene() override;
 
+	virtual void FinalizeScene() override;
+
 	ObjectManager* objM;
 	shared_ptr<ModelRenderer>playerModel;
 	std::shared_ptr<Sound> mSound;

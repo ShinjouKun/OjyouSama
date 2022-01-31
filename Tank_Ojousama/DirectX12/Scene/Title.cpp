@@ -170,3 +170,7 @@ void Title::DrawScene()
 	BaseScene::mSprite->Draw("Fade1", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade1));
 	BaseScene::mSprite->Draw("Fade2", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade2));
 }
+
+void Title::FinalizeScene()
+{
+}

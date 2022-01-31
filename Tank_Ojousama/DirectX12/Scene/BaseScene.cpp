@@ -55,6 +55,11 @@ void BaseScene::Draw()
 	DrawScene();
 }
 
+void BaseScene::Finalize()
+{
+	FinalizeScene();
+}
+
 void BaseScene::NextScene(std::shared_ptr<BaseScene> next)
 {
 	mNext = next;

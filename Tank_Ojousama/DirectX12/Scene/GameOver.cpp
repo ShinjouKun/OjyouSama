@@ -17,7 +17,6 @@ GameOver::GameOver()
 
 GameOver::~GameOver()
 {
-	delete objM;
 }
 
 void GameOver::StartScene()
@@ -108,4 +107,9 @@ void GameOver::DrawScene()
 	if (!mParticleTimer->isTime()) return;
 	ParticleBox->EmitterUpdate("Bom", Vector3(-pos - 6, 0, 1), Vector3(0, 0, 0));
 	mParticleTimer->setTime(0.1f);
+}
+
+void GameOver::FinalizeScene()
+{
+	delete objM;
 }

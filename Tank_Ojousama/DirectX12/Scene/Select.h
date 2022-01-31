@@ -26,6 +26,8 @@ private:
 
 	virtual void DrawScene() override;
 
+	virtual void FinalizeScene() override;
+
 	Camera* camera;
 	ObjectManager* objM;
 	//GamePlay* g;

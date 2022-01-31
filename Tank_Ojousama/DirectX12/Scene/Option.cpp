@@ -208,3 +208,7 @@ void Option::DrawScene()
 		BaseScene::mSprite->Draw("AimA3", OpAimA3, 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 0.5f));
 	}
 }
+
+void Option::FinalizeScene()
+{
+}

@@ -31,7 +31,6 @@ Defense::Defense()
 
 Defense::~Defense()
 {
-	delete objM;//重要
 }
 
 
@@ -314,6 +313,11 @@ void Defense::DrawScene()
 	{
 		ParticleBox->EmitterUpdate("Smoke", Vector3(objM->GetPlayer().GetPosition().x, 0, objM->GetPlayer().GetPosition().z), Vector3(0, 0, 0));
 	}
+}
+
+void Defense::FinalizeScene()
+{
+	delete objM;//重要
 }
 
 

@@ -50,3 +50,7 @@ void EndRoll::DrawScene()
 	BaseScene::mSprite->Draw("Roll", Vector3(64, 720+speed, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 
 }
+
+void EndRoll::FinalizeScene()
+{
+}

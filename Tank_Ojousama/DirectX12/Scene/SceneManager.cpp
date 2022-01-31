@@ -23,6 +23,7 @@ void SceneManager::Update()
 	auto next = mNowScene->GetNextScene();
 	if (next)
 	{
+		mNowScene->Finalize();
 		//パーティクルシステムの中身リセット
 		ParticleSystem::instance().reset();
 		
@@ -41,6 +42,11 @@ void SceneManager::Draw() const
 {
 	mNowScene->Draw();
 	//mParticle->OllDraw();
+}
+
+void SceneManager::Finalize()
+{
+	mNowScene->Finalize();
 }
 
 void SceneManager::SetSpriteToScene()

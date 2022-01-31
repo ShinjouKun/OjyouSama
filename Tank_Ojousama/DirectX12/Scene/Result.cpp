@@ -15,7 +15,6 @@ Result::Result()
 
 Result::~Result()
 {
-	delete objM;
 }
 
 void Result::StartScene()
@@ -182,4 +181,9 @@ void Result::DrawScene()
 		BaseScene::mSprite->Draw("Goukei", Vector3(200, 500, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		angle += 1.5f;
 	}
+}
+
+void Result::FinalizeScene()
+{
+	delete objM;
 }

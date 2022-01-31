@@ -23,6 +23,8 @@ private:
 
 	virtual void DrawScene() override;
 
+	virtual void FinalizeScene() override;
+
 	ObjectManager* objM;
 	std::shared_ptr<Sound> mSound;
 	Camera * camera;

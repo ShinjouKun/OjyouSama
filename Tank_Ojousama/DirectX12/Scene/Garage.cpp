@@ -12,7 +12,6 @@ Garage::Garage()
 
 Garage::~Garage()
 {
-	delete objM;
 }
 
 void Garage::StartScene()
@@ -893,4 +892,9 @@ void Garage::DrawScene()
 	DirectXManager::GetInstance()->SetDrawComnd();
 	DirectXManager::GetInstance()->SetData3D();
 	objM->Draw();
+}
+
+void Garage::FinalizeScene()
+{
+	delete objM;
 }
