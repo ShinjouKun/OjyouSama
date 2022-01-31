@@ -379,7 +379,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	state[0] = "Normal";
 	state[1] = "Light";
 	state[2] = "Light_b";
-	state[3] = "Cannon";
+	state[3] = "MachinGun";
 	text->Write("Resouse/ModelState.txt", state);
 
 	std::vector<string> buys(12,"nonBuy");
