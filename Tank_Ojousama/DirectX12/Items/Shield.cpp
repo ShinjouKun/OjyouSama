@@ -32,7 +32,7 @@ void Shield::Init()
 	num = to_string(number);
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/shield.obj", "Resouse/shield.png");
-	ItemModel->SetAncPoint(numName, Vector3(0, 2.0f, 0));
+	ItemModel->SetAncPoint(numName, Vector3(0, 1.0f, 0));
 	itemUseTex->AddTexture(numName, "Resouse/ShieldEffect.png");
 	getSE = std::make_shared<Sound>("SE/getItem.mp3", false);
 	gardeSE = std::make_shared<Sound>("SE/Boss_NoDamage.mp3", false);

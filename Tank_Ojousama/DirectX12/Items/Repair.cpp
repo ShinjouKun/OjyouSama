@@ -36,7 +36,7 @@ void Repair::Init()
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/item.obj", "Resouse/item1.png");
 	ItemUseTex->AddTexture(numName, "Resouse/heal.png");
-	ItemModel->SetAncPoint(numName, Vector3(0, 2.0f, 0));
+	ItemModel->SetAncPoint(numName, Vector3(0, 1.0f, 0));
 	getSE = std::make_shared<Sound>("SE/getItem.mp3", false);
 	healSE = std::make_shared<Sound>("SE/heal.mp3", false);
 	if (itemState == ItemState::Low)
