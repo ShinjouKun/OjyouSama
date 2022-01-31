@@ -167,8 +167,8 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		{
 			SetUpDamage(5);
 			body = BodyState::Midium;
-			playerModel->AddModel("TankPlayerC", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2.png");
-			modelKey[3] = "TankPlayerC";
+			playerModel->AddModel("TankD", "Resouse/sensya_Type2_head.obj", "Resouse/sensya_type2.png");
+			modelKey[3] = "TankD";
 		}
 	}
 	else
@@ -193,8 +193,8 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		{
 			SetSpeed(0.8f);
 			bottom = BottomState::Midium_b;
-			playerModel->AddModel("TankPlayerD", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2.png");
-			modelKey[4] = "TankPlayerD";
+			playerModel->AddModel("TankC", "Resouse/sensya_Typ2_body.obj", "Resouse/sensya_type2.png");
+			modelKey[4] = "TankC";
 		}
 	}
 	else
