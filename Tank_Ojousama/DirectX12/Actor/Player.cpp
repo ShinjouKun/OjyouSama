@@ -439,6 +439,8 @@ void Player::Init()
 
 	playerSprite->AddTexture("Danyaku2", "Resouse/dannyakuhi.png");
 
+	playerSprite->SetSize("RB", Vector2(64, 64));
+
 	//ƒRƒ“ƒpƒX
 	/*playerSprite->AddTexture("Compas", "Resouse/compas.png");
 	playerSprite->SetSize("Compas", Vector2(228, 190));
@@ -917,7 +919,7 @@ void Player::Rend()
 		}
 
 		playerSprite->Draw("X", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		playerSprite->Draw("RB", Vector3(1280 - 65, 650-90, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("RB", Vector3(1280 - 75, 650-100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
 		Sequence::instance().set(BaseScene::mMinusMoney, Vector2(1280 - 320, 0), Vector2(32, 32));
 		Sequence::instance().drawNumber(DirectXManager::GetInstance()->CmdList());

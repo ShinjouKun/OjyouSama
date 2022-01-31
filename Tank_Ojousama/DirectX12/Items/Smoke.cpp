@@ -68,7 +68,7 @@ void Smoke::Rend()
 	if (!isGet)
 	{
 		DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-		ItemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), Vector3(1.5f, 1.5f, 1.5f));
+		ItemModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), Vector3(2, 2, 2));
 	}
 }
 
