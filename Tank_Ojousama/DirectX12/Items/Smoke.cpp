@@ -32,7 +32,7 @@ void Smoke::Init()
 	num = to_string(number);
 	numName = name + num;
 	ItemModel->AddModel(numName, "Resouse/smokeModel.obj", "Resouse/smokeModel.png");
-	ItemModel->SetAncPoint(numName, Vector3( 0, 2.0f, 0));
+	ItemModel->SetAncPoint(numName, Vector3( 0, 1.0f, 0));
 	getSE = std::make_shared<Sound>("SE/getItem.mp3", false);
 	useSE = std::make_shared<Sound>("SE/smoke.mp3", false);
 	mSmokeParticle = std::make_shared<SmokeParticle>(Vector3::zero, true);

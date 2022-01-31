@@ -254,14 +254,14 @@ void GamePlay::StartScene()
 #pragma region アイテムとプレイヤーの生成
 
 	//プレイヤーは最後に、又はUIクラスを作る
-	objM->Add(new Treasure(Vector3(65.0f, 0, 250.0f), Vector3(0, 90.0f, 0), objM, BaseScene::mModel, 0));
+	objM->Add(new Treasure(Vector3(30.0f, 0, 235.0f), Vector3(0, 90.0f, 0), objM, BaseScene::mModel, 0));
 	objM->Add(new GolemEnemy(Vector3(0.0f, 4.0f, -110.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle, 0));
 	objM->Add(new Player(Vector3(0.0f, 0.0f, 500.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, 1));
 	objM->Add(new CameraEye(Vector3(0, 0.0f, 180), Vector3(0, 0, 0), objM));
 	objM->Add(new Repair(Vector3(20.0f, 0.0f, 480.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, ItemState::Low, 0, 50000, 40));
-	objM->Add(new Repair(Vector3(40.0f, 0.0f, 120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, ItemState::Low, 1, 50000, 40));
-	objM->Add(new Smoke(Vector3(50.0f, 0.0f, 350.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, ItemState::Low, 0, 5000));
-	objM->Add(new Shield(Vector3(-30.0f, 0.0f, 200.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, ItemState::Low, 0, 40));
+	objM->Add(new Repair(Vector3(30.0f, 0.0f, 120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, ItemState::Low, 1, 50000, 40));
+	objM->Add(new Smoke(Vector3(35.0f, 0.0f, 350.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, ItemState::Low, 0, 5000));
+	objM->Add(new Shield(Vector3(-30.0f, 0.0f, 180.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mSprite, ItemState::Low, 0, 40));
 
 #pragma endregion
 
@@ -320,11 +320,11 @@ void GamePlay::UpdateScene()
 	if (!spawnFlag && objM->GetPlayer().GetPosition().z <= 400.0f && objM->GetPlayer().GetSceneFinish())
 	{
 		int enemyCount = 0;
-		objM->Add(new SniperEnemy(Vector3(+25.0f, 0.0f, 320.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(-25.0f, 0.0f, 320.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(  0.0f, 0.0f, 290.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
-		objM->Add(new BlowEnemy(Vector3(+5.0f, 0.0f, 330.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
-		objM->Add(new BlowEnemy(Vector3(-5.0f, 0.0f, 330.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(+25.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(-25.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(  0.0f, 0.0f, 290.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new BlowEnemy(Vector3(+5.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new BlowEnemy(Vector3(-5.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
 
 		spawnFlag = true;
 	}
@@ -333,7 +333,7 @@ void GamePlay::UpdateScene()
 	if (!spawnFlag2 && objM->GetPlayer().GetPosition().z <= 250.0f && objM->GetPlayer().GetSceneFinish())
 	{
 		int enemyCount = 0;
-		objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 230.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 230.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
 
 		spawnFlag2 = true;
 	}
@@ -342,8 +342,8 @@ void GamePlay::UpdateScene()
 	if (!spawnFlag3 && objM->GetPlayer().GetPosition().z <= 210.0f && objM->GetPlayer().GetSceneFinish())
 	{
 		int enemyCount = 0;
-		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 170.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 190.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 170.0f), Vector3(0.0f,180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 190.0f), Vector3(0.0f,180.0f, 0.0f), enemyCount++));
 
 		spawnFlag3 = true;
 	}
@@ -353,15 +353,15 @@ void GamePlay::UpdateScene()
 	{
 		int enemyCount = 0;
 		//右
-		objM->Add(new SniperEnemy(Vector3(-15.0f, 0.0f, 70.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(-35.0f, 0.0f, 70.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(-25.0f, 0.0f, 40.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
-		objM->Add(new BlowEnemy(Vector3(-25.0f, 0.0f, 80.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(-15.0f, 0.0f, 70.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(-35.0f, 0.0f, 70.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(-25.0f, 0.0f, 40.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new BlowEnemy(Vector3(-25.0f, 0.0f, 80.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
 
 		//左
-		objM->Add(new SniperEnemy(Vector3(15.0f, 0.0f, 50.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(25.0f, 0.0f, 50.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(35.0f, 0.0f, 50.0f), Vector3(0.0f, 0.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(15.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(25.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(35.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
 
 		spawnFlag4 = true;
 	}
