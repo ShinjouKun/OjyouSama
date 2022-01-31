@@ -38,7 +38,7 @@ void SummonEnemy::Init()
 	SetActive(false);
 
 	HP = 10;
-	damage = 0;
+	damage = 10;
 
 	speed = 0.2f;
 
