@@ -58,6 +58,8 @@ void ElfBullet::Update()
 	velocity *= Matrix4::RotateY(angle.y);
 	position += velocity * speed;
 
+	rot += mRotValue;
+
 	alive++;
 	if (alive >= ALIVE_COUNT)
 	{
@@ -68,7 +70,7 @@ void ElfBullet::Update()
 void ElfBullet::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	mModelRender->Draw(numName, Vector3(position.x, position.y + 2.0f, position.z), Vector3(angle.x, angle.y, rot += mRotValue), Vector3(1, 1, 1));
+	mModelRender->Draw(numName, Vector3(position.x, position.y + 2.0f, position.z), Vector3(angle.x, angle.y, rot), Vector3(1, 1, 1));
 }
 
 void ElfBullet::ImGuiDebug()

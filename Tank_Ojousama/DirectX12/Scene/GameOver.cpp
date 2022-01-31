@@ -28,8 +28,8 @@ void GameOver::StartScene()
 	BaseScene::mSprite->AddTexture("Shuri", "Resouse/syuurihi.png");
 	BaseScene::mSprite->AddTexture("GOver", "Resouse/gameover.png");
 	BaseScene::mSprite->AddTexture("GEOver", "Resouse/sinend.png");
-	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
-	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/Ground_Black.png");
+	BaseScene::mModel->AddModel("Sora", "Resouse/skybox.obj", "Resouse/skybox_A.png");
+	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/Ground_Black.png");
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
 	camerapos = Vector3(4, 5, -10);
@@ -91,8 +91,8 @@ void GameOver::DrawScene()
 	BaseScene::mModel->Draw("TankPlayerA", Vector3(-pos-4, -2.5f, 4), Vector3(15, 40, 0), Vector3(2.5f, 2.5f, 2.5f));
 	BaseScene::mModel->Draw("TankPlayerB", Vector3(-5-pos, 0, 0), Vector3(10, 15, 20), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("OjyouSama", Vector3(1, 1 + ojyouZ, -1), Vector3(90, -90, 0), Vector3(1.5f, 1.5f, 1.5f));
-	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(7, 7, 7));
-	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(15, 15, 15));
+	BaseScene::mModel->Draw("Sora", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(7, 7, 7));
+	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, -90.0f), Vector3(0, 0, 0), Vector3(300, 300, 300));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
 	if (BaseScene::mMoney < 0)

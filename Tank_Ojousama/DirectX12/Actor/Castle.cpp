@@ -89,7 +89,7 @@ void Castle::Update()
 	if (HitFlag)
 	{
 		HitCount++;
-		if (HitCount >= 15)
+		if (HitCount >= 30)
 		{
 			HitCount = 0;
 			HitFlag = false;

@@ -29,7 +29,7 @@ void CEnemy::EnemyInit()
 	HP = 30;//もともと10
 	attackTime = 60;
 	mEnemyNumber = 0;
-
+	damage = 0;
 	speed = 0.35f;
 	mRadius = 1.0f;
 	mSwingRange = 45.0f;
@@ -70,11 +70,11 @@ void CEnemy::EnemyInit()
 
 	//サウンド初期化
 	mAttackSE = std::make_shared<Sound>("SE/hirai.mp3", true);
-	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDamageSE = std::make_shared<Sound>("SE/Small_Explosion.wav", true);
-	mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 	mDeathSE = std::make_shared<Sound>("SE/Elf_Damage01.mp3", true);
-	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
 
 	//タイマー初期化
 	mSearchTimer = std::make_shared<Timer>();
@@ -257,6 +257,7 @@ void CEnemy::EnemyOnCollision(BaseCollider * col)
 	if (col->GetColObject()->GetType() == ObjectType::BULLET)
 	{
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 
@@ -481,10 +482,16 @@ void CEnemy::Attack()
 		//弾を発射！！
 		mManager->Add(new ElfBullet(position + firePos, Vector3(0, -angle.y, 0), mManager, mRend, mPart, objType, bulletNumber));
 		bulletNumber++;
+		mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mAttackSE->setPos(position);
 		mAttackSE->play();
 		mAttackFlag = false;
 		mMoveState = MoveState::NOT_FIND;
+	}
+	else
+	{
+		//プレイヤーを向く。
+		FacingPlayer();
 	}
 }
 
@@ -511,6 +518,7 @@ void CEnemy::DeathAnimeStep_RiseSky()
 	mRiseTime->update();
 
 	//SE発射
+	mDeathSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mDeathSE->setPos(position);
 	mDeathSE->play();
 
@@ -527,6 +535,7 @@ void CEnemy::DeathAnimeStep_RiseSky()
 		//時間になったら(1フレームだけ呼ばれる)
 
 		//SE発射
+		mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mDamageSE->setPos(position);
 		mDamageSE->play();
 

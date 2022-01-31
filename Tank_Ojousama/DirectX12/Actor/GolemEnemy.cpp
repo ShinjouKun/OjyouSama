@@ -33,7 +33,7 @@ void GolemEnemy::Init()
 	mDeadFlag = false;
 
 	mRiseTime = std::make_shared<Timer>();
-	mRiseTime->setTime(1.0f);
+	mRiseTime->setTime(1.5f);
 	mDeathTime = std::make_shared<Timer>();
 	mDeathTime->setTime(1.0f);
 
@@ -650,9 +650,14 @@ void GolemEnemy::DeathAnimeStep_RiseSky()
 	if (!mRiseTime->isTime())
 	{
 		//âÒì]
-		angle.y += 50.0f;
+		bodyAngle.y += 50.0f;
 		//è„è∏
-		position.y += 0.2f;
+		position.y += 0.4f;
+		ArmPosL.y += 0.4f;
+		ArmPosR.y += 0.4f;
+		zR += 5.5f;
+		zL -= 5.5f;
+
 	}
 	else
 	{

@@ -1,0 +1,4 @@
+Normal
+Light
+Light_b
+Cannon

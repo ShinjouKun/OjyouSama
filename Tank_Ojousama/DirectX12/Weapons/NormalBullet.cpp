@@ -15,6 +15,8 @@ NormalBullet::NormalBullet(const Vector3 & pos, const Vector3 & ang, ObjectManag
 
 NormalBullet::~NormalBullet()
 {
+	mDamageParticle = std::make_shared<Hit>(position, false);
+
 }
 
 void NormalBullet::Init()
@@ -53,6 +55,10 @@ void NormalBullet::Update()
 
 
 	if (alive >= 150)
+	{
+		death = true;
+	}
+	if (position.y <= -0.5f)
 	{
 		death = true;
 	}
