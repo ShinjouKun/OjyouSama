@@ -148,7 +148,7 @@ private:
 	Vector3 mLeftHandPos;    //¶è‚ÌˆÊ’u
 	Vector3 mRootPosition;   //ª‚Á‚±‚ÌˆÊ’u
 
-	const int MAX_HP = 2;       //Å‘å‘Ì—Í
+	const int MAX_HP = 200;       //Å‘å‘Ì—Í
 	const int RAPIDFIRE_COUNT = 5;//˜A‘±ËŒ‚‚Ì”
 	const int SUMMON_COUNT = 5;   //¢Š«”
 	const int DEFENSE = 10;        //–hŒä—Í
