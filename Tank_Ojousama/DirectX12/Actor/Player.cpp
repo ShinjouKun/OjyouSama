@@ -418,7 +418,7 @@ void Player::Init()
 
 	playerSprite->AddTexture("HpUi", "Resouse/hpUI.png");
 	playerSprite->AddTexture("HpGage", "Resouse/hpgage.png");
-	playerSprite->AddTexture("HpGage2", "Resouse/hpgage2.png");
+	//playerSprite->AddTexture("HpGage2", "Resouse/hpgage2.png");
 	playerSprite->AddTexture("WeponUi", "Resouse/wepon.png");
 	playerSprite->AddTexture("RB", "Resouse/RB.png");
 	playerSprite->AddTexture("Blood", "Resouse/blood.png");
@@ -879,14 +879,7 @@ void Player::Rend()
 			playerSprite->Draw("AIM_S", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		}
 		playerSprite->Draw("HpUi", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		if (HP >= 100)
-		{
-			playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		}
-		else
-		{
-			playerSprite->Draw("HpGage2", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		}
+		playerSprite->Draw("HpGage", Vector3(64, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		
 		playerSprite->Draw("WeponUi", Vector3(1280 - 90, 720 - 270, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 
@@ -920,7 +913,18 @@ void Player::Rend()
 
 		playerSprite->Draw("X", Vector3(1280 - 65, 650, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		playerSprite->Draw("RB", Vector3(1280 - 75, 650-100, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
-		Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
+		if (HP >= 100)
+		{
+			Sequence::instance().set(HP, Vector2(64, 0), Vector2(64, 64));
+		}
+		else if(HP <= 0)
+		{
+			Sequence::instance().set(HP, Vector2(192, 0), Vector2(64, 64));
+		}
+		else
+		{
+			Sequence::instance().set(HP, Vector2(128, 0), Vector2(64, 64));
+		}
 		Sequence::instance().set(BaseScene::mMinusMoney, Vector2(1280 - 320, 0), Vector2(32, 32));
 		Sequence::instance().drawNumber(DirectXManager::GetInstance()->CmdList());
 		DirectXManager::GetInstance()->SetDrawComnd();
