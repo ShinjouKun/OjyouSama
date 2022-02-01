@@ -1,5 +1,6 @@
 #pragma once
 #include<memory>
+#include <list>
 #include"BaseScene.h"
 #include "../Device/Input.h"
 #include "../Actor/Player.h"
@@ -19,6 +20,8 @@ class WayPointManager;
 class BreadCrumbCreater;
 class Sound;
 class Timer;
+class EnemyCreator;
+
 class GamePlay:public BaseScene
 {
 public:
@@ -36,6 +39,12 @@ private:
 	virtual void DrawScene() override;
 
 	virtual void FinalizeScene() override;
+
+	//登録された敵の生成
+	void EnemyCreate();
+
+	//ファーストインパクト
+	void FirstImpact();
 
 	//ポーズ
 	void Pose();
@@ -86,6 +95,27 @@ private:
 
 	Camera* cam;
 	int goleamDeath;
+	int currentCount = 0;
+	int enemyCount = 0;
+
+	//enum EnemyName
+	//{
+	//	Sniper,
+	//	Blow,
+	//};
+	//
+	//struct EnemyData
+	//{
+	//	EnemyName name;
+	//	Vector3 position;
+	//	Vector3 angle;
+	//	int number;
+	//};
+
+	//std::list<EnemyData> mEnemyVector;
+
+	std::shared_ptr<EnemyCreator> mEnemyCreator;
+
 	bool spawnFlag;//一番目
 	bool spawnFlag2;//二番
 	bool spawnFlag3;//三番

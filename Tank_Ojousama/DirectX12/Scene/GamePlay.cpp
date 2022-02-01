@@ -24,6 +24,10 @@
 
 #include"../Actor/Treasure.h"
 
+
+#include "../Actor/Enemy/EnemyCreator.h"
+
+
 GamePlay::GamePlay()
 	:mSound(nullptr)
 {
@@ -33,6 +37,7 @@ GamePlay::GamePlay()
 GamePlay::~GamePlay()
 {
 }
+
 
 void GamePlay::StartScene()
 {
@@ -62,56 +67,11 @@ void GamePlay::StartScene()
 	//敵にAIセット
 	BaseEnemy::SetEnemyAi(mEnemyAI.get());
 
+	mEnemyCreator = std::make_shared<EnemyCreator>(objM);
+
 #pragma region オブジェクト生成
 
 	int objectCount = 0;
-
-	////木
-	//for (int i = 330; i < 400; i += 20)
-	//{
-	//	objM->Add(new ElfTree(Vector3(20,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(-20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(-70, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//}
-
-	////木
-	//for (int i = 230; i < 320; i += 20)
-	//{
-	//	objM->Add(new ElfTree(Vector3(5,   4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(30,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(-20, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(-50, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//}
-	//
-	////木
-	//for (int i = 150; i < 180; i += 20)
-	//{
-	//	objM->Add(new ElfTree(Vector3(40+i,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(-40-i, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//}
-
-	////木
-	//for (int i = 100; i < 200; i += 30)
-	//{
-	//	objM->Add(new ElfTree(Vector3(30,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(15,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(-15, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//}
-
-	////木
-	//for (int i = 10; i < 80; i += 20)
-	//{
-	//	objM->Add(new ElfTree(Vector3(60 -i,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(-30 +i, 4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(20+i,   4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//	objM->Add(new ElfTree(Vector3(-50-i,  4.0f, i), Vector3(0.0f, 90.0f, 0.0f), objM, BaseScene::mModel, objectCount++));
-	//}
-
-	///*スタート地点の木*/
-	//objM->Add(new ElfRock(Vector3(10.0f, 4.0f, 450.0f), Vector3(0, 45.0f, 0), objM, BaseScene::mModel, objectCount++, 3));
-	//objM->Add(new ElfRock(Vector3(-50.0f, 4.0f, 410.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 3));
-	//objM->Add(new ElfRock(Vector3(0.0f, 4.0f, 350.0f), Vector3(0, 90.0f, 0), objM, BaseScene::mModel, objectCount++, 2));
-	//objM->Add(new ElfRock(Vector3(-15.0f, 4.0f, 320.0f), Vector3().zero, objM, BaseScene::mModel, objectCount++, 2));
 
 #pragma region スタートのジグザグ
 
@@ -313,23 +273,16 @@ void GamePlay::UpdateScene()
 
 #pragma region 敵生成
 
-	//ファーストインパクト
-	if (!spawnFlag && objM->GetPlayer().GetPosition().z <= 400.0f && objM->GetPlayer().GetSceneFinish())
-	{
-		int enemyCount = 0;
-		objM->Add(new SniperEnemy(Vector3(+25.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(-25.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(  0.0f, 0.0f, 290.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		objM->Add(new BlowEnemy(Vector3(+5.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		objM->Add(new BlowEnemy(Vector3(-5.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+	FirstImpact();
 
-		spawnFlag = true;
-	}
+
+
+
+	EnemyCreate();
 
 	//セカンドインパクト
 	if (!spawnFlag2 && objM->GetPlayer().GetPosition().z <= 250.0f && objM->GetPlayer().GetSceneFinish())
 	{
-		int enemyCount = 0;
 		objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 230.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
 
 		spawnFlag2 = true;
@@ -338,7 +291,6 @@ void GamePlay::UpdateScene()
 	//サードインパクト
 	if (!spawnFlag3 && objM->GetPlayer().GetPosition().z <= 210.0f && objM->GetPlayer().GetSceneFinish())
 	{
-		int enemyCount = 0;
 		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 170.0f), Vector3(0.0f,180.0f, 0.0f), enemyCount++));
 		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 190.0f), Vector3(0.0f,180.0f, 0.0f), enemyCount++));
 
@@ -359,6 +311,25 @@ void GamePlay::UpdateScene()
 		objM->Add(new SniperEnemy(Vector3(15.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
 		objM->Add(new SniperEnemy(Vector3(25.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
 		objM->Add(new SniperEnemy(Vector3(35.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+
+		if (currentCount == 0)
+		{
+		}
+		else if (currentCount == 1)
+		{
+		}
+		else if (currentCount == 2)
+		{
+		}
+		else if (currentCount == 3)
+		{
+		}
+		else if (currentCount == 4)
+		{
+		}
+		else if (currentCount == 5)
+		{
+		}
 
 		spawnFlag4 = true;
 	}
@@ -497,6 +468,91 @@ void GamePlay::FinalizeScene()
 	delete objM;//重要
 	//delete mBreadCreator;
 	//delete mpointManager;
+
+}
+
+void GamePlay::EnemyCreate()
+{
+	//if (mEnemyVector.empty()) return;
+
+	//auto itr = mEnemyVector.begin();
+
+	//switch ((*itr).name)
+	//{
+	//case EnemyName::Sniper:
+	//	objM->Add(new SniperEnemy((*itr).position, (*itr).angle, (*itr).number));
+	//	break;
+	//case EnemyName::Blow:
+	//	objM->Add(new BlowEnemy((*itr).position, (*itr).angle, (*itr).number));
+	//	break;
+
+	//default:
+	//	break;
+	//}
+
+	////これで先頭が消されます
+	//mEnemyVector.pop_front();
+
+	mEnemyCreator->Create();
+}
+
+void GamePlay::FirstImpact()
+{
+	//ファーストインパクト
+	if (!spawnFlag && objM->GetPlayer().GetPosition().z <= 400.0f && objM->GetPlayer().GetSceneFinish())
+	{
+		EnemyData data;
+		data.name = EnemyName::Sniper;
+		data.position = Vector3(+25.0f, 0.0f, 320.0f);
+		data.angle = Vector3(0.0f, 180.0f, 0.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.position = Vector3(-25.0f, 0.0f, 320.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.position = Vector3(0.0f, 0.0f, 290.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.name = EnemyName::Blow;
+		data.position = Vector3(+5.0f, 0.0f, 330.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.position = Vector3(-5.0f, 0.0f, 330.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		//if (currentCount == 0)
+		//{
+		//	objM->Add(new SniperEnemy(Vector3(+25.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		//	currentCount++;
+		//}
+		//else if (currentCount == 1)
+		//{
+		//	objM->Add(new SniperEnemy(Vector3(-25.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		//	currentCount++;
+		//}
+		//else if (currentCount == 2)
+		//{
+		//	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 290.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		//	currentCount++;
+		//}
+		//else if (currentCount == 3)
+		//{
+		//	objM->Add(new BlowEnemy(Vector3(+5.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		//	currentCount++;
+		//}
+		//else if (currentCount == 4)
+		//{
+		//	objM->Add(new BlowEnemy(Vector3(-5.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		//	spawnFlag = true;
+		//}
+
+		spawnFlag = true;
+	}
 }
 
 void GamePlay::Pose()
