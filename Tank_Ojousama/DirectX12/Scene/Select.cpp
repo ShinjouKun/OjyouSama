@@ -84,6 +84,7 @@ void Select::StartScene()
 	BaseScene::mSprite->AddTexture("En", "Resouse/en.png");
 	BaseScene::mSprite->AddTexture("Gunsikin", "Resouse/gunnsikinn.png");
 	BaseScene::mSprite->AddTexture("test", "Resouse/testend.png");
+	BaseScene::mSprite->AddTexture("GunsiOver", "Resouse/gunsikin_gameover.png");
 
 	BaseScene::mSprite->SetSize("Sentaku", Vector2(1280, 720));
 	BaseScene::mSprite->SetSize("SentakuClear1", Vector2(1280, 720));
@@ -441,6 +442,8 @@ void Select::DrawScene()
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("En", Vector3(525, 8, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Gunsikin", Vector3(320, 12, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->SetSize("GunsiOver", Vector2(256, 256));
+	BaseScene::mSprite->Draw("GunsiOver", Vector3(0, 720-256, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 }
 

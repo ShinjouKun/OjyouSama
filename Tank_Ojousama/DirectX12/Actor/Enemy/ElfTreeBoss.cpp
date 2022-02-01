@@ -40,7 +40,7 @@ bool ElfTreeBoss::GetDeadFlag()
 
 void ElfTreeBoss::ChangeAttackState()
 {
-	//return;
+	return;
 
 	//シーンアニメーション中 | 死亡アニメーション中は処理しない
 	if (!mEndAnimation || mDeathAnimationFlag) return;
@@ -572,13 +572,6 @@ void ElfTreeBoss::RootAtack_GoupRoot()
 			mTreeRoot4->SetAngle(angle);
 			mTreeRoot5->SetAngle(angle);
 		}
-
-
-		//if (mAngryFlag)
-		//{
-		//	mTreeRoot2->SetPosition(Vector3(mRootPosition.x + 10, mRootPosition.y, mRootPosition.z));
-		//	mTreeRoot3->SetPosition(Vector3(mRootPosition.x - 10, mRootPosition.y, mRootPosition.z));
-		//}
 	}
 }
 
@@ -803,6 +796,14 @@ void ElfTreeBoss::EnemyInit()
 
 void ElfTreeBoss::EnemyUpdate()
 {
+#ifdef _DEBUG
+
+	ImGui::SliderInt("BOSSHP-------------", &HP, 0, HP);
+
+#endif  _DEBUG
+
+
+
 	if (HP <= 0)
 	{
 		mDeathAnimationFlag = true;
@@ -926,7 +927,9 @@ void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
 			mNoDeathSE->play();
 			mColorChange = true;
 		}
-		else
+		
+		//召喚した敵がいないとき
+		if(!mSummonAlive)
 		{
 			//SE発射
 			mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
@@ -944,6 +947,10 @@ void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
 			if (damagePool <= 0)
 			{
 				damagePool = 1;
+			}
+			else if (damagePool >= 20)
+			{
+				damagePool = 20;
 			}
 
 			HP -= damagePool;
