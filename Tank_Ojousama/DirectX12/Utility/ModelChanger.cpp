@@ -249,7 +249,7 @@ void ModelChanger::Save()
 		if (buys[2] == "nonBuy"&&BaseScene::mMoney >= 0)
 		{
 			buys[2] = 1;
-			BaseScene::mMoney -= 5000000;
+			BaseScene::mMoney -= 4000000;
 		}
 		break;
 	case Other02:
@@ -283,7 +283,7 @@ void ModelChanger::Save()
 		if (buys[5] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
 			buys[5] = 1;
-			BaseScene::mMoney -= 5000000;
+			BaseScene::mMoney -= 4000000;
 		}
 		state[1] = "Heavy";
 		break;
@@ -312,7 +312,7 @@ void ModelChanger::Save()
 		if (buys[8] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
 			buys[8] = 1;
-			BaseScene::mMoney -= 5000000;
+			BaseScene::mMoney -= 4000000;
 		}
 		state[2] = "Heavy_b";
 		

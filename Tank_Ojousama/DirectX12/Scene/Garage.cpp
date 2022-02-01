@@ -127,7 +127,7 @@ void Garage::UpdateScene()
 	if (!mTimer->isTime()) return;
 	if (fadeF)
 	{
-		if (Input::getKeyDown(KeyCode::Y) || Input::getJoyDown(JoyCode::Y))
+		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
 		{
 			switch (keyflag)
 			{
@@ -184,11 +184,10 @@ void Garage::UpdateScene()
 			mChanger->Save();
 			mChanger->LoadBuys();
 		}
-		if (Input::getKeyDown(KeyCode::SPACE) || Input::getJoyDown(JoyCode::B))
+		if (Input::getKeyDown(KeyCode::ESCAPE) || Input::getJoyDown(JoyCode::A))
 		{
 			fadeFB = true;
 			mSound->play();
-			mChanger->Save();
 		}
 		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
@@ -822,7 +821,7 @@ void Garage::DrawScene()
 				Money = 2000000;
 				break;
 			case 2:
-				Money = 5000000;
+				Money = 4000000;
 				break;
 			default:
 				Money = 0;
@@ -843,7 +842,7 @@ void Garage::DrawScene()
 				Money = 2000000;
 				break;
 			case 2:
-				Money = 5000000;
+				Money = 4000000;
 				break;
 			default:
 				Money = 0;
@@ -864,7 +863,7 @@ void Garage::DrawScene()
 				Money = 2000000;
 				break;
 			case 2:
-				Money = 5000000;
+				Money = 4000000;
 				break;
 			default:
 				Money = 0;
