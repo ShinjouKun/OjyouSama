@@ -48,6 +48,7 @@ void Garage::StartScene()
 	BaseScene::mSprite->AddTexture("Syata", "Resouse/syata.jpg");
 	BaseScene::mSprite->AddTexture("Tyuui", "Resouse/tyuui.png");
 	BaseScene::mSprite->AddTexture("Kakutei", "Resouse/kakutei.png");
+	BaseScene::mSprite->AddTexture("Kettei", "Resouse/ketteikyanseru.png");
 	BaseScene::mSprite->SetSize("Kakutei", Vector2(168, 44));
 	BaseScene::mSprite->AddTexture("Modoru", "Resouse/modoru.png");
 	BaseScene::mSprite->SetSize("Modoru", Vector2(168, 44));
@@ -799,7 +800,7 @@ void Garage::DrawScene()
 			mChanger->ChangeWeapons1(MachinGun);
 			break;
 		case 1:
-			Money = 2000000;
+			Money = 200000;
 			mChanger->ChangeWeapons1(Mine);
 			break;
 		case 2:
@@ -920,6 +921,7 @@ void Garage::DrawScene()
 	if (mChanger->GetStopBuy())
 	{
 		BaseScene::mSprite->Draw("Tyuui", Vector3(400, 100, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Kettei", Vector3(450, 500, 0), 0, Vector2(1, 1), Vector4(1, 1, 1, 1));
 	}
 
 	DirectXManager::GetInstance()->SetData3D();

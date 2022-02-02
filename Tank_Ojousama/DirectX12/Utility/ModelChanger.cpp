@@ -494,7 +494,7 @@ void ModelChanger::Buys()
 		if (buys[11] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[11] = 1;
-			buymoney += 2000000;
+			buymoney += 200000;
 		}
 		state[3] = "Mine";
 		break;

@@ -147,6 +147,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/stageclear.png"); 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/tyuui.png"); 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/kakutei.png"); 
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/ketteikyanseru.png"); 
 	TexLoader::GetInstance(pipeLine)->Load("Resouse/modoru.png"); 
 
 	
