@@ -79,25 +79,44 @@ void ElfBullet::ImGuiDebug()
 
 void ElfBullet::OnCollison(BaseCollider * col)
 {
-	if (objType == BULLET &&
-		(col->GetColObject()->GetType() == ObjectType::ENEMY || 
-		 col->GetColObject()->GetType() == ObjectType::BOSS || 
-		 col->GetColObject()->GetType() == ObjectType::ENEMYBULLET || 
-		 col->GetColObject()->GetType() == ObjectType::BLOCK)
+	//if (objType == BULLET &&
+	//	(col->GetColObject()->GetType() == ObjectType::ENEMY || 
+	//	 col->GetColObject()->GetType() == ObjectType::BOSS || 
+	//	 col->GetColObject()->GetType() == ObjectType::ENEMYBULLET || 
+	//	 col->GetColObject()->GetType() == ObjectType::BLOCK)
+	//	)
+	//{
+	//	mParticleEmitter->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+	//	death = true;
+	//}
+
+	//if (objType == ENEMYBULLET && 
+	//	(col->GetColObject()->GetType() == ObjectType::PLAYER ||
+	//	 col->GetColObject()->GetType() == ObjectType::BULLET ||
+	//	 col->GetColObject()->GetType() == ObjectType::BLOCK || 
+	//	 col->GetColObject()->GetType() == ObjectType::ITEM)
+	//	)
+	//{
+	//	mParticleEmitter->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+	//	death = true;
+	//}
+
+	if (objType == ENEMYBULLET &&
+		(col->GetColObject()->GetType() == ObjectType::PLAYER)
 		)
 	{
-		mParticleEmitter->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+		//mParticleEmitter->EmitterUpdate(EXPLOSION, position, angle);
 		death = true;
 	}
 
-	if (objType == ENEMYBULLET && 
-		(col->GetColObject()->GetType() == ObjectType::PLAYER ||
-		 col->GetColObject()->GetType() == ObjectType::BULLET ||
-		 col->GetColObject()->GetType() == ObjectType::BLOCK || 
-		 col->GetColObject()->GetType() == ObjectType::ITEM)
+	if (objType == ENEMYBULLET &&
+		(col->GetColObject()->GetType() == ObjectType::BULLET ||
+			col->GetColObject()->GetType() == ObjectType::BLOCK ||
+			col->GetColObject()->GetType() == ObjectType::ITEM)
 		)
 	{
-		mParticleEmitter->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+
+		//mParticleEmitter->EmitterUpdate(PARTICLE_NAME, position, angle);
 		death = true;
 	}
 }

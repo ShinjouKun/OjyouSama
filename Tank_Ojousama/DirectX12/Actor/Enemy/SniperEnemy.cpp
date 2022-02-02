@@ -264,8 +264,11 @@ void SniperEnemy::Attack()
 		attackCount = 0;
 		Vector3 firePos = AngleToVectorY(fanInfo.rotate);
 
+		Vector3 pos = Vector3(position.x, position.y + 1.5f, position.z);
+
 		//’e‚ð”­ŽËII
-		mManager->Add(new ElfBullet(position + firePos, Vector3(0.0, -angle.y, 0.0f), mManager, mRend, mPart, objType, bulletNumber));
+		mManager->Add(new ElfBullet(pos + firePos, Vector3(0.0, -angle.y, 0.0f), mManager, mRend, mPart, objType, bulletNumber));
+		
 		bulletNumber++;
 		mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 		mAttackSE->setPos(position);

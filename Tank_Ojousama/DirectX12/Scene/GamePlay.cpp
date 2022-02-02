@@ -273,114 +273,20 @@ void GamePlay::UpdateScene()
 
 #pragma region 敵生成
 
+	//ファーストインパクト
 	FirstImpact();
 
-
-
-
-	EnemyCreate();
-
 	//セカンドインパクト
-	if (!spawnFlag2 && objM->GetPlayer().GetPosition().z <= 250.0f && objM->GetPlayer().GetSceneFinish())
-	{
-		objM->Add(new SniperEnemy(Vector3(30.0f, 0.0f, 230.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-
-		spawnFlag2 = true;
-	}
+	SecondImpact();
 
 	//サードインパクト
-	if (!spawnFlag3 && objM->GetPlayer().GetPosition().z <= 210.0f && objM->GetPlayer().GetSceneFinish())
-	{
-		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 170.0f), Vector3(0.0f,180.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 190.0f), Vector3(0.0f,180.0f, 0.0f), enemyCount++));
-
-		spawnFlag3 = true;
-	}
+	ThirdImpact();
 
 	//フォースインパクト
-	if (!spawnFlag4 && objM->GetPlayer().GetPosition().z <= 150.0f && objM->GetPlayer().GetSceneFinish())
-	{
-		int enemyCount = 0;
-		//右
-		objM->Add(new SniperEnemy(Vector3(-15.0f, 0.0f, 70.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(-35.0f, 0.0f, 70.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(-25.0f, 0.0f, 40.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		objM->Add(new BlowEnemy(Vector3(-25.0f, 0.0f, 80.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+	FourthImpact();
 
-		//左
-		objM->Add(new SniperEnemy(Vector3(15.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(25.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		objM->Add(new SniperEnemy(Vector3(35.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-
-		if (currentCount == 0)
-		{
-		}
-		else if (currentCount == 1)
-		{
-		}
-		else if (currentCount == 2)
-		{
-		}
-		else if (currentCount == 3)
-		{
-		}
-		else if (currentCount == 4)
-		{
-		}
-		else if (currentCount == 5)
-		{
-		}
-
-		spawnFlag4 = true;
-	}
-
-	///*遠距離攻撃の敵*/
-	//if (!spawnFlag && objM->GetPlayer().GetSceneFinish())
-	//{
-	//	int i = 0;
-	//	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 400.0f), Vector3(0.0f, 180.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 420.0f), Vector3(0.0f, 225.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(-60.0f, 0.0f, 380.0f), Vector3(0.0f, 135.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(+50.0f, 0.0f, 360.0f), Vector3(0.0f, 90.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 380.0f), Vector3(0.0f, 270.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(2.0f, 0.0f, 340.0f), Vector3(0.0f, 180.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(+60.0f, 0.0f, 350.0f), Vector3(0.0f, 225.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 310.0f), Vector3(0.0f, 135.0f, 0.0f), i++));
-	//	objM->Add(new BlowEnemy(Vector3(20.0f, 0.0f, 400.0f), Vector3(0, 0, 0), i++));
-	//	objM->Add(new BlowEnemy(Vector3(-20.0f, 0.0f, 400.0f), Vector3(0, 180, 0), i++));
-	//	spawnFlag = true;
-	//}
-
-	//if (!spawnFlag2&&objM->GetPlayer().GetPosition().z <= 320.0f&&objM->GetPlayer().GetSceneFinish())
-	//{
-	//	int i = 0;
-	//	objM->Add(new BlowEnemy(Vector3(20.0f, 0.0f, 230.0f), Vector3(0, 180, 0), i++));
-	//	objM->Add(new BlowEnemy(Vector3(-20.0f, 0.0f, 230.0f), Vector3(0, 180, 0), i++));
-	//	objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 250.0f), Vector3(0.0f, 225.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(-20.0f, 0.0f, 210.0f), Vector3(0.0f, 135.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(+40.0f, 0.0f, 220.0f), Vector3(0.0f, 90.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 230.0f), Vector3(0.0f, 270.0f, 0.0f), i++));
-	//	spawnFlag2 = true;
-	//}
-
-	//if (!spawnFlag3&&objM->GetPlayer().GetPosition().z <= 200.0f&&objM->GetPlayer().GetSceneFinish())
-	//{
-	//	int i = 0;
-	//	objM->Add(new SniperEnemy(Vector3(+60.0f, 0.0f, 150.0f), Vector3(0.0f, 225.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(-40.0f, 0.0f, 110.0f), Vector3(0.0f, 135.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(+10.0f, 0.0f, 120.0f), Vector3(0.0f, 90.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(-30.0f, 0.0f, 130.0f), Vector3(0.0f, 270.0f, 0.0f), i++));
-
-	//	objM->Add(new SniperEnemy(Vector3(+70.0f, 0.0f, 150.0f), Vector3(0.0f, 225.0f, 0.0f), i++));
-	//	objM->Add(new BlowEnemy(Vector3(+60.0f, 0.0f, 120.0f), Vector3(0.0f, 90.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(-50.0f, 0.0f, 130.0f), Vector3(0.0f, 270.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(+20.0f, 0.0f, 80.0f), Vector3(0.0f, 135.0f, 0.0f), i++));
-	//	objM->Add(new SniperEnemy(Vector3(-20.0f, 0.0f, 60.0f), Vector3(0.0f, 270.0f, 0.0f), i++));
-	//	objM->Add(new BlowEnemy(Vector3(40.0f, 0.0f, 70.0f), Vector3(0, 90, 0), i++));
-	//	objM->Add(new BlowEnemy(Vector3(0.0f, 0.0f, 70.0f), Vector3(0, 180, 0), i++));
-
-	//	spawnFlag3 = true;
-	//}
+	//敵の生成
+	EnemyCreate();
 
 #pragma endregion
 
@@ -473,26 +379,6 @@ void GamePlay::FinalizeScene()
 
 void GamePlay::EnemyCreate()
 {
-	//if (mEnemyVector.empty()) return;
-
-	//auto itr = mEnemyVector.begin();
-
-	//switch ((*itr).name)
-	//{
-	//case EnemyName::Sniper:
-	//	objM->Add(new SniperEnemy((*itr).position, (*itr).angle, (*itr).number));
-	//	break;
-	//case EnemyName::Blow:
-	//	objM->Add(new BlowEnemy((*itr).position, (*itr).angle, (*itr).number));
-	//	break;
-
-	//default:
-	//	break;
-	//}
-
-	////これで先頭が消されます
-	//mEnemyVector.pop_front();
-
 	mEnemyCreator->Create();
 }
 
@@ -525,33 +411,95 @@ void GamePlay::FirstImpact()
 		data.number = enemyCount++;
 		mEnemyCreator->Add(data);
 
-		//if (currentCount == 0)
-		//{
-		//	objM->Add(new SniperEnemy(Vector3(+25.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		//	currentCount++;
-		//}
-		//else if (currentCount == 1)
-		//{
-		//	objM->Add(new SniperEnemy(Vector3(-25.0f, 0.0f, 320.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		//	currentCount++;
-		//}
-		//else if (currentCount == 2)
-		//{
-		//	objM->Add(new SniperEnemy(Vector3(0.0f, 0.0f, 290.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		//	currentCount++;
-		//}
-		//else if (currentCount == 3)
-		//{
-		//	objM->Add(new BlowEnemy(Vector3(+5.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		//	currentCount++;
-		//}
-		//else if (currentCount == 4)
-		//{
-		//	objM->Add(new BlowEnemy(Vector3(-5.0f, 0.0f, 330.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
-		//	spawnFlag = true;
-		//}
-
 		spawnFlag = true;
+	}
+}
+
+void GamePlay::SecondImpact()
+{
+	//セカンドインパクト
+	if (!spawnFlag2 && objM->GetPlayer().GetPosition().z <= 250.0f && objM->GetPlayer().GetSceneFinish())
+	{
+		EnemyData data;
+		data.name = EnemyName::Sniper;
+		data.position = Vector3(+30.0f, 0.0f, 230.0f);
+		data.angle = Vector3(0.0f, 180.0f, 0.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		spawnFlag2 = true;
+	}
+}
+
+void GamePlay::ThirdImpact()
+{
+	//サードインパクト
+	if (!spawnFlag3 && objM->GetPlayer().GetPosition().z <= 210.0f && objM->GetPlayer().GetSceneFinish())
+	{
+		EnemyData data;
+		data.name = EnemyName::Sniper;
+		data.position = Vector3(-30.0f, 0.0f, 170.0f);
+		data.angle = Vector3(0.0f, 180.0f, 0.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.position = Vector3(-30.0f, 0.0f, 190.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		spawnFlag3 = true;
+	}
+}
+
+void GamePlay::FourthImpact()
+{
+	//フォースインパクト
+	if (!spawnFlag4 && objM->GetPlayer().GetPosition().z <= 150.0f && objM->GetPlayer().GetSceneFinish())
+	{
+		//右
+		objM->Add(new SniperEnemy(Vector3(-15.0f, 0.0f, 70.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(-35.0f, 0.0f, 70.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(-25.0f, 0.0f, 40.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new BlowEnemy(Vector3(-25.0f, 0.0f, 80.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+
+		//左
+		objM->Add(new SniperEnemy(Vector3(15.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(25.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+		objM->Add(new SniperEnemy(Vector3(35.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), enemyCount++));
+
+		EnemyData data;
+		data.name = EnemyName::Sniper;
+		data.position = Vector3(-15.0f, 0.0f, 70.0f);
+		data.angle = Vector3(0.0f, 180.0f, 0.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.position = Vector3(-35.0f, 0.0f, 70.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.position = Vector3(-25.0f, 0.0f, 40.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.position = Vector3(15.0f, 0.0f, 50.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.position = Vector3(25.0f, 0.0f, 50.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.position = Vector3(35.0f, 0.0f, 50.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		data.name = EnemyName::Blow;
+		data.position = Vector3(-25.0f, 0.0f, 80.0f);
+		data.number = enemyCount++;
+		mEnemyCreator->Add(data);
+
+		spawnFlag4 = true;
 	}
 }
 
