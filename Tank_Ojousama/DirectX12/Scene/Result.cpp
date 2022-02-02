@@ -33,12 +33,17 @@ void Result::StartScene()
 	BaseScene::mSprite->AddTexture("Minus", "Resouse/minus.png");
 	BaseScene::mSprite->AddTexture("Plus2", "Resouse/plus.png");
 	BaseScene::mSprite->AddTexture("Minus2", "Resouse/minus.png");
-	BaseScene::mSprite->AddTexture("Gunsikin", "Resouse/gunnsikinn.png");
-	BaseScene::mSprite->SetSize("Gunsikin", Vector2(640, 52));
+	BaseScene::mSprite->AddTexture("Minus3", "Resouse/minus.png");
+	//BaseScene::mSprite->AddTexture("Gunsikin", "Resouse/gunnsikinn.png");
+	//BaseScene::mSprite->SetSize("Gunsikin", Vector2(640, 52));
 
 	BaseScene::mSprite->AddTexture("Kakutoku", "Resouse/kakutokuhi.png");
+	BaseScene::mSprite->SetSize("Kakutoku", Vector2(640, 52));
 	BaseScene::mSprite->AddTexture("Danyaku", "Resouse/dannyakuhi.png");
+	BaseScene::mSprite->SetSize("Danyaku", Vector2(640, 52));
 	BaseScene::mSprite->AddTexture("Goukei", "Resouse/goukei.png");
+	BaseScene::mSprite->SetSize("Goukei", Vector2(111, 53));
+	BaseScene::mSprite->AddTexture("Gunshikin", "Resouse/gunnsikinn.png");
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/Ground_Black.png");
 	selectbackPos = Vector3(180, 180, 0);
@@ -59,6 +64,16 @@ void Result::StartScene()
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	mFanfare = std::make_shared<Sound>("SE/Fanfare.mp3", false);
 	mFanfare->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
+
+	donSE = std::make_shared<Sound>("SE/don.wav", false);
+	donSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	dodonSE = std::make_shared<Sound>("SE/dodon.mp3", false);
+	dodonSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	plusSE = std::make_shared<Sound>("SE/ResultMoney.mp3", false);
+	plusSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	minusSE = std::make_shared<Sound>("SE/chin.mp3", false);
+	minusSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mFanfare->play();
 
 	speed = 0;
@@ -68,8 +83,17 @@ void Result::StartScene()
 	ojyouXL = 7;
 	angle = 0;
 	zensin = 0;
+	CountUpMoney_Get = 0;
+	CountUpMoney_Bullet = 0;
+	CountUpMoney_Goukei = 0;
+	CountUpMoney_Gunshikin = 0;
+	C_Get = false;
+	C_Bullet = false;
+	C_Goukei = false;
+	C_Gunshikin = false;
 	mMoney_PM = BaseScene::mPlusMoney - BaseScene::mMinusMoney;
 	mTimer = std::make_shared<Timer>(0.01f);
+	moneyTime = 0;
 	BaseScene::mMoney = (BaseScene::mMoney + BaseScene::mPlusMoney) - BaseScene::mMinusMoney;
 }
 
@@ -86,7 +110,7 @@ void Result::UpdateScene()
 	camerapos.y -= 0.01;
 	time += 1;
 
-	if (time >= 120)
+	if (C_Gunshikin)
 	{
 		camerapos.z += 0.15;
 		camerapos.x += 0.05;
@@ -152,9 +176,8 @@ void Result::DrawScene()
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, 400.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
 	objM->Draw();
 	DirectXManager::GetInstance()->SetData2D();
-	if (time >= 120)
+	if (C_Gunshikin)
 	{
-	
 		zensin += 1.0f;
 		ojyouZ += 0.1f;
 		BaseScene::mSprite->Draw("SBack", selectbackPos, 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
@@ -163,24 +186,99 @@ void Result::DrawScene()
 	}
 	else
 	{
-		Sequence::instance().set(BaseScene::mPlusMoney, Vector2(680, 115), Vector2(64, 64));
-		BaseScene::mSprite->Draw("Plus", Vector3(600, 100, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("Kakutoku", Vector3(200,100,0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		Sequence::instance().set(BaseScene::mMinusMoney, Vector2(680, 315), Vector2(64, 64));
-		BaseScene::mSprite->Draw("Minus", Vector3(600, 300, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		BaseScene::mSprite->Draw("Danyaku", Vector3(200, 300, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		if (mMoney_PM < 0)
+		//‚©‚­‚Æ‚­‹à
+		if (time >= 20)
 		{
-			BaseScene::mSprite->Draw("Minus2", Vector3(500, 500, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			if (BaseScene::mPlusMoney > CountUpMoney_Get&&!C_Get)
+			{
+				CountUpMoney_Get += 10000;
+			}
+			else
+			{
+				donSE->play();
+				CountUpMoney_Get = BaseScene::mPlusMoney;
+				C_Get = true;
+			}
+			Sequence::instance().set(CountUpMoney_Get, Vector2(680, 35), Vector2(64, 64));
+			BaseScene::mSprite->Draw("Plus", Vector3(600, 10, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("Kakutoku", Vector3(200, 50, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		}
-		else
+		if (C_Get)
 		{
-			BaseScene::mSprite->Draw("Plus2", Vector3(500, 500, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			//’e–ò”ï
+			if (BaseScene::mMinusMoney > CountUpMoney_Bullet&&!C_Bullet)
+			{
+				CountUpMoney_Bullet += 5000;
+			}
+			else
+			{
+				//donSE->play();
+				CountUpMoney_Bullet = BaseScene::mMinusMoney;
+				C_Bullet = true;
+			}
+			Sequence::instance().set(CountUpMoney_Bullet, Vector2(680, 240), Vector2(64, 64));
+			BaseScene::mSprite->Draw("Minus", Vector3(600, 210, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("Danyaku", Vector3(200, 230, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		}
-		Sequence::instance().set(Math::abs(mMoney_PM), Vector2(600, 515), Vector2(64, 64));
-		BaseScene::mSprite->Draw("Goukei", Vector3(200, 500, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		angle += 1.5f;
+		if (C_Bullet)
+		{
+			//‡Œv‹à
+
+			if (Math::abs(mMoney_PM) > CountUpMoney_Goukei&&!C_Goukei)
+			{
+				CountUpMoney_Goukei += 10000;
+			}
+			else
+			{
+				dodonSE->play();
+
+				donSE->stop();
+				moneyTime++;
+				CountUpMoney_Goukei = mMoney_PM;
+				C_Goukei = true;
+			}
+			if (mMoney_PM < 0)
+			{
+				BaseScene::mSprite->Draw("Minus2", Vector3(600, 390, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			}
+			else
+			{
+				BaseScene::mSprite->Draw("Plus2", Vector3(600, 390, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			}
+			Sequence::instance().set(Math::abs(CountUpMoney_Goukei), Vector2(680, 420), Vector2(64, 64));
+			BaseScene::mSprite->Draw("Goukei", Vector3(200, 400, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		}
+		if (C_Goukei&&moneyTime >= 40)
+		{
+			if (BaseScene::mMoney < 0)
+			{
+				minusSE->play();
+				
+				dodonSE->stop();
+				
+				BaseScene::mSprite->Draw("Minus3", Vector3(650, 540, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			}
+			else
+			{
+				plusSE->play();
+				dodonSE->stop();
+			}
+			if (moneyTime >= 70)
+			{
+				minusSE->stop();
+				plusSE->stop();
+			}
+			Sequence::instance().set(Math::abs(BaseScene::mMoney), Vector2(750, 565), Vector2(64, 64));
+			BaseScene::mSprite->Draw("Gunshikin", Vector3(200, 550, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			if (moneyTime >= 140)
+			{
+				C_Gunshikin = true;
+			}
+		}
+		
+		angle += 8.0f;
 	}
+	
 }
 
 void Result::FinalizeScene()

@@ -30,6 +30,11 @@ private:
 	shared_ptr<ModelRenderer>playerModel;
 	std::shared_ptr<Sound> mSound;
 	std::shared_ptr<Sound> mFanfare;
+
+	std::shared_ptr<Sound> donSE;
+	std::shared_ptr<Sound> dodonSE;
+	std::shared_ptr<Sound> minusSE;
+	std::shared_ptr<Sound> plusSE;
 	Player* player;//ƒvƒŒƒCƒ„[‚ÌÀ‘Ì¶¬
 	Camera * camera;
 	int time = 0;
@@ -47,5 +52,17 @@ private:
 	float angle;
 	float zensin;
 	int mMoney_PM;
+	int moneyTime;
 	std::shared_ptr<Timer> mTimer;
+
+	int CountUpMoney_Get;
+	int CountUpMoney_Bullet;
+	int CountUpMoney_Goukei;
+	int CountUpMoney_Gunshikin;
+	
+
+	bool C_Get;
+	bool C_Bullet;
+	bool C_Goukei;
+	bool C_Gunshikin;
 };

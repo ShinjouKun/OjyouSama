@@ -51,7 +51,7 @@ void Treasure::Rend()
 	if (get&&sceneNum != 1)
 	{
 		numPos.y -= 15.0f;
-		Sequence::instance().set(500000, Vector2(numPos.x, numPos.y), Vector2(32, 32));
+		Sequence::instance().set(100000, Vector2(numPos.x, numPos.y), Vector2(32, 32));
 	}
 
 	if (get&&sceneNum == 1)
@@ -87,7 +87,15 @@ void Treasure::OnCollison(BaseCollider * col)
 	{
 		mgetSE->setVol(BaseScene::mMasterSoundVol*BaseScene::mSESoundVol);
 		mgetSE->play();
-		BaseScene::mPlusMoney += 500000;
+		if (!sceneNum)
+		{
+			BaseScene::mPlusMoney += 100000;
+		}
+		else
+		{
+			BaseScene::mPlusMoney += 500000;
+		}
+		
 		get = true;
 	}
 }
