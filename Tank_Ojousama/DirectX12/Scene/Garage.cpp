@@ -46,7 +46,11 @@ void Garage::StartScene()
 	BaseScene::mSprite->AddTexture("Sentaku8", "Resouse/Sankaku.png");
 	BaseScene::mSprite->AddTexture("Garege", "Resouse/garege.jpg");
 	BaseScene::mSprite->AddTexture("Syata", "Resouse/syata.jpg");
-	BaseScene::mSprite->AddTexture("BackS", "Resouse/backselect.png");
+	BaseScene::mSprite->AddTexture("Tyuui", "Resouse/tyuui.png");
+	BaseScene::mSprite->AddTexture("Kakutei", "Resouse/kakutei.png");
+	BaseScene::mSprite->SetSize("Kakutei", Vector2(168, 44));
+	BaseScene::mSprite->AddTexture("Modoru", "Resouse/modoru.png");
+	BaseScene::mSprite->SetSize("Modoru", Vector2(168, 44));
 	BaseScene::mSprite->AddTexture("yazi", "Resouse/yazirusi.png");
 	BaseScene::mSprite->SetSize("yazi", Vector2(60, 29));
 
@@ -70,7 +74,6 @@ void Garage::StartScene()
 	BaseScene::mSprite->AddTexture("NotBuy2", "Resouse/mikounyu.png");
 	BaseScene::mSprite->AddTexture("NotBuy3", "Resouse/mikounyu.png");
 	BaseScene::mSprite->AddTexture("NotBuy4", "Resouse/mikounyu.png");
-	BaseScene::mSprite->AddTexture("Buy", "Resouse/kounyu.png");
 	BaseScene::mSprite->AddTexture("Husoku", "Resouse/husoku.png");
 	SentakuPos1 = Vector3((Window::Window_Width / 2) + 230, 250, 0);
 	SentakuPos2 = Vector3((Window::Window_Width / 2) - 230, 250 + 64, 0);
@@ -181,13 +184,14 @@ void Garage::UpdateScene()
 			default:
 				break;
 			}
-			mChanger->Save();
+			mChanger->Buys();
 			mChanger->LoadBuys();
 		}
 		if (Input::getKeyDown(KeyCode::ESCAPE) || Input::getJoyDown(JoyCode::A))
 		{
 			fadeFB = true;
 			mSound->play();
+			mChanger->Save();
 		}
 		if (Input::getKey(KeyCode::W) || Input::joyVertical() > 0)
 		{
@@ -576,9 +580,12 @@ void Garage::DrawScene()
 	if (fadeF)
 	{
 		if (fadeFB) return;
+
+		BaseScene::mSprite->Draw("Kakutei", Vector3(0, 0, 0), 0, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		BaseScene::mSprite->Draw("Modoru", Vector3(170, 0, 0), 0, Vector2(0, 0), Vector4(1, 1, 1, 1));
 	
 	
-		BaseScene::mSprite->Draw("BackS", Vector3(0, 0, 0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
+		//BaseScene::mSprite->Draw("BackS", Vector3(0, 0, 0), 0, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, 1));
 		if (keyflag == 0)
 		{
 			BaseScene::mSprite->SetSize("sOjo", Vector2(300, 300));
@@ -804,7 +811,6 @@ void Garage::DrawScene()
 		BaseScene::mSprite->Draw("Sentaku6", SentakuPos6, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa3));
 		BaseScene::mSprite->Draw("Sentaku7", SentakuPos7, 0.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa4));
 		BaseScene::mSprite->Draw("Sentaku8", SentakuPos8, 180.0f, Vector2(0.25f, 0.5f), Vector4(1, 1, 1, SAlfa4));
-		BaseScene::mSprite->Draw("Buy", Vector3(30, 30, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
 		
 
 		Sequence::instance().set(BaseScene::mMoney, Vector2(564, 70), Vector2(32, 32));

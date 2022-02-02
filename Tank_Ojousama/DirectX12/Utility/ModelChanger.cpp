@@ -23,6 +23,7 @@ void ModelChanger::Init()
 	weapons1 = WeaponsState::Cannon;
 	editor = new TextEditor();
 	editor->Init();
+	buymoney = 0;
 	Save();
 	SetHP(100);
 	SetUpDamage(0);
@@ -244,19 +245,163 @@ void ModelChanger::Save()
 		buys[0] = 1;
 		break;
 	case Other01:
-		state[0] = "Other01";
+		if (buys[2] == "nonBuy"&&BaseScene::mMoney >= 0)
+		{
+			state[0] = "Normal";
+		}
+		else
+		{
+			state[0] = "Other01";
+		}
+		break;
+	case Other02:
+		if (buys[1] == "nonBuy" && BaseScene::mMoney >= 0)
+		{
+			state[0] = "Normal";
+		}
+		else
+		{
+			state[0] = "Other02";
+		}
+		break;
+	default:
+		state[0] = "Normal";
+		break;
+	}
+
+	switch (body)
+	{
+	case Light:
+		state[1] = "Light";
+		buys[3] = 1;
+		break;
+	case Midium:
+		if (buys[4] == "nonBuy" && BaseScene::mMoney >= 0)
+		{
+			state[1] = "Light";
+		}
+		else
+		{
+			state[1] = "Midium";
+		}
+		break;
+	case Heavy:
+		if (buys[5] == "nonBuy"&& BaseScene::mMoney >= 0)
+		{
+			state[1] = "Light";
+		}
+		else
+		{
+			state[1] = "Heavy";
+		}
+		break;
+	default:
+		state[1] = "Light";
+		break;
+	}
+
+	switch (bottom)
+	{
+	case Light_b:
+		buys[6] = 1;
+		state[2] = "Light_b";
 		
+		break;
+	case Midium_b:
+		if (buys[7] == "nonBuy"&& BaseScene::mMoney >= 0)
+		{
+			state[2] = "Light_b";
+		}
+		else
+		{
+			state[2] = "Midium_b";
+		}
+		break;
+	case Heavy_b:
+		if (buys[8] == "nonBuy"&& BaseScene::mMoney >= 0)
+		{
+			state[2] = "Light_b";
+		}
+		else
+		{
+			state[2] = "Heavy_b";
+		}
+		break;
+	default:
+		state[2] = "Light_b";
+		break;
+	}
+
+	switch (weapons1)
+	{
+	case Cannon:
+		state[3] = "Cannon";
+		break;
+	case MachinGun:
+		if (buys[9] == "nonBuy" && BaseScene::mMoney >= 0)
+		{
+			buys[9] = 1;
+			buymoney += 0;
+		}
+		state[3] = "MachinGun";
+		break;
+	case ShotGun:
+		if (buys[10] == "nonBuy" && BaseScene::mMoney >= 0)
+		{
+			state[3] = "Cannon";
+		}
+		else
+		{
+			state[3] = "ShotGun";
+		}
+		break;
+	case Mine:
+		if (buys[11] == "nonBuy" && BaseScene::mMoney >= 0)
+		{
+			state[3] = "Cannon";
+		}
+		else
+		{
+			state[3] = "Mine";
+		}
+		break;
+	default:
+		state[3] = "Cannon";
+		break;
+	}
+	
+
+	
+	editor->Write("Resouse/ModelState.txt", state);
+	state.clear();
+	state.resize(4);
+	
+}
+
+void ModelChanger::Buys()
+{
+	buys.clear();
+	editor->Read("Resouse/BuysState.txt", buys);
+	switch (head)
+	{
+	case Normal:
+		state[0] = "Normal";
+		buys[0] = 1;
+		break;
+	case Other01:
+		state[0] = "Other01";
+
 		if (buys[2] == "nonBuy"&&BaseScene::mMoney >= 0)
 		{
 			buys[2] = 1;
-			BaseScene::mMoney -= 4000000;
+			buymoney += 4000000;
 		}
 		break;
 	case Other02:
 		if (buys[1] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[1] = 1;
-			BaseScene::mMoney -= 2000000;
+			buymoney += 2000000;
 		}
 		state[0] = "Other02";
 		break;
@@ -275,7 +420,7 @@ void ModelChanger::Save()
 		if (buys[4] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[4] = 1;
-			BaseScene::mMoney -= 2000000;
+			buymoney += 2000000;
 		}
 		state[1] = "Midium";
 		break;
@@ -283,7 +428,7 @@ void ModelChanger::Save()
 		if (buys[5] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
 			buys[5] = 1;
-			BaseScene::mMoney -= 4000000;
+			buymoney += 4000000;
 		}
 		state[1] = "Heavy";
 		break;
@@ -297,25 +442,25 @@ void ModelChanger::Save()
 	case Light_b:
 		buys[6] = 1;
 		state[2] = "Light_b";
-		
+
 		break;
 	case Midium_b:
 		if (buys[7] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
 			buys[7] = 1;
-			BaseScene::mMoney -= 2000000;
+			buymoney += 2000000;
 		}
 		state[2] = "Midium_b";
-	
+
 		break;
 	case Heavy_b:
 		if (buys[8] == "nonBuy"&& BaseScene::mMoney >= 0)
 		{
 			buys[8] = 1;
-			BaseScene::mMoney -= 4000000;
+			buymoney += 4000000;
 		}
 		state[2] = "Heavy_b";
-		
+
 		break;
 	default:
 		state[2] = "Light_b";
@@ -331,7 +476,7 @@ void ModelChanger::Save()
 		if (buys[9] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[9] = 1;
-			BaseScene::mMoney -= 0;
+			buymoney += 0;
 		}
 		state[3] = "MachinGun";
 		break;
@@ -339,7 +484,7 @@ void ModelChanger::Save()
 		if (buys[10] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[10] = 1;
-			BaseScene::mMoney -= 500000;
+			buymoney += 500000;
 		}
 		state[3] = "ShotGun";
 		break;
@@ -347,7 +492,7 @@ void ModelChanger::Save()
 		if (buys[11] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			buys[11] = 1;
-			BaseScene::mMoney -= 2000000;
+			buymoney += 2000000;
 		}
 		state[3] = "Mine";
 		break;
@@ -355,17 +500,12 @@ void ModelChanger::Save()
 		state[3] = "Cannon";
 		break;
 	}
-	
 
 
-	
+	BaseScene::mMoney -= buymoney;
 	editor->Write("Resouse/BuysState.txt", buys);
-	editor->Write("Resouse/ModelState.txt", state);
-	state.clear();
-	state.resize(4);
 	buys.clear();
 	buys.resize(12);
-
 }
 
 

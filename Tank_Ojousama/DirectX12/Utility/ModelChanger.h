@@ -45,6 +45,8 @@ public:
 	void Load(shared_ptr<ModelRenderer> playerModel);
 	void Save();
 
+	void Buys();
+
 	void ChangeHead(HeadState headState);
 	void ChangeBody(BodyState bodyState);
 	void ChangeBottom(BottomState bottomState);
@@ -67,12 +69,14 @@ public:
 	string GetModelName(int num);//0`2‚¨ì—l,3íÔ(–C“ƒj,4íÔ(Ô‘Ìj
 	void SetBuysNum(string buy);
 	string GetBuysNum(int buy);
+	int GetBuyMoney() { return buymoney; }
 
 	void LoadBuys();
 	int hp;//HP
 	int upDamage;//UŒ‚—Í
 	float speed;
 	int Weapon;
+	int buymoney;
 
 private:
 	std::vector<std::string> buys;//w“üƒŠƒXƒg
