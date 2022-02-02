@@ -18,6 +18,7 @@ class Sound;
 class Timer;
 class WayPointManager;
 class BreadCrumbCreater;
+class EnemyCreator;
 
 class Robbery :public BaseScene
 {
@@ -37,6 +38,30 @@ private:
 	virtual void DrawScene() override;
 	virtual void FinalizeScene() override;
 
+	//ファーストインパクト
+	void FirstImpact();
+
+	//セカンドインパクト
+	void SecondImpact();
+
+	//サードインパクト
+	void ThirdImpact();
+
+	//フォースインパクト
+	void FourthImpact();
+
+	//フィフスインパクト
+	void FifthImpact();
+
+	//シックスインパクト
+	void SixthImpact();
+
+	//セブンスインパクト
+	void SeventhImpact();
+
+	//エイスインパクト
+	void EighthImpact();
+
 	//ポーズ
 	void Pose();
 	//音量設定
@@ -54,6 +79,7 @@ private:
 	std::shared_ptr<Sound> mSE;	  //※ポーズ開いた時
 	std::shared_ptr<Timer> mTimer;//ポーズ用タイマー
 	std::shared_ptr<BreadCrumbCreater>mBreadCreator;//パンくず生成
+	std::shared_ptr<EnemyCreator> mEnemyCreator;
 	//std::shared_ptr<WayPointManager> mpointManager; //WayPoint生成
 	//std::shared_ptr<EnemyAI> mEnemyAI;              //敵AI生成
 
@@ -72,6 +98,8 @@ private:
 
 	int objectCount;//オブジェクト数
 	int mTime = 0;
+
+	int enemyCount = 0;
 
 	//ゲーム進行管理用
 	bool mTreasureGet = false;   //目標を入力しているか？

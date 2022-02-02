@@ -20,6 +20,7 @@
 #include "../Actor/Treasure.h"
 #include "../Actor/BetaTestBlock.h"
 #include "../Actor/Castle.h"
+#include "../Actor/Enemy/EnemyCreator.h"
 
 Robbery::Robbery()
 	:mBGM(nullptr)
@@ -40,67 +41,14 @@ void Robbery::StartWayEnemySpown()
 
 	if (!mObjManager->GetPlayer().GetSceneFinish()) return;
 
-	//Wave1
-	if (!mSpawnFlag[0])
-	{
-		//510以下になったら
-		if (mObjManager->GetPlayer().GetPosition().z <= 510)
-		{
-			////岩投げの敵
-			//mObjManager->Add(new MortarEnemy(Vector3(-30.0f, 0.0f, 270.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-			//mObjManager->Add(new MortarEnemy(Vector3(50.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+	//ファーストインパクト
+	FirstImpact();
 
-			////岩投げの敵
-			//mObjManager->Add(new MortarEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-			////鳥の敵
-			//mObjManager->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
+	//セカンドインパクト
+	SecondImpact();
 
-			//遠距離の敵
-			//mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 450.0f), Vector3(0, 180, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(  0.0f, 0, 450.0f), Vector3(0, 180, 0), objectCount++));
-			//mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 450.0f), Vector3(0, 180, 0), objectCount++));
-
-			mSpawnFlag[0] = true;
-		}
-	}
-
-	//Wave2
-	if (!mSpawnFlag[1])
-	{
-		//450以下になったら
-		if (mObjManager->GetPlayer().GetPosition().z <= 450)
-		{
-			////隊列の敵
-			//mObjManager->Add(new CEnemy(Vector3(0.0f, 0.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
-
-			////遠距離の敵
-			//mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 270.0f), Vector3(0, 180, 0), objectCount++));
-			//mObjManager->Add(new SniperEnemy(Vector3(0.0f, 0,   300.0f), Vector3(0, 180, 0), objectCount++));
-
-			mSpawnFlag[1] = true;
-		}
-	}
-
-	//Wave2
-	if (!mSpawnFlag[2])
-	{
-		//450以下になったら
-		if (mObjManager->GetPlayer().GetPosition().z <= 300)
-		{
-			//遠距離の敵
-			mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 200.0f), Vector3(0, 180, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 200.0f), Vector3(0, 180, 0), objectCount++));
-
-			mObjManager->Add(new SniperEnemy(Vector3(+5.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(+0.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(-5.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
-
-			mObjManager->Add(new SniperEnemy(Vector3(+50.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(-50.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
-
-			mSpawnFlag[2] = true;
-		}
-	}
+	//サードインパクト
+	ThirdImpact();
 }
 
 void Robbery::BackWayEnemySpown()
@@ -111,96 +59,20 @@ void Robbery::BackWayEnemySpown()
 	//宝箱をゲットしているとき
 	if (!mTreasureGet) return;
 
-	//Wave5
-	if (!mSpawnFlag[5])
-	{
-		//100以下になったら
-		if (mObjManager->GetPlayer().GetPosition().z >= 50)
-		{
-			//遠距離の敵
-			mObjManager->Add(new SniperEnemy(Vector3(+20.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(-20.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
+	//フォースインパクト
+	FourthImpact();
 
-			//岩投げの敵
-			mObjManager->Add(new MortarEnemy(Vector3(-55.0f, 0.0f, 130.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-			mObjManager->Add(new MortarEnemy(Vector3( 55.0f, 0.0f, 130.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+	//フィフスインパクト
+	FifthImpact();
 
-			mSpawnFlag[5] = true;
-		}
-	}
+	//シックスインパクト
+	SixthImpact();
 
-	//Wave5.5
-	if (!mSpawnFlag[4])
-	{
-		//450以下になったら
-		if (mObjManager->GetPlayer().GetPosition().z <= 300)
-		{
+	//セブンスインパクト
+	SeventhImpact();
 
-			//mObjManager->Add(new SniperEnemy(Vector3(+5.0f, 0, 150.0f), Vector3(0, 180, 0), objectCount++));
-			//mObjManager->Add(new SniperEnemy(Vector3(+0.0f, 0, 150.0f), Vector3(0, 180, 0), objectCount++));
-			//mObjManager->Add(new SniperEnemy(Vector3(-5.0f, 0, 150.0f), Vector3(0, 180, 0), objectCount++));
-
-			//mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 150.0f), Vector3(0, 180, 0), objectCount++));
-			//mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 150.0f), Vector3(0, 180, 0), objectCount++));
-
-			//隊列の敵
-			mObjManager->Add(new CEnemy(Vector3(0.0f, 0.0f, 150.0f), Vector3(0, 0, 0), objectCount++));
-
-
-			mSpawnFlag[4] = true;
-		}
-	}
-
-	//Wave6
-	if (!mSpawnFlag[6])
-	{
-		//450以下になったら
-		if (mObjManager->GetPlayer().GetPosition().z >= 200)
-		{
-			//鳥の敵
-			mObjManager->Add(new BirdEnemy(Vector3(+45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f), BaseScene::mSprite, objectCount++));
-			mObjManager->Add(new BirdEnemy(Vector3(-45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f), BaseScene::mSprite, objectCount++));
-
-			//岩投げの敵
-			mObjManager->Add(new MortarEnemy(Vector3(-40.0f, 0.0f, 270.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
-			mObjManager->Add(new MortarEnemy(Vector3(40.0f, 0.0f, 300.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
-
-			mSpawnFlag[6] = true;
-		}
-	}
-
-	//Wave7
-	if (!mSpawnFlag[7])
-	{
-		//450以下になったら
-		if (mObjManager->GetPlayer().GetPosition().z >= 300)
-		{
-			//遠距離の敵
-			mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(+20.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
-			//mObjManager->Add(new SniperEnemy(Vector3(+ 0.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(-20.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
-
-			mSpawnFlag[7] = true;
-		}
-	}
-
-	//Wave8
-	if (!mSpawnFlag[8])
-	{
-		//450以下になったら
-		if (mObjManager->GetPlayer().GetPosition().z >= 350)
-		{
-			//遠距離の敵
-			mObjManager->Add(new SniperEnemy(Vector3(+30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(-30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
-
-			mSpawnFlag[8] = true;
-		}
-	}
+	//エイスインパクト
+	EighthImpact();
 }
 
 void Robbery::StartScene()
@@ -236,6 +108,8 @@ void Robbery::StartScene()
 	mTime = 0;
 	objectCount = 0;
 	mGoalLine = 500.0f;
+
+	mEnemyCreator = std::make_shared<EnemyCreator>(mObjManager,BaseScene::mSprite);
 
 	mSpawnFlag.clear();
 	mSpawnFlag.resize(10);
@@ -361,17 +235,8 @@ void Robbery::StartScene()
 
 #pragma endregion
 
-
-
-	////とりあえず行きのスポーン
-	//StartWayEnemySpown();
-
 	//宝箱生成
 	mObjManager->Add(new Treasure(Vector3(0.0f, 0, 70.0f), Vector3(0, 180.0f, 0), mObjManager, BaseScene::mModel, 1));
-
-	//城モデル
-	//mObjManager->Add(new Castle(Vector3(0.0f, -10.0f, 500.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mSprite, BaseScene::mParticle));
-
 
 	//プレイヤー生成
 	mObjManager->Add(new Player(Vector3(0.0f, 4.0f, 0.0f), Vector3(0, 0, 0), mObjManager, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite, 2));
@@ -420,6 +285,8 @@ void Robbery::UpdateScene()
 
 	StartWayEnemySpown();
 	BackWayEnemySpown();
+	//敵の生成
+	mEnemyCreator->Create();
 
 	//シーン処理
 	if (mGoalFlag)
@@ -507,6 +374,327 @@ void Robbery::DrawScene()
 void Robbery::FinalizeScene()
 {
 	delete mObjManager;//重要
+}
+
+void Robbery::FirstImpact()
+{
+	//Wave1
+	if (!mSpawnFlag[0])
+	{
+		//510以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z <= 510)
+		{
+			EnemyData data;
+			data.name = EnemyName::Mortar;
+			data.position = Vector3(-30.0f, 0.0f, 270.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(50.0f, 0.0f, 300.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(+50.0f, 0.0f, 50.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.name = EnemyName::Bird;
+			data.position = Vector3(-50.0f, 0.0f, 50.0f);
+			data.angle = Vector3(0.0f, 90.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.name = EnemyName::Sniper;
+			data.position = Vector3(0.0f, 0, 450.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(+10.0f, 0, 450.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(-10.0f, 0, 450.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			////鳥の敵
+			//mObjManager->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
+			//遠距離の敵
+			//mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 450.0f), Vector3(0, 180, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(0.0f, 0, 450.0f), Vector3(0, 180, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 450.0f), Vector3(0, 180, 0), objectCount++));
+
+			mSpawnFlag[0] = true;
+		}
+	}
+}
+
+void Robbery::SecondImpact()
+{
+	//Wave2
+	if (!mSpawnFlag[1])
+	{
+		//450以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z <= 450)
+		{
+			EnemyData data;
+			data.name = EnemyName::Captain;
+			data.position = Vector3(0.0f, 0.0f, 350.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+	/*		data.name = EnemyName::Sniper;
+			data.position = Vector3(+10.0f, 0, 270.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(0.0f, 0, 300.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);*/
+
+			////隊列の敵
+			//mObjManager->Add(new CEnemy(Vector3(0.0f, 0.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
+			////遠距離の敵
+			//mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 270.0f), Vector3(0, 180, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(0.0f, 0,   300.0f), Vector3(0, 180, 0), objectCount++));
+
+			mSpawnFlag[1] = true;
+		}
+	}
+}
+
+void Robbery::ThirdImpact()
+{
+	//Wave3
+	if (!mSpawnFlag[2])
+	{
+		//450以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z <= 300)
+		{
+			EnemyData data;
+			data.name = EnemyName::Sniper;
+			//data.position = Vector3(+10.0f, 0, 200.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			//data.number = enemyCount++;
+			//mEnemyCreator->Add(data);
+
+			//data.position = Vector3(-10.0f, 0, 200.0f);
+			//data.number = enemyCount++;
+			//mEnemyCreator->Add(data);
+
+			data.position = Vector3(+5.0f, 0, 130.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(+0.0f, 0, 130.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(-5.0f, 0, 130.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			//data.position = Vector3(+50.0f, 0, 130.0f);
+			//data.number = enemyCount++;
+			//mEnemyCreator->Add(data);
+
+			//data.position = Vector3(-50.0f, 0, 130.0f);
+			//data.number = enemyCount++;
+			//mEnemyCreator->Add(data);
+
+
+			////遠距離の敵
+			//mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 200.0f), Vector3(0, 180, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 200.0f), Vector3(0, 180, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(+5.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(+0.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(-5.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(+50.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(-50.0f, 0, 130.0f), Vector3(0, 180, 0), objectCount++));
+
+			mSpawnFlag[2] = true;
+		}
+	}
+}
+
+void Robbery::FourthImpact()
+{
+	//Wave4
+	if (!mSpawnFlag[5])
+	{
+		//100以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z >= 50)
+		{
+			EnemyData data;
+			data.name = EnemyName::Sniper;
+			data.position = Vector3(+20.0f, 0, 40.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(+10.0f, 0, 40.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(-10.0f, 0, 40.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(-20.0f, 0, 40.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.name = EnemyName::Mortar;
+			data.position = Vector3(-55.0f, 0.0f, 130.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(55.0f, 0.0f, 130.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			////遠距離の敵
+			//mObjManager->Add(new SniperEnemy(Vector3(+20.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(-10.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(-20.0f, 0, 40.0f), Vector3(0, 180.0f, 0), objectCount++));
+			////岩投げの敵
+			//mObjManager->Add(new MortarEnemy(Vector3(-55.0f, 0.0f, 130.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+			//mObjManager->Add(new MortarEnemy(Vector3(55.0f, 0.0f, 130.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+
+			mSpawnFlag[5] = true;
+		}
+	}
+}
+
+void Robbery::FifthImpact()
+{
+	//Wave5
+	if (!mSpawnFlag[4])
+	{
+		//450以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z <= 300)
+		{
+			//隊列の敵
+			mObjManager->Add(new CEnemy(Vector3(0.0f, 0.0f, 150.0f), Vector3(0, 0, 0), objectCount++));
+
+
+			mSpawnFlag[4] = true;
+		}
+	}
+}
+
+void Robbery::SixthImpact()
+{
+	//Wave6
+	if (!mSpawnFlag[6])
+	{
+		//450以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z >= 200)
+		{
+			EnemyData data;
+			data.name = EnemyName::Bird;
+			data.position = Vector3(+45.0f, 0.0f, 350.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(-45.0f, 0.0f, 350.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.name = EnemyName::Mortar;
+			data.position = Vector3(-40.0f, 0.0f, 270.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(40.0f, 0.0f, 300.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			////鳥の敵
+			//mObjManager->Add(new BirdEnemy(Vector3(+45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f), BaseScene::mSprite, objectCount++));
+			//mObjManager->Add(new BirdEnemy(Vector3(-45.0f, 0.0f, 350.0f), Vector3(0.0f, 0.0f, 0.0f), BaseScene::mSprite, objectCount++));
+			////岩投げの敵
+			//mObjManager->Add(new MortarEnemy(Vector3(-40.0f, 0.0f, 270.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
+			//mObjManager->Add(new MortarEnemy(Vector3(40.0f, 0.0f, 300.0f), Vector3(0.0f, 0.0f, 0.0f), objectCount++));
+
+			mSpawnFlag[6] = true;
+		}
+	}
+}
+
+void Robbery::SeventhImpact()
+{
+	//Wave7
+	if (!mSpawnFlag[7])
+	{
+		//450以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z >= 300)
+		{
+			EnemyData data;
+			data.name = EnemyName::Sniper;
+			data.position = Vector3(+40.0f, 0, 350.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(+20.0f, 0, 350.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(-20.0f, 0, 350.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(-40.0f, 0, 350.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			////遠距離の敵
+			//mObjManager->Add(new SniperEnemy(Vector3(+40.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(+20.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+			////mObjManager->Add(new SniperEnemy(Vector3(+ 0.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(-20.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(-40.0f, 0, 350.0f), Vector3(0, 0, 0), objectCount++));
+
+			mSpawnFlag[7] = true;
+		}
+	}
+}
+
+void Robbery::EighthImpact()
+{
+	//Wave8
+	if (!mSpawnFlag[8])
+	{
+		//450以下になったら
+		if (mObjManager->GetPlayer().GetPosition().z >= 350)
+		{
+			EnemyData data;
+			data.name = EnemyName::Sniper;
+			data.position = Vector3(+30.0f, 0, 450.0f);
+			data.angle = Vector3(0.0f, 180.0f, 0.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			data.position = Vector3(-30.0f, 0, 450.0f);
+			data.number = enemyCount++;
+			mEnemyCreator->Add(data);
+
+			////遠距離の敵
+			//mObjManager->Add(new SniperEnemy(Vector3(+30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(-30.0f, 0, 450.0f), Vector3(0, 0, 0), objectCount++));
+
+			mSpawnFlag[8] = true;
+		}
+	}
 }
 
 void Robbery::Pose()
