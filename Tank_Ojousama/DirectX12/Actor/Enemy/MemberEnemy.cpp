@@ -173,7 +173,10 @@ void MemberEnemy::AttackStep_FIRE()
 {
 	//’e”­ŽË
 	Vector3 firePosition = AngleToVectorY(mFireAngle);
-	mObjManager->Add(new ElfBullet(position + firePosition, Vector3(0.0f, mFireAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
+
+	Vector3 pos = Vector3(position.x, position.y + 1.5f, position.z);
+
+	mObjManager->Add(new ElfBullet(pos + firePosition, Vector3(0.0f, mFireAngle, 0.0f), mObjManager, mModelRender, mEffectManager, objType, mBulletNumber++));
 	mAttackSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mAttackSE->setPos(position);
 	mAttackSE->play();

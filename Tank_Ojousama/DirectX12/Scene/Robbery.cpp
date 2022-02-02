@@ -46,14 +46,14 @@ void Robbery::StartWayEnemySpown()
 		//510ˆÈ‰º‚É‚È‚Á‚½‚ç
 		if (mObjManager->GetPlayer().GetPosition().z <= 510)
 		{
-			//Šâ“Š‚°‚Ì“G
-			mObjManager->Add(new MortarEnemy(Vector3(-30.0f, 0.0f, 270.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-			mObjManager->Add(new MortarEnemy(Vector3(50.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+			////Šâ“Š‚°‚Ì“G
+			//mObjManager->Add(new MortarEnemy(Vector3(-30.0f, 0.0f, 270.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+			//mObjManager->Add(new MortarEnemy(Vector3(50.0f, 0.0f, 300.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
 
-			//Šâ“Š‚°‚Ì“G
-			mObjManager->Add(new MortarEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
-			//’¹‚Ì“G
-			mObjManager->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
+			////Šâ“Š‚°‚Ì“G
+			//mObjManager->Add(new MortarEnemy(Vector3(+50.0f, 0.0f, 50.0f), Vector3(0.0f, 180.0f, 0.0f), objectCount++));
+			////’¹‚Ì“G
+			//mObjManager->Add(new BirdEnemy(Vector3(-50.0f, 0.0f, 50.0f), Vector3(0.0f, 90.0f, 0.0f), BaseScene::mSprite, objectCount++));
 
 			//‰“‹——£‚Ì“G
 			//mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 450.0f), Vector3(0, 180, 0), objectCount++));
@@ -70,12 +70,12 @@ void Robbery::StartWayEnemySpown()
 		//450ˆÈ‰º‚É‚È‚Á‚½‚ç
 		if (mObjManager->GetPlayer().GetPosition().z <= 450)
 		{
-			//‘à—ñ‚Ì“G
-			mObjManager->Add(new CEnemy(Vector3(0.0f, 0.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
+			////‘à—ñ‚Ì“G
+			//mObjManager->Add(new CEnemy(Vector3(0.0f, 0.0f, 350.0f), Vector3(0, 180, 0), objectCount++));
 
-			//‰“‹——£‚Ì“G
-			mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 270.0f), Vector3(0, 180, 0), objectCount++));
-			mObjManager->Add(new SniperEnemy(Vector3(0.0f, 0,   300.0f), Vector3(0, 180, 0), objectCount++));
+			////‰“‹——£‚Ì“G
+			//mObjManager->Add(new SniperEnemy(Vector3(+10.0f, 0, 270.0f), Vector3(0, 180, 0), objectCount++));
+			//mObjManager->Add(new SniperEnemy(Vector3(0.0f, 0,   300.0f), Vector3(0, 180, 0), objectCount++));
 
 			mSpawnFlag[1] = true;
 		}

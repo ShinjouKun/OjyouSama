@@ -46,6 +46,15 @@ private:
 	//ファーストインパクト
 	void FirstImpact();
 
+	//セカンドインパクト
+	void SecondImpact();
+
+	//サードインパクト
+	void ThirdImpact();
+
+	//フォースインパクト
+	void FourthImpact();
+
 	//ポーズ
 	void Pose();
 	//音量設定
