@@ -64,6 +64,16 @@ void Result::StartScene()
 	mSound->setVol(BaseScene::mMasterSoundVol * BaseScene::mBGMSoundVol);
 	mFanfare = std::make_shared<Sound>("SE/Fanfare.mp3", false);
 	mFanfare->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+
+
+	donSE = std::make_shared<Sound>("SE/don.wav", false);
+	donSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	dodonSE = std::make_shared<Sound>("SE/dodon.mp3", false);
+	dodonSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	plusSE = std::make_shared<Sound>("SE/ResultMoney.mp3", false);
+	plusSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
+	minusSE = std::make_shared<Sound>("SE/chin.mp3", false);
+	minusSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
 	mFanfare->play();
 
 	speed = 0;
@@ -179,12 +189,13 @@ void Result::DrawScene()
 		//‚©‚­‚Æ‚­‹à
 		if (time >= 20)
 		{
-			if (BaseScene::mPlusMoney > CountUpMoney_Get)
+			if (BaseScene::mPlusMoney > CountUpMoney_Get&&!C_Get)
 			{
 				CountUpMoney_Get += 10000;
 			}
 			else
 			{
+				donSE->play();
 				CountUpMoney_Get = BaseScene::mPlusMoney;
 				C_Get = true;
 			}
@@ -195,12 +206,13 @@ void Result::DrawScene()
 		if (C_Get)
 		{
 			//’e–ò”ï
-			if (BaseScene::mMinusMoney > CountUpMoney_Bullet)
+			if (BaseScene::mMinusMoney > CountUpMoney_Bullet&&!C_Bullet)
 			{
 				CountUpMoney_Bullet += 5000;
 			}
 			else
 			{
+				//donSE->play();
 				CountUpMoney_Bullet = BaseScene::mMinusMoney;
 				C_Bullet = true;
 			}
@@ -218,6 +230,9 @@ void Result::DrawScene()
 			}
 			else
 			{
+				dodonSE->play();
+
+				donSE->stop();
 				moneyTime++;
 				CountUpMoney_Goukei = mMoney_PM;
 				C_Goukei = true;
@@ -237,7 +252,21 @@ void Result::DrawScene()
 		{
 			if (BaseScene::mMoney < 0)
 			{
+				minusSE->play();
+				
+				dodonSE->stop();
+				
 				BaseScene::mSprite->Draw("Minus3", Vector3(650, 540, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			}
+			else
+			{
+				plusSE->play();
+				dodonSE->stop();
+			}
+			if (moneyTime >= 70)
+			{
+				minusSE->stop();
+				plusSE->stop();
 			}
 			Sequence::instance().set(Math::abs(BaseScene::mMoney), Vector2(750, 565), Vector2(64, 64));
 			BaseScene::mSprite->Draw("Gunshikin", Vector3(200, 550, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
@@ -246,8 +275,10 @@ void Result::DrawScene()
 				C_Gunshikin = true;
 			}
 		}
+		
 		angle += 8.0f;
 	}
+	
 }
 
 void Result::FinalizeScene()
