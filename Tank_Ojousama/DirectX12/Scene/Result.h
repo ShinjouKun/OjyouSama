@@ -47,5 +47,17 @@ private:
 	float angle;
 	float zensin;
 	int mMoney_PM;
+	int moneyTime;
 	std::shared_ptr<Timer> mTimer;
+
+	int CountUpMoney_Get;
+	int CountUpMoney_Bullet;
+	int CountUpMoney_Goukei;
+	int CountUpMoney_Gunshikin;
+	
+
+	bool C_Get;
+	bool C_Bullet;
+	bool C_Goukei;
+	bool C_Gunshikin;
 };
