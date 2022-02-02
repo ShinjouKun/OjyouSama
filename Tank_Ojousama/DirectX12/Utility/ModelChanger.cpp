@@ -24,11 +24,13 @@ void ModelChanger::Init()
 	editor = new TextEditor();
 	editor->Init();
 	buymoney = 0;
+	balance = BaseScene::mMoney;
+	stopBuy = false;
+	gotoBuy = false;
 	Save();
 	SetHP(100);
 	SetUpDamage(0);
 	SetSpeed(0.5);
-	
 }
 
 void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
@@ -501,11 +503,25 @@ void ModelChanger::Buys()
 		break;
 	}
 
+	if (balance - buymoney <= 0)
+	{
+		stopBuy = true;
+	}
+	
+	if (gotoBuy)
+	{
+		stopBuy = false;
+	}
 
-	BaseScene::mMoney -= buymoney;
-	editor->Write("Resouse/BuysState.txt", buys);
-	buys.clear();
-	buys.resize(12);
+	if (!stopBuy)
+	{
+		BaseScene::mMoney -= buymoney;
+		balance = BaseScene::mMoney;
+		editor->Write("Resouse/BuysState.txt", buys);
+		buys.clear();
+		buys.resize(12);
+	}
+
 }
 
 
@@ -566,6 +582,13 @@ string ModelChanger::GetBuysNum(int buy)
 {
 	return buys[buy];
 }
+
+void ModelChanger::SetGotoBuy(bool value)
+{
+	stopBuy = false;
+	gotoBuy = value;
+}
+
 
 void ModelChanger::LoadBuys()
 {

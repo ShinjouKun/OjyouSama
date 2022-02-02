@@ -70,6 +70,9 @@ public:
 	void SetBuysNum(string buy);
 	string GetBuysNum(int buy);
 	int GetBuyMoney() { return buymoney; }
+	bool GetStopBuy() { return stopBuy; }
+	void SetGotoBuy(bool value);
+	
 
 	void LoadBuys();
 	int hp;//HP
@@ -77,6 +80,9 @@ public:
 	float speed;
 	int Weapon;
 	int buymoney;
+	int balance;
+	bool stopBuy;
+	bool gotoBuy;
 
 private:
 	std::vector<std::string> buys;//w“üƒŠƒXƒg
