@@ -2,14 +2,21 @@
 #include<memory>
 #include <list>
 #include "../ObjectManager.h"
+#include "../../Render/TexRenderer.h"
 
 class SniperEnemy;
 class BlowEnemy;
+class BirdEnemy;
+class CEnemy;
+class MortarEnemy;
 
 enum EnemyName
 {
 	Sniper,
 	Blow,
+	Captain,
+	Bird,
+	Mortar,
 };
 
 struct EnemyData
@@ -24,7 +31,7 @@ class EnemyCreator
 {
 public:
 
-	EnemyCreator(ObjectManager * objManager);
+	EnemyCreator(ObjectManager * objManager, std::shared_ptr<TexRenderer> texRender);
 
 	~EnemyCreator();
 
@@ -38,6 +45,7 @@ private:
 
 
 	ObjectManager * mManager;
+	std::shared_ptr<TexRenderer> mTexRender;
 
 	std::list<EnemyData> mEnemyVector;
 };

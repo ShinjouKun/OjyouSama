@@ -67,7 +67,7 @@ void GamePlay::StartScene()
 	//敵にAIセット
 	BaseEnemy::SetEnemyAi(mEnemyAI.get());
 
-	mEnemyCreator = std::make_shared<EnemyCreator>(objM);
+	mEnemyCreator = std::make_shared<EnemyCreator>(objM,BaseScene::mSprite);
 
 #pragma region オブジェクト生成
 
