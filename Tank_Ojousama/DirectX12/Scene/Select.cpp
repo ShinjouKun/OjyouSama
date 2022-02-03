@@ -307,7 +307,7 @@ void Select::UpdateScene()
 			}
 		}
 
-		if (Input::getKeyDown(KeyCode::B) || Input::getJoyDown(JoyCode::A))
+		if (Input::getKeyDown(KeyCode::ESCAPE) || Input::getJoyDown(JoyCode::A))
 		{
 			selectFlag = false;
 		}

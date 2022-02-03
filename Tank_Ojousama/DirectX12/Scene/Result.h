@@ -65,4 +65,6 @@ private:
 	bool C_Bullet;
 	bool C_Goukei;
 	bool C_Gunshikin;
+
+	int RESULT_NUM_TIME = 50;
 };
