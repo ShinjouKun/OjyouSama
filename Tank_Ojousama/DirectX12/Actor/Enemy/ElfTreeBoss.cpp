@@ -10,6 +10,8 @@
 #include "../../ParticleSystem/ParticleType/Explosion.h"
 #include "../../ParticleSystem/ParticleType/Hit.h"
 
+#include "../../Collision/CollisonManager.h"
+
 ElfTreeBoss::ElfTreeBoss(
 	const Vector3 & pos,
 	const Vector3 & ang,
@@ -25,7 +27,7 @@ ElfTreeBoss::ElfTreeBoss(
 
 ElfTreeBoss::~ElfTreeBoss()
 {
-
+	mSummonList.clear();
 }
 
 void ElfTreeBoss::EndCameraAnimation(bool value)
@@ -40,8 +42,6 @@ bool ElfTreeBoss::GetDeadFlag()
 
 void ElfTreeBoss::ChangeAttackState()
 {
-	return;
-
 	//シーンアニメーション中 | 死亡アニメーション中は処理しない
 	if (!mEndAnimation || mDeathAnimationFlag) return;
 
@@ -318,7 +318,7 @@ void ElfTreeBoss::AngryGrowth()
 		if (mRadius >= 6.0f)
 		{
 			mRadius = 6.0f;
-			SetCollidder(Vector3(0.0f, 14.0f, 0.0f), mRadius);
+			mCollider->SetRadiuse(mRadius);
 			mAngryAnimFlag[1] = true;
 		}
 
@@ -699,6 +699,11 @@ void ElfTreeBoss::EnemyInit()
 	mTreeRoot3 = new TreeRoot(mRootPosition, angle, mManager, mRend, number + 2);
 	mTreeRoot4 = new TreeRoot(mRootPosition, angle, mManager, mRend, number + 3);
 	mTreeRoot5 = new TreeRoot(mRootPosition, angle, mManager, mRend, number + 4);
+
+	mCollider = new SphereCollider(Vector3(0.0f, 14.0f, 0.0f), mRadius);
+	SetCollidder(mCollider);
+	//mCollider->Regist();//ハチ分木に登録
+
 	//召喚した敵リストの初期化
 	mSummonList.clear();
 
@@ -745,7 +750,10 @@ void ElfTreeBoss::EnemyInit()
 
 	/*当たり判定を増やせないので、顔の部分のみ当たるようにした*/
 	//SetCollidder(Vector3(0.0f, 15.0f, 0.0f), mRadius);
-	SetCollidder(Vector3(0.0f, 14.0f, 0.0f), mRadius);
+	//SetCollidder(Vector3(0.0f, 14.0f, 0.0f), mRadius);
+
+	//testY = 14.0f;
+	//SetCollidder(Vector3(position.x + 0.0f, position.y + testY, position.z + 0.0f), mRadius);
 
 
 #pragma region モデル読み込み + α

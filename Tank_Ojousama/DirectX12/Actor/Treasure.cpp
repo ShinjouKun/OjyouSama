@@ -50,13 +50,13 @@ void Treasure::Rend()
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	if (get&&sceneNum != 1)
 	{
-		numPos.y -= 15.0f;
-		Sequence::instance().set(100000, Vector2(numPos.x, numPos.y), Vector2(32, 32));
+		numPos.y -= 10.0f;
+		Sequence::instance().set(300000, Vector2(numPos.x, numPos.y), Vector2(32, 32));
 	}
 
 	if (get&&sceneNum == 1)
 	{
-		numPos.y -= 15.0f;
+		numPos.y -= 10.0f;
 		Sequence::instance().set(500000, Vector2(numPos.x, numPos.y), Vector2(44, 44));
 		angle.y += 2.0f;
 		scale = Vector3(0.2f, 0.2f, 0.2f);
@@ -89,7 +89,7 @@ void Treasure::OnCollison(BaseCollider * col)
 		mgetSE->play();
 		if (!sceneNum)
 		{
-			BaseScene::mPlusMoney += 100000;
+			BaseScene::mPlusMoney += 300000;
 		}
 		else
 		{

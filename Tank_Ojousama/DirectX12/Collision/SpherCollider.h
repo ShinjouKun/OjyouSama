@@ -15,7 +15,8 @@ public:
 	SphereCollider( const Vector3& offset = Vector3(0, 0, 0), float radius = 1.0f);
 	void Update()override;//更新
 	//inline void SetColPos(Vector3 pos) { this->offset = pos; }//Posセット
-	inline void SetRadiuse(float radius) { this->radius = radius; }//半径セット
+	//inline void SetRadiuse(float radius) { this->radius = radius; }//半径セット
+	inline void SetRadiuse(float radius) { this->rad = radius; }//半径セット
 private:
 	Vector3 offset;
 	float rad;

@@ -7,6 +7,7 @@ class Sound;
 class SummonEnemy;
 class Explosion;
 class Hit;
+class SpherCollider;
 
 class ElfTreeBoss : public BaseEnemy
 {
@@ -133,6 +134,8 @@ private:
 	TreeRoot * mTreeRoot4;//木の根
 	TreeRoot * mTreeRoot5;//木の根
 
+	SphereCollider * mCollider;
+
 	std::vector<SummonEnemy*> mSummonList;//召喚した敵のリスト
 	std::vector<Vector3> mSummonPoint;    //召喚位置
 	std::vector<string> mSummonName;      //召喚するモデルの名前
@@ -148,7 +151,7 @@ private:
 	Vector3 mLeftHandPos;    //左手の位置
 	Vector3 mRootPosition;   //根っこの位置
 
-	const int MAX_HP = 200;       //最大体力
+	const int MAX_HP = 500;       //最大体力
 	const int RAPIDFIRE_COUNT = 5;//連続射撃の数
 	const int SUMMON_COUNT = 5;   //召喚数
 	const int DEFENSE = 10;        //防御力
@@ -168,6 +171,7 @@ private:
 	float mRootSpeed;   //根っこの移動速度
 	float mSummonRotate;//召喚中の魔法陣の回転
 	float mHandAngle;
+	float testY;
 
 	bool mShotBullet;        //弾発射の状態管理(狙い→発射)
 	bool mSummonEnemy;       //敵を召喚したか
