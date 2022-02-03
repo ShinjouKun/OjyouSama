@@ -48,8 +48,8 @@ void Result::StartScene()
 	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/Ground_Black.png");
 	selectbackPos = Vector3(180, 180, 0);
 	selectposition = Vector3(180, 180, 0);
-	camerapos = Vector3(0,5,10);
-	setcamerapos = Vector3(0,5,0);
+	camerapos = Vector3(0, 5, 10);
+	setcamerapos = Vector3(0, 5, 0);
 	BaseScene::mModel->AddModel("TankPlayerA", "Resouse/houtou.obj", "Resouse/sensha_A.png");
 	BaseScene::mModel->AddModel("TankPlayerB", "Resouse/sensha_body.obj", "Resouse/sensha_A.png");
 	BaseScene::mModel->AddModel("ArmR", "Resouse/R_hands.obj", "Resouse/hands_one.png");
@@ -105,7 +105,7 @@ void Result::UpdateScene()
 	ojyouY = ojyouY + speed;
 	camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
-	camerapos.z -=0.15;
+	camerapos.z -= 0.15;
 	camerapos.x -= 0.05;
 	camerapos.y -= 0.01;
 	time += 1;
@@ -169,9 +169,9 @@ void Result::DrawScene()
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("TankPlayerA", Vector3(0, 0, zensin), Vector3(0, angle, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("TankPlayerB", Vector3(0, 0, zensin), Vector3(0, angle, 0), Vector3(1.5f, 1.5f, 1.5f));
-	BaseScene::mModel->Draw("ArmR", Vector3(0,3.2f , zensin), Vector3(150, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-	BaseScene::mModel->Draw("OjyouSama", Vector3(0,0 , zensin), Vector3(0, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
-	BaseScene::mModel->Draw("ArmL", Vector3(0,3.2f , zensin), Vector3(150, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+	BaseScene::mModel->Draw("ArmR", Vector3(0, 3.2f, zensin), Vector3(150, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+	BaseScene::mModel->Draw("OjyouSama", Vector3(0, 0, zensin), Vector3(0, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
+	BaseScene::mModel->Draw("ArmL", Vector3(0, 3.2f, zensin), Vector3(150, ojyouY, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("Sora2", Vector3(0, 2.0f, 0), Vector3(0, 0, 0), Vector3(7, 7, 7));
 	BaseScene::mModel->Draw("Ground2", Vector3(-20.0f, 0.0f, 400.0f), Vector3(0, 0, 0), Vector3(500, 500, 500));
 	objM->Draw();
@@ -189,9 +189,10 @@ void Result::DrawScene()
 		//‚©‚­‚Æ‚­‹à
 		if (time >= 20)
 		{
-			if (BaseScene::mPlusMoney > CountUpMoney_Get&&!C_Get)
+			if ((BaseScene::mPlusMoney > CountUpMoney_Get) && !C_Get)
 			{
-				CountUpMoney_Get += 10000;
+				//CountUpMoney_Get += 10000;
+				CountUpMoney_Get += BaseScene::mPlusMoney / RESULT_NUM_TIME;
 			}
 			else
 			{
@@ -206,9 +207,10 @@ void Result::DrawScene()
 		if (C_Get)
 		{
 			//’e–ò”ï
-			if (BaseScene::mMinusMoney > CountUpMoney_Bullet&&!C_Bullet)
+			if (BaseScene::mMinusMoney > CountUpMoney_Bullet && !C_Bullet)
 			{
-				CountUpMoney_Bullet += 5000;
+				//CountUpMoney_Bullet += 5000;
+				CountUpMoney_Bullet += BaseScene::mMinusMoney / RESULT_NUM_TIME;
 			}
 			else
 			{
@@ -224,9 +226,10 @@ void Result::DrawScene()
 		{
 			//‡Œv‹à
 
-			if (Math::abs(mMoney_PM) > CountUpMoney_Goukei&&!C_Goukei)
+			if (Math::abs(mMoney_PM) > CountUpMoney_Goukei && !C_Goukei)
 			{
-				CountUpMoney_Goukei += 10000;
+				//CountUpMoney_Goukei += 10000;
+				CountUpMoney_Goukei += Math::abs(mMoney_PM) / RESULT_NUM_TIME;
 			}
 			else
 			{
@@ -253,9 +256,9 @@ void Result::DrawScene()
 			if (BaseScene::mMoney < 0)
 			{
 				minusSE->play();
-				
+
 				dodonSE->stop();
-				
+
 				BaseScene::mSprite->Draw("Minus3", Vector3(650, 540, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 			}
 			else
@@ -275,10 +278,10 @@ void Result::DrawScene()
 				C_Gunshikin = true;
 			}
 		}
-		
+
 		angle += 8.0f;
 	}
-	
+
 }
 
 void Result::FinalizeScene()
