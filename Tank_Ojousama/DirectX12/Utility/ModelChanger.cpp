@@ -16,12 +16,75 @@ ModelChanger::~ModelChanger()
 
 void ModelChanger::Init()
 {
-	
-	head = HeadState::Normal;
-	body = BodyState::Light;
-	bottom = BottomState::Light_b;
+	state.clear();
 	editor = new TextEditor();
 	editor->Init();
+	editor->Read("Resouse/ModelState.txt", state);
+	if (state[0] != "Normal")
+	{
+		if (state[0] != "Other02")
+		{
+			head = HeadState::Other01;
+
+		}
+		else
+		{
+			head = HeadState::Other02;
+		}
+	}
+	else
+	{
+		head = HeadState::Normal;
+	}
+
+	if (state[1] != "Light")
+	{
+		if (state[1] != "Midium")
+		{
+			body = BodyState::Heavy;
+		}
+		else
+		{
+			body = BodyState::Midium;
+		}
+	}
+	else
+	{
+		body = BodyState::Light;
+
+	}
+
+	if (state[2] != "Light_b")
+	{
+		if (state[2] != "Midium_b")
+		{
+			bottom = BottomState::Heavy_b;
+		}
+		else
+		{
+			bottom = BottomState::Midium_b;
+		}
+	}
+	else
+	{		
+		bottom = BottomState::Light_b;
+	}
+
+	if (state[3] != "MachinGun")
+	{
+		if (state[3] != "ShotGun")
+		{
+			weapons1 = Mine;
+		}
+		else
+		{
+			weapons1 = ShotGun;
+		}
+	}
+	else
+	{
+		weapons1 = MachinGun;
+	}
 	buymoney = 0;
 	balance = BaseScene::mMoney;
 	stopBuy = false;
@@ -41,10 +104,10 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 
 	if (state[0] != "Normal")
 	{
-		if (state[0] != "Other01")
+		if (state[0] != "Other02")
 		{
 			SetHP(120);
-			head = HeadState::Other02;
+			head = HeadState::Other01;
 			
 			playerModel->AddModel("OjyouSama_r", "Resouse/ojousama_body_red.obj", "Resouse/ojosama_red.png");
 			playerModel->SetAncPoint("OjyouSama_r", Vector3(0.0f, 0.0f, -0.1f));
@@ -83,7 +146,7 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		else
 		{
 			SetHP(150);
-			head = HeadState::Other01;
+			head = HeadState::Other02;
 			playerModel->AddModel("OjyouSama2", "Resouse/ojousama_body_black.obj", "Resouse/ojosama_black.png");
 			playerModel->SetAncPoint("OjyouSama2", Vector3(0.0f, 0.0f, -0.1f));
 
@@ -238,7 +301,7 @@ void ModelChanger::Save()
 		buys[0] = 1;
 		break;
 	case Other01:
-		if (buys[2] == "nonBuy"&&BaseScene::mMoney >= 0)
+		if (buys[1] == "nonBuy"&&BaseScene::mMoney >= 0)
 		{
 			state[0] = "Normal";
 		}
@@ -248,7 +311,7 @@ void ModelChanger::Save()
 		}
 		break;
 	case Other02:
-		if (buys[1] == "nonBuy" && BaseScene::mMoney >= 0)
+		if (buys[2] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
 			state[0] = "Normal";
 		}
@@ -384,16 +447,16 @@ void ModelChanger::Buys()
 	case Other01:
 		state[0] = "Other01";
 
-		if (buys[2] == "nonBuy"&&BaseScene::mMoney >= 0)
+		if (buys[1] == "nonBuy"&&BaseScene::mMoney >= 0)
 		{
-			buys[2] = 1;
+			buys[1] = 1;
 			buymoney += 4000000;
 		}
 		break;
 	case Other02:
-		if (buys[1] == "nonBuy" && BaseScene::mMoney >= 0)
+		if (buys[2] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
-			buys[1] = 1;
+			buys[2] = 1;
 			buymoney += 2000000;
 		}
 		state[0] = "Other02";
@@ -506,6 +569,9 @@ void ModelChanger::Buys()
 		BaseScene::mMoney -= buymoney;
 		balance = BaseScene::mMoney;
 		editor->Write("Resouse/BuysState.txt", buys);
+		editor->Write("Resouse/ModelState.txt", state);
+		state.clear();
+		state.resize(4);
 		buys.clear();
 		buys.resize(12);
 	}
