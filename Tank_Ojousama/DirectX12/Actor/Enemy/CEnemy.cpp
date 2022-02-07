@@ -492,8 +492,8 @@ void CEnemy::Attack()
 	}
 	else
 	{
-		//プレイヤーを向く。
-		FacingPlayer();
+		////プレイヤーを向く。
+		//FacingPlayer();
 	}
 }
 

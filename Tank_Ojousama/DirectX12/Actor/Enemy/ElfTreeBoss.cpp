@@ -934,10 +934,10 @@ void ElfTreeBoss::EnemyOnCollision(BaseCollider * col)
 			mNoDeathSE->setPos(position);
 			mNoDeathSE->play();
 			mColorChange = true;
-		}
-		
-		//¢Š«‚µ‚½“G‚ª‚¢‚È‚¢‚Æ‚«
-		if(!mSummonAlive)
+		}	
+		////¢Š«‚µ‚½“G‚ª‚¢‚È‚¢‚Æ‚«
+		//if(!mSummonAlive)
+		else
 		{
 			//SE”­ŽË
 			mDamageSE->setVol(BaseScene::mMasterSoundVol * BaseScene::mSESoundVol);
