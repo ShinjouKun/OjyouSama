@@ -45,7 +45,7 @@ void Select::StartScene()
 	//camera->SetEye(camerapos);
 	camera->SetTarget(setcamerapos);
 	selectFlag = false;
-	position = Vector3(600, 300, 0);
+	position = Vector3(398, 248, 0);
 	selectposition = Vector3(32, 64, 0);
 	targetPos1 = Vector3(320, 180, 0.0f);
 	targetPos2 = Vector3(400, 540 - 64, 0.0f);
