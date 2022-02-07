@@ -20,7 +20,6 @@ void ModelChanger::Init()
 	head = HeadState::Normal;
 	body = BodyState::Light;
 	bottom = BottomState::Light_b;
-	weapons1 = WeaponsState::Cannon;
 	editor = new TextEditor();
 	editor->Init();
 	buymoney = 0;
@@ -208,32 +207,24 @@ void ModelChanger::Load(shared_ptr<ModelRenderer> playerModel)
 		modelKey[4] = "TankB";
 	}
 
-	if (state[3] != "Cannon")
+	if (state[3] != "MachinGun")
 	{
-		if (state[3] != "MachinGun")
+		if (state[3] != "ShotGun")
 		{
-			if (state[3] != "ShotGun")
-			{
-				SetWeaponNum(3);
-				weapons1 = Mine;
-			}
-			else
-			{
-				SetWeaponNum(2);
-				weapons1 = ShotGun;
-			}
+			SetWeaponNum(3);
+			weapons1 = Mine;
 		}
 		else
 		{
-			SetWeaponNum(1);
-			weapons1 = MachinGun;
+			SetWeaponNum(2);
+			weapons1 = ShotGun;
 		}
 	}
 	else
 	{
-		weapons1 = Cannon;
+		SetWeaponNum(1);
+		weapons1 = MachinGun;
 	}
-
 }
 
 void ModelChanger::Save()
@@ -336,7 +327,6 @@ void ModelChanger::Save()
 
 	switch (weapons1)
 	{
-	case Cannon:
 		state[3] = "Cannon";
 		break;
 	case MachinGun:
@@ -383,6 +373,7 @@ void ModelChanger::Save()
 void ModelChanger::Buys()
 {
 	buys.clear();
+	buymoney = 0;
 	editor->Read("Resouse/BuysState.txt", buys);
 	switch (head)
 	{
@@ -471,9 +462,6 @@ void ModelChanger::Buys()
 
 	switch (weapons1)
 	{
-	case Cannon:
-		state[3] = "Cannon";
-		break;
 	case MachinGun:
 		if (buys[9] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
@@ -483,17 +471,17 @@ void ModelChanger::Buys()
 		state[3] = "MachinGun";
 		break;
 	case ShotGun:
-		if (buys[10] == "nonBuy" && BaseScene::mMoney >= 0)
+		if (buys[11] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
-			buys[10] = 1;
+			buys[11] = 1;
 			buymoney += 500000;
 		}
 		state[3] = "ShotGun";
 		break;
 	case Mine:
-		if (buys[11] == "nonBuy" && BaseScene::mMoney >= 0)
+		if (buys[10] == "nonBuy" && BaseScene::mMoney >= 0)
 		{
-			buys[11] = 1;
+			buys[10] = 1;
 			buymoney += 200000;
 		}
 		state[3] = "Mine";

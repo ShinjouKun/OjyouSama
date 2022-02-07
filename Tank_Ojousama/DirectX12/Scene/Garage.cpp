@@ -144,10 +144,7 @@ void Garage::UpdateScene()
 						mbuySE->play();
 						buy = true;
 					}
-					else
-					{
-						buy = false;
-					}
+					
 					break;
 				case 1:
 			
@@ -156,10 +153,7 @@ void Garage::UpdateScene()
 						mbuySE->play();
 						buy2 = true;
 					}
-					else
-					{
-						buy2 = false;
-					}
+				
 					break;
 				case 2:
 				
@@ -168,10 +162,7 @@ void Garage::UpdateScene()
 						mbuySE->play();
 						buy3 = true;
 					}
-					else
-					{
-						buy3 = false;
-					}
+					
 					break;
 				case 3:
 					if (mChanger->GetBuysNum(weaponNum + 9) == "nonBuy")
@@ -179,10 +170,7 @@ void Garage::UpdateScene()
 						mbuySE->play();
 						buy4 = true;
 					}
-					else
-					{
-						buy4 = false;
-					}
+					
 					break;
 				default:
 					break;
@@ -213,54 +201,7 @@ void Garage::UpdateScene()
 				keyflag = 3;
 			}
 
-			switch (keyflag)
-			{
-			case 0:
-
-				if (mChanger->GetBuysNum(headNum) == "nonBuy")
-				{
-					buy = true;
-				}
-				else
-				{
-					buy = false;
-				}
-				break;
-			case 1:
-				if (mChanger->GetBuysNum(bodyNum) == "nonBuy")
-				{
-					buy2 = true;
-				}
-				else
-				{
-					buy2 = false;
-				}
-				break;
-			case 2:
-
-				if (mChanger->GetBuysNum(bottomNum) == "nonBuy")
-				{
-					buy3 = true;
-				}
-				else
-				{
-					buy3 = false;
-				}
-				break;
-			case 3:
-
-				if (mChanger->GetBuysNum(weaponNum) == "nonBuy")
-				{
-					buy4 = true;
-				}
-				else
-				{
-					buy4 = false;
-				}
-				break;
-			default:
-				break;
-			}
+			
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}
@@ -272,53 +213,7 @@ void Garage::UpdateScene()
 			{
 				keyflag = 0;
 			}
-			switch (keyflag)
-			{
-			case 0:
-
-				if (mChanger->GetBuysNum(headNum) == "nonBuy")
-				{
-					buy = true;
-				}
-				else
-				{
-					buy = false;
-				}
-				break;
-			case 1:
-				if (mChanger->GetBuysNum(bodyNum) == "nonBuy")
-				{
-					buy2 = true;
-				}
-				else
-				{
-					buy2 = false;
-				}
-				break;
-			case 2:
-
-				if (mChanger->GetBuysNum(bottomNum) == "nonBuy")
-				{
-					buy3 = true;
-				}
-				else
-				{
-					buy3 = false;
-				}
-				break;
-			case 3:
-				if (mChanger->GetBuysNum(weaponNum) == "nonBuy")
-				{
-					buy4 = true;
-				}
-				else
-				{
-					buy4 = false;
-				}
-				break;
-			default:
-				break;
-			}
+			
 			mSE->play();
 			mTimer->setTime(0.2f);
 		}
@@ -333,14 +228,7 @@ void Garage::UpdateScene()
 				{
 					headNum = 0;
 				}
-				if (mChanger->GetBuysNum(headNum) == "nonBuy")
-				{
-					buy = true;
-				}
-				else
-				{
-					buy = false;
-				}
+				
 
 				break;
 			case 1:
@@ -350,14 +238,7 @@ void Garage::UpdateScene()
 				{
 					bodyNum = 0;
 				}
-				if (mChanger->GetBuysNum(bodyNum) == "nonBuy")
-				{
-					buy2 = true;
-				}
-				else
-				{
-					buy2 = false;
-				}
+			
 
 				break;
 			case 2:
@@ -367,14 +248,7 @@ void Garage::UpdateScene()
 					bottomNum = 0;
 				}
 
-				if (mChanger->GetBuysNum(bottomNum) == "nonBuy")
-				{
-					buy3 = true;
-				}
-				else
-				{
-					buy3 = false;
-				}
+				
 
 				break;
 			case 3:
@@ -383,15 +257,7 @@ void Garage::UpdateScene()
 				{
 					weaponNum = 0;
 				}
-				if (mChanger->GetBuysNum(weaponNum) == "nonBuy")
-				{
-					buy4 = true;
-				}
-				else
-				{
-					buy4 = false;
-				}
-
+				
 				gSelect += 95;
 				break;
 			default:
@@ -417,14 +283,7 @@ void Garage::UpdateScene()
 				{
 					headNum = 2;
 				}
-				if (mChanger->GetBuysNum(headNum) == "nonBuy")
-				{
-					buy = true;
-				}
-				else
-				{
-					buy = false;
-				}
+				
 
 				break;
 			case 1:
@@ -433,14 +292,7 @@ void Garage::UpdateScene()
 				{
 					bodyNum = 2;
 				}
-				if (mChanger->GetBuysNum(bodyNum) == "nonBuy")
-				{
-					buy2 = true;
-				}
-				else
-				{
-					buy2 = false;
-				}
+				
 
 				break;
 			case 2:
@@ -449,14 +301,6 @@ void Garage::UpdateScene()
 				{
 					bottomNum = 2;
 				}
-				if (mChanger->GetBuysNum(bottomNum) == "nonBuy")
-				{
-					buy3 = true;
-				}
-				else
-				{
-					buy3 = false;
-				}
 
 				break;
 			case 3:
@@ -464,14 +308,6 @@ void Garage::UpdateScene()
 				if (weaponNum < 0)
 				{
 					weaponNum = 2;
-				}
-				if (mChanger->GetBuysNum(weaponNum) == "nonBuy")
-				{
-					buy4 = true;
-				}
-				else
-				{
-					buy4 = false;
 				}
 
 				gSelect -= 95;

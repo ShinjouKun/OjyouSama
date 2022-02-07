@@ -29,7 +29,6 @@ enum BottomState
 
 enum WeaponsState
 {
-	Cannon,
 	MachinGun,
 	ShotGun,
 	Mine,
