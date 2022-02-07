@@ -30,10 +30,10 @@ void Garage::StartScene()
 	objM->Claer();
 	mChanger = new ModelChanger();
 	mChanger->Init();
-	headNum = 0;
-	bodyNum = 0;
-	bottomNum = 0;
-	weaponNum = 0;
+	headNum = mChanger->GetHeadState();
+	bodyNum = mChanger->GetBodyState();
+	bottomNum = mChanger->GetBottomState();
+	weaponNum = mChanger->GetWeaponState1();
 	gSelect = 0;
 
 	BaseScene::mSprite->AddTexture("Sentaku1", "Resouse/Sankaku.png");
@@ -494,7 +494,7 @@ void Garage::DrawScene()
 				Sequence::instance().set(120, Vector2(1150, 430), Vector2(32, 32));
 				Sequence::instance().set(mChanger->GetHP(), Vector2(990, 430), Vector2(32, 32));
 			}
-			mChanger->ChangeHead(Other02);
+			mChanger->ChangeHead(Other01);
 			break;
 		case 2:
 			Money = 5000000;
@@ -504,7 +504,7 @@ void Garage::DrawScene()
 				Sequence::instance().set(150, Vector2(1150, 430), Vector2(32, 32));
 				Sequence::instance().set(mChanger->GetHP(), Vector2(990, 430), Vector2(32, 32));
 			}
-			mChanger->ChangeHead(Other01);
+			mChanger->ChangeHead(Other02);
 			break;
 		default:
 
