@@ -301,6 +301,17 @@ void GamePlay::UpdateScene()
 		}
 	}
 
+#ifdef _DEBUG
+	if (Input::getKeyDown(KeyCode::H))
+	{
+		NextScene(std::make_shared<GameOver>());
+	}
+	if (Input::getKeyDown(KeyCode::G))
+	{
+		NextScene(std::make_shared<Result>());
+	}
+#endif // _DEBUG
+
 	//‘Ì—Í‚ª0‚É‚È‚Á‚½‚ç
 	if (objM->GetPlayer().GetHp() <= 0)
 	{

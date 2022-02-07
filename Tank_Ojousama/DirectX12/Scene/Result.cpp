@@ -44,6 +44,13 @@ void Result::StartScene()
 	BaseScene::mSprite->AddTexture("Goukei", "Resouse/goukei.png");
 	BaseScene::mSprite->SetSize("Goukei", Vector2(111, 53));
 	BaseScene::mSprite->AddTexture("Gunshikin", "Resouse/gunnsikinn.png");
+
+	BaseScene::mSprite->AddTexture("\1", "Resouse/en.png");
+	BaseScene::mSprite->AddTexture("\2", "Resouse/en.png");
+	BaseScene::mSprite->AddTexture("\3", "Resouse/en.png");
+	BaseScene::mSprite->AddTexture("\4", "Resouse/en.png");
+
+
 	BaseScene::mModel->AddModel("Sora2", "Resouse/skybox.obj", "Resouse/skybox_A.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/Plane.obj", "Resouse/Ground_Black.png");
 	selectbackPos = Vector3(180, 180, 0);
@@ -164,8 +171,6 @@ void Result::UpdateScene()
 
 void Result::DrawScene()
 {
-
-
 	DirectXManager::GetInstance()->SetData3D();
 	BaseScene::mModel->Draw("TankPlayerA", Vector3(0, 0, zensin), Vector3(0, angle, 0), Vector3(1.5f, 1.5f, 1.5f));
 	BaseScene::mModel->Draw("TankPlayerB", Vector3(0, 0, zensin), Vector3(0, angle, 0), Vector3(1.5f, 1.5f, 1.5f));
@@ -202,6 +207,7 @@ void Result::DrawScene()
 			}
 			Sequence::instance().set(CountUpMoney_Get, Vector2(680, 35), Vector2(64, 64));
 			BaseScene::mSprite->Draw("Plus", Vector3(600, 10, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("\1", Vector3(530, 10, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 			BaseScene::mSprite->Draw("Kakutoku", Vector3(200, 50, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		}
 		if (C_Get)
@@ -220,6 +226,7 @@ void Result::DrawScene()
 			}
 			Sequence::instance().set(CountUpMoney_Bullet, Vector2(680, 240), Vector2(64, 64));
 			BaseScene::mSprite->Draw("Minus", Vector3(600, 210, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("\2", Vector3(530, 210, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 			BaseScene::mSprite->Draw("Danyaku", Vector3(200, 230, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		}
 		if (C_Bullet)
@@ -250,6 +257,7 @@ void Result::DrawScene()
 			}
 			Sequence::instance().set(Math::abs(CountUpMoney_Goukei), Vector2(680, 420), Vector2(64, 64));
 			BaseScene::mSprite->Draw("Goukei", Vector3(200, 400, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("\3", Vector3(530, 400, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		}
 		if (C_Goukei&&moneyTime >= 40)
 		{
@@ -272,7 +280,8 @@ void Result::DrawScene()
 				plusSE->stop();
 			}
 			Sequence::instance().set(Math::abs(BaseScene::mMoney), Vector2(750, 565), Vector2(64, 64));
-			BaseScene::mSprite->Draw("Gunshikin", Vector3(200, 550, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("Gunshikin", Vector3(100, 550, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+			BaseScene::mSprite->Draw("\4", Vector3(530, 550, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 			if (moneyTime >= 140)
 			{
 				C_Gunshikin = true;
